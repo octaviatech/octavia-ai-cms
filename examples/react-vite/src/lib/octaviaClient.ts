@@ -1,3 +1,5 @@
+import CMS from "@octaviatech/cms";
+
 export type Content = {
   id: string;
   title: string;
@@ -7,32 +9,42 @@ export type Content = {
   createdAt: string;
 };
 
-const base = (import.meta.env.OCTAVIA_API_BASE_URL || "").replace(/\/$/, "");
+const cms = CMS.init(import.meta.env.OCTAVIA_API_KEY || "", { timeoutMs: 10000 });
 
-const headers = {
-  "Content-Type": "application/json",
-  Authorization: `Bearer ${import.meta.env.OCTAVIA_API_KEY}`,
+const mapArticle = (a: any): Content => ({
+  id: a?.id || a?._id || "",
+  title: a?.mainTitle?.en || a?.mainTitle?.fa || "",
+  body: a?.body?.en || a?.body?.fa || "",
+  locale: a?.mainTitle?.fa ? "fa" : "en",
+  status: a?.isPublished ? "published" : "draft",
+  createdAt: a?.createdAt || "",
+});
+
+const ensureOk = <T>(res: { ok: boolean; data: T | null; error?: { message?: string } }): T => {
+  if (!res.ok || !res.data) throw new Error(res.error?.message || "Octavia SDK request failed");
+  return res.data;
 };
 
-async function call<T>(path: string, init?: RequestInit): Promise<T> {
-  const res = await fetch(`${base}${path}`, {
-    ...init,
-    headers: { ...headers, ...(init?.headers || {}) },
-  });
-  if (!res.ok)
-    throw new Error(
-      `Octavia request failed: ${res.status} ${await res.text()}`,
-    );
-  return res.json();
-}
-
 export const octaviaClient = {
-  listContent: () => call<Content[]>("/v1/cms/content"),
-  createContent: (payload: Pick<Content, "title" | "body" | "locale">) =>
-    call<Content>("/v1/cms/content", {
-      method: "POST",
-      body: JSON.stringify(payload),
-    }),
-  publishContent: (id: string) =>
-    call<Content>(`/v1/cms/content/${id}/publish`, { method: "POST" }),
+  listContent: async (): Promise<Content[]> => {
+    const out = await cms.article.getAll({ query: { page: 1, limit: 20, sortOrder: "desc" } });
+    const data: any = ensureOk(out);
+    const items = Array.isArray(data?.items) ? data.items : [];
+    return items.map(mapArticle);
+  },
+  createContent: async (payload: Pick<Content, "title" | "body" | "locale">): Promise<Content> => {
+    const lang = payload.locale.startsWith("fa") ? "fa" : "en";
+    const out = await cms.article.create({
+      mainTitle: { [lang]: payload.title },
+      body: { [lang]: payload.body },
+      category: import.meta.env.OCTAVIA_CATEGORY_ID || "CATEGORY_ID",
+      author: import.meta.env.OCTAVIA_AUTHOR_ID || "AUTHOR_ID",
+    });
+    return mapArticle(ensureOk(out));
+  },
+  publishContent: async (id: string): Promise<Content> => {
+    await ensureOk(await cms.article.archive({ id }));
+    const one = await cms.article.getById(id);
+    return mapArticle(ensureOk(one));
+  },
 };

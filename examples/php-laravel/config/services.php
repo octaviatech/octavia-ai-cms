@@ -1,8 +1,8 @@
 <?php
 return [
     'octavia' => [
-        'base_url' => env('OCTAVIA_API_BASE_URL'),
         'api_key' => env('OCTAVIA_API_KEY'),
-        'project_id' => env('OCTAVIA_PROJECT_ID'),
+        'category_id' => env('OCTAVIA_CATEGORY_ID'),
+        'author_id' => env('OCTAVIA_AUTHOR_ID'),
     ],
 ];

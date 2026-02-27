@@ -1,39 +1,30 @@
-export type Content = {
-  id: string;
-  title: string;
-  body: string;
-  locale: string;
-  status: "draft" | "published";
-  createdAt: string;
-};
+import CMS, { GeneratedOperations as Ops } from "@octaviatech/cms";
 
-const base = (process.env.OCTAVIA_API_BASE_URL || "").replace(/\/$/, "");
+export type Content = Record<string, unknown>;
 
-const authHeaders = {
-  "Content-Type": "application/json",
-  Authorization: `Bearer ${process.env.OCTAVIA_API_KEY}`,
-};
+const apiKey = process.env.OCTAVIA_API_KEY || "";
+const cms = CMS.init(apiKey, { timeoutMs: 10000 });
 
-async function api<T>(path: string, init?: RequestInit): Promise<T> {
-  const res = await fetch(`${base}${path}`, {
-    ...init,
-    headers: { ...authHeaders, ...(init?.headers || {}) },
-    cache: "no-store",
-  });
-  if (!res.ok)
-    throw new Error(
-      `Octavia request failed: ${res.status} ${await res.text()}`,
-    );
-  return res.json();
+function ensureOk<T>(res: { ok: boolean; data: T | null; error?: { message?: string } }): T {
+  if (!res.ok || !res.data) {
+    throw new Error(res.error?.message || "Octavia SDK request failed");
+  }
+  return res.data;
 }
 
 export const octaviaServerClient = {
-  list: () => api<Content[]>("/v1/cms/content"),
-  create: (payload: Pick<Content, "title" | "body" | "locale">) =>
-    api<Content>("/v1/cms/content", {
-      method: "POST",
-      body: JSON.stringify(payload),
-    }),
-  publish: (id: string) =>
-    api<Content>(`/v1/cms/content/${id}/publish`, { method: "POST" }),
+  list: async () => {
+    const res = await cms.article.getAll({
+      query: { page: 1, limit: 20, sortOrder: "desc" },
+    });
+    return ensureOk(res);
+  },
+  create: async (payload: Ops.ArticlesCreateBody) => {
+    const res = await cms.article.create(payload);
+    return ensureOk(res);
+  },
+  publish: async (id: string) => {
+    const res = await cms.article.archive({ id });
+    return ensureOk(res);
+  },
 };

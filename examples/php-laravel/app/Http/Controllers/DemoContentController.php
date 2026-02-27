@@ -1,33 +1,66 @@
 <?php
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
+use Octavia\CmsSDK\CMS;
 
 class DemoContentController extends Controller
 {
-    private function headers(): array
+    private function client(): CMS
+    {
+        return CMS::init((string) config('services.octavia.api_key'), [
+            'timeoutMs' => 10000,
+            'throwOnError' => false,
+        ]);
+    }
+
+    private function mapArticle(array $a): array
     {
         return [
-            'Authorization' => 'Bearer ' . config('services.octavia.api_key'),
-            'x-octavia-project-id' => config('services.octavia.project_id'),
+            'id' => $a['id'] ?? ($a['_id'] ?? ''),
+            'title' => $a['mainTitle']['en'] ?? ($a['mainTitle']['fa'] ?? ''),
+            'body' => $a['body']['en'] ?? ($a['body']['fa'] ?? ''),
+            'locale' => isset($a['mainTitle']['fa']) ? 'fa' : 'en',
+            'status' => !empty($a['isPublished']) ? 'published' : 'draft',
+            'createdAt' => $a['createdAt'] ?? '',
         ];
     }
 
     public function index()
     {
-        $response = Http::withHeaders($this->headers())->get(rtrim(config('services.octavia.base_url'), '/') . '/v1/cms/content');
-        return response()->json($response->json(), $response->status());
+        $res = $this->client()->article->getAll([
+            'page' => 1,
+            'limit' => 20,
+            'sortOrder' => 'desc',
+        ]);
+        if (!$res['ok']) {
+            return response()->json(['error' => $res['error']['message'] ?? 'Request failed'], 400);
+        }
+        $items = $res['data']['items'] ?? [];
+        return response()->json(array_map(fn ($a) => $this->mapArticle((array) $a), $items));
     }
 
     public function store(Request $request)
     {
-        $response = Http::withHeaders($this->headers())->post(rtrim(config('services.octavia.base_url'), '/') . '/v1/cms/content', $request->only(['title', 'body', 'locale']));
-        return response()->json($response->json(), $response->status());
+        $locale = (string) $request->input('locale', 'en');
+        $lang = str_starts_with($locale, 'fa') ? 'fa' : 'en';
+        $res = $this->client()->article->create([
+            'mainTitle' => [$lang => (string) $request->input('title', 'Untitled')],
+            'body' => [$lang => (string) $request->input('body', '')],
+            'category' => (string) config('services.octavia.category_id', ''),
+            'author' => (string) config('services.octavia.author_id', ''),
+        ]);
+        if (!$res['ok']) {
+            return response()->json(['error' => $res['error']['message'] ?? 'Request failed'], 400);
+        }
+        return response()->json($this->mapArticle((array) ($res['data'] ?? [])));
     }
 
     public function publish(string $id)
     {
-        $response = Http::withHeaders($this->headers())->post(rtrim(config('services.octavia.base_url'), '/') . "/v1/cms/content/{$id}/publish");
-        return response()->json($response->json(), $response->status());
+        $res = $this->client()->article->archive(['id' => $id]);
+        if (!$res['ok']) {
+            return response()->json(['error' => $res['error']['message'] ?? 'Request failed'], 400);
+        }
+        return response()->json($res['data'] ?? []);
     }
 }

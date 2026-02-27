@@ -10,10 +10,13 @@ import (
 
 func main() {
 	app := fiber.New()
-	client := octavia.NewClient()
+	client, err := octavia.NewClient()
+	if err != nil {
+		log.Fatal(err)
+	}
 	app.Static("/", "./templates")
-	app.Get("/demo/content", func(c *fiber.Ctx) error { data, status, err := client.Do("/v1/cms/content", "GET", nil); if err != nil { return c.Status(500).JSON(fiber.Map{"error": err.Error()}) }; c.Status(status); return c.Send(data) })
-	app.Post("/demo/content", func(c *fiber.Ctx) error { var payload map[string]any; _ = json.Unmarshal(c.Body(), &payload); data, status, err := client.Do("/v1/cms/content", "POST", payload); if err != nil { return c.Status(500).JSON(fiber.Map{"error": err.Error()}) }; c.Status(status); return c.Send(data) })
-	app.Post("/demo/content/:id/publish", func(c *fiber.Ctx) error { data, status, err := client.Do("/v1/cms/content/"+c.Params("id")+"/publish", "POST", nil); if err != nil { return c.Status(500).JSON(fiber.Map{"error": err.Error()}) }; c.Status(status); return c.Send(data) })
+	app.Get("/demo/content", func(c *fiber.Ctx) error { data, status := client.ListContent(); c.Status(status); return c.Send(data) })
+	app.Post("/demo/content", func(c *fiber.Ctx) error { var payload map[string]any; _ = json.Unmarshal(c.Body(), &payload); data, status := client.CreateContent(payload); c.Status(status); return c.Send(data) })
+	app.Post("/demo/content/:id/publish", func(c *fiber.Ctx) error { data, status := client.PublishContent(c.Params("id")); c.Status(status); return c.Send(data) })
 	log.Fatal(app.Listen(":8080"))
 }

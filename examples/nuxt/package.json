@@ -9,6 +9,7 @@
     "lint": "echo 'No lint configured'"
   },
   "dependencies": {
+    "@octaviatech/cms": "^0.1.11",
     "nuxt": "3.14.159"
   }
 }

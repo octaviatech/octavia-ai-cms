@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@octaviatech/cms": "^0.1.11",
     "@angular/animations": "17.3.12",
     "@angular/common": "17.3.12",
     "@angular/compiler": "17.3.12",
