@@ -1,0 +1,5 @@
+export type Content = { id: string; title: string; body: string; locale: string; status: 'draft'|'published'; createdAt: string };
+const base = (process.env.OCTAVIA_API_BASE_URL || '').replace(/\/$/, '');
+const authHeaders = { 'Content-Type':'application/json', Authorization: `Bearer ${process.env.OCTAVIA_API_KEY}`, 'x-octavia-project-id': process.env.OCTAVIA_PROJECT_ID || '' };
+async function api<T>(path: string, init?: RequestInit): Promise<T> { const res = await fetch(`${base}${path}`, { ...init, headers: { ...authHeaders, ...(init?.headers||{}) }, cache: 'no-store' }); if (!res.ok) throw new Error(`Octavia request failed: ${res.status} ${await res.text()}`); return res.json(); }
+export const octaviaServerClient = { list: () => api<Content[]>('/v1/cms/content'), create: (payload: Pick<Content,'title'|'body'|'locale'>) => api<Content>('/v1/cms/content', { method:'POST', body: JSON.stringify(payload)}), publish: (id: string) => api<Content>(`/v1/cms/content/${id}/publish`, { method:'POST'}) };

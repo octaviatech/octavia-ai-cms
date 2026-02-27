@@ -1,0 +1,14 @@
+{
+  "name": "octavia-nuxt-example",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "nuxt dev",
+    "build": "nuxt build",
+    "typecheck": "nuxt typecheck",
+    "lint": "echo 'No lint configured'"
+  },
+  "dependencies": {
+    "nuxt": "3.14.159"
+  }
+}

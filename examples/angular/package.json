@@ -1,0 +1,33 @@
+{
+  "name": "octavia-angular-example",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "start": "concurrently \"npm:proxy\" \"ng serve\"",
+    "proxy": "node server/proxy.js",
+    "build": "ng build",
+    "lint": "echo 'No lint configured'",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@angular/animations": "17.3.12",
+    "@angular/common": "17.3.12",
+    "@angular/compiler": "17.3.12",
+    "@angular/core": "17.3.12",
+    "@angular/forms": "17.3.12",
+    "@angular/platform-browser": "17.3.12",
+    "@angular/platform-browser-dynamic": "17.3.12",
+    "rxjs": "7.8.1",
+    "zone.js": "0.14.10",
+    "express": "4.21.1",
+    "cors": "2.8.5",
+    "dotenv": "16.4.7"
+  },
+  "devDependencies": {
+    "@angular/cli": "17.3.12",
+    "@angular/compiler-cli": "17.3.12",
+    "@types/express": "5.0.0",
+    "concurrently": "9.1.0",
+    "typescript": "5.4.5"
+  }
+}

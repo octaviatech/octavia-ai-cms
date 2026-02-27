@@ -1,0 +1,13 @@
+{
+  "name": "octavia/php-laravel-example",
+  "type": "project",
+  "require": {
+    "php": "^8.2",
+    "laravel/framework": "^11.0",
+    "guzzlehttp/guzzle": "^7.9"
+  },
+  "autoload": { "psr-4": { "App\\": "app/" } },
+  "scripts": {
+    "post-root-package-install": ["@php -r \"file_exists('.env') || copy('.env.example', '.env');\""]
+  }
+}
