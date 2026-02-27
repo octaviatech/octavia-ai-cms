@@ -10,7 +10,6 @@ cp .env.example .env
 Fill:
 - `OCTAVIA_API_BASE_URL`
 - `OCTAVIA_API_KEY`
-- `OCTAVIA_PROJECT_ID`
 
 ## Run
 ```bash

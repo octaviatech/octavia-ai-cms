@@ -9,7 +9,6 @@ Thanks for contributing to Octavia AI CMS examples.
 - Use the common env vars:
   - `OCTAVIA_API_BASE_URL`
   - `OCTAVIA_API_KEY`
-  - `OCTAVIA_PROJECT_ID`
 - Preserve the create/list/publish flow in all examples.
 
 ## Pull requests
