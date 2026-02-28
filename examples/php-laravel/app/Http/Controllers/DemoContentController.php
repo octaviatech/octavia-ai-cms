@@ -63,4 +63,25 @@ class DemoContentController extends Controller
         }
         return response()->json($res['data'] ?? []);
     }
+
+    public function statistics()
+    {
+        $res = $this->client()->report->getStatistics();
+        if (!$res['ok']) {
+            return response()->json(['error' => $res['error']['message'] ?? 'Request failed'], 400);
+        }
+        return response()->json($res['data'] ?? []);
+    }
+
+    public function summarize(Request $request)
+    {
+        $res = $this->client()->ai->summarize([
+            'text' => (string) $request->input('text', ''),
+            'maxWords' => 80,
+        ]);
+        if (!$res['ok']) {
+            return response()->json(['error' => $res['error']['message'] ?? 'Request failed'], 400);
+        }
+        return response()->json($res['data'] ?? []);
+    }
 }

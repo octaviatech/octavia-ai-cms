@@ -1,7 +1,9 @@
 # React + Vite Example
 
 ## What it demonstrates
-A TypeScript React app that creates, lists, and publishes content using `@octaviatech/cms`.
+A TypeScript React app that:
+- creates/lists/publishes blog content
+- loads forms and submits form answers
 
 ## Setup
 ```bash

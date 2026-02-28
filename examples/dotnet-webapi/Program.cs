@@ -72,4 +72,20 @@ app.MapPost("/demo/content/{id}/publish", async (string id) =>
     return Results.Json(res.Data);
 });
 
+app.MapGet("/demo/reports/statistics", async () =>
+{
+    var res = await cms.Report.GetStatisticsAsync();
+    if (!res.Ok) return Results.BadRequest(new { error = res.Error?.Message });
+    return Results.Json(res.Data);
+});
+
+app.MapPost("/demo/ai/summarize", async (HttpRequest request) =>
+{
+    var payload = await request.ReadFromJsonAsync<Dictionary<string, object?>>() ?? new();
+    var text = payload.TryGetValue("text", out var t) ? t?.ToString() ?? "" : "";
+    var res = await cms.AI.SummarizeAsync(new { text, maxWords = 80 });
+    if (!res.Ok) return Results.BadRequest(new { error = res.Error?.Message });
+    return Results.Json(res.Data);
+});
+
 app.Run();

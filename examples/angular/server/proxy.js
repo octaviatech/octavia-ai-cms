@@ -54,4 +54,55 @@ app.post('/demo/content/:id/publish', async (q, r) => {
   }
 });
 
+app.get('/demo/forms', async (_, r) => {
+  try {
+    const out = await cms.form.getAll({ page: 1, limit: 20 });
+    if (!out.ok) return r.status(400).json({ error: out.error?.message || 'Request failed' });
+    const items = Array.isArray(out.data?.items)
+      ? out.data.items.map((f) => ({
+          id: f?.id || f?._id || '',
+          title: f?.title?.en || f?.title?.fa || '',
+          slug: f?.slug || '',
+        }))
+      : [];
+    r.json(items);
+  } catch (e) {
+    r.status(500).json({ error: e.message });
+  }
+});
+
+app.post('/demo/forms/:id/submit', async (q, r) => {
+  try {
+    const out = await cms.formSubmission.createSubmission({
+      formId: q.params.id,
+      language: q.body?.language || 'en',
+      values: q.body || {},
+    });
+    if (!out.ok) return r.status(400).json({ error: out.error?.message || 'Request failed' });
+    r.json(out.data);
+  } catch (e) {
+    r.status(500).json({ error: e.message });
+  }
+});
+
+app.get('/demo/reports/statistics', async (_, r) => {
+  try {
+    const out = await cms.report.getStatistics();
+    if (!out.ok) return r.status(400).json({ error: out.error?.message || 'Request failed' });
+    r.json(out.data);
+  } catch (e) {
+    r.status(500).json({ error: e.message });
+  }
+});
+
+app.post('/demo/ai/summarize', async (q, r) => {
+  try {
+    const out = await cms.ai.summarize(q.body || {});
+    if (!out.ok) return r.status(400).json({ error: out.error?.message || 'Request failed' });
+    r.json(out.data);
+  } catch (e) {
+    r.status(500).json({ error: e.message });
+  }
+});
+
 app.listen(4000, () => console.log('Proxy on http://localhost:4000'));

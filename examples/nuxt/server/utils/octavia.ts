@@ -45,5 +45,22 @@ export const octaviaSdk = {
     ensureOk(await cms.article.archive({ id }));
     return mapArticle(ensureOk(await cms.article.getById(id)));
   },
+  async listForms() {
+    const data: any = ensureOk(await cms.form.getAll({ query: { page: 1, limit: 20 } }));
+    const items = Array.isArray(data?.items) ? data.items : [];
+    return items.map((f: any) => ({
+      id: f?.id || f?._id || "",
+      title: f?.title?.en || f?.title?.fa || "",
+      slug: f?.slug || "",
+    }));
+  },
+  async submitForm(formId: string, values: Record<string, unknown>, language = "en") {
+    return ensureOk(await cms.formSubmission.createSubmission({ formId, language, values }));
+  },
+  async statistics() {
+    return ensureOk(await cms.report.getStatistics());
+  },
+  async summarize(text: string) {
+    return ensureOk(await cms.ai.summarize({ text, maxWords: 80 }));
+  },
 };
-

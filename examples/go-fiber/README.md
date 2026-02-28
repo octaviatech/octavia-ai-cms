@@ -2,6 +2,9 @@
 
 ## What it demonstrates
 A Go Fiber proxy server and minimal HTML UI for create/list/publish using SDK.
+Additional backend demo routes:
+- `GET /demo/reports/statistics`
+- `POST /demo/ai/summarize`
 
 ## Setup
 ```bash

@@ -2,6 +2,9 @@
 
 ## What it demonstrates
 A Laravel proxy with endpoints and a small Blade page for create/list/publish using SDK.
+Additional backend endpoints:
+- `GET /demo/reports/statistics`
+- `POST /demo/ai/summarize`
 
 ## Setup
 ```bash

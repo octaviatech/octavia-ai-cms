@@ -2,6 +2,11 @@
 
 ## What it demonstrates
 Nuxt server routes using `@octaviatech/cms` SDK so the API key stays server-side.
+Includes:
+- blog create/list/publish
+- form list/submit
+- reports statistics endpoint
+- ai summarize endpoint
 
 ## Setup
 ```bash

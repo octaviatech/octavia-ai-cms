@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
-import { octaviaClient, type Content } from "./lib/octaviaClient";
+import { octaviaClient, type Content, type FormItem } from "./lib/octaviaClient";
 
 export function App() {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [locale, setLocale] = useState("en-US");
   const [items, setItems] = useState<Content[]>([]);
+  const [forms, setForms] = useState<FormItem[]>([]);
+  const [formId, setFormId] = useState("");
+  const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -14,6 +17,7 @@ export function App() {
     setError("");
     try {
       setItems(await octaviaClient.listContent());
+      setForms(await octaviaClient.listForms());
     } catch (e) {
       setError((e as Error).message);
     } finally {
@@ -50,6 +54,23 @@ export function App() {
     try {
       await octaviaClient.publishContent(id);
       await refresh();
+    } catch (e) {
+      setError((e as Error).message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const submitForm = async () => {
+    if (!formId.trim() || !email.trim()) {
+      setError("Form ID and email are required.");
+      return;
+    }
+    setLoading(true);
+    setError("");
+    try {
+      await octaviaClient.submitForm(formId, { email });
+      setEmail("");
     } catch (e) {
       setError((e as Error).message);
     } finally {
@@ -102,6 +123,26 @@ export function App() {
           </li>
         ))}
       </ul>
+      <hr />
+      <section>
+        <h2>Form Demo</h2>
+        <p>Available forms: {forms.length}</p>
+        <input
+          placeholder="Form ID"
+          value={formId}
+          onChange={(e) => setFormId(e.target.value)}
+        />
+        <br />
+        <input
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <br />
+        <button disabled={loading} onClick={() => void submitForm()}>
+          Submit Form
+        </button>
+      </section>
     </main>
   );
 }

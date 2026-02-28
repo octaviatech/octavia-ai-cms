@@ -4,6 +4,11 @@
 
 A Next.js app that proxies Octavia calls through Route Handlers so the API key is never exposed to the browser.
 This example now uses `@octaviatech/cms` SDK on the server side.
+`octaviaServerClient` includes:
+- blog list/create/publish
+- form list/submit
+- reports statistics
+- ai summarize
 
 ## Why server proxy is used
 

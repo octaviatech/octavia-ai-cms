@@ -1,7 +1,10 @@
 # Angular Example
 
 ## What it demonstrates
-Angular UI for create/list/publish plus a local Node proxy using `@octaviatech/cms` SDK.
+Angular UI for:
+- blog create/list/publish
+- form list + submit
+plus a local Node proxy using `@octaviatech/cms` SDK.
 
 ## Setup
 ```bash

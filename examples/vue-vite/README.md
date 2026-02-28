@@ -1,7 +1,9 @@
 # Vue + Vite Example
 
 ## What it demonstrates
-Vue 3 Composition API app with create/list/publish flows using `@octaviatech/cms`.
+Vue 3 Composition API app with:
+- blog create/list/publish flow
+- form list + submit flow
 
 ## Setup
 ```bash

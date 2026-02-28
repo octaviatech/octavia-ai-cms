@@ -2,6 +2,9 @@
 
 ## What it demonstrates
 A .NET 8 minimal API using `Octavia.CmsSDK` for create/list/publish and exposing Swagger.
+Additional endpoints:
+- `GET /demo/reports/statistics`
+- `POST /demo/ai/summarize`
 
 ## Setup
 Set environment variables:

@@ -119,3 +119,18 @@ func (c *Client) PublishContent(id string) ([]byte, int) {
 	return encode(mapArticle(article)), 200
 }
 
+func (c *Client) GetStatistics() ([]byte, int) {
+	out := c.cms.Report.GetStatistics(nil)
+	if !out.Ok {
+		return encode(map[string]any{"error": out.Error.Message}), 400
+	}
+	return encode(out.Data), 200
+}
+
+func (c *Client) Summarize(text string) ([]byte, int) {
+	out := c.cms.AI.Summarize(map[string]any{"text": text, "maxWords": 80}, nil)
+	if !out.Ok {
+		return encode(map[string]any{"error": out.Error.Message}), 400
+	}
+	return encode(out.Data), 200
+}

@@ -27,4 +27,20 @@ export const octaviaServerClient = {
     const res = await cms.article.archive({ id });
     return ensureOk(res);
   },
+  listForms: async () => {
+    const res = await cms.form.getAll({ query: { page: 1, limit: 20 } });
+    return ensureOk(res);
+  },
+  submitForm: async (formId: string, values: Record<string, unknown>, language = "en") => {
+    const res = await cms.formSubmission.createSubmission({ formId, language, values });
+    return ensureOk(res);
+  },
+  getStatistics: async () => {
+    const res = await cms.report.getStatistics();
+    return ensureOk(res);
+  },
+  summarize: async (text: string) => {
+    const res = await cms.ai.summarize({ text, maxWords: 80 });
+    return ensureOk(res);
+  },
 };

@@ -9,6 +9,12 @@ export type Content = {
   createdAt: string;
 };
 
+export type FormItem = {
+  id: string;
+  title: string;
+  slug: string;
+};
+
 const cms = CMS.init(import.meta.env.OCTAVIA_API_KEY || "", { timeoutMs: 10000 });
 
 const mapArticle = (a: any): Content => ({
@@ -46,5 +52,19 @@ export const octaviaClient = {
     await ensureOk(await cms.article.archive({ id }));
     const one = await cms.article.getById(id);
     return mapArticle(ensureOk(one));
+  },
+  listForms: async (): Promise<FormItem[]> => {
+    const out = await cms.form.getAll({ query: { page: 1, limit: 20 } });
+    const data: any = ensureOk(out);
+    const items = Array.isArray(data?.items) ? data.items : [];
+    return items.map((f: any) => ({
+      id: f?.id || f?._id || "",
+      title: f?.title?.en || f?.title?.fa || "",
+      slug: f?.slug || "",
+    }));
+  },
+  submitForm: async (formId: string, values: Record<string, unknown>, language = "en") => {
+    const out = await cms.formSubmission.createSubmission({ formId, language, values });
+    return ensureOk(out);
   },
 };

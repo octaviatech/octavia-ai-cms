@@ -1,6 +1,7 @@
 import CMS from '@octaviatech/cms';
 
 export type Content = { id:string; title:string; body:string; locale:string; status:'draft'|'published'; createdAt:string };
+export type FormItem = { id:string; title:string; slug:string };
 
 const cms = CMS.init(import.meta.env.OCTAVIA_API_KEY || '', { timeoutMs: 10000 });
 
@@ -38,5 +39,18 @@ export const octaviaClient = {
   publish: async(id:string): Promise<Content> => {
     await ensureOk(await cms.article.archive({ id }));
     return mapArticle(ensureOk(await cms.article.getById(id)));
+  },
+  listForms: async(): Promise<FormItem[]> => {
+    const out = await cms.form.getAll({ query: { page: 1, limit: 20 } });
+    const data:any = ensureOk(out);
+    const items = Array.isArray(data?.items) ? data.items : [];
+    return items.map((f:any) => ({
+      id: f?.id || f?._id || '',
+      title: f?.title?.en || f?.title?.fa || '',
+      slug: f?.slug || ''
+    }));
+  },
+  submitForm: async(formId:string, values:Record<string, unknown>, language='en') => {
+    return ensureOk(await cms.formSubmission.createSubmission({ formId, language, values }));
   }
 };
