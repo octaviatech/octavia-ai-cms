@@ -10,6 +10,10 @@ This example now uses `@octaviatech/cms` SDK on the server side.
 - reports statistics
 - ai summarize
 
+Pages:
+- `/blog`
+- `/forms`
+
 ## Why server proxy is used
 
 `OCTAVIA_API_KEY` is read only on the server. The UI calls internal `/api/octavia/*` routes.

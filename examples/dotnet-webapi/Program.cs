@@ -72,6 +72,40 @@ app.MapPost("/demo/content/{id}/publish", async (string id) =>
     return Results.Json(res.Data);
 });
 
+app.MapGet("/demo/forms", async () =>
+{
+    var res = await cms.Form.GetAllAsync(new Dictionary<string, string?> { ["page"] = "1", ["limit"] = "20" });
+    if (!res.Ok) return Results.BadRequest(new { error = res.Error?.Message });
+    if (res.Data is null || !res.Data.Value.TryGetProperty("items", out var list))
+    {
+        return Results.Json(Array.Empty<object>());
+    }
+    var forms = new List<object>();
+    foreach (var it in list.EnumerateArray())
+    {
+        var id = it.TryGetProperty("id", out var idProp) ? idProp.GetString() ?? "" : "";
+        var slug = it.TryGetProperty("slug", out var slugProp) ? slugProp.GetString() ?? "" : "";
+        string title = "";
+        if (it.TryGetProperty("title", out var titleObj))
+        {
+            if (titleObj.TryGetProperty("en", out var en)) title = en.GetString() ?? "";
+            if (string.IsNullOrEmpty(title) && titleObj.TryGetProperty("fa", out var fa)) title = fa.GetString() ?? "";
+        }
+        forms.Add(new { id, title, slug });
+    }
+    return Results.Json(forms);
+});
+
+app.MapPost("/demo/forms/{id}/submit", async (string id, HttpRequest request) =>
+{
+    var payload = await request.ReadFromJsonAsync<Dictionary<string, object?>>() ?? new();
+    var language = payload.TryGetValue("language", out var lang) ? lang?.ToString() ?? "en" : "en";
+    var values = payload.TryGetValue("values", out var vals) && vals is object v ? v : payload;
+    var res = await cms.FormSubmission.IdSubmitAsync(id, new { language, values });
+    if (!res.Ok) return Results.BadRequest(new { error = res.Error?.Message });
+    return Results.Json(res.Data);
+});
+
 app.MapGet("/demo/reports/statistics", async () =>
 {
     var res = await cms.Report.GetStatisticsAsync();

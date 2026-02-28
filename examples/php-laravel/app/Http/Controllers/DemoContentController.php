@@ -64,6 +64,38 @@ class DemoContentController extends Controller
         return response()->json($res['data'] ?? []);
     }
 
+    public function forms()
+    {
+        $res = $this->client()->form->getAll([
+            'page' => 1,
+            'limit' => 20,
+        ]);
+        if (!$res['ok']) {
+            return response()->json(['error' => $res['error']['message'] ?? 'Request failed'], 400);
+        }
+        $items = $res['data']['items'] ?? [];
+        $mapped = array_map(function ($f) {
+            return [
+                'id' => $f['id'] ?? ($f['_id'] ?? ''),
+                'title' => $f['title']['en'] ?? ($f['title']['fa'] ?? ''),
+                'slug' => $f['slug'] ?? '',
+            ];
+        }, $items);
+        return response()->json($mapped);
+    }
+
+    public function submitForm(Request $request, string $id)
+    {
+        $res = $this->client()->formSubmission->idSubmit($id, [
+            'language' => (string) $request->input('language', 'en'),
+            'values' => $request->input('values', $request->except(['language'])),
+        ]);
+        if (!$res['ok']) {
+            return response()->json(['error' => $res['error']['message'] ?? 'Request failed'], 400);
+        }
+        return response()->json($res['data'] ?? []);
+    }
+
     public function statistics()
     {
         $res = $this->client()->report->getStatistics();

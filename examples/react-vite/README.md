@@ -4,6 +4,7 @@
 A TypeScript React app that:
 - creates/lists/publishes blog content
 - loads forms and submits form answers
+- has two pages inside app: Blog and Form
 
 ## Setup
 ```bash

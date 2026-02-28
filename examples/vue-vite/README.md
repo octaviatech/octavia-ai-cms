@@ -4,6 +4,7 @@
 Vue 3 Composition API app with:
 - blog create/list/publish flow
 - form list + submit flow
+- two pages inside app: Blog and Form
 
 ## Setup
 ```bash

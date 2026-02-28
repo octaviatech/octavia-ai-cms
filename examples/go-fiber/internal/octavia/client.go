@@ -119,6 +119,40 @@ func (c *Client) PublishContent(id string) ([]byte, int) {
 	return encode(mapArticle(article)), 200
 }
 
+func (c *Client) ListForms() ([]byte, int) {
+	out := c.cms.Form.GetAll(map[string]any{"page": 1, "limit": 20})
+	if !out.Ok {
+		return encode(map[string]any{"error": out.Error.Message}), 400
+	}
+	data, _ := out.Data.(map[string]any)
+	rawItems, _ := data["items"].([]any)
+	items := make([]map[string]any, 0, len(rawItems))
+	for _, it := range rawItems {
+		if m, ok := it.(map[string]any); ok {
+			items = append(items, map[string]any{
+				"id":    m["id"],
+				"title": m["title"],
+				"slug":  m["slug"],
+			})
+		}
+	}
+	return encode(items), 200
+}
+
+func (c *Client) SubmitForm(formID string, values map[string]any, language string) ([]byte, int) {
+	if language == "" {
+		language = "en"
+	}
+	out := c.cms.FormSubmission.IdSubmit(formID, map[string]any{
+		"language": language,
+		"values":   values,
+	}, nil)
+	if !out.Ok {
+		return encode(map[string]any{"error": out.Error.Message}), 400
+	}
+	return encode(out.Data), 200
+}
+
 func (c *Client) GetStatistics() ([]byte, int) {
 	out := c.cms.Report.GetStatistics(nil)
 	if !out.Ok {

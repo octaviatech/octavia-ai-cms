@@ -1,10 +1,15 @@
 # Go Fiber Example
 
 ## What it demonstrates
-A Go Fiber proxy server and minimal HTML UI for create/list/publish using SDK.
-Additional backend demo routes:
-- `GET /demo/reports/statistics`
-- `POST /demo/ai/summarize`
+A backend-only Go Fiber API using the Go SDK.
+Routes:
+- `GET /api/content`
+- `POST /api/content`
+- `POST /api/content/:id/publish`
+- `GET /api/forms`
+- `POST /api/forms/:id/submit`
+- `GET /api/reports/statistics`
+- `POST /api/ai/summarize`
 
 ## Setup
 ```bash
@@ -17,9 +22,9 @@ Export `OCTAVIA_API_KEY`, `OCTAVIA_CATEGORY_ID`, `OCTAVIA_AUTHOR_ID` in your she
 go mod tidy
 go run .
 ```
-Open `http://localhost:8080`.
+Server runs on `http://localhost:8080`.
 
 ## Troubleshooting
 - 401/403: check API key.
 - create errors: verify category/author IDs.
-- Empty response parsing: inspect raw proxy response.
+- SDK import issues: run `go mod tidy`.

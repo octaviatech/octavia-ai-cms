@@ -1,9 +1,21 @@
 import CMS, { GeneratedOperations as Ops } from "@octaviatech/cms";
 
-export type Content = Record<string, unknown>;
+export type Content = {
+  id: string;
+  title: string;
+  body: string;
+  locale: string;
+  status: "draft" | "published";
+  createdAt: string;
+};
 
-const apiKey = process.env.OCTAVIA_API_KEY || "";
-const cms = CMS.init(apiKey, { timeoutMs: 10000 });
+export type FormItem = {
+  id: string;
+  title: string;
+  slug: string;
+};
+
+const cms = CMS.init(process.env.OCTAVIA_API_KEY || "", { timeoutMs: 10000 });
 
 function ensureOk<T>(res: { ok: boolean; data: T | null; error?: { message?: string } }): T {
   if (!res.ok || !res.data) {
@@ -12,35 +24,54 @@ function ensureOk<T>(res: { ok: boolean; data: T | null; error?: { message?: str
   return res.data;
 }
 
+function mapArticle(a: any): Content {
+  return {
+    id: a?.id || a?._id || "",
+    title: a?.mainTitle?.en || a?.mainTitle?.fa || "",
+    body: a?.body?.en || a?.body?.fa || "",
+    locale: a?.mainTitle?.fa ? "fa" : "en",
+    status: a?.isPublished ? "published" : "draft",
+    createdAt: a?.createdAt || "",
+  };
+}
+
 export const octaviaServerClient = {
-  list: async () => {
-    const res = await cms.article.getAll({
-      query: { page: 1, limit: 20, sortOrder: "desc" },
-    });
-    return ensureOk(res);
+  list: async (): Promise<Content[]> => {
+    const res = await cms.article.getAll({ query: { page: 1, limit: 20, sortOrder: "desc" } });
+    const data: any = ensureOk(res);
+    const items = Array.isArray(data?.items) ? data.items : [];
+    return items.map(mapArticle);
   },
-  create: async (payload: Ops.ArticlesCreateBody) => {
-    const res = await cms.article.create(payload);
-    return ensureOk(res);
+  create: async (payload: Pick<Content, "title" | "body" | "locale">): Promise<Content> => {
+    const lang = payload.locale.startsWith("fa") ? "fa" : "en";
+    const body: Ops.ArticlesCreateBody = {
+      mainTitle: { [lang]: payload.title },
+      body: { [lang]: payload.body },
+      category: [process.env.OCTAVIA_CATEGORY_ID || "CATEGORY_ID"],
+      author: process.env.OCTAVIA_AUTHOR_ID || "AUTHOR_ID",
+    };
+    return mapArticle(ensureOk(await cms.article.create(body)));
   },
-  publish: async (id: string) => {
-    const res = await cms.article.archive({ id });
-    return ensureOk(res);
+  publish: async (id: string): Promise<Content> => {
+    ensureOk(await cms.article.archive({ id }));
+    return mapArticle(ensureOk(await cms.article.getById(id)));
   },
-  listForms: async () => {
-    const res = await cms.form.getAll({ query: { page: 1, limit: 20 } });
-    return ensureOk(res);
+  listForms: async (): Promise<FormItem[]> => {
+    const data: any = ensureOk(await cms.form.getAll({ query: { page: 1, limit: 20 } }));
+    const items = Array.isArray(data?.items) ? data.items : [];
+    return items.map((f: any) => ({
+      id: f?.id || f?._id || "",
+      title: f?.title?.en || f?.title?.fa || "",
+      slug: f?.slug || "",
+    }));
   },
   submitForm: async (formId: string, values: Record<string, unknown>, language = "en") => {
-    const res = await cms.formSubmission.createSubmission({ formId, language, values });
-    return ensureOk(res);
+    return ensureOk(await cms.formSubmission.createSubmission({ formId, language, values }));
   },
   getStatistics: async () => {
-    const res = await cms.report.getStatistics();
-    return ensureOk(res);
+    return ensureOk(await cms.report.getStatistics());
   },
   summarize: async (text: string) => {
-    const res = await cms.ai.summarize({ text, maxWords: 80 });
-    return ensureOk(res);
+    return ensureOk(await cms.ai.summarize({ text, maxWords: 80 }));
   },
 };
