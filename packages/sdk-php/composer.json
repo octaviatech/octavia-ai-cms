@@ -1,0 +1,41 @@
+{
+  "name": "octavia/cms",
+  "version": "0.3.0",
+  "description": "Typed PHP client for the Octavia AI CMS API. Manage multilingual articles, forms, submissions, AI automation, social publishing and analytics, with one required x-api-key header and one uniform response shape.",
+  "type": "library",
+  "license": "ISC",
+  "keywords": [
+    "octavia",
+    "octaviatech",
+    "cms",
+    "ai-cms",
+    "sdk",
+    "headless-cms",
+    "multilingual",
+    "content-management",
+    "api"
+  ],
+  "authors": [
+    {
+      "name": "Nima Janbaz",
+      "homepage": "https://github.com/nimajanbaz"
+    },
+    {
+      "name": "Alex Yaghoubi",
+      "homepage": "https://github.com/alex-yaghoubi"
+    }
+  ],
+  "homepage": "https://octaviatech.app",
+  "support": {
+    "docs": "https://developers.octaviatech.app",
+    "issues": "https://github.com/octaviatech/octavia-ai-cms/issues"
+  },
+  "autoload": {
+    "psr-4": {
+      "Octavia\\CmsSDK\\": "src/"
+    }
+  },
+  "require": {
+    "php": ">=8.1"
+  }
+}

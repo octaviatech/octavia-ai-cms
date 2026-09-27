@@ -24,8 +24,19 @@ pnpm-debug.log*
 bin/
 tmp/
 
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+build/
+.venv/
+venv/
+
 # .NET
 obj/
+nupkg/
+*.user
 
 # PHP / Laravel
 vendor/

@@ -1,0 +1,11 @@
+export { AIResource } from "./ai";
+export { AIConversationResource } from "./aIConversation";
+export { ArticlesResource } from "./articles";
+export { AuthorsResource } from "./authors";
+export { CategoriesResource } from "./categories";
+export { FormsResource } from "./forms";
+export { FormSubmissionsResource } from "./formSubmissions";
+export { LanguagesResource } from "./languages";
+export { ReportsResource } from "./reports";
+export { SubcategoriesResource } from "./subcategories";
+export { TagsResource } from "./tags";

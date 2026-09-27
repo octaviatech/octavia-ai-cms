@@ -1,0 +1,45 @@
+[project]
+name = "octavia-cms-sdk"
+version = "0.3.0"
+description = "Typed Python client for the Octavia AI CMS API. Manage multilingual articles, forms, submissions, AI automation, social publishing and analytics, with one required x-api-key header and one uniform response shape."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "ISC"
+authors = [
+  { name = "Nima Janbaz", email = "nimajanbaz@users.noreply.github.com" },
+  { name = "Alex Yaghoubi", email = "alex-yaghoubi@users.noreply.github.com" },
+]
+keywords = [
+  "octavia",
+  "octaviatech",
+  "cms",
+  "ai-cms",
+  "sdk",
+  "headless-cms",
+  "multilingual",
+  "content-management",
+  "api",
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Typing :: Typed",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://octaviatech.app"
+Documentation = "https://developers.octaviatech.app"
+Repository = "https://github.com/octaviatech/octavia-ai-cms"
+Issues = "https://github.com/octaviatech/octavia-ai-cms/issues"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]

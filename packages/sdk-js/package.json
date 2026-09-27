@@ -1,0 +1,59 @@
+{
+  "name": "@octaviatech/cms",
+  "version": "0.3.0",
+  "description": "Typed JavaScript/TypeScript client for the Octavia AI CMS API. Manage multilingual articles, forms, submissions, AI automation, social publishing and analytics, with one required x-api-key header and one uniform response shape.",
+  "homepage": "https://octaviatech.app",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/octaviatech/octavia-ai-cms.git",
+    "directory": "packages/sdk-js"
+  },
+  "bugs": {
+    "url": "https://github.com/octaviatech/octavia-ai-cms/issues"
+  },
+  "author": "Nima Janbaz (https://github.com/nimajanbaz) & Alex Yaghoubi (https://github.com/alex-yaghoubi)",
+  "type": "module",
+  "main": "./dist/cjs/index.cjs",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/esm/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/esm/index.d.ts",
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist/esm",
+    "dist/cjs",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "npm run clean && tsc -p tsconfig.cjs.json && node scripts/finalize-cjs.mjs && tsc -p tsconfig.json && node scripts/finalize-esm.mjs",
+    "build:esm": "tsc -p tsconfig.json && node scripts/finalize-esm.mjs",
+    "build:cjs": "tsc -p tsconfig.cjs.json && node scripts/finalize-cjs.mjs",
+    "clean": "rm -rf dist",
+    "generate": "node scripts/generate.js",
+    "pretest": "node -e \"const fs=require('fs'),p=require('path'),d=p.join('node_modules','@octaviatech');fs.mkdirSync(d,{recursive:true});const t=p.join(d,'cms');try{fs.rmSync(t,{recursive:true,force:true})}catch{};fs.symlinkSync(p.resolve('.'),t,'junction')\"",
+    "test": "npm run build && node tests/basic.test.cjs && node tests/entrypoints.test.mjs"
+  },
+  "keywords": [
+    "octavia",
+    "octaviatech",
+    "cms",
+    "ai-cms",
+    "sdk",
+    "api",
+    "headless-cms",
+    "multilingual",
+    "content-management",
+    "ai",
+    "typescript"
+  ],
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}

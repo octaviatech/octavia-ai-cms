@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <PackageId>Octavia.CmsSDK</PackageId>
+    <Version>0.3.0</Version>
+    <Authors>Nima Janbaz, Alex Yaghoubi</Authors>
+    <Description>Typed .NET client for the Octavia AI CMS API. Manage multilingual articles, forms, submissions, AI automation, social publishing and analytics, with one required x-api-key header and one uniform response shape. No third-party dependencies.</Description>
+    <PackageTags>octavia;octaviatech;cms;ai-cms;sdk;headless-cms;multilingual;content-management;api;dotnet</PackageTags>
+    <PackageLicenseExpression>ISC</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/octaviatech/octavia-ai-cms</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageProjectUrl>https://github.com/octaviatech/octavia-ai-cms/tree/main/packages/sdk-csharp</PackageProjectUrl>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- sdkcheck/ is a scratch project that compiles the SDK sources to verify
+         what the docs promise; it is its own project and must not be globbed in
+         here or the assembly attributes collide. -->
+    <Compile Remove="sdkcheck\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+</Project>
