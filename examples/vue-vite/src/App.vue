@@ -14,7 +14,7 @@ const body = ref("");
 const locale = ref("en");
 const items = ref<Content[]>([]);
 
-const forms = ref<FormItem[]>([]);
+const form = ref<FormItem | null>(null);
 const formId = ref("");
 const email = ref("");
 
@@ -32,15 +32,25 @@ const refreshBlog = async () => {
   items.value = await octaviaClient.list();
 };
 
-const refreshForms = async () => {
-  forms.value = await octaviaClient.listForms();
+// `form.getAll` returns only a submissions count, with no id or title, so the
+// form is fetched by id once one is entered.
+const loadForm = async () => {
+  if (!formId.value.trim()) {
+    form.value = null;
+    return;
+  }
+  try {
+    form.value = await octaviaClient.getForm(formId.value.trim());
+  } catch {
+    form.value = null;
+  }
 };
 
 const refreshAll = async () => {
   loading.value = true;
   error.value = "";
   try {
-    await Promise.all([refreshBlog(), refreshForms()]);
+    await refreshBlog();
   } catch (e) {
     error.value = (e as Error).message;
   } finally {
@@ -219,20 +229,23 @@ onMounted(async () => {
 
       <section v-else-if="page === 'forms'" class="space-y-6">
         <div class="rounded border border-slate-800 bg-slate-900 p-4">
-          <h2 class="mb-3 text-xl font-semibold">Available Forms</h2>
-          <ul class="space-y-2">
-            <li v-for="f in forms" :key="f.id" class="rounded border border-slate-800 bg-slate-950 p-3">
-              <p class="font-medium">{{ f.title || "(untitled form)" }}</p>
-              <p class="text-xs text-slate-400">id: {{ f.id }}</p>
-            </li>
-            <li v-if="forms.length === 0" class="text-sm text-slate-500">No forms yet.</li>
-          </ul>
+          <h2 class="mb-3 text-xl font-semibold">Selected Form</h2>
+          <div v-if="form" class="rounded border border-slate-800 bg-slate-950 p-3">
+            <p class="font-medium">{{ form.title || "(untitled form)" }}</p>
+            <p class="text-xs text-slate-400">
+              id: {{ form.id }} · slug: {{ form.slug }} · {{ form.sections }} section(s)<span v-if="!form.isActive"> · inactive</span>
+            </p>
+          </div>
+          <p v-else class="text-sm text-slate-400">Enter a form ID below to load it.</p>
         </div>
 
         <div class="rounded border border-slate-800 bg-slate-900 p-4">
           <h2 class="mb-3 text-xl font-semibold">Submit Form</h2>
           <div class="space-y-3">
             <input v-model="formId" class="w-full rounded border border-slate-700 bg-slate-950 px-3 py-2" placeholder="Form ID" />
+            <button class="rounded bg-slate-700 px-4 py-2 font-medium disabled:opacity-50" :disabled="loading" @click="loadForm">
+              Load form
+            </button>
             <input v-model="email" class="w-full rounded border border-slate-700 bg-slate-950 px-3 py-2" placeholder="Email" />
             <button
               class="rounded bg-cyan-500 px-4 py-2 font-medium text-slate-950 disabled:opacity-50"

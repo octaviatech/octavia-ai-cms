@@ -17,6 +17,8 @@ export type FormItem = {
   id: string;
   title: string;
   slug: string;
+  isActive: boolean;
+  sections: number;
 };
 
 export type Statistics = Record<string, unknown>;
@@ -45,7 +47,8 @@ export const octaviaClient = {
   publish: (id: string): Promise<Content> =>
     request<Content>(`/articles/${encodeURIComponent(id)}/publish`, { method: "POST" }),
 
-  listForms: (): Promise<FormItem[]> => request<FormItem[]>("/forms"),
+  getForm: (formId: string): Promise<FormItem> =>
+    request<FormItem>(`/forms/${encodeURIComponent(formId)}`),
 
   submitForm: (formId: string, values: Record<string, unknown>, language = "en"): Promise<{ ok: true }> =>
     request<{ ok: true }>(`/forms/${encodeURIComponent(formId)}/submit`, {

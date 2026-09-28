@@ -14,7 +14,7 @@ export function App() {
   const [body, setBody] = useState("");
   const [locale, setLocale] = useState("en");
 
-  const [forms, setForms] = useState<FormItem[]>([]);
+  const [form, setForm] = useState<FormItem | null>(null);
   const [formId, setFormId] = useState("");
   const [email, setEmail] = useState("");
 
@@ -25,15 +25,23 @@ export function App() {
     setItems(await octaviaClient.list());
   };
 
-  const refreshForms = async () => {
-    setForms(await octaviaClient.listForms());
+  const loadForm = async () => {
+    if (!formId.trim()) {
+      setForm(null);
+      return;
+    }
+    try {
+      setForm(await octaviaClient.getForm(formId.trim()));
+    } catch {
+      setForm(null);
+    }
   };
 
   const refreshAll = async () => {
     setLoading(true);
     setError("");
     try {
-      await Promise.all([refreshBlog(), refreshForms()]);
+      await refreshBlog();
     } catch (e) {
       setError((e as Error).message);
     } finally {
@@ -231,16 +239,18 @@ export function App() {
         {page === "forms" ? (
           <section className="space-y-6">
             <div className="rounded border border-slate-800 bg-slate-900 p-4">
-              <h2 className="mb-3 text-xl font-semibold">Available Forms</h2>
-              <ul className="space-y-2">
-                {forms.map((f) => (
-                  <li key={f.id} className="rounded border border-slate-800 bg-slate-950 p-3">
-                    <p className="font-medium">{f.title || "(untitled form)"}</p>
-                    <p className="text-xs text-slate-400">id: {f.id}</p>
-                  </li>
-                ))}
-                {forms.length === 0 ? <li className="text-sm text-slate-500">No forms yet.</li> : null}
-              </ul>
+              <h2 className="mb-3 text-xl font-semibold">Selected Form</h2>
+              {form ? (
+                <div className="rounded border border-slate-800 bg-slate-950 p-3">
+                  <p className="font-medium">{form.title || "(untitled form)"}</p>
+                  <p className="text-xs text-slate-400">
+                    id: {form.id} · slug: {form.slug} · {form.sections} section(s)
+                    {form.isActive ? "" : " · inactive"}
+                  </p>
+                </div>
+              ) : (
+                <p className="text-sm text-slate-400">Enter a form ID below to load it.</p>
+              )}
             </div>
 
             <div className="rounded border border-slate-800 bg-slate-900 p-4">
@@ -252,6 +262,13 @@ export function App() {
                   value={formId}
                   onChange={(e) => setFormId(e.target.value)}
                 />
+                <button
+                  className="rounded bg-slate-700 px-4 py-2 font-medium disabled:opacity-50"
+                  disabled={loading}
+                  onClick={() => void loadForm()}
+                >
+                  Load form
+                </button>
                 <input
                   className="w-full rounded border border-slate-700 bg-slate-950 px-3 py-2"
                   placeholder="Email"

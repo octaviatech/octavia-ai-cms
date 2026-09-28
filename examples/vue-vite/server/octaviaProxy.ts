@@ -100,6 +100,8 @@ function mapForm(raw: unknown) {
     id: readId(form._id),
     title: pickText(form.title).text,
     slug: form.slug || "",
+    isActive: Boolean(form.isActive),
+    sections: Array.isArray(form.sections) ? form.sections.length : 0,
   };
 }
 
@@ -186,12 +188,18 @@ export const octaviaProxy = (): Plugin => ({
           return;
         }
 
-        // GET /api/octavia/forms
-        if (method === "GET" && route === "/forms") {
-          const listed = await cms.form.getAll({ query: { page: 1, limit: 20 } });
-          if (!listed.ok) throw listed.error;
-          const data = (listed.data ?? {}) as { formListItem?: unknown[] };
-          sendJson(res, 200, (data.formListItem ?? []).map(mapForm));
+        // GET /api/octavia/forms/:id
+        // `form.getAll` returns only a submissions count per form — no id, title
+        // or slug — so it cannot drive a form picker. `getById` returns the form.
+        if (method === "GET" && segments[0] === "forms" && segments.length === 2) {
+          const id = segments[1];
+          if (!id) {
+            sendJson(res, 400, { error: "Form id is required." });
+            return;
+          }
+          const one = await cms.form.getById(id);
+          if (!one.ok) throw one.error;
+          sendJson(res, 200, mapForm(unwrapData(one.data)));
           return;
         }
 

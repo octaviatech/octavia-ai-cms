@@ -5,7 +5,7 @@
 // and the API key it needs lives on the server. See `server/octaviaProxy.ts`.
 
 export type Content = { id:string; title:string; body:string; locale:string; status:'draft'|'published'; createdAt:string };
-export type FormItem = { id:string; title:string; slug:string };
+export type FormItem = { id:string; title:string; slug:string; isActive:boolean; sections:number };
 export type Statistics = Record<string, unknown>;
 
 const BASE = '/api/octavia';
@@ -32,7 +32,7 @@ export const octaviaClient = {
   publish: (id:string): Promise<Content> =>
     request<Content>(`/articles/${encodeURIComponent(id)}/publish`, { method:'POST' }),
 
-  listForms: (): Promise<FormItem[]> => request<FormItem[]>('/forms'),
+  getForm: (formId: string): Promise<FormItem> => request<FormItem>(`/forms/${encodeURIComponent(formId)}`),
 
   submitForm: (formId:string, values:Record<string, unknown>, language='en'): Promise<{ok:true}> =>
     request<{ok:true}>(`/forms/${encodeURIComponent(formId)}/submit`, {

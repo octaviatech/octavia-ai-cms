@@ -22,10 +22,14 @@ exists to make that impossible.
 | `GET /api/octavia/articles` | `cms.article.getAll` |
 | `POST /api/octavia/articles` | `cms.article.create` |
 | `POST /api/octavia/articles/:id/publish` | `cms.article.update({ isPublished: true })` |
-| `GET /api/octavia/forms` | `cms.form.getAll` |
+| `GET /api/octavia/forms/:id` | `cms.form.getById` |
 | `POST /api/octavia/forms/:id/submit` | `cms.formSubmission.idSubmit` |
 | `POST /api/octavia/ai/summarize` | `cms.ai.summarize` |
 | `GET /api/octavia/statistics` | `cms.report.getStatistics` |
+
+The form is fetched **by id**, entered by the user, rather than listed.
+`cms.form.getAll` returns only a submissions count per form — no id, title or
+slug — so it cannot drive a form picker.
 
 ## Setup
 ```bash
