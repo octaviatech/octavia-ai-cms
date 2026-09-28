@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import { octaviaClient, type Content, type FormItem } from "./lib/octaviaClient";
+import { octaviaClient, type Content, type FormItem, type Statistics } from "./lib/octaviaClient";
 
-type Page = "blog" | "forms";
+type Page = "blog" | "forms" | "insights";
 
 export function App() {
   const [page, setPage] = useState<Page>("blog");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [notice, setNotice] = useState("");
 
   const [items, setItems] = useState<Content[]>([]);
   const [title, setTitle] = useState("");
@@ -17,8 +18,11 @@ export function App() {
   const [formId, setFormId] = useState("");
   const [email, setEmail] = useState("");
 
+  const [statistics, setStatistics] = useState<Statistics | null>(null);
+  const [summary, setSummary] = useState("");
+
   const refreshBlog = async () => {
-    setItems(await octaviaClient.listContent());
+    setItems(await octaviaClient.list());
   };
 
   const refreshForms = async () => {
@@ -48,10 +52,12 @@ export function App() {
     }
     setLoading(true);
     setError("");
+    setNotice("");
     try {
-      await octaviaClient.createContent({ title, body, locale });
+      await octaviaClient.create({ title, body, locale });
       setTitle("");
       setBody("");
+      setNotice("Article created as a draft.");
       await refreshBlog();
     } catch (e) {
       setError((e as Error).message);
@@ -63,8 +69,10 @@ export function App() {
   const publishArticle = async (id: string) => {
     setLoading(true);
     setError("");
+    setNotice("");
     try {
-      await octaviaClient.publishContent(id);
+      await octaviaClient.publish(id);
+      setNotice("Article published.");
       await refreshBlog();
     } catch (e) {
       setError((e as Error).message);
@@ -80,9 +88,42 @@ export function App() {
     }
     setLoading(true);
     setError("");
+    setNotice("");
     try {
       await octaviaClient.submitForm(formId, { email }, locale);
       setEmail("");
+      setNotice("Form submitted.");
+    } catch (e) {
+      setError((e as Error).message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const loadStatistics = async () => {
+    setLoading(true);
+    setError("");
+    try {
+      setStatistics(await octaviaClient.getStatistics());
+    } catch (e) {
+      setError((e as Error).message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const runSummarize = async () => {
+    const source = body.trim() || items.find((item) => item.body)?.body || "";
+    if (!source) {
+      setError("Write an article body below, or create an article first, to summarize.");
+      return;
+    }
+    setLoading(true);
+    setError("");
+    setNotice("");
+    try {
+      const result = await octaviaClient.summarize(source);
+      setSummary(result.summary);
     } catch (e) {
       setError((e as Error).message);
     } finally {
@@ -93,9 +134,12 @@ export function App() {
   return (
     <main className="min-h-screen bg-slate-950 text-slate-100">
       <div className="mx-auto max-w-5xl p-6">
-        <h1 className="mb-6 text-3xl font-bold">Octavia CMS - React + Vite</h1>
+        <h1 className="mb-2 text-3xl font-bold">Octavia CMS - React + Vite</h1>
+        <p className="mb-6 text-sm text-slate-400">
+          The browser talks to this app&apos;s dev-server proxy. The API key stays on the server.
+        </p>
 
-        <div className="mb-6 flex gap-2">
+        <div className="mb-6 flex flex-wrap gap-2">
           <button
             className={`rounded px-4 py-2 ${page === "blog" ? "bg-cyan-500 text-slate-950" : "bg-slate-800"}`}
             onClick={() => setPage("blog")}
@@ -108,12 +152,19 @@ export function App() {
           >
             Form Page
           </button>
+          <button
+            className={`rounded px-4 py-2 ${page === "insights" ? "bg-cyan-500 text-slate-950" : "bg-slate-800"}`}
+            onClick={() => setPage("insights")}
+          >
+            AI &amp; Statistics
+          </button>
           <button className="rounded bg-slate-700 px-4 py-2" onClick={() => void refreshAll()}>
             Refresh
           </button>
         </div>
 
         {error ? <p className="mb-4 rounded bg-red-900/40 p-3 text-red-300">{error}</p> : null}
+        {notice ? <p className="mb-4 rounded bg-emerald-900/40 p-3 text-emerald-300">{notice}</p> : null}
 
         {page === "blog" ? (
           <section className="space-y-6">
@@ -171,10 +222,13 @@ export function App() {
                     </button>
                   </li>
                 ))}
+                {items.length === 0 ? <li className="text-sm text-slate-500">No articles yet.</li> : null}
               </ul>
             </div>
           </section>
-        ) : (
+        ) : null}
+
+        {page === "forms" ? (
           <section className="space-y-6">
             <div className="rounded border border-slate-800 bg-slate-900 p-4">
               <h2 className="mb-3 text-xl font-semibold">Available Forms</h2>
@@ -185,6 +239,7 @@ export function App() {
                     <p className="text-xs text-slate-400">id: {f.id}</p>
                   </li>
                 ))}
+                {forms.length === 0 ? <li className="text-sm text-slate-500">No forms yet.</li> : null}
               </ul>
             </div>
 
@@ -213,9 +268,53 @@ export function App() {
               </div>
             </div>
           </section>
-        )}
+        ) : null}
+
+        {page === "insights" ? (
+          <section className="space-y-6">
+            <div className="rounded border border-slate-800 bg-slate-900 p-4">
+              <h2 className="mb-1 text-xl font-semibold">AI Summarize</h2>
+              <p className="mb-3 text-sm text-slate-400">
+                Summarizes the body you typed on the Blog page, or the first article body on the list.
+              </p>
+              <button
+                className="rounded bg-cyan-500 px-4 py-2 font-medium text-slate-950 disabled:opacity-50"
+                disabled={loading}
+                onClick={() => void runSummarize()}
+              >
+                Summarize
+              </button>
+              {summary ? (
+                <p className="mt-3 rounded border border-slate-800 bg-slate-950 p-3 text-sm">{summary}</p>
+              ) : null}
+            </div>
+
+            <div className="rounded border border-slate-800 bg-slate-900 p-4">
+              <h2 className="mb-1 text-xl font-semibold">Tenant Statistics</h2>
+              <p className="mb-3 text-sm text-slate-400">Usage counters reported by `report.getStatistics`.</p>
+              <button
+                className="rounded bg-cyan-500 px-4 py-2 font-medium text-slate-950 disabled:opacity-50"
+                disabled={loading}
+                onClick={() => void loadStatistics()}
+              >
+                Load statistics
+              </button>
+              {statistics ? (
+                <dl className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3">
+                  {Object.entries(statistics)
+                    .filter(([, value]) => typeof value === "number" || typeof value === "string")
+                    .map(([key, value]) => (
+                      <div key={key} className="rounded border border-slate-800 bg-slate-950 p-3">
+                        <dt className="text-xs text-slate-400">{key}</dt>
+                        <dd className="text-lg font-semibold">{String(value)}</dd>
+                      </div>
+                    ))}
+                </dl>
+              ) : null}
+            </div>
+          </section>
+        ) : null}
       </div>
     </main>
   );
 }
-

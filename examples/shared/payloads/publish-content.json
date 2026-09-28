@@ -1,3 +1,0 @@
-{
-  "note": "Publish uses POST /v1/cms/content/:id/publish with no request body by default."
-}

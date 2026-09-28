@@ -1,4 +1,6 @@
 <script setup lang="ts">
+// The SDK and the API key stay on the server; this page calls only the
+// `/api` route handlers below.
 type Content = {
   id: string;
   title: string;
@@ -16,7 +18,7 @@ const error = ref("");
 
 const refresh = async () => {
   try {
-    items.value = await $fetch("/api/content");
+    items.value = await $fetch<Content[]>("/api/content");
   } catch (e) {
     error.value = String(e);
   }
@@ -27,6 +29,7 @@ const create = async () => {
     error.value = "Title and body are required.";
     return;
   }
+  error.value = "";
   await $fetch("/api/content", {
     method: "POST",
     body: { title: title.value, body: body.value, locale: locale.value },
@@ -36,7 +39,9 @@ const create = async () => {
   await refresh();
 };
 
+// Publishing is a field update, not a dedicated endpoint.
 const publish = async (id: string) => {
+  error.value = "";
   await $fetch(`/api/content/${id}/publish`, { method: "POST" });
   await refresh();
 };
@@ -51,6 +56,7 @@ onMounted(() => {
     <div class="mb-6 flex items-center justify-between">
       <h1 class="text-3xl font-bold">Blog Page</h1>
       <div class="flex gap-2">
+        <NuxtLink class="rounded bg-slate-800 px-4 py-2" to="/">Home</NuxtLink>
         <NuxtLink class="rounded bg-slate-800 px-4 py-2" to="/forms">Form Page</NuxtLink>
         <button class="rounded bg-slate-700 px-4 py-2" @click="refresh">Refresh</button>
       </div>
@@ -66,7 +72,7 @@ onMounted(() => {
         <input
           v-model="locale"
           class="w-full rounded border border-slate-700 bg-slate-950 px-3 py-2"
-          placeholder="Locale (en/fa)"
+          placeholder="Locale (en/es)"
         />
         <button class="rounded bg-cyan-500 px-4 py-2 font-medium text-slate-950" @click="create">Create</button>
       </div>
@@ -96,4 +102,3 @@ onMounted(() => {
     </section>
   </main>
 </template>
-

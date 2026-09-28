@@ -10,7 +10,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@octaviatech/cms": "^0.1.11",
+    "@octaviatech/cms": "^0.3.0",
     "@angular/animations": "17.3.12",
     "@angular/common": "17.3.12",
     "@angular/compiler": "17.3.12",
@@ -25,6 +25,7 @@
     "dotenv": "16.4.7"
   },
   "devDependencies": {
+    "@angular-devkit/build-angular": "17.3.12",
     "@angular/cli": "17.3.12",
     "@angular/compiler-cli": "17.3.12",
     "@types/express": "5.0.0",

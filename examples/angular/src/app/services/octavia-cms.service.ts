@@ -15,6 +15,8 @@ export type FormItem = {
   id: string;
   title: string;
   slug: string;
+  isActive: boolean;
+  sections: number;
 };
 
 @Injectable({ providedIn: "root" })
@@ -35,12 +37,20 @@ export class OctaviaCmsService {
     return this.http.post<Content>(`${this.base}/content/${id}/publish`, {});
   }
 
-  listForms(): Observable<FormItem[]> {
-    return this.http.get<FormItem[]>(`${this.base}/forms`);
+  getForm(id: string): Observable<FormItem> {
+    return this.http.get<FormItem>(`${this.base}/forms/${id}`);
   }
 
   submitForm(id: string, answers: Record<string, unknown>): Observable<unknown> {
     return this.http.post<unknown>(`${this.base}/forms/${id}/submit`, answers);
+  }
+
+  getStatistics(): Observable<unknown> {
+    return this.http.get<unknown>(`${this.base}/reports/statistics`);
+  }
+
+  summarize(text: string): Observable<unknown> {
+    return this.http.post<unknown>(`${this.base}/ai/summarize`, { text });
   }
 }
 

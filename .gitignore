@@ -20,6 +20,12 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
+# Framework build caches
+.angular/
+.next/
+.turbo/
+.swc/
+
 # Go
 bin/
 tmp/
@@ -37,6 +43,9 @@ venv/
 obj/
 nupkg/
 *.user
+
+# Locally packed SDK, consumed through the local feed in nuget.config
+localfeed/
 
 # PHP / Laravel
 vendor/

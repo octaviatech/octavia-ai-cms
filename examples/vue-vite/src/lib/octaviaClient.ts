@@ -1,56 +1,47 @@
-import CMS from '@octaviatech/cms';
+// Browser-side client. It talks to this app's own dev-server proxy at
+// `/api/octavia/*` and nothing else.
+//
+// The Octavia SDK is deliberately NOT imported here: it is a Node-side module,
+// and the API key it needs lives on the server. See `server/octaviaProxy.ts`.
 
 export type Content = { id:string; title:string; body:string; locale:string; status:'draft'|'published'; createdAt:string };
 export type FormItem = { id:string; title:string; slug:string };
+export type Statistics = Record<string, unknown>;
 
-const cms = CMS.init(import.meta.env.OCTAVIA_API_KEY || '', { timeoutMs: 10000 });
+const BASE = '/api/octavia';
 
-const mapArticle = (a:any): Content => ({
-  id: a?.id || a?._id || '',
-  title: a?.mainTitle?.en || a?.mainTitle?.fa || '',
-  body: a?.body?.en || a?.body?.fa || '',
-  locale: a?.mainTitle?.fa ? 'fa' : 'en',
-  status: a?.isPublished ? 'published' : 'draft',
-  createdAt: a?.createdAt || ''
-});
+async function request<T>(path:string, init?:RequestInit):Promise<T> {
+  const res = await fetch(`${BASE}${path}`, {
+    ...init,
+    headers: { 'Content-Type': 'application/json', ...(init?.headers ?? {}) },
+  });
 
-function ensureOk<T>(res:{ok:boolean; data:T|null; error?:{message?:string}}): T {
-  if(!res.ok || !res.data) throw new Error(res.error?.message || 'Octavia SDK request failed');
-  return res.data;
+  const payload = await res.json().catch(() => null);
+  if (!res.ok) {
+    throw new Error((payload && payload.error) || `Request failed with status ${res.status}`);
+  }
+  return payload as T;
 }
 
 export const octaviaClient = {
-  list: async(): Promise<Content[]> => {
-    const out = await cms.article.getAll({ query: { page: 1, limit: 20, sortOrder: 'desc' } });
-    const data:any = ensureOk(out);
-    const items = Array.isArray(data?.items) ? data.items : [];
-    return items.map(mapArticle);
-  },
-  create: async(payload:Pick<Content,'title'|'body'|'locale'>): Promise<Content> => {
-    const lang = payload.locale.startsWith('fa') ? 'fa' : 'en';
-    const out = await cms.article.create({
-      mainTitle: { [lang]: payload.title },
-      body: { [lang]: payload.body },
-      category: import.meta.env.OCTAVIA_CATEGORY_ID || 'CATEGORY_ID',
-      author: import.meta.env.OCTAVIA_AUTHOR_ID || 'AUTHOR_ID'
-    });
-    return mapArticle(ensureOk(out));
-  },
-  publish: async(id:string): Promise<Content> => {
-    await ensureOk(await cms.article.archive({ id }));
-    return mapArticle(ensureOk(await cms.article.getById(id)));
-  },
-  listForms: async(): Promise<FormItem[]> => {
-    const out = await cms.form.getAll({ query: { page: 1, limit: 20 } });
-    const data:any = ensureOk(out);
-    const items = Array.isArray(data?.items) ? data.items : [];
-    return items.map((f:any) => ({
-      id: f?.id || f?._id || '',
-      title: f?.title?.en || f?.title?.fa || '',
-      slug: f?.slug || ''
-    }));
-  },
-  submitForm: async(formId:string, values:Record<string, unknown>, language='en') => {
-    return ensureOk(await cms.formSubmission.createSubmission({ formId, language, values }));
-  }
+  list: (): Promise<Content[]> => request<Content[]>('/articles'),
+
+  create: (payload:{ title:string; body:string; locale?:string }): Promise<Content> =>
+    request<Content>('/articles', { method:'POST', body:JSON.stringify(payload) }),
+
+  publish: (id:string): Promise<Content> =>
+    request<Content>(`/articles/${encodeURIComponent(id)}/publish`, { method:'POST' }),
+
+  listForms: (): Promise<FormItem[]> => request<FormItem[]>('/forms'),
+
+  submitForm: (formId:string, values:Record<string, unknown>, language='en'): Promise<{ok:true}> =>
+    request<{ok:true}>(`/forms/${encodeURIComponent(formId)}/submit`, {
+      method:'POST',
+      body:JSON.stringify({ values, language }),
+    }),
+
+  getStatistics: (): Promise<Statistics> => request<Statistics>('/statistics'),
+
+  summarize: (text:string, maxWords=80): Promise<{summary:string}> =>
+    request<{summary:string}>('/ai/summarize', { method:'POST', body:JSON.stringify({ text, maxWords }) }),
 };

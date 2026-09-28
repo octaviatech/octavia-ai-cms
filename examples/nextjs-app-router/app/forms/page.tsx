@@ -7,6 +7,8 @@ type FormItem = {
   id: string;
   title: string;
   slug: string;
+  isActive: boolean;
+  sections: number;
 };
 
 async function call<T>(url: string, init?: RequestInit): Promise<T> {
@@ -16,63 +18,72 @@ async function call<T>(url: string, init?: RequestInit): Promise<T> {
 }
 
 export default function FormsPage() {
-  const [forms, setForms] = useState<FormItem[]>([]);
+  const [form, setForm] = useState<FormItem | null>(null);
   const [formId, setFormId] = useState("");
   const [email, setEmail] = useState("");
   const [locale, setLocale] = useState("en");
   const [error, setError] = useState("");
 
-  const refresh = async () => {
+  // `forms/getAll` only reports a submissions count, with no id or title, so the
+  // form is fetched by id once one is entered.
+  const loadForm = async (id: string) => {
+    if (!id) {
+      setForm(null);
+      return;
+    }
     try {
-      setForms(await call("/api/octavia/forms"));
-    } catch (e) {
-      setError((e as Error).message);
+      setForm(await call<FormItem>(`/api/octavia/forms/${id}`));
+    } catch {
+      setForm(null);
     }
   };
 
   useEffect(() => {
-    void refresh();
-  }, []);
+    void loadForm(formId);
+  }, [formId]);
 
   const submitForm = async () => {
     if (!formId || !email) {
       setError("Form ID and email are required.");
       return;
     }
-    await call(`/api/octavia/forms/${formId}/submit`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, language: locale }),
-    });
-    setEmail("");
+    setError("");
+    try {
+      await call(`/api/octavia/forms/${formId}/submit`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, language: locale }),
+      });
+      setEmail("");
+    } catch (e) {
+      setError((e as Error).message);
+    }
   };
 
   return (
     <main className="mx-auto max-w-5xl p-6">
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-3xl font-bold">Form Page</h1>
-        <div className="flex gap-2">
-          <Link className="rounded bg-slate-800 px-4 py-2" href="/blog">
-            Blog Page
-          </Link>
-          <button className="rounded bg-slate-700 px-4 py-2" onClick={() => void refresh()}>
-            Refresh
-          </button>
-        </div>
+        <Link className="rounded bg-slate-800 px-4 py-2" href="/blog">
+          Blog Page
+        </Link>
       </div>
 
       {error ? <p className="mb-4 rounded bg-red-900/40 p-3 text-red-300">{error}</p> : null}
 
       <section className="mb-6 rounded border border-slate-800 bg-slate-900 p-4">
-        <h2 className="mb-3 text-xl font-semibold">Available Forms</h2>
-        <ul className="space-y-2">
-          {forms.map((f) => (
-            <li key={f.id} className="rounded border border-slate-800 bg-slate-950 p-3">
-              <p className="font-medium">{f.title || "(untitled form)"}</p>
-              <p className="text-xs text-slate-400">id: {f.id}</p>
-            </li>
-          ))}
-        </ul>
+        <h2 className="mb-3 text-xl font-semibold">Selected Form</h2>
+        {form ? (
+          <div className="rounded border border-slate-800 bg-slate-950 p-3">
+            <p className="font-medium">{form.title || "(untitled form)"}</p>
+            <p className="text-xs text-slate-400">
+              id: {form.id} · slug: {form.slug} · {form.sections} section(s)
+              {form.isActive ? "" : " · inactive"}
+            </p>
+          </div>
+        ) : (
+          <p className="text-sm text-slate-400">Enter a form ID below to load it.</p>
+        )}
       </section>
 
       <section className="rounded border border-slate-800 bg-slate-900 p-4">
@@ -104,4 +115,3 @@ export default function FormsPage() {
     </main>
   );
 }
-

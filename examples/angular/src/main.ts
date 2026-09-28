@@ -123,7 +123,13 @@ type Page = "blog" | "forms";
                 class="w-full rounded border border-slate-700 bg-slate-950 px-3 py-2"
                 placeholder="Form ID"
                 [(ngModel)]="formId"
+                (ngModelChange)="loadForm()"
               />
+              @if (form(); as f) {
+                <p class="text-sm text-slate-400">
+                  {{ f.title }} — {{ f.sections }} section(s){{ f.isActive ? "" : " (inactive)" }}
+                </p>
+              }
               <input
                 class="w-full rounded border border-slate-700 bg-slate-950 px-3 py-2"
                 placeholder="Email"
@@ -155,7 +161,7 @@ class AppComponent {
   body = "";
   locale = "en";
 
-  forms = signal<FormItem[]>([]);
+  form = signal<FormItem | null>(null);
   formId = "";
   email = "";
 
@@ -171,9 +177,19 @@ class AppComponent {
       error: (e) => this.error.set(e.message),
       complete: () => this.loading.set(false),
     });
-    this.svc.listForms().subscribe({
-      next: (v) => this.forms.set(v),
-      error: (e) => this.error.set(e.message),
+    this.loadForm();
+  }
+
+  // `forms/getAll` only reports a submissions count, with no id or title, so
+  // the form is fetched by id once one is entered.
+  loadForm() {
+    if (!this.formId) {
+      this.form.set(null);
+      return;
+    }
+    this.svc.getForm(this.formId).subscribe({
+      next: (v) => this.form.set(v),
+      error: () => this.form.set(null),
     });
   }
 

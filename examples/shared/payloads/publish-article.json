@@ -1,0 +1,5 @@
+{
+  "_comment": "There is no publish endpoint. Publishing is a field update: PUT /articles/update with isPublished=true. The id is the article's _id.",
+  "id": "000000000000000000000000",
+  "isPublished": true
+}

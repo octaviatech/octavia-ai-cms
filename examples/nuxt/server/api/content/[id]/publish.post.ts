@@ -1,5 +1,6 @@
+import { octaviaSdk } from "../../../utils/octavia";
+
 export default defineEventHandler(async (event) => {
-  const { octaviaSdk } = await import("../../utils/octavia");
-  const id = getRouterParam(event, 'id');
-  return await octaviaSdk.publish(id || "");
+  const id = getRouterParam(event, "id") || "";
+  return await octaviaSdk.publish(id);
 });
