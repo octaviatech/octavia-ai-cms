@@ -6,8 +6,8 @@ readme = "README.md"
 requires-python = ">=3.10"
 license = "ISC"
 authors = [
-  { name = "Nima Janbaz", email = "nimajanbaz@users.noreply.github.com" },
-  { name = "Alex Yaghoubi", email = "alex-yaghoubi@users.noreply.github.com" },
+  { name = "Nima Janbaz", email = "me@nimajanbaz.dev" },
+  { name = "Alex Yaghoubi", email = "me@alexyaghoubi.dev" },
 ]
 keywords = [
   "octavia",
@@ -43,3 +43,6 @@ package-dir = {"" = "src"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+octavia_cms_sdk = ["py.typed"]

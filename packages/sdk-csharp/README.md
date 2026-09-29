@@ -236,13 +236,14 @@ Console.WriteLine(res.Data);
 
 ### Dependency injection
 
-`Client` takes a `ClientConfig`, so you can register it and build the facade yourself:
+`Client` takes a `ClientConfig`, so you can register it and use it directly — the
+facade is only a convenience layer over it:
 
 ```csharp
 services.AddSingleton(_ =>
 {
     var client = new Client(new ClientConfig(CMSConstants.BaseUrl, apiKey));
-    return new CMS(client);
+    return client;
 });
 ```
 
