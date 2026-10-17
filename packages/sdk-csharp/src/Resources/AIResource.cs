@@ -68,6 +68,11 @@ public class AIResource
         return _client.RequestAsync<AiArticleSeoResult>("POST", "/ai/optimizeArticle", query, body);
     }
 
+    public Task<CMSResponse<JsonElement>> AutofillArticleAsync(object body, Dictionary<string, string?>? query = null)
+    {
+        return _client.RequestAsync<JsonElement>("POST", "/ai/autofillArticle", query, body);
+    }
+
     public Task<CMSResponse<JsonElement>> OptimizeArticleStreamAsync(object body, Dictionary<string, string?>? query = null)
     {
         return _client.RequestAsync<JsonElement>("POST", "/ai/optimizeArticle/stream", query, body);
@@ -158,6 +163,16 @@ public class AIResource
         return _client.RequestAsync<JsonElement>("POST", "/ai/run", query, body);
     }
 
+    public Task<CMSResponse<JsonElement>> CreditsRunsAsync(Dictionary<string, string?>? query = null)
+    {
+        return _client.RequestAsync<JsonElement>("GET", "/ai/credits/runs", query, null);
+    }
+
+    public Task<CMSResponse<JsonElement>> EventsStreamAsync(Dictionary<string, string?>? query = null)
+    {
+        return _client.RequestAsync<JsonElement>("GET", "/ai/events/stream", query, null);
+    }
+
     public Task<CMSResponse<JsonElement>> ProposalsPOSTAsync(object body, Dictionary<string, string?>? query = null)
     {
         return _client.RequestAsync<JsonElement>("POST", "/ai/proposals", query, body);
@@ -211,6 +226,21 @@ public class AIResource
     public Task<CMSResponse<JsonElement>> RevisionsArticleIdRevisionIdRestoreAsync(string articleId, string revisionId, Dictionary<string, string?>? query = null)
     {
         return _client.RequestAsync<JsonElement>("POST", "/articles/revisions/" + Uri.EscapeDataString(articleId) + "/" + Uri.EscapeDataString(revisionId) + "/restore", query, null);
+    }
+
+    public Task<CMSResponse<JsonElement>> ReadinessArticleIdAsync(string articleId, Dictionary<string, string?>? query = null)
+    {
+        return _client.RequestAsync<JsonElement>("GET", "/articles/readiness/" + Uri.EscapeDataString(articleId) + "", query, null);
+    }
+
+    public Task<CMSResponse<JsonElement>> TranslationStateArticleIdAsync(string articleId, Dictionary<string, string?>? query = null)
+    {
+        return _client.RequestAsync<JsonElement>("GET", "/articles/translation-state/" + Uri.EscapeDataString(articleId) + "", query, null);
+    }
+
+    public Task<CMSResponse<JsonElement>> TranslationStateArticleIdLocaleCompleteAsync(string articleId, string locale, object body, Dictionary<string, string?>? query = null)
+    {
+        return _client.RequestAsync<JsonElement>("POST", "/articles/translation-state/" + Uri.EscapeDataString(articleId) + "/" + Uri.EscapeDataString(locale) + "/complete", query, body);
     }
 
 }

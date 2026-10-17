@@ -50,6 +50,10 @@ func (r *AIResource) OptimizeArticle(body any, query map[string]any) CMSResponse
     return RequestInto[AiArticleSeoResult](r.client, "POST", "/ai/optimizeArticle", query, body)
 }
 
+func (r *AIResource) AutofillArticle(body any, query map[string]any) CMSResponse[any] {
+    return RequestInto[any](r.client, "POST", "/ai/autofillArticle", query, body)
+}
+
 func (r *AIResource) OptimizeArticleStream(body any, query map[string]any) CMSResponse[any] {
     return RequestInto[any](r.client, "POST", "/ai/optimizeArticle/stream", query, body)
 }
@@ -122,6 +126,14 @@ func (r *AIResource) Run(body any, query map[string]any) CMSResponse[any] {
     return RequestInto[any](r.client, "POST", "/ai/run", query, body)
 }
 
+func (r *AIResource) CreditsRuns(query map[string]any) CMSResponse[any] {
+    return RequestInto[any](r.client, "GET", "/ai/credits/runs", query, nil)
+}
+
+func (r *AIResource) EventsStream(query map[string]any) CMSResponse[any] {
+    return RequestInto[any](r.client, "GET", "/ai/events/stream", query, nil)
+}
+
 func (r *AIResource) ProposalsPOST(body any, query map[string]any) CMSResponse[any] {
     return RequestInto[any](r.client, "POST", "/ai/proposals", query, body)
 }
@@ -164,4 +176,16 @@ func (r *AIResource) RevisionsArticleId(articleId string, query map[string]any) 
 
 func (r *AIResource) RevisionsArticleIdRevisionIdRestore(articleId string, revisionId string, query map[string]any) CMSResponse[any] {
     return RequestInto[any](r.client, "POST", "/articles/revisions/" + url.PathEscape(articleId) + "/" + url.PathEscape(revisionId) + "/restore", query, nil)
+}
+
+func (r *AIResource) ReadinessArticleId(articleId string, query map[string]any) CMSResponse[any] {
+    return RequestInto[any](r.client, "GET", "/articles/readiness/" + url.PathEscape(articleId), query, nil)
+}
+
+func (r *AIResource) TranslationStateArticleId(articleId string, query map[string]any) CMSResponse[any] {
+    return RequestInto[any](r.client, "GET", "/articles/translation-state/" + url.PathEscape(articleId), query, nil)
+}
+
+func (r *AIResource) TranslationStateArticleIdLocaleComplete(articleId string, locale string, body any, query map[string]any) CMSResponse[any] {
+    return RequestInto[any](r.client, "POST", "/articles/translation-state/" + url.PathEscape(articleId) + "/" + url.PathEscape(locale) + "/complete", query, body)
 }

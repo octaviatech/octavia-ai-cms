@@ -150,6 +150,17 @@ export type AIOptimizeArticleResponse = Schemas.Envelope & {
   data?: Schemas.AiArticleSeoResult;
 };
 
+export type AIAutofillArticlePath = {};
+
+export type AIAutofillArticleQuery = {};
+
+export type AIAutofillArticleBody = {
+  articleId: string;
+  includeExisting?: boolean;
+};
+
+export type AIAutofillArticleResponse = unknown;
+
 export type AIOptimizeArticleStreamPath = {};
 
 export type AIOptimizeArticleStreamQuery = {};
@@ -521,6 +532,26 @@ export type AIRunBody = {
 };
 
 export type AIRunResponse = unknown;
+
+export type AICreditsRunsPath = {};
+
+export type AICreditsRunsQuery = {
+  limit?: number;
+};
+
+export type AICreditsRunsBody = undefined;
+
+export type AICreditsRunsResponse = unknown;
+
+export type AIEventsStreamPath = {};
+
+export type AIEventsStreamQuery = {
+  lastId?: string;
+};
+
+export type AIEventsStreamBody = undefined;
+
+export type AIEventsStreamResponse = unknown;
 
 export type AIProposalsPOSTPath = {};
 
@@ -1121,6 +1152,39 @@ export type AIRevisionsArticleIdRevisionIdRestoreQuery = {};
 export type AIRevisionsArticleIdRevisionIdRestoreBody = undefined;
 
 export type AIRevisionsArticleIdRevisionIdRestoreResponse = unknown;
+
+export type AIReadinessArticleIdPath = {
+  articleId: string;
+};
+
+export type AIReadinessArticleIdQuery = {};
+
+export type AIReadinessArticleIdBody = undefined;
+
+export type AIReadinessArticleIdResponse = unknown;
+
+export type AITranslationStateArticleIdPath = {
+  articleId: string;
+};
+
+export type AITranslationStateArticleIdQuery = {};
+
+export type AITranslationStateArticleIdBody = undefined;
+
+export type AITranslationStateArticleIdResponse = unknown;
+
+export type AITranslationStateArticleIdLocaleCompletePath = {
+  articleId: string;
+  locale: string;
+};
+
+export type AITranslationStateArticleIdLocaleCompleteQuery = {};
+
+export type AITranslationStateArticleIdLocaleCompleteBody = {
+  sourceLocale?: string;
+};
+
+export type AITranslationStateArticleIdLocaleCompleteResponse = unknown;
 
 export type AuthorsCreatePath = {};
 

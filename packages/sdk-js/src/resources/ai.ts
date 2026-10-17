@@ -53,6 +53,10 @@ export class AIResource {
     return this.client.request<Ops.AIOptimizeArticleResponse>("POST", `/ai/optimizeArticle`, { ...(options || {}), body });
   }
 
+  autofillArticle(body: Ops.AIAutofillArticleBody, options?: RequestOptions<Ops.AIAutofillArticleQuery>): Promise<Ops.AIAutofillArticleResponse> {
+    return this.client.request<Ops.AIAutofillArticleResponse>("POST", `/ai/autofillArticle`, { ...(options || {}), body });
+  }
+
   optimizeArticleStream(body: Ops.AIOptimizeArticleStreamBody, options?: RequestOptions<Ops.AIOptimizeArticleStreamQuery>): Promise<Ops.AIOptimizeArticleStreamResponse> {
     return this.client.request<Ops.AIOptimizeArticleStreamResponse>("POST", `/ai/optimizeArticle/stream`, { ...(options || {}), body });
   }
@@ -125,6 +129,14 @@ export class AIResource {
     return this.client.request<Ops.AIRunResponse>("POST", `/ai/run`, { ...(options || {}), body });
   }
 
+  creditsRuns(options?: RequestOptions<Ops.AICreditsRunsQuery>): Promise<Ops.AICreditsRunsResponse> {
+    return this.client.request<Ops.AICreditsRunsResponse>("GET", `/ai/credits/runs`, options);
+  }
+
+  eventsStream(options?: RequestOptions<Ops.AIEventsStreamQuery>): Promise<Ops.AIEventsStreamResponse> {
+    return this.client.request<Ops.AIEventsStreamResponse>("GET", `/ai/events/stream`, options);
+  }
+
   proposalsPOST(body: Ops.AIProposalsPOSTBody, options?: RequestOptions<Ops.AIProposalsPOSTQuery>): Promise<Ops.AIProposalsPOSTResponse> {
     return this.client.request<Ops.AIProposalsPOSTResponse>("POST", `/ai/proposals`, { ...(options || {}), body });
   }
@@ -167,6 +179,18 @@ export class AIResource {
 
   revisionsArticleIdRevisionIdRestore(articleId: Ops.AIRevisionsArticleIdRevisionIdRestorePath["articleId"], revisionId: Ops.AIRevisionsArticleIdRevisionIdRestorePath["revisionId"], options?: RequestOptions<Ops.AIRevisionsArticleIdRevisionIdRestoreQuery>): Promise<Ops.AIRevisionsArticleIdRevisionIdRestoreResponse> {
     return this.client.request<Ops.AIRevisionsArticleIdRevisionIdRestoreResponse>("POST", `/articles/revisions/${encodeURIComponent(articleId)}/${encodeURIComponent(revisionId)}/restore`, options);
+  }
+
+  readinessArticleId(articleId: Ops.AIReadinessArticleIdPath["articleId"], options?: RequestOptions<Ops.AIReadinessArticleIdQuery>): Promise<Ops.AIReadinessArticleIdResponse> {
+    return this.client.request<Ops.AIReadinessArticleIdResponse>("GET", `/articles/readiness/${encodeURIComponent(articleId)}`, options);
+  }
+
+  translationStateArticleId(articleId: Ops.AITranslationStateArticleIdPath["articleId"], options?: RequestOptions<Ops.AITranslationStateArticleIdQuery>): Promise<Ops.AITranslationStateArticleIdResponse> {
+    return this.client.request<Ops.AITranslationStateArticleIdResponse>("GET", `/articles/translation-state/${encodeURIComponent(articleId)}`, options);
+  }
+
+  translationStateArticleIdLocaleComplete(articleId: Ops.AITranslationStateArticleIdLocaleCompletePath["articleId"], locale: Ops.AITranslationStateArticleIdLocaleCompletePath["locale"], body: Ops.AITranslationStateArticleIdLocaleCompleteBody, options?: RequestOptions<Ops.AITranslationStateArticleIdLocaleCompleteQuery>): Promise<Ops.AITranslationStateArticleIdLocaleCompleteResponse> {
+    return this.client.request<Ops.AITranslationStateArticleIdLocaleCompleteResponse>("POST", `/articles/translation-state/${encodeURIComponent(articleId)}/${encodeURIComponent(locale)}/complete`, { ...(options || {}), body });
   }
 
 }
