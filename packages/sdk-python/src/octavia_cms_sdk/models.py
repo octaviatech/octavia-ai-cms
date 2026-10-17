@@ -4440,6 +4440,9 @@ class AiArticleTranslation:
     summary: str = None
     content: str = None
     tags: List[str] = None
+    blocks_total: float = None
+    blocks_translated: float = None
+    block_hashes: Dict[str, str] = None
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> "AiArticleTranslation":
@@ -4452,6 +4455,9 @@ class AiArticleTranslation:
             "summary": "summary",
             "content": "content",
             "tags": "tags",
+            "blocksTotal": "blocks_total",
+            "blocksTranslated": "blocks_translated",
+            "blockHashes": "block_hashes",
         }
         out = cls()
         for k, v in data.items():
@@ -4839,6 +4845,74 @@ class ConversationGenerate:
             setattr(out, f, v)
         nested = {
             "article": lambda v: AIConversationArticle.from_dict(v),
+        }
+        for f, fn in nested.items():
+            if getattr(out, f, None) is not None:
+                setattr(out, f, fn(getattr(out, f)))
+        return out
+
+
+@dataclass
+class NeedsAttentionItem:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    code: str = None
+    severity: Literal["high"] | Literal["medium"] | Literal["low"] = None
+    entity_type: Literal["article"] | Literal["comment"] | Literal["form"] | Literal["submission"] | Literal["translation"] = None
+    entity_id: Optional[str] = None
+    article_id: Optional[ObjectId] = None
+    message: str = None
+    count: Optional[float] = None
+    locale: Optional[str] = None
+    fix_action: Optional[str] = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "NeedsAttentionItem":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "code": "code",
+            "severity": "severity",
+            "entityType": "entity_type",
+            "entityId": "entity_id",
+            "articleId": "article_id",
+            "message": "message",
+            "count": "count",
+            "locale": "locale",
+            "fixAction": "fix_action",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        return out
+
+
+@dataclass
+class NeedsAttentionReport:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    generated_at: DateTime = None
+    items: List[NeedsAttentionItem] = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "NeedsAttentionReport":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "generatedAt": "generated_at",
+            "items": "items",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        nested = {
+            "items": lambda v: [NeedsAttentionItem.from_dict(v) for v in v],
         }
         for f, fn in nested.items():
             if getattr(out, f, None) is not None:

@@ -24,6 +24,7 @@ from ..models import (
     AiContentImpactReport,
     CommentOverviewReport,
     DashboardConfigWrapper,
+    NeedsAttentionReport,
 )
 
 if TYPE_CHECKING:
@@ -95,3 +96,6 @@ class ReportsResource:
 
     def dashboardConfigPUT(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> DashboardConfigWrapper:
         return self._client.request_typed(DashboardConfigWrapper, "PUT", "/reports/dashboardConfig", query=query, body=body)
+
+    def needsAttention(self, *, query: Optional[Dict[str, Any]] = None) -> NeedsAttentionReport:
+        return self._client.request_typed(NeedsAttentionReport, "GET", "/reports/needsAttention", query=query, body=None)

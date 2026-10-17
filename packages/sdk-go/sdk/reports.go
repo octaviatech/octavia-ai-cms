@@ -89,3 +89,7 @@ func (r *ReportsResource) DashboardConfigGET(query map[string]any) CMSResponse[D
 func (r *ReportsResource) DashboardConfigPUT(body any, query map[string]any) CMSResponse[DashboardConfigWrapper] {
     return RequestInto[DashboardConfigWrapper](r.client, "PUT", "/reports/dashboardConfig", query, body)
 }
+
+func (r *ReportsResource) NeedsAttention(query map[string]any) CMSResponse[NeedsAttentionReport] {
+    return RequestInto[NeedsAttentionReport](r.client, "GET", "/reports/needsAttention", query, nil)
+}

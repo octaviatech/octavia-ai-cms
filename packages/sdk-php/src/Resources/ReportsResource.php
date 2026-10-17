@@ -205,4 +205,13 @@ class ReportsResource
         return $this->client->request("PUT", "/reports/dashboardConfig", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\DashboardConfigWrapper::class);
     }
 
+    /**
+     * @return \Octavia\CmsSDK\Envelope
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\NeedsAttentionReport>
+     */
+    public function needsAttention(array $options = []): Envelope
+    {
+        return $this->client->request("GET", "/reports/needsAttention", $options, \Octavia\CmsSDK\Types\NeedsAttentionReport::class);
+    }
+
 }

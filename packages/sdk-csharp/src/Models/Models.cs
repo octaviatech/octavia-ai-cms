@@ -278,6 +278,30 @@ public enum ConversationGenerateStatusEnum
     MaxAttemptsReached,
 }
 
+public enum NeedsAttentionItemSeverityEnum
+{
+    [EnumMember(Value = "high")]
+    High,
+    [EnumMember(Value = "medium")]
+    Medium,
+    [EnumMember(Value = "low")]
+    Low,
+}
+
+public enum NeedsAttentionItemEntityTypeEnum
+{
+    [EnumMember(Value = "article")]
+    Article,
+    [EnumMember(Value = "comment")]
+    Comment,
+    [EnumMember(Value = "form")]
+    Form,
+    [EnumMember(Value = "submission")]
+    Submission,
+    [EnumMember(Value = "translation")]
+    Translation,
+}
+
 public record MultilingualStringOrNull
 {
     [JsonExtensionData]
@@ -2697,6 +2721,15 @@ public record AiArticleTranslation
 
     [JsonPropertyName("tags")]
     public string[]? Tags { get; set; } = null;
+
+    [JsonPropertyName("blocksTotal")]
+    public double BlocksTotal { get; set; }
+
+    [JsonPropertyName("blocksTranslated")]
+    public double BlocksTranslated { get; set; }
+
+    [JsonPropertyName("blockHashes")]
+    public Dictionary<string, string>? BlockHashes { get; set; } = null;
 }
 
 public record AiArticleTranslateResult
@@ -2895,6 +2928,45 @@ public record ConversationGenerate
 
     [JsonPropertyName("message")]
     public string? Message { get; set; } = null;
+}
+
+public record NeedsAttentionItem
+{
+    [JsonPropertyName("code")]
+    public string Code { get; set; } = null!;
+
+    [JsonPropertyName("severity")]
+    public NeedsAttentionItemSeverityEnum Severity { get; set; }
+
+    [JsonPropertyName("entityType")]
+    public NeedsAttentionItemEntityTypeEnum EntityType { get; set; }
+
+    [JsonPropertyName("entityId")]
+    public string? EntityId { get; set; } = null;
+
+    [JsonPropertyName("articleId")]
+    public string? ArticleId { get; set; } = null;
+
+    [JsonPropertyName("message")]
+    public string Message { get; set; } = null!;
+
+    [JsonPropertyName("count")]
+    public double? Count { get; set; } = null;
+
+    [JsonPropertyName("locale")]
+    public string? Locale { get; set; } = null;
+
+    [JsonPropertyName("fixAction")]
+    public string? FixAction { get; set; } = null;
+}
+
+public record NeedsAttentionReport
+{
+    [JsonPropertyName("generatedAt")]
+    public System.DateTime GeneratedAt { get; set; }
+
+    [JsonPropertyName("items")]
+    public NeedsAttentionItem[] Items { get; set; } = null!;
 }
 
 public record Envelope

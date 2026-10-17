@@ -7526,6 +7526,12 @@ class AiArticleTranslation
     public $content = null;
     /** @var ?string[] */
     public $tags = null;
+    /** @var ?float */
+    public $blocksTotal = null;
+    /** @var ?float */
+    public $blocksTranslated = null;
+    /** @var ?array<string, string> */
+    public $blockHashes = null;
 
     /**
      * Build from a decoded JSON payload, ignoring unknown keys so a
@@ -7551,6 +7557,15 @@ class AiArticleTranslation
         }
         if (array_key_exists('tags', $data)) {
             $instance->tags = $data['tags'];
+        }
+        if (array_key_exists('blocksTotal', $data)) {
+            $instance->blocksTotal = $data['blocksTotal'];
+        }
+        if (array_key_exists('blocksTranslated', $data)) {
+            $instance->blocksTranslated = $data['blocksTranslated'];
+        }
+        if (array_key_exists('blockHashes', $data)) {
+            $instance->blockHashes = $data['blockHashes'];
         }
 
         return $instance;
@@ -8140,6 +8155,118 @@ class ConversationGenerate
 
         $nested = [
             'article' => static fn (array $v): AIConversationArticle => AIConversationArticle::fromArray($v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class NeedsAttentionItem
+{
+    /** @var string */
+    public $code = null;
+    /** @var 'high' | 'medium' | 'low' */
+    public $severity = null;
+    /** @var 'article' | 'comment' | 'form' | 'submission' | 'translation' */
+    public $entityType = null;
+    /** @var ?string */
+    public $entityId = null;
+    /** @var ?ObjectId */
+    public $articleId = null;
+    /** @var string */
+    public $message = null;
+    /** @var ?float */
+    public $count = null;
+    /** @var ?string */
+    public $locale = null;
+    /** @var ?string */
+    public $fixAction = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('code', $data)) {
+            $instance->code = $data['code'];
+        }
+        if (array_key_exists('severity', $data)) {
+            $instance->severity = $data['severity'];
+        }
+        if (array_key_exists('entityType', $data)) {
+            $instance->entityType = $data['entityType'];
+        }
+        if (array_key_exists('entityId', $data)) {
+            $instance->entityId = $data['entityId'];
+        }
+        if (array_key_exists('articleId', $data)) {
+            $instance->articleId = $data['articleId'];
+        }
+        if (array_key_exists('message', $data)) {
+            $instance->message = $data['message'];
+        }
+        if (array_key_exists('count', $data)) {
+            $instance->count = $data['count'];
+        }
+        if (array_key_exists('locale', $data)) {
+            $instance->locale = $data['locale'];
+        }
+        if (array_key_exists('fixAction', $data)) {
+            $instance->fixAction = $data['fixAction'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class NeedsAttentionReport
+{
+    /** @var DateTime */
+    public $generatedAt = null;
+    /** @var NeedsAttentionItem[] */
+    public $items = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('generatedAt', $data)) {
+            $instance->generatedAt = $data['generatedAt'];
+        }
+        if (array_key_exists('items', $data)) {
+            $instance->items = $data['items'];
+        }
+
+        $nested = [
+            'items' => static fn (array $v): array => array_map(static fn ($x) => NeedsAttentionItem::fromArray($x), $v),
         ];
         foreach ($nested as $field => $convert) {
             if ($instance->{$field} !== null) {

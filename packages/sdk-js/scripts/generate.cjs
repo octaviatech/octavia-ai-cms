@@ -1,10 +1,15 @@
-const fs = require('fs');
+﻿const fs = require('fs');
 const path = require('path');
 
-const root = path.resolve(__dirname, '../..', '..');
-const openapiPath = path.join(root, 'openapi.json');
-const outResourcesDir = path.join(root, 'packages/sdk-js/src/resources');
-const outGeneratedDir = path.join(root, 'packages/sdk-js/src/generated');
+const repoRoot = path.resolve(__dirname, '../..', '..');
+// SDK_OUT_ROOT points at the public SKD repo's packages dir (see
+// scripts/generate-sdks.js); defaults to this repo's packages/ checkout.
+const packagesRoot = process.env.SDK_OUT_ROOT
+  ? path.resolve(process.env.SDK_OUT_ROOT)
+  : path.join(repoRoot, 'packages');
+const openapiPath = path.join(repoRoot, 'openapi.json');
+const outResourcesDir = path.join(packagesRoot, 'sdk-js/src/resources');
+const outGeneratedDir = path.join(packagesRoot, 'sdk-js/src/generated');
 
 const op = JSON.parse(fs.readFileSync(openapiPath, 'utf8'));
 
@@ -144,7 +149,7 @@ const pickSuccessResponse = (responses) => {
 };
 
 // Auth, RBAC and user-account surface is deliberately not part of the public SDK.
-const EXCLUDED_TAGS = new Set(['Users', 'Users - Auth', 'Users - Invites', 'Auth', 'RBAC']);
+const EXCLUDED_TAGS = new Set(['Users', 'Users - Auth', 'Users - Invites', 'Auth', 'RBAC', 'AI Admin']);
 
 const operations = [];
 const multiMethodPaths = new Set();
@@ -343,20 +348,26 @@ fs.writeFileSync(path.join(outResourcesDir, 'registry.ts'), registryLines.join('
 
 // The entry points are hand-written, so a resource added to the spec later gets a
 // file but no way to reach it. Keep their resource lists in sync with the spec.
+//
+// This map must stay identical to the FACADE map in scripts/generate-sdks.js.
+// It previously fell one entry short ('AI' was missing) and special-cased `ai`
+// inline in the emitted block, which made the completeness check below emit a
+// spurious warning on every run and left the two generators able to disagree.
 const FACADE = {
-  'AI Conversation': 'aiConversation', 'Articles': 'article',
+  'AI': 'ai', 'AI Conversation': 'aiConversation', 'Articles': 'article',
   'Authors': 'author', 'Categories': 'category', 'Form Submissions': 'formSubmission',
   'Forms': 'form', 'Languages': 'language', 'Reports': 'report',
   'Subcategories': 'subcategory', 'Tags': 'tag',
 };
-for (const r of resourceNames) if (!FACADE[r.tag]) console.log(`  WARN no facade name for tag "${r.tag}"`);
+const unknownTags = resourceNames.filter((r) => !FACADE[r.tag]).map((r) => r.tag);
+for (const tag of new Set(unknownTags)) console.log(`  WARN no facade name for tag "${tag}"`);
 
 const cmsPath = path.join(outResourcesDir, '..', 'cms.ts');
 if (fs.existsSync(cmsPath)) {
   let t = fs.readFileSync(cmsPath, 'utf8');
   const rest = resourceNames.filter((r) => FACADE[r.tag]);
-  const typeBlock = ['  ai: WrappedResource<OctaviaClient["ai"]>;', ...rest.map((r) => `  ${FACADE[r.tag]}: WrappedResource<OctaviaClient["${toCamel(r.tag)}"]>;`)].join('\n');
-  const assignBlock = ['      ai: wrapResource(client.ai),', ...rest.map((r) => `      ${FACADE[r.tag]}: wrapResource(client.${toCamel(r.tag)}),`)].join('\n');
+  const typeBlock = rest.map((r) => `  ${FACADE[r.tag]}: WrappedResource<OctaviaClient["${toCamel(r.tag)}"]>;`).join('\n');
+  const assignBlock = rest.map((r) => `      ${FACADE[r.tag]}: wrapResource(client.${toCamel(r.tag)}),`).join('\n');
   t = t.replace(/[ \t]*\/\/ @generated resources:begin[\s\S]*?\/\/ @generated resources:end/,
     () => `  // @generated resources:begin\n${typeBlock}\n  // @generated resources:end`);
   t = t.replace(/[ \t]*\/\/ @generated assign:begin[\s\S]*?\/\/ @generated assign:end/,

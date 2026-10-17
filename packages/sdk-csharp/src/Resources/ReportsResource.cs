@@ -118,4 +118,9 @@ public class ReportsResource
         return _client.RequestAsync<DashboardConfigWrapper>("PUT", "/reports/dashboardConfig", query, body);
     }
 
+    public Task<CMSResponse<NeedsAttentionReport>> NeedsAttentionAsync(Dictionary<string, string?>? query = null)
+    {
+        return _client.RequestAsync<NeedsAttentionReport>("GET", "/reports/needsAttention", query, null);
+    }
+
 }

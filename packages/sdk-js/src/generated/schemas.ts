@@ -1348,6 +1348,11 @@ export type AiArticleTranslation = {
   summary?: string;
   content?: string;
   tags?: Array<string>;
+  blocksTotal?: number;
+  blocksTranslated?: number;
+  blockHashes?: {
+  [key: string]: string;
+};
 };
 
 export type AiArticleTranslateResult = {
@@ -1452,6 +1457,23 @@ export type ConversationGenerate = {
   maxAttempts?: number;
   status: "approved" | "needs_improvement" | "max_attempts_reached";
   message?: string;
+};
+
+export type NeedsAttentionItem = {
+  code: string;
+  severity: "high" | "medium" | "low";
+  entityType: "article" | "comment" | "form" | "submission" | "translation";
+  entityId?: string | unknown;
+  articleId?: ObjectId | unknown;
+  message: string;
+  count?: number | unknown;
+  locale?: string | unknown;
+  fixAction?: string | unknown;
+};
+
+export type NeedsAttentionReport = {
+  generatedAt: DateTime;
+  items: Array<NeedsAttentionItem>;
 };
 
 export type Envelope = {

@@ -97,4 +97,8 @@ export class ReportsResource {
     return this.client.request<Ops.ReportsDashboardConfigPUTResponse>("PUT", `/reports/dashboardConfig`, { ...(options || {}), body });
   }
 
+  needsAttention(options?: RequestOptions<Ops.ReportsNeedsAttentionQuery>): Promise<Ops.ReportsNeedsAttentionResponse> {
+    return this.client.request<Ops.ReportsNeedsAttentionResponse>("GET", `/reports/needsAttention`, options);
+  }
+
 }

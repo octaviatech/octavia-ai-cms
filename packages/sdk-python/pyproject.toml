@@ -1,6 +1,6 @@
 [project]
 name = "octavia-cms-sdk"
-version = "0.3.0"
+version = "0.4.0"
 description = "Typed Python client for the Octavia AI CMS API. Manage multilingual articles, forms, submissions, AI automation, social publishing and analytics, with one required x-api-key header and one uniform response shape."
 readme = "README.md"
 requires-python = ">=3.10"

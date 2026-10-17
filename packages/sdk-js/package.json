@@ -1,6 +1,6 @@
 {
   "name": "@octaviatech/cms",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Typed JavaScript/TypeScript client for the Octavia AI CMS API. Manage multilingual articles, forms, submissions, AI automation, social publishing and analytics, with one required x-api-key header and one uniform response shape.",
   "homepage": "https://octaviatech.app",
   "repository": {
@@ -33,8 +33,8 @@
     "build": "npm run clean && tsc -p tsconfig.cjs.json && node scripts/finalize-cjs.mjs && tsc -p tsconfig.json && node scripts/finalize-esm.mjs",
     "build:esm": "tsc -p tsconfig.json && node scripts/finalize-esm.mjs",
     "build:cjs": "tsc -p tsconfig.cjs.json && node scripts/finalize-cjs.mjs",
-    "clean": "rm -rf dist",
-    "generate": "node scripts/generate.js",
+    "clean": "node scripts/clean.cjs",
+    "generate": "node scripts/generate.cjs",
     "pretest": "node -e \"const fs=require('fs'),p=require('path'),d=p.join('node_modules','@octaviatech');fs.mkdirSync(d,{recursive:true});const t=p.join(d,'cms');try{fs.rmSync(t,{recursive:true,force:true})}catch{};fs.symlinkSync(p.resolve('.'),t,'junction')\"",
     "test": "npm run build && node tests/basic.test.cjs && node tests/entrypoints.test.mjs"
   },

@@ -197,6 +197,8 @@ export type AITranslateArticleBody = {
   content?: boolean;
   tags?: boolean;
 };
+  incremental?: boolean;
+  overwriteReviewed?: boolean;
 };
 
 export type AITranslateArticleResponse = Schemas.Envelope & {
@@ -560,10 +562,17 @@ export type AIProposalsPOSTQuery = {};
 export type AIProposalsPOSTBody = {
   articleId: string;
   actionId: string;
-  paths: Array<string>;
-  after: {
+  paths?: Array<string>;
+  after?: {
   [key: string]: unknown;
 };
+  locale?: string;
+  mapPatches?: Array<{
+  path: "galleryAlt";
+  key: string;
+  after: string;
+  lang?: string;
+}>;
 };
 
 export type AIProposalsPOSTResponse = unknown;
@@ -645,7 +654,67 @@ export type AISettingsGETQuery = {};
 
 export type AISettingsGETBody = undefined;
 
-export type AISettingsGETResponse = unknown;
+export type AISettingsGETResponse = Schemas.Envelope & {
+  data?: {
+  brandVoice?: string;
+  glossary?: Array<{
+  term: string;
+  translation: string;
+}>;
+  brandVoiceVersion?: string;
+  autoApply?: boolean;
+  defaultTier?: "fast" | "balanced" | "strong";
+  featureFlags: {
+  copilot?: boolean;
+  autofill?: boolean;
+  inline?: boolean;
+  bulk?: boolean;
+  forms?: boolean;
+  submissions?: boolean;
+  comments?: boolean;
+  calendar?: boolean;
+  seo?: boolean;
+  brandVoice?: boolean;
+  jobs?: boolean;
+};
+  autoApplyPolicy: {
+  copilot?: "never" | "safe" | "always";
+  autofill?: "never" | "safe" | "always";
+  inline?: "never" | "safe" | "always";
+  bulk?: "never" | "safe" | "always";
+  forms?: "never" | "safe" | "always";
+  submissions?: "never" | "safe" | "always";
+  comments?: "never" | "safe" | "always";
+  calendar?: "never" | "safe" | "always";
+  seo?: "never" | "safe" | "always";
+  brandVoice?: "never" | "safe" | "always";
+  jobs?: "never" | "safe" | "always";
+};
+  dailyQuotaPerUser?: number;
+  defaultLocales?: Array<string>;
+  piiMasking: {
+  submissions: boolean;
+  comments: boolean;
+};
+  retentionDays: number;
+  modelTierOverrides?: {
+  [key: string]: "fast" | "balanced" | "strong";
+};
+  brandVoiceProfile?: {
+  tone?: string;
+  audience?: string;
+  readingLevel?: string;
+  do?: Array<string>;
+  dont?: Array<string>;
+  bannedTerms?: Array<string>;
+  examples?: Array<string>;
+  persianRegister?: "formal" | "neutral" | "casual";
+  version?: number;
+};
+  createdAt?: string;
+  updatedAt?: string;
+};
+};
 
 export type AISettingsPUTPath = {};
 
@@ -659,6 +728,52 @@ export type AISettingsPUTBody = {
 }>;
   autoApply?: boolean;
   defaultTier?: "fast" | "balanced" | "strong";
+  featureFlags?: {
+  copilot?: boolean;
+  autofill?: boolean;
+  inline?: boolean;
+  bulk?: boolean;
+  forms?: boolean;
+  submissions?: boolean;
+  comments?: boolean;
+  calendar?: boolean;
+  seo?: boolean;
+  brandVoice?: boolean;
+  jobs?: boolean;
+};
+  autoApplyPolicy?: {
+  copilot?: "never" | "safe" | "always";
+  autofill?: "never" | "safe" | "always";
+  inline?: "never" | "safe" | "always";
+  bulk?: "never" | "safe" | "always";
+  forms?: "never" | "safe" | "always";
+  submissions?: "never" | "safe" | "always";
+  comments?: "never" | "safe" | "always";
+  calendar?: "never" | "safe" | "always";
+  seo?: "never" | "safe" | "always";
+  brandVoice?: "never" | "safe" | "always";
+  jobs?: "never" | "safe" | "always";
+};
+  dailyQuotaPerUser?: number;
+  defaultLocales?: Array<string>;
+  piiMasking?: {
+  submissions?: boolean;
+  comments?: boolean;
+};
+  retentionDays?: number;
+  modelTierOverrides?: {
+  [key: string]: "fast" | "balanced" | "strong";
+};
+  brandVoiceProfile?: {
+  tone?: string;
+  audience?: string;
+  readingLevel?: string;
+  do?: Array<string>;
+  dont?: Array<string>;
+  bannedTerms?: Array<string>;
+  examples?: Array<string>;
+  persianRegister?: "formal" | "neutral" | "casual";
+};
 };
 
 export type AISettingsPUTResponse = unknown;
@@ -680,6 +795,9 @@ export type ArticlesCreateBody = {
   subCategory?: Array<string>;
   author?: string;
   gallery?: Array<string>;
+  galleryAlt?: {
+  [key: string]: string;
+};
   videos?: Array<string>;
   audios?: Array<string>;
   documents?: Array<string>;
@@ -714,6 +832,9 @@ export type ArticlesUpdateBody = {
   subCategory?: Array<string>;
   author?: string;
   gallery?: Array<string>;
+  galleryAlt?: {
+  [key: string]: string;
+};
   videos?: Array<string>;
   audios?: Array<string>;
   documents?: Array<string>;
@@ -765,6 +886,8 @@ export type ArticlesGetAllQuery = {
   subCategory?: string;
   author?: string;
   tags?: string;
+  hasLanguage?: string;
+  missingLanguage?: string;
   sortBy?: "createdAt" | "publishDate";
   sortOrder?: "asc" | "desc";
 };
@@ -1190,6 +1313,9 @@ export type AITranslationStateArticleIdLocaleCompleteQuery = {};
 
 export type AITranslationStateArticleIdLocaleCompleteBody = {
   sourceLocale?: string;
+  blockHashes?: {
+  [key: string]: string;
+};
 };
 
 export type AITranslationStateArticleIdLocaleCompleteResponse = unknown;
@@ -2159,7 +2285,7 @@ export type ReportsDashboardConfigPUTBody = {
   templateId?: string;
   slots?: Array<{
   id?: string;
-  type?: "operationsOverview" | "tenantCapacity" | "contentTrend" | "summaryOverview" | "topArticles" | "reportIntelligence" | "contentSpotlight";
+  type?: "operationsOverview" | "tenantCapacity" | "contentTrend" | "summaryOverview" | "topArticles" | "reportIntelligence" | "contentSpotlight" | "needsAttention";
   enabled?: boolean;
   span?: "half" | "full";
   settings?: {
@@ -2170,6 +2296,16 @@ export type ReportsDashboardConfigPUTBody = {
 
 export type ReportsDashboardConfigPUTResponse = Schemas.Envelope & {
   data?: Schemas.DashboardConfigWrapper;
+};
+
+export type ReportsNeedsAttentionPath = {};
+
+export type ReportsNeedsAttentionQuery = {};
+
+export type ReportsNeedsAttentionBody = undefined;
+
+export type ReportsNeedsAttentionResponse = Schemas.Envelope & {
+  data?: Schemas.NeedsAttentionReport;
 };
 
 export type SubcategoriesCreatePath = {};

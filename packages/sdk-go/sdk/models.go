@@ -1091,6 +1091,9 @@ type AiArticleTranslation struct {
 	Summary string `json:"summary"`
 	Content string `json:"content"`
 	Tags []string `json:"tags"`
+	BlocksTotal float64 `json:"blocksTotal"`
+	BlocksTranslated float64 `json:"blocksTranslated"`
+	BlockHashes map[string]string `json:"blockHashes"`
 }
 
 type AiArticleTranslateResult struct {
@@ -1181,6 +1184,23 @@ type ConversationGenerate struct {
 	MaxAttempts float64 `json:"maxAttempts"`
 	Status string `json:"status"`
 	Message string `json:"message"`
+}
+
+type NeedsAttentionItem struct {
+	Code string `json:"code"`
+	Severity string `json:"severity"`
+	EntityType string `json:"entityType"`
+	EntityID *string `json:"entityId"`
+	ArticleID *string `json:"articleId"`
+	Message string `json:"message"`
+	Count *float64 `json:"count"`
+	Locale *string `json:"locale"`
+	FixAction *string `json:"fixAction"`
+}
+
+type NeedsAttentionReport struct {
+	GeneratedAt string `json:"generatedAt"`
+	Items []NeedsAttentionItem `json:"items"`
 }
 
 type Envelope struct {
