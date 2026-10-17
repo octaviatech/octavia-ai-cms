@@ -569,6 +569,45 @@ class ArticleSeo
 /**
  * Generated from the OpenAPI spec — do not edit by hand.
  */
+class ArticleEngagementOverride
+{
+    /** @var ?bool */
+    public $commentsEnabled = null;
+    /** @var ?bool */
+    public $reactionsEnabled = null;
+    /** @var ?bool */
+    public $autoApproveComments = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('commentsEnabled', $data)) {
+            $instance->commentsEnabled = $data['commentsEnabled'];
+        }
+        if (array_key_exists('reactionsEnabled', $data)) {
+            $instance->reactionsEnabled = $data['reactionsEnabled'];
+        }
+        if (array_key_exists('autoApproveComments', $data)) {
+            $instance->autoApproveComments = $data['autoApproveComments'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
 class Author
 {
     /** @var ObjectId */
@@ -1324,7 +1363,7 @@ class Article
     public $autoSummarize = null;
     /** @var ?'human' | 'ai' | 'mixed' */
     public $contentSource = null;
-    /** @var ?array<string, mixed> */
+    /** @var ?ArticleEngagementOverride */
     public $engagement = null;
     /** @var ?ArticleSeo */
     public $seo = null;
@@ -1454,6 +1493,7 @@ class Article
             'title2' => static fn (array $v): MultilingualString => MultilingualString::fromArray($v),
             'title3' => static fn (array $v): MultilingualString => MultilingualString::fromArray($v),
             'content' => static fn (array $v): MultilingualString => MultilingualString::fromArray($v),
+            'engagement' => static fn (array $v): ArticleEngagementOverride => ArticleEngagementOverride::fromArray($v),
             'seo' => static fn (array $v): ArticleSeo => ArticleSeo::fromArray($v),
         ];
         foreach ($nested as $field => $convert) {

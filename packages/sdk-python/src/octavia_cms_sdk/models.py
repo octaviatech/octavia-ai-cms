@@ -237,6 +237,32 @@ class ArticleSeo:
 
 
 @dataclass
+class ArticleEngagementOverride:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    comments_enabled: bool = None
+    reactions_enabled: bool = None
+    auto_approve_comments: bool = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "ArticleEngagementOverride":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "commentsEnabled": "comments_enabled",
+            "reactionsEnabled": "reactions_enabled",
+            "autoApproveComments": "auto_approve_comments",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        return out
+
+
+@dataclass
 class Author:
     """Generated from the OpenAPI spec — do not edit by hand."""
 
@@ -642,7 +668,7 @@ class Article:
     is_active: bool = None
     auto_summarize: bool = None
     content_source: Literal["human"] | Literal["ai"] | Literal["mixed"] = None
-    engagement: Dict[str, Any] = None
+    engagement: ArticleEngagementOverride = None
     seo: ArticleSeo = None
     created_at: DateTime = None
     updated_at: DateTime = None
@@ -696,6 +722,7 @@ class Article:
                 continue
             setattr(out, f, v)
         nested = {
+            "engagement": lambda v: ArticleEngagementOverride.from_dict(v),
             "seo": lambda v: ArticleSeo.from_dict(v),
         }
         for f, fn in nested.items():

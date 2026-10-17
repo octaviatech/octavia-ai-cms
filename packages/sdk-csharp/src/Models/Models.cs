@@ -392,6 +392,18 @@ public record ArticleSeo
     public SeoPerLanguage? PerLanguage { get; set; } = null;
 }
 
+public record ArticleEngagementOverride
+{
+    [JsonPropertyName("commentsEnabled")]
+    public bool CommentsEnabled { get; set; }
+
+    [JsonPropertyName("reactionsEnabled")]
+    public bool ReactionsEnabled { get; set; }
+
+    [JsonPropertyName("autoApproveComments")]
+    public bool AutoApproveComments { get; set; }
+}
+
 public record Author
 {
     [JsonPropertyName("_id")]
@@ -767,7 +779,7 @@ public record Article
     public ArticleContentSourceEnum? ContentSource { get; set; } = null;
 
     [JsonPropertyName("engagement")]
-    public Dictionary<string, JsonElement>? Engagement { get; set; } = null;
+    public ArticleEngagementOverride? Engagement { get; set; } = null;
 
     [JsonPropertyName("seo")]
     public ArticleSeo? Seo { get; set; } = null;

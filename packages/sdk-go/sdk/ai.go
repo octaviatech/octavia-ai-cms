@@ -1,5 +1,7 @@
 package sdk
 
+import "net/url"
+
 type AIResource struct {
     client *Client
 }
@@ -106,4 +108,60 @@ func (r *AIResource) SocialTelegramPublish(body any, query map[string]any) CMSRe
 
 func (r *AIResource) SocialTwitterPublish(body any, query map[string]any) CMSResponse[SocialPublishResult] {
     return RequestInto[SocialPublishResult](r.client, "POST", "/ai/social/twitter/publish", query, body)
+}
+
+func (r *AIResource) Credits(query map[string]any) CMSResponse[any] {
+    return RequestInto[any](r.client, "GET", "/ai/credits", query, nil)
+}
+
+func (r *AIResource) Estimate(body any, query map[string]any) CMSResponse[any] {
+    return RequestInto[any](r.client, "POST", "/ai/estimate", query, body)
+}
+
+func (r *AIResource) Run(body any, query map[string]any) CMSResponse[any] {
+    return RequestInto[any](r.client, "POST", "/ai/run", query, body)
+}
+
+func (r *AIResource) ProposalsPOST(body any, query map[string]any) CMSResponse[any] {
+    return RequestInto[any](r.client, "POST", "/ai/proposals", query, body)
+}
+
+func (r *AIResource) ProposalsGET(query map[string]any) CMSResponse[any] {
+    return RequestInto[any](r.client, "GET", "/ai/proposals", query, nil)
+}
+
+func (r *AIResource) ProposalsId(id string, query map[string]any) CMSResponse[any] {
+    return RequestInto[any](r.client, "GET", "/ai/proposals/" + url.PathEscape(id), query, nil)
+}
+
+func (r *AIResource) ProposalsIdAccept(id string, query map[string]any) CMSResponse[any] {
+    return RequestInto[any](r.client, "POST", "/ai/proposals/" + url.PathEscape(id) + "/accept", query, nil)
+}
+
+func (r *AIResource) ProposalsIdReject(id string, query map[string]any) CMSResponse[any] {
+    return RequestInto[any](r.client, "POST", "/ai/proposals/" + url.PathEscape(id) + "/reject", query, nil)
+}
+
+func (r *AIResource) ProposalsIdUndo(id string, query map[string]any) CMSResponse[any] {
+    return RequestInto[any](r.client, "POST", "/ai/proposals/" + url.PathEscape(id) + "/undo", query, nil)
+}
+
+func (r *AIResource) ProposalsBulkAccept(body any, query map[string]any) CMSResponse[any] {
+    return RequestInto[any](r.client, "POST", "/ai/proposals/bulk-accept", query, body)
+}
+
+func (r *AIResource) SettingsGET(query map[string]any) CMSResponse[any] {
+    return RequestInto[any](r.client, "GET", "/ai/settings", query, nil)
+}
+
+func (r *AIResource) SettingsPUT(body any, query map[string]any) CMSResponse[any] {
+    return RequestInto[any](r.client, "PUT", "/ai/settings", query, body)
+}
+
+func (r *AIResource) RevisionsArticleId(articleId string, query map[string]any) CMSResponse[any] {
+    return RequestInto[any](r.client, "GET", "/articles/revisions/" + url.PathEscape(articleId), query, nil)
+}
+
+func (r *AIResource) RevisionsArticleIdRevisionIdRestore(articleId string, revisionId string, query map[string]any) CMSResponse[any] {
+    return RequestInto[any](r.client, "POST", "/articles/revisions/" + url.PathEscape(articleId) + "/" + url.PathEscape(revisionId) + "/restore", query, nil)
 }

@@ -62,6 +62,12 @@ type ArticleSeo struct {
 	PerLanguage SeoPerLanguage `json:"perLanguage"`
 }
 
+type ArticleEngagementOverride struct {
+	CommentsEnabled bool `json:"commentsEnabled"`
+	ReactionsEnabled bool `json:"reactionsEnabled"`
+	AutoApproveComments bool `json:"autoApproveComments"`
+}
+
 type Author struct {
 	ID string `json:"_id"`
 	TenantID string `json:"tenantId"`
@@ -207,7 +213,7 @@ type Article struct {
 	IsActive bool `json:"isActive"`
 	AutoSummarize bool `json:"autoSummarize"`
 	ContentSource string `json:"contentSource"`
-	Engagement map[string]any `json:"engagement"`
+	Engagement ArticleEngagementOverride `json:"engagement"`
 	SEO ArticleSeo `json:"seo"`
 	CreatedAt string `json:"createdAt"`
 	UpdatedAt string `json:"updatedAt"`

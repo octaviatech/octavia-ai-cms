@@ -104,3 +104,45 @@ class AIResource:
 
     def socialTwitterPublish(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> SocialPublishResult:
         return self._client.request_typed(SocialPublishResult, "POST", "/ai/social/twitter/publish", query=query, body=body)
+
+    def credits(self, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        return self._client.request_typed(Dict[str, Any], "GET", "/ai/credits", query=query, body=None)
+
+    def estimate(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        return self._client.request_typed(Dict[str, Any], "POST", "/ai/estimate", query=query, body=body)
+
+    def run(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        return self._client.request_typed(Dict[str, Any], "POST", "/ai/run", query=query, body=body)
+
+    def proposalsPOST(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        return self._client.request_typed(Dict[str, Any], "POST", "/ai/proposals", query=query, body=body)
+
+    def proposalsGET(self, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        return self._client.request_typed(Dict[str, Any], "GET", "/ai/proposals", query=query, body=None)
+
+    def proposalsId(self, id, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        return self._client.request_typed(Dict[str, Any], "GET", "/ai/proposals/" + urllib.parse.quote(str(id)), query=query, body=None)
+
+    def proposalsIdAccept(self, id, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        return self._client.request_typed(Dict[str, Any], "POST", "/ai/proposals/" + urllib.parse.quote(str(id)) + "/accept", query=query, body=None)
+
+    def proposalsIdReject(self, id, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        return self._client.request_typed(Dict[str, Any], "POST", "/ai/proposals/" + urllib.parse.quote(str(id)) + "/reject", query=query, body=None)
+
+    def proposalsIdUndo(self, id, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        return self._client.request_typed(Dict[str, Any], "POST", "/ai/proposals/" + urllib.parse.quote(str(id)) + "/undo", query=query, body=None)
+
+    def proposalsBulkAccept(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        return self._client.request_typed(Dict[str, Any], "POST", "/ai/proposals/bulk-accept", query=query, body=body)
+
+    def settingsGET(self, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        return self._client.request_typed(Dict[str, Any], "GET", "/ai/settings", query=query, body=None)
+
+    def settingsPUT(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        return self._client.request_typed(Dict[str, Any], "PUT", "/ai/settings", query=query, body=body)
+
+    def revisionsArticleId(self, articleId, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        return self._client.request_typed(Dict[str, Any], "GET", "/articles/revisions/" + urllib.parse.quote(str(articleId)), query=query, body=None)
+
+    def revisionsArticleIdRevisionIdRestore(self, articleId, revisionId, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        return self._client.request_typed(Dict[str, Any], "POST", "/articles/revisions/" + urllib.parse.quote(str(articleId)) + "/" + urllib.parse.quote(str(revisionId)) + "/restore", query=query, body=None)

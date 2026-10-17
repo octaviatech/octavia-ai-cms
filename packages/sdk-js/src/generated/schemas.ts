@@ -118,6 +118,12 @@ export type ArticleSeo = {
   perLanguage?: SeoPerLanguage;
 };
 
+export type ArticleEngagementOverride = {
+  commentsEnabled?: boolean;
+  reactionsEnabled?: boolean;
+  autoApproveComments?: boolean;
+};
+
 export type Author = {
   _id: ObjectId;
   tenantId?: string;
@@ -275,11 +281,7 @@ export type Article = {
   isActive?: boolean;
   autoSummarize?: boolean;
   contentSource?: "human" | "ai" | "mixed";
-  engagement?: {
-  commentsEnabled?: boolean;
-  reactionsEnabled?: boolean;
-  autoApproveComments?: boolean;
-};
+  engagement?: ArticleEngagementOverride;
   seo?: ArticleSeo;
   createdAt?: DateTime;
   updatedAt?: DateTime;

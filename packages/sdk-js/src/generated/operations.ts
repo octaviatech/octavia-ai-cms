@@ -487,42 +487,169 @@ export type AIConversationConversationRegenerateResponse = Schemas.Envelope & {
   data?: Schemas.AIConversationRegenerate;
 };
 
+export type AICreditsPath = {};
+
+export type AICreditsQuery = {};
+
+export type AICreditsBody = undefined;
+
+export type AICreditsResponse = unknown;
+
+export type AIEstimatePath = {};
+
+export type AIEstimateQuery = {};
+
+export type AIEstimateBody = {
+  actionId: string;
+  args?: {
+  [key: string]: unknown;
+};
+};
+
+export type AIEstimateResponse = unknown;
+
+export type AIRunPath = {};
+
+export type AIRunQuery = {};
+
+export type AIRunBody = {
+  actionId: string;
+  args?: {
+  [key: string]: unknown;
+};
+  runId?: string;
+};
+
+export type AIRunResponse = unknown;
+
+export type AIProposalsPOSTPath = {};
+
+export type AIProposalsPOSTQuery = {};
+
+export type AIProposalsPOSTBody = {
+  articleId: string;
+  actionId: string;
+  paths: Array<string>;
+  after: {
+  [key: string]: unknown;
+};
+};
+
+export type AIProposalsPOSTResponse = unknown;
+
+export type AIProposalsGETPath = {};
+
+export type AIProposalsGETQuery = {
+  articleId?: string;
+  status?: "pending" | "accepted" | "rejected" | "reverted" | "expired";
+  limit?: number;
+  skip?: number;
+};
+
+export type AIProposalsGETBody = undefined;
+
+export type AIProposalsGETResponse = unknown;
+
+export type AIProposalsIdPath = {
+  id: string;
+};
+
+export type AIProposalsIdQuery = {};
+
+export type AIProposalsIdBody = undefined;
+
+export type AIProposalsIdResponse = unknown;
+
+export type AIProposalsIdAcceptPath = {
+  id: string;
+};
+
+export type AIProposalsIdAcceptQuery = {};
+
+export type AIProposalsIdAcceptBody = undefined;
+
+export type AIProposalsIdAcceptResponse = unknown;
+
+export type AIProposalsIdRejectPath = {
+  id: string;
+};
+
+export type AIProposalsIdRejectQuery = {};
+
+export type AIProposalsIdRejectBody = undefined;
+
+export type AIProposalsIdRejectResponse = unknown;
+
+export type AIProposalsIdUndoPath = {
+  id: string;
+};
+
+export type AIProposalsIdUndoQuery = {};
+
+export type AIProposalsIdUndoBody = undefined;
+
+export type AIProposalsIdUndoResponse = unknown;
+
+export type AIProposalsBulkAcceptPath = {};
+
+export type AIProposalsBulkAcceptQuery = {};
+
+export type AIProposalsBulkAcceptBody = {
+  ids: Array<string>;
+};
+
+export type AIProposalsBulkAcceptResponse = unknown;
+
+export type AISettingsGETPath = {};
+
+export type AISettingsGETQuery = {};
+
+export type AISettingsGETBody = undefined;
+
+export type AISettingsGETResponse = unknown;
+
+export type AISettingsPUTPath = {};
+
+export type AISettingsPUTQuery = {};
+
+export type AISettingsPUTBody = {
+  brandVoice?: string;
+  glossary?: Array<{
+  term: string;
+  translation: string;
+}>;
+  autoApply?: boolean;
+  defaultTier?: "fast" | "balanced" | "strong";
+};
+
+export type AISettingsPUTResponse = unknown;
+
 export type ArticlesCreatePath = {};
 
 export type ArticlesCreateQuery = {};
 
 export type ArticlesCreateBody = {
-  mainTitle: {
-  en?: string;
-  es?: string;
-};
-  title2?: {
-  en?: string;
-  es?: string;
-};
-  title3?: {
-  en?: string;
-  es?: string;
-};
+  mainTitle: Schemas.MultilingualString;
+  title2?: Schemas.MultilingualString;
+  title3?: Schemas.MultilingualString;
   slug?: string;
-  summary?: {
-  en?: string;
-  es?: string;
-};
-  content: {
-  en?: string;
-  es?: string;
-};
+  summary?: Schemas.MultilingualString;
+  content: Schemas.MultilingualString;
   thumbnail?: string;
   tags?: Array<string>;
   category: Array<string>;
   subCategory?: Array<string>;
   author?: string;
   gallery?: Array<string>;
+  videos?: Array<string>;
+  audios?: Array<string>;
+  documents?: Array<string>;
+  files?: Array<string>;
   publishDate?: string;
   isPublished?: boolean;
   isPrivate?: boolean;
-  language?: "en" | "es";
+  language?: string;
+  engagement?: Schemas.ArticleEngagementOverride;
   autoSummarize?: boolean;
 };
 
@@ -536,36 +663,26 @@ export type ArticlesUpdateQuery = {};
 
 export type ArticlesUpdateBody = {
   id: string;
-  mainTitle?: {
-  en?: string;
-  es?: string;
-};
-  title2?: {
-  en?: string;
-  es?: string;
-};
-  title3?: {
-  en?: string;
-  es?: string;
-};
+  mainTitle?: Schemas.MultilingualString;
+  title2?: Schemas.MultilingualString;
+  title3?: Schemas.MultilingualString;
   slug?: string;
-  summary?: {
-  en?: string;
-  es?: string;
-};
-  content?: {
-  en?: string;
-  es?: string;
-};
+  summary?: Schemas.MultilingualString;
+  content?: Schemas.MultilingualString;
   thumbnail?: string;
   tags?: Array<string>;
   category?: Array<string>;
   subCategory?: Array<string>;
   author?: string;
   gallery?: Array<string>;
+  videos?: Array<string>;
+  audios?: Array<string>;
+  documents?: Array<string>;
+  files?: Array<string>;
   publishDate?: string;
   isPublished?: boolean;
   isPrivate?: boolean;
+  engagement?: Schemas.ArticleEngagementOverride;
 };
 
 export type ArticlesUpdateResponse = Schemas.Envelope & {
@@ -981,20 +1098,38 @@ export type ArticlesEngagementSettingsPUTResponse = Schemas.Envelope & {
   data?: Schemas.EngagementSettings;
 };
 
+export type AIRevisionsArticleIdPath = {
+  articleId: string;
+};
+
+export type AIRevisionsArticleIdQuery = {
+  locale?: string;
+  limit?: number;
+};
+
+export type AIRevisionsArticleIdBody = undefined;
+
+export type AIRevisionsArticleIdResponse = unknown;
+
+export type AIRevisionsArticleIdRevisionIdRestorePath = {
+  articleId: string;
+  revisionId: string;
+};
+
+export type AIRevisionsArticleIdRevisionIdRestoreQuery = {};
+
+export type AIRevisionsArticleIdRevisionIdRestoreBody = undefined;
+
+export type AIRevisionsArticleIdRevisionIdRestoreResponse = unknown;
+
 export type AuthorsCreatePath = {};
 
 export type AuthorsCreateQuery = {};
 
 export type AuthorsCreateBody = {
-  name: {
-  en?: string;
-  es?: string;
-};
+  name: Schemas.MultilingualString;
   slug: string;
-  bio?: {
-  en?: string;
-  es?: string;
-};
+  bio?: Schemas.MultilingualString;
   avatar?: string;
   email: string;
   isPrivate?: boolean;
@@ -1011,15 +1146,9 @@ export type AuthorsUpdateQuery = {};
 
 export type AuthorsUpdateBody = {
   id: string;
-  name?: {
-  en?: string;
-  es?: string;
-};
+  name?: Schemas.MultilingualString;
   slug?: string;
-  bio?: {
-  en?: string;
-  es?: string;
-};
+  bio?: Schemas.MultilingualString;
   avatar?: string;
   email?: string;
   isPrivate?: boolean;
@@ -1084,16 +1213,10 @@ export type CategoriesCreatePath = {};
 export type CategoriesCreateQuery = {};
 
 export type CategoriesCreateBody = {
-  name: {
-  en?: string;
-  es?: string;
-};
+  name: Schemas.MultilingualString;
   slug: string;
   thumbnail?: string;
-  description?: {
-  en?: string;
-  es?: string;
-};
+  description?: Schemas.MultilingualString;
   isPrivate?: boolean;
   isActive?: boolean;
 };
@@ -1108,15 +1231,9 @@ export type CategoriesUpdateQuery = {};
 
 export type CategoriesUpdateBody = {
   id: string;
-  name?: {
-  en?: string;
-  es?: string;
-};
+  name?: Schemas.MultilingualString;
   slug?: string;
-  description?: {
-  en?: string;
-  es?: string;
-};
+  description?: Schemas.MultilingualString;
   thumbnail?: string;
   isPrivate?: boolean;
   isActive?: boolean;
@@ -1988,16 +2105,10 @@ export type SubcategoriesCreatePath = {};
 export type SubcategoriesCreateQuery = {};
 
 export type SubcategoriesCreateBody = {
-  name: {
-  en?: string;
-  es?: string;
-};
+  name: Schemas.MultilingualString;
   slug?: string;
   categoryId: string;
-  description?: {
-  en?: string;
-  es?: string;
-};
+  description?: Schemas.MultilingualString;
   icon?: string;
   banner?: string;
   order?: number;
@@ -2014,16 +2125,10 @@ export type SubcategoriesUpdateQuery = {};
 
 export type SubcategoriesUpdateBody = {
   id: string;
-  name?: {
-  en?: string;
-  es?: string;
-};
+  name?: Schemas.MultilingualString;
   slug?: string;
   categoryId?: string;
-  description?: {
-  en?: string;
-  es?: string;
-};
+  description?: Schemas.MultilingualString;
   icon?: string;
   banner?: string;
   order?: number;

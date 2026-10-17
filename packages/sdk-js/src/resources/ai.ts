@@ -113,4 +113,60 @@ export class AIResource {
     return this.client.request<Ops.AISocialTwitterPublishResponse>("POST", `/ai/social/twitter/publish`, { ...(options || {}), body });
   }
 
+  credits(options?: RequestOptions<Ops.AICreditsQuery>): Promise<Ops.AICreditsResponse> {
+    return this.client.request<Ops.AICreditsResponse>("GET", `/ai/credits`, options);
+  }
+
+  estimate(body: Ops.AIEstimateBody, options?: RequestOptions<Ops.AIEstimateQuery>): Promise<Ops.AIEstimateResponse> {
+    return this.client.request<Ops.AIEstimateResponse>("POST", `/ai/estimate`, { ...(options || {}), body });
+  }
+
+  run(body: Ops.AIRunBody, options?: RequestOptions<Ops.AIRunQuery>): Promise<Ops.AIRunResponse> {
+    return this.client.request<Ops.AIRunResponse>("POST", `/ai/run`, { ...(options || {}), body });
+  }
+
+  proposalsPOST(body: Ops.AIProposalsPOSTBody, options?: RequestOptions<Ops.AIProposalsPOSTQuery>): Promise<Ops.AIProposalsPOSTResponse> {
+    return this.client.request<Ops.AIProposalsPOSTResponse>("POST", `/ai/proposals`, { ...(options || {}), body });
+  }
+
+  proposalsGET(options?: RequestOptions<Ops.AIProposalsGETQuery>): Promise<Ops.AIProposalsGETResponse> {
+    return this.client.request<Ops.AIProposalsGETResponse>("GET", `/ai/proposals`, options);
+  }
+
+  proposalsId(id: Ops.AIProposalsIdPath["id"], options?: RequestOptions<Ops.AIProposalsIdQuery>): Promise<Ops.AIProposalsIdResponse> {
+    return this.client.request<Ops.AIProposalsIdResponse>("GET", `/ai/proposals/${encodeURIComponent(id)}`, options);
+  }
+
+  proposalsIdAccept(id: Ops.AIProposalsIdAcceptPath["id"], options?: RequestOptions<Ops.AIProposalsIdAcceptQuery>): Promise<Ops.AIProposalsIdAcceptResponse> {
+    return this.client.request<Ops.AIProposalsIdAcceptResponse>("POST", `/ai/proposals/${encodeURIComponent(id)}/accept`, options);
+  }
+
+  proposalsIdReject(id: Ops.AIProposalsIdRejectPath["id"], options?: RequestOptions<Ops.AIProposalsIdRejectQuery>): Promise<Ops.AIProposalsIdRejectResponse> {
+    return this.client.request<Ops.AIProposalsIdRejectResponse>("POST", `/ai/proposals/${encodeURIComponent(id)}/reject`, options);
+  }
+
+  proposalsIdUndo(id: Ops.AIProposalsIdUndoPath["id"], options?: RequestOptions<Ops.AIProposalsIdUndoQuery>): Promise<Ops.AIProposalsIdUndoResponse> {
+    return this.client.request<Ops.AIProposalsIdUndoResponse>("POST", `/ai/proposals/${encodeURIComponent(id)}/undo`, options);
+  }
+
+  proposalsBulkAccept(body: Ops.AIProposalsBulkAcceptBody, options?: RequestOptions<Ops.AIProposalsBulkAcceptQuery>): Promise<Ops.AIProposalsBulkAcceptResponse> {
+    return this.client.request<Ops.AIProposalsBulkAcceptResponse>("POST", `/ai/proposals/bulk-accept`, { ...(options || {}), body });
+  }
+
+  settingsGET(options?: RequestOptions<Ops.AISettingsGETQuery>): Promise<Ops.AISettingsGETResponse> {
+    return this.client.request<Ops.AISettingsGETResponse>("GET", `/ai/settings`, options);
+  }
+
+  settingsPUT(body: Ops.AISettingsPUTBody, options?: RequestOptions<Ops.AISettingsPUTQuery>): Promise<Ops.AISettingsPUTResponse> {
+    return this.client.request<Ops.AISettingsPUTResponse>("PUT", `/ai/settings`, { ...(options || {}), body });
+  }
+
+  revisionsArticleId(articleId: Ops.AIRevisionsArticleIdPath["articleId"], options?: RequestOptions<Ops.AIRevisionsArticleIdQuery>): Promise<Ops.AIRevisionsArticleIdResponse> {
+    return this.client.request<Ops.AIRevisionsArticleIdResponse>("GET", `/articles/revisions/${encodeURIComponent(articleId)}`, options);
+  }
+
+  revisionsArticleIdRevisionIdRestore(articleId: Ops.AIRevisionsArticleIdRevisionIdRestorePath["articleId"], revisionId: Ops.AIRevisionsArticleIdRevisionIdRestorePath["revisionId"], options?: RequestOptions<Ops.AIRevisionsArticleIdRevisionIdRestoreQuery>): Promise<Ops.AIRevisionsArticleIdRevisionIdRestoreResponse> {
+    return this.client.request<Ops.AIRevisionsArticleIdRevisionIdRestoreResponse>("POST", `/articles/revisions/${encodeURIComponent(articleId)}/${encodeURIComponent(revisionId)}/restore`, options);
+  }
+
 }

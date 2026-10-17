@@ -143,4 +143,74 @@ public class AIResource
         return _client.RequestAsync<SocialPublishResult>("POST", "/ai/social/twitter/publish", query, body);
     }
 
+    public Task<CMSResponse<JsonElement>> CreditsAsync(Dictionary<string, string?>? query = null)
+    {
+        return _client.RequestAsync<JsonElement>("GET", "/ai/credits", query, null);
+    }
+
+    public Task<CMSResponse<JsonElement>> EstimateAsync(object body, Dictionary<string, string?>? query = null)
+    {
+        return _client.RequestAsync<JsonElement>("POST", "/ai/estimate", query, body);
+    }
+
+    public Task<CMSResponse<JsonElement>> RunAsync(object body, Dictionary<string, string?>? query = null)
+    {
+        return _client.RequestAsync<JsonElement>("POST", "/ai/run", query, body);
+    }
+
+    public Task<CMSResponse<JsonElement>> ProposalsPOSTAsync(object body, Dictionary<string, string?>? query = null)
+    {
+        return _client.RequestAsync<JsonElement>("POST", "/ai/proposals", query, body);
+    }
+
+    public Task<CMSResponse<JsonElement>> ProposalsGETAsync(Dictionary<string, string?>? query = null)
+    {
+        return _client.RequestAsync<JsonElement>("GET", "/ai/proposals", query, null);
+    }
+
+    public Task<CMSResponse<JsonElement>> ProposalsIdAsync(string id, Dictionary<string, string?>? query = null)
+    {
+        return _client.RequestAsync<JsonElement>("GET", "/ai/proposals/" + Uri.EscapeDataString(id) + "", query, null);
+    }
+
+    public Task<CMSResponse<JsonElement>> ProposalsIdAcceptAsync(string id, Dictionary<string, string?>? query = null)
+    {
+        return _client.RequestAsync<JsonElement>("POST", "/ai/proposals/" + Uri.EscapeDataString(id) + "/accept", query, null);
+    }
+
+    public Task<CMSResponse<JsonElement>> ProposalsIdRejectAsync(string id, Dictionary<string, string?>? query = null)
+    {
+        return _client.RequestAsync<JsonElement>("POST", "/ai/proposals/" + Uri.EscapeDataString(id) + "/reject", query, null);
+    }
+
+    public Task<CMSResponse<JsonElement>> ProposalsIdUndoAsync(string id, Dictionary<string, string?>? query = null)
+    {
+        return _client.RequestAsync<JsonElement>("POST", "/ai/proposals/" + Uri.EscapeDataString(id) + "/undo", query, null);
+    }
+
+    public Task<CMSResponse<JsonElement>> ProposalsBulkAcceptAsync(object body, Dictionary<string, string?>? query = null)
+    {
+        return _client.RequestAsync<JsonElement>("POST", "/ai/proposals/bulk-accept", query, body);
+    }
+
+    public Task<CMSResponse<JsonElement>> SettingsGETAsync(Dictionary<string, string?>? query = null)
+    {
+        return _client.RequestAsync<JsonElement>("GET", "/ai/settings", query, null);
+    }
+
+    public Task<CMSResponse<JsonElement>> SettingsPUTAsync(object body, Dictionary<string, string?>? query = null)
+    {
+        return _client.RequestAsync<JsonElement>("PUT", "/ai/settings", query, body);
+    }
+
+    public Task<CMSResponse<JsonElement>> RevisionsArticleIdAsync(string articleId, Dictionary<string, string?>? query = null)
+    {
+        return _client.RequestAsync<JsonElement>("GET", "/articles/revisions/" + Uri.EscapeDataString(articleId) + "", query, null);
+    }
+
+    public Task<CMSResponse<JsonElement>> RevisionsArticleIdRevisionIdRestoreAsync(string articleId, string revisionId, Dictionary<string, string?>? query = null)
+    {
+        return _client.RequestAsync<JsonElement>("POST", "/articles/revisions/" + Uri.EscapeDataString(articleId) + "/" + Uri.EscapeDataString(revisionId) + "/restore", query, null);
+    }
+
 }
