@@ -581,6 +581,14 @@ export type AIProposalsGETBody = undefined;
 
 export type AIProposalsGETResponse = unknown;
 
+export type AIProposalsCountPath = {};
+
+export type AIProposalsCountQuery = {};
+
+export type AIProposalsCountBody = undefined;
+
+export type AIProposalsCountResponse = unknown;
+
 export type AIProposalsIdPath = {
   id: string;
 };

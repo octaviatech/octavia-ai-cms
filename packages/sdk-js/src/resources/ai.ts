@@ -145,6 +145,10 @@ export class AIResource {
     return this.client.request<Ops.AIProposalsGETResponse>("GET", `/ai/proposals`, options);
   }
 
+  proposalsCount(options?: RequestOptions<Ops.AIProposalsCountQuery>): Promise<Ops.AIProposalsCountResponse> {
+    return this.client.request<Ops.AIProposalsCountResponse>("GET", `/ai/proposals/count`, options);
+  }
+
   proposalsId(id: Ops.AIProposalsIdPath["id"], options?: RequestOptions<Ops.AIProposalsIdQuery>): Promise<Ops.AIProposalsIdResponse> {
     return this.client.request<Ops.AIProposalsIdResponse>("GET", `/ai/proposals/${encodeURIComponent(id)}`, options);
   }

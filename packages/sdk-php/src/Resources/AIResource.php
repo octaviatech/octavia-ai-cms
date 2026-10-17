@@ -326,6 +326,15 @@ class AIResource
      * @return \Octavia\CmsSDK\Envelope
      * @phpstan-return \Octavia\CmsSDK\Envelope<null>
      */
+    public function proposalsCount(array $options = []): Envelope
+    {
+        return $this->client->request("GET", "/ai/proposals/count", $options);
+    }
+
+    /**
+     * @return \Octavia\CmsSDK\Envelope
+     * @phpstan-return \Octavia\CmsSDK\Envelope<null>
+     */
     public function proposalsId($id, array $options = []): Envelope
     {
         return $this->client->request("GET", "/ai/proposals/" . rawurlencode($id) . "", $options);

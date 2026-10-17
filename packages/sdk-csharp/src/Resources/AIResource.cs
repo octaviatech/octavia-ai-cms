@@ -183,6 +183,11 @@ public class AIResource
         return _client.RequestAsync<JsonElement>("GET", "/ai/proposals", query, null);
     }
 
+    public Task<CMSResponse<JsonElement>> ProposalsCountAsync(Dictionary<string, string?>? query = null)
+    {
+        return _client.RequestAsync<JsonElement>("GET", "/ai/proposals/count", query, null);
+    }
+
     public Task<CMSResponse<JsonElement>> ProposalsIdAsync(string id, Dictionary<string, string?>? query = null)
     {
         return _client.RequestAsync<JsonElement>("GET", "/ai/proposals/" + Uri.EscapeDataString(id) + "", query, null);

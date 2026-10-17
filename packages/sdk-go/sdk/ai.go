@@ -142,6 +142,10 @@ func (r *AIResource) ProposalsGET(query map[string]any) CMSResponse[any] {
     return RequestInto[any](r.client, "GET", "/ai/proposals", query, nil)
 }
 
+func (r *AIResource) ProposalsCount(query map[string]any) CMSResponse[any] {
+    return RequestInto[any](r.client, "GET", "/ai/proposals/count", query, nil)
+}
+
 func (r *AIResource) ProposalsId(id string, query map[string]any) CMSResponse[any] {
     return RequestInto[any](r.client, "GET", "/ai/proposals/" + url.PathEscape(id), query, nil)
 }

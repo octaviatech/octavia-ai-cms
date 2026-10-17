@@ -129,6 +129,9 @@ class AIResource:
     def proposalsGET(self, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         return self._client.request_typed(Dict[str, Any], "GET", "/ai/proposals", query=query, body=None)
 
+    def proposalsCount(self, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        return self._client.request_typed(Dict[str, Any], "GET", "/ai/proposals/count", query=query, body=None)
+
     def proposalsId(self, id, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         return self._client.request_typed(Dict[str, Any], "GET", "/ai/proposals/" + urllib.parse.quote(str(id)), query=query, body=None)
 
