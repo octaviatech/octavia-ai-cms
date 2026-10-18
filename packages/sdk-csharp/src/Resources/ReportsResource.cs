@@ -123,4 +123,29 @@ public class ReportsResource
         return _client.RequestAsync<NeedsAttentionReport>("GET", "/reports/needsAttention", query, null);
     }
 
+    public Task<CMSResponse<WeeklyDigestWrapper>> WeeklyDigestAsync(Dictionary<string, string?>? query = null)
+    {
+        return _client.RequestAsync<WeeklyDigestWrapper>("GET", "/reports/weeklyDigest", query, null);
+    }
+
+    public Task<CMSResponse<ReportWrapper>> SeoHealthAsync(Dictionary<string, string?>? query = null)
+    {
+        return _client.RequestAsync<ReportWrapper>("GET", "/reports/seoHealth", query, null);
+    }
+
+    public Task<CMSResponse<ReportWrapper>> TranslationCoverageAsync(Dictionary<string, string?>? query = null)
+    {
+        return _client.RequestAsync<ReportWrapper>("GET", "/reports/translationCoverage", query, null);
+    }
+
+    public Task<CMSResponse<ReportWrapper>> CalendarAdherenceAsync(Dictionary<string, string?>? query = null)
+    {
+        return _client.RequestAsync<ReportWrapper>("GET", "/reports/calendarAdherence", query, null);
+    }
+
+    public Task<CMSResponse<ReportWrapper>> AiAcceptanceAsync(Dictionary<string, string?>? query = null)
+    {
+        return _client.RequestAsync<ReportWrapper>("GET", "/reports/aiAcceptance", query, null);
+    }
+
 }

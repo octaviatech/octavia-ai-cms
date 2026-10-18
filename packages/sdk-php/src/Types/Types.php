@@ -1363,6 +1363,10 @@ class Article
     public $autoSummarize = null;
     /** @var ?'human' | 'ai' | 'mixed' */
     public $contentSource = null;
+    /** @var ?ArticleContentBlocks */
+    public $contentBlocks = null;
+    /** @var ?ArticleDerivedContent[] */
+    public $derivedContent = null;
     /** @var ?ArticleEngagementOverride */
     public $engagement = null;
     /** @var ?ArticleSeo */
@@ -1475,6 +1479,12 @@ class Article
         if (array_key_exists('contentSource', $data)) {
             $instance->contentSource = $data['contentSource'];
         }
+        if (array_key_exists('contentBlocks', $data)) {
+            $instance->contentBlocks = $data['contentBlocks'];
+        }
+        if (array_key_exists('derivedContent', $data)) {
+            $instance->derivedContent = $data['derivedContent'];
+        }
         if (array_key_exists('engagement', $data)) {
             $instance->engagement = $data['engagement'];
         }
@@ -1493,6 +1503,8 @@ class Article
             'title2' => static fn (array $v): MultilingualString => MultilingualString::fromArray($v),
             'title3' => static fn (array $v): MultilingualString => MultilingualString::fromArray($v),
             'content' => static fn (array $v): MultilingualString => MultilingualString::fromArray($v),
+            'contentBlocks' => static fn (array $v): ArticleContentBlocks => ArticleContentBlocks::fromArray($v),
+            'derivedContent' => static fn (array $v): array => array_map(static fn ($x) => ArticleDerivedContent::fromArray($x), $v),
             'engagement' => static fn (array $v): ArticleEngagementOverride => ArticleEngagementOverride::fromArray($v),
             'seo' => static fn (array $v): ArticleSeo => ArticleSeo::fromArray($v),
         ];
@@ -2449,12 +2461,533 @@ class RepurposedOutput
 /**
  * Generated from the OpenAPI spec — do not edit by hand.
  */
+class NewsletterOutput
+{
+    /** @var string */
+    public $subject = null;
+    /** @var ?string */
+    public $preheader = null;
+    /** @var string */
+    public $body = null;
+    /** @var ?string */
+    public $cta = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('subject', $data)) {
+            $instance->subject = $data['subject'];
+        }
+        if (array_key_exists('preheader', $data)) {
+            $instance->preheader = $data['preheader'];
+        }
+        if (array_key_exists('body', $data)) {
+            $instance->body = $data['body'];
+        }
+        if (array_key_exists('cta', $data)) {
+            $instance->cta = $data['cta'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class XThreadOutput
+{
+    /** @var string[] */
+    public $posts = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('posts', $data)) {
+            $instance->posts = $data['posts'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class VideoScene
+{
+    /** @var string */
+    public $title = null;
+    /** @var float */
+    public $durationSec = null;
+    /** @var string */
+    public $narration = null;
+    /** @var ?string */
+    public $bRoll = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('title', $data)) {
+            $instance->title = $data['title'];
+        }
+        if (array_key_exists('durationSec', $data)) {
+            $instance->durationSec = $data['durationSec'];
+        }
+        if (array_key_exists('narration', $data)) {
+            $instance->narration = $data['narration'];
+        }
+        if (array_key_exists('bRoll', $data)) {
+            $instance->bRoll = $data['bRoll'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class VideoScriptOutput
+{
+    /** @var ?string */
+    public $hook = null;
+    /** @var VideoScene[] */
+    public $scenes = null;
+    /** @var ?string */
+    public $outro = null;
+    /** @var float */
+    public $totalSec = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('hook', $data)) {
+            $instance->hook = $data['hook'];
+        }
+        if (array_key_exists('scenes', $data)) {
+            $instance->scenes = $data['scenes'];
+        }
+        if (array_key_exists('outro', $data)) {
+            $instance->outro = $data['outro'];
+        }
+        if (array_key_exists('totalSec', $data)) {
+            $instance->totalSec = $data['totalSec'];
+        }
+
+        $nested = [
+            'scenes' => static fn (array $v): array => array_map(static fn ($x) => VideoScene::fromArray($x), $v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class FaqChannelOutput
+{
+    /** @var array<string, mixed>[] */
+    public $items = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('items', $data)) {
+            $instance->items = $data['items'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class PressReleaseOutput
+{
+    /** @var ?string */
+    public $headline = null;
+    /** @var ?string */
+    public $dateline = null;
+    /** @var ?string */
+    public $lede = null;
+    /** @var ?string[] */
+    public $body = null;
+    /** @var ?string */
+    public $boilerplate = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('headline', $data)) {
+            $instance->headline = $data['headline'];
+        }
+        if (array_key_exists('dateline', $data)) {
+            $instance->dateline = $data['dateline'];
+        }
+        if (array_key_exists('lede', $data)) {
+            $instance->lede = $data['lede'];
+        }
+        if (array_key_exists('body', $data)) {
+            $instance->body = $data['body'];
+        }
+        if (array_key_exists('boilerplate', $data)) {
+            $instance->boilerplate = $data['boilerplate'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class ContentBlockFaqItem
+{
+    /** @var string */
+    public $question = null;
+    /** @var string */
+    public $answer = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('question', $data)) {
+            $instance->question = $data['question'];
+        }
+        if (array_key_exists('answer', $data)) {
+            $instance->answer = $data['answer'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class ContentBlockTakeaway
+{
+    /** @var ?string */
+    public $label = null;
+    /** @var string */
+    public $text = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('label', $data)) {
+            $instance->label = $data['label'];
+        }
+        if (array_key_exists('text', $data)) {
+            $instance->text = $data['text'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class ArticleContentBlocks
+{
+    /** @var ?array<string, ContentBlockFaqItem[]> */
+    public $faq = null;
+    /** @var ?array<string, string> */
+    public $tldr = null;
+    /** @var ?array<string, ContentBlockTakeaway[]> */
+    public $keyTakeaways = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('faq', $data)) {
+            $instance->faq = $data['faq'];
+        }
+        if (array_key_exists('tldr', $data)) {
+            $instance->tldr = $data['tldr'];
+        }
+        if (array_key_exists('keyTakeaways', $data)) {
+            $instance->keyTakeaways = $data['keyTakeaways'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class ArticleDerivedContent
+{
+    /** @var 'newsletter' | 'xThread' | 'videoScript' | 'faq' | 'pressRelease' */
+    public $channel = null;
+    /** @var ?string */
+    public $language = null;
+    /** @var ?string */
+    public $title = null;
+    /** @var string */
+    public $payload = null;
+    /** @var ?string */
+    public $aiGenerationId = null;
+    /** @var ?string */
+    public $scheduledItemId = null;
+    /** @var ?DateTime */
+    public $createdAt = null;
+    /** @var ?DateTime */
+    public $updatedAt = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('channel', $data)) {
+            $instance->channel = $data['channel'];
+        }
+        if (array_key_exists('language', $data)) {
+            $instance->language = $data['language'];
+        }
+        if (array_key_exists('title', $data)) {
+            $instance->title = $data['title'];
+        }
+        if (array_key_exists('payload', $data)) {
+            $instance->payload = $data['payload'];
+        }
+        if (array_key_exists('aiGenerationId', $data)) {
+            $instance->aiGenerationId = $data['aiGenerationId'];
+        }
+        if (array_key_exists('scheduledItemId', $data)) {
+            $instance->scheduledItemId = $data['scheduledItemId'];
+        }
+        if (array_key_exists('createdAt', $data)) {
+            $instance->createdAt = $data['createdAt'];
+        }
+        if (array_key_exists('updatedAt', $data)) {
+            $instance->updatedAt = $data['updatedAt'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class RepurposeChannels
+{
+    /** @var ?NewsletterOutput */
+    public $newsletter = null;
+    /** @var ?XThreadOutput */
+    public $xThread = null;
+    /** @var ?VideoScriptOutput */
+    public $videoScript = null;
+    /** @var ?FaqChannelOutput */
+    public $faq = null;
+    /** @var ?PressReleaseOutput */
+    public $pressRelease = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('newsletter', $data)) {
+            $instance->newsletter = $data['newsletter'];
+        }
+        if (array_key_exists('xThread', $data)) {
+            $instance->xThread = $data['xThread'];
+        }
+        if (array_key_exists('videoScript', $data)) {
+            $instance->videoScript = $data['videoScript'];
+        }
+        if (array_key_exists('faq', $data)) {
+            $instance->faq = $data['faq'];
+        }
+        if (array_key_exists('pressRelease', $data)) {
+            $instance->pressRelease = $data['pressRelease'];
+        }
+
+        $nested = [
+            'newsletter' => static fn (array $v): NewsletterOutput => NewsletterOutput::fromArray($v),
+            'xThread' => static fn (array $v): XThreadOutput => XThreadOutput::fromArray($v),
+            'videoScript' => static fn (array $v): VideoScriptOutput => VideoScriptOutput::fromArray($v),
+            'faq' => static fn (array $v): FaqChannelOutput => FaqChannelOutput::fromArray($v),
+            'pressRelease' => static fn (array $v): PressReleaseOutput => PressReleaseOutput::fromArray($v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class ChannelNote
+{
+    /** @var string */
+    public $channel = null;
+    /** @var string[] */
+    public $notes = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('channel', $data)) {
+            $instance->channel = $data['channel'];
+        }
+        if (array_key_exists('notes', $data)) {
+            $instance->notes = $data['notes'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
 class RepurposeResult
 {
     /** @var ?string */
     public $articleId = null;
     /** @var ?array<string, RepurposedOutput> */
     public $platforms = null;
+    /** @var ?RepurposeChannels */
+    public $channels = null;
+    /** @var ?ChannelNote[] */
+    public $channelNotes = null;
+    /** @var ?string[] */
+    public $derivedContentIds = null;
     /** @var ?string */
     public $aiGenerationId = null;
     /** @var ?Tokens */
@@ -2473,6 +3006,15 @@ class RepurposeResult
         if (array_key_exists('platforms', $data)) {
             $instance->platforms = $data['platforms'];
         }
+        if (array_key_exists('channels', $data)) {
+            $instance->channels = $data['channels'];
+        }
+        if (array_key_exists('channelNotes', $data)) {
+            $instance->channelNotes = $data['channelNotes'];
+        }
+        if (array_key_exists('derivedContentIds', $data)) {
+            $instance->derivedContentIds = $data['derivedContentIds'];
+        }
         if (array_key_exists('aiGenerationId', $data)) {
             $instance->aiGenerationId = $data['aiGenerationId'];
         }
@@ -2481,6 +3023,8 @@ class RepurposeResult
         }
 
         $nested = [
+            'channels' => static fn (array $v): RepurposeChannels => RepurposeChannels::fromArray($v),
+            'channelNotes' => static fn (array $v): array => array_map(static fn ($x) => ChannelNote::fromArray($x), $v),
             'tokens' => static fn (array $v): Tokens => Tokens::fromArray($v),
         ];
         foreach ($nested as $field => $convert) {
@@ -12495,6 +13039,2548 @@ class MediaMissingAlt
 
         $nested = [
             'assets' => static fn (array $v): array => array_map(static fn ($x) => MediaAsset::fromArray($x), $v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class ContentPlanStatus
+{
+    // No declared properties: this component is a list wrapper, whose
+    // payload is reached through the key the server sent it under.
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class ContentPlanLocale
+{
+    /** @var string */
+    public $code = null;
+    /** @var ?float */
+    public $translationDueOffsetDays = null;
+    /** @var ?'pending' | 'in_progress' | 'done' | 'outdated' */
+    public $status = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('code', $data)) {
+            $instance->code = $data['code'];
+        }
+        if (array_key_exists('translationDueOffsetDays', $data)) {
+            $instance->translationDueOffsetDays = $data['translationDueOffsetDays'];
+        }
+        if (array_key_exists('status', $data)) {
+            $instance->status = $data['status'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class ContentPlanItem
+{
+    /** @var ObjectId */
+    public $_id = null;
+    /** @var ?string */
+    public $tenantId = null;
+    /** @var string */
+    public $title = null;
+    /** @var ?string */
+    public $brief = null;
+    /** @var ?string */
+    public $primaryKeyword = null;
+    /** @var ?'informational' | 'navigational' | 'commercial' | 'transactional' | 'null' */
+    public $intent = null;
+    /** @var ?'awareness' | 'consideration' | 'conversion' | 'retention' | 'null' */
+    public $funnelStage = null;
+    /** @var ?ObjectId */
+    public $category = null;
+    /** @var ?ObjectId */
+    public $subCategory = null;
+    /** @var ?ObjectId */
+    public $author = null;
+    /** @var ?ObjectId */
+    public $assignee = null;
+    /** @var ?ObjectId */
+    public $campaign = null;
+    /** @var ContentPlanStatus */
+    public $status = null;
+    /** @var ?'manual' | 'ai' | 'content_gap' | 'reader_comment' | 'form_submission' */
+    public $source = null;
+    /** @var ?string */
+    public $originRef = null;
+    /** @var ?string */
+    public $dueAt = null;
+    /** @var ?string */
+    public $plannedPublishAt = null;
+    /** @var ?string */
+    public $timezone = null;
+    /** @var ?ContentPlanLocale[] */
+    public $locales = null;
+    /** @var ?ObjectId */
+    public $articleId = null;
+    /** @var ?string */
+    public $notes = null;
+    /** @var ?string[] */
+    public $tags = null;
+    /** @var ?ObjectId */
+    public $createdBy = null;
+    /** @var ?bool */
+    public $isDeleted = null;
+    /** @var ?DateTime */
+    public $createdAt = null;
+    /** @var ?DateTime */
+    public $updatedAt = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('_id', $data)) {
+            $instance->_id = $data['_id'];
+        }
+        if (array_key_exists('tenantId', $data)) {
+            $instance->tenantId = $data['tenantId'];
+        }
+        if (array_key_exists('title', $data)) {
+            $instance->title = $data['title'];
+        }
+        if (array_key_exists('brief', $data)) {
+            $instance->brief = $data['brief'];
+        }
+        if (array_key_exists('primaryKeyword', $data)) {
+            $instance->primaryKeyword = $data['primaryKeyword'];
+        }
+        if (array_key_exists('intent', $data)) {
+            $instance->intent = $data['intent'];
+        }
+        if (array_key_exists('funnelStage', $data)) {
+            $instance->funnelStage = $data['funnelStage'];
+        }
+        if (array_key_exists('category', $data)) {
+            $instance->category = $data['category'];
+        }
+        if (array_key_exists('subCategory', $data)) {
+            $instance->subCategory = $data['subCategory'];
+        }
+        if (array_key_exists('author', $data)) {
+            $instance->author = $data['author'];
+        }
+        if (array_key_exists('assignee', $data)) {
+            $instance->assignee = $data['assignee'];
+        }
+        if (array_key_exists('campaign', $data)) {
+            $instance->campaign = $data['campaign'];
+        }
+        if (array_key_exists('status', $data)) {
+            $instance->status = $data['status'];
+        }
+        if (array_key_exists('source', $data)) {
+            $instance->source = $data['source'];
+        }
+        if (array_key_exists('originRef', $data)) {
+            $instance->originRef = $data['originRef'];
+        }
+        if (array_key_exists('dueAt', $data)) {
+            $instance->dueAt = $data['dueAt'];
+        }
+        if (array_key_exists('plannedPublishAt', $data)) {
+            $instance->plannedPublishAt = $data['plannedPublishAt'];
+        }
+        if (array_key_exists('timezone', $data)) {
+            $instance->timezone = $data['timezone'];
+        }
+        if (array_key_exists('locales', $data)) {
+            $instance->locales = $data['locales'];
+        }
+        if (array_key_exists('articleId', $data)) {
+            $instance->articleId = $data['articleId'];
+        }
+        if (array_key_exists('notes', $data)) {
+            $instance->notes = $data['notes'];
+        }
+        if (array_key_exists('tags', $data)) {
+            $instance->tags = $data['tags'];
+        }
+        if (array_key_exists('createdBy', $data)) {
+            $instance->createdBy = $data['createdBy'];
+        }
+        if (array_key_exists('isDeleted', $data)) {
+            $instance->isDeleted = $data['isDeleted'];
+        }
+        if (array_key_exists('createdAt', $data)) {
+            $instance->createdAt = $data['createdAt'];
+        }
+        if (array_key_exists('updatedAt', $data)) {
+            $instance->updatedAt = $data['updatedAt'];
+        }
+
+        $nested = [
+            'locales' => static fn (array $v): array => array_map(static fn ($x) => ContentPlanLocale::fromArray($x), $v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class ContentPlanItemWrapper
+{
+    /** @var ContentPlanItem */
+    public $item = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('item', $data)) {
+            $instance->item = $data['item'];
+        }
+
+        $nested = [
+            'item' => static fn (array $v): ContentPlanItem => ContentPlanItem::fromArray($v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class PlanWarning
+{
+    /** @var 'cadence_exceeded' | 'cadence_under' | 'keyword_collision' | 'author_overload' | 'publish_before_translation' | 'past_due' | 'overdue_publish' */
+    public $code = null;
+    /** @var 'high' | 'medium' | 'low' */
+    public $severity = null;
+    /** @var string[] */
+    public $itemIds = null;
+    /** @var string */
+    public $message = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('code', $data)) {
+            $instance->code = $data['code'];
+        }
+        if (array_key_exists('severity', $data)) {
+            $instance->severity = $data['severity'];
+        }
+        if (array_key_exists('itemIds', $data)) {
+            $instance->itemIds = $data['itemIds'];
+        }
+        if (array_key_exists('message', $data)) {
+            $instance->message = $data['message'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class ContentCadence
+{
+    /** @var ?ObjectId */
+    public $_id = null;
+    /** @var ?'tenant' | 'category' */
+    public $scope = null;
+    /** @var ?ObjectId */
+    public $category = null;
+    /** @var ?float */
+    public $postsPerWeek = null;
+    /** @var ?float[] */
+    public $preferredWeekdays = null;
+    /** @var ?string */
+    public $preferredTime = null;
+    /** @var ?string */
+    public $timezone = null;
+    /** @var ?float[] */
+    public $weekendDays = null;
+    /** @var ?DateTime */
+    public $createdAt = null;
+    /** @var ?DateTime */
+    public $updatedAt = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('_id', $data)) {
+            $instance->_id = $data['_id'];
+        }
+        if (array_key_exists('scope', $data)) {
+            $instance->scope = $data['scope'];
+        }
+        if (array_key_exists('category', $data)) {
+            $instance->category = $data['category'];
+        }
+        if (array_key_exists('postsPerWeek', $data)) {
+            $instance->postsPerWeek = $data['postsPerWeek'];
+        }
+        if (array_key_exists('preferredWeekdays', $data)) {
+            $instance->preferredWeekdays = $data['preferredWeekdays'];
+        }
+        if (array_key_exists('preferredTime', $data)) {
+            $instance->preferredTime = $data['preferredTime'];
+        }
+        if (array_key_exists('timezone', $data)) {
+            $instance->timezone = $data['timezone'];
+        }
+        if (array_key_exists('weekendDays', $data)) {
+            $instance->weekendDays = $data['weekendDays'];
+        }
+        if (array_key_exists('createdAt', $data)) {
+            $instance->createdAt = $data['createdAt'];
+        }
+        if (array_key_exists('updatedAt', $data)) {
+            $instance->updatedAt = $data['updatedAt'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class CadenceWrapper
+{
+    /** @var ?ContentCadence */
+    public $cadence = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('cadence', $data)) {
+            $instance->cadence = $data['cadence'];
+        }
+
+        $nested = [
+            'cadence' => static fn (array $v): ContentCadence => ContentCadence::fromArray($v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class ContentPlanList
+{
+    /** @var ContentPlanItem[] */
+    public $items = null;
+    /** @var PlanWarning[] */
+    public $warnings = null;
+    /** @var ?ContentCadence */
+    public $cadence = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('items', $data)) {
+            $instance->items = $data['items'];
+        }
+        if (array_key_exists('warnings', $data)) {
+            $instance->warnings = $data['warnings'];
+        }
+        if (array_key_exists('cadence', $data)) {
+            $instance->cadence = $data['cadence'];
+        }
+
+        $nested = [
+            'items' => static fn (array $v): array => array_map(static fn ($x) => ContentPlanItem::fromArray($x), $v),
+            'warnings' => static fn (array $v): array => array_map(static fn ($x) => PlanWarning::fromArray($x), $v),
+            'cadence' => static fn (array $v): ContentCadence => ContentCadence::fromArray($v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class StartDraft
+{
+    /** @var ContentPlanItem */
+    public $item = null;
+    /** @var ObjectId */
+    public $articleId = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('item', $data)) {
+            $instance->item = $data['item'];
+        }
+        if (array_key_exists('articleId', $data)) {
+            $instance->articleId = $data['articleId'];
+        }
+
+        $nested = [
+            'item' => static fn (array $v): ContentPlanItem => ContentPlanItem::fromArray($v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class StartDraftWrapper
+{
+    /** @var ?StartDraft */
+    public $null = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('null', $data)) {
+            $instance->null = $data['null'];
+        }
+
+        $nested = [
+            'null' => static fn (array $v): StartDraft => StartDraft::fromArray($v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class ScheduleResult
+{
+    /** @var ContentPlanItem */
+    public $item = null;
+    /** @var bool */
+    public $articleScheduled = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('item', $data)) {
+            $instance->item = $data['item'];
+        }
+        if (array_key_exists('articleScheduled', $data)) {
+            $instance->articleScheduled = $data['articleScheduled'];
+        }
+
+        $nested = [
+            'item' => static fn (array $v): ContentPlanItem => ContentPlanItem::fromArray($v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class ScheduleWrapper
+{
+    /** @var ?ScheduleResult */
+    public $null = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('null', $data)) {
+            $instance->null = $data['null'];
+        }
+
+        $nested = [
+            'null' => static fn (array $v): ScheduleResult => ScheduleResult::fromArray($v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class ContentGap
+{
+    /** @var 'thin_category' | 'missing_locale' | 'stale_content' | 'idle_keyword' */
+    public $code = null;
+    /** @var 'high' | 'medium' | 'low' */
+    public $severity = null;
+    /** @var ?string */
+    public $categoryId = null;
+    /** @var ?string */
+    public $categoryName = null;
+    /** @var ?string */
+    public $locale = null;
+    /** @var string[] */
+    public $articleIds = null;
+    /** @var ?string[] */
+    public $articleTitles = null;
+    /** @var string */
+    public $message = null;
+    /** @var ContentPlanStatus */
+    public $suggestedStatus = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('code', $data)) {
+            $instance->code = $data['code'];
+        }
+        if (array_key_exists('severity', $data)) {
+            $instance->severity = $data['severity'];
+        }
+        if (array_key_exists('categoryId', $data)) {
+            $instance->categoryId = $data['categoryId'];
+        }
+        if (array_key_exists('categoryName', $data)) {
+            $instance->categoryName = $data['categoryName'];
+        }
+        if (array_key_exists('locale', $data)) {
+            $instance->locale = $data['locale'];
+        }
+        if (array_key_exists('articleIds', $data)) {
+            $instance->articleIds = $data['articleIds'];
+        }
+        if (array_key_exists('articleTitles', $data)) {
+            $instance->articleTitles = $data['articleTitles'];
+        }
+        if (array_key_exists('message', $data)) {
+            $instance->message = $data['message'];
+        }
+        if (array_key_exists('suggestedStatus', $data)) {
+            $instance->suggestedStatus = $data['suggestedStatus'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class ContentGapReport
+{
+    /** @var ContentGap[] */
+    public $gaps = null;
+    /** @var array<string, mixed> */
+    public $summary = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('gaps', $data)) {
+            $instance->gaps = $data['gaps'];
+        }
+        if (array_key_exists('summary', $data)) {
+            $instance->summary = $data['summary'];
+        }
+
+        $nested = [
+            'gaps' => static fn (array $v): array => array_map(static fn ($x) => ContentGap::fromArray($x), $v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class CalendarIdea
+{
+    /** @var string */
+    public $title = null;
+    /** @var ?string */
+    public $angle = null;
+    /** @var ?string */
+    public $brief = null;
+    /** @var string */
+    public $primaryKeyword = null;
+    /** @var ?'informational' | 'navigational' | 'commercial' | 'transactional' */
+    public $intent = null;
+    /** @var ?'awareness' | 'consideration' | 'conversion' | 'retention' */
+    public $funnelStage = null;
+    /** @var ?string */
+    public $categoryName = null;
+    /** @var ?array<string, mixed>[] */
+    public $localeVariants = null;
+    /** @var ?string */
+    public $suggestedDate = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('title', $data)) {
+            $instance->title = $data['title'];
+        }
+        if (array_key_exists('angle', $data)) {
+            $instance->angle = $data['angle'];
+        }
+        if (array_key_exists('brief', $data)) {
+            $instance->brief = $data['brief'];
+        }
+        if (array_key_exists('primaryKeyword', $data)) {
+            $instance->primaryKeyword = $data['primaryKeyword'];
+        }
+        if (array_key_exists('intent', $data)) {
+            $instance->intent = $data['intent'];
+        }
+        if (array_key_exists('funnelStage', $data)) {
+            $instance->funnelStage = $data['funnelStage'];
+        }
+        if (array_key_exists('categoryName', $data)) {
+            $instance->categoryName = $data['categoryName'];
+        }
+        if (array_key_exists('localeVariants', $data)) {
+            $instance->localeVariants = $data['localeVariants'];
+        }
+        if (array_key_exists('suggestedDate', $data)) {
+            $instance->suggestedDate = $data['suggestedDate'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class CalendarIdeas
+{
+    /** @var CalendarIdea[] */
+    public $ideas = null;
+    /** @var ?float */
+    public $requested = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('ideas', $data)) {
+            $instance->ideas = $data['ideas'];
+        }
+        if (array_key_exists('requested', $data)) {
+            $instance->requested = $data['requested'];
+        }
+
+        $nested = [
+            'ideas' => static fn (array $v): array => array_map(static fn ($x) => CalendarIdea::fromArray($x), $v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class CalendarPlanEntry
+{
+    /** @var string */
+    public $plannedPublishAt = null;
+    /** @var float */
+    public $weekday = null;
+    /** @var ?string */
+    public $series = null;
+    /** @var ?string */
+    public $workingTitle = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('plannedPublishAt', $data)) {
+            $instance->plannedPublishAt = $data['plannedPublishAt'];
+        }
+        if (array_key_exists('weekday', $data)) {
+            $instance->weekday = $data['weekday'];
+        }
+        if (array_key_exists('series', $data)) {
+            $instance->series = $data['series'];
+        }
+        if (array_key_exists('workingTitle', $data)) {
+            $instance->workingTitle = $data['workingTitle'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class CalendarPeriodPlan
+{
+    /** @var CalendarPlanEntry[] */
+    public $entries = null;
+    /** @var array<string, mixed> */
+    public $cadence = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('entries', $data)) {
+            $instance->entries = $data['entries'];
+        }
+        if (array_key_exists('cadence', $data)) {
+            $instance->cadence = $data['cadence'];
+        }
+
+        $nested = [
+            'entries' => static fn (array $v): array => array_map(static fn ($x) => CalendarPlanEntry::fromArray($x), $v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class CalendarBestTime
+{
+    /** @var array<string, mixed> */
+    public $suggestion = null;
+    /** @var ?float */
+    public $samples = null;
+    /** @var 'weekday_engagement' */
+    public $basis = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('suggestion', $data)) {
+            $instance->suggestion = $data['suggestion'];
+        }
+        if (array_key_exists('samples', $data)) {
+            $instance->samples = $data['samples'];
+        }
+        if (array_key_exists('basis', $data)) {
+            $instance->basis = $data['basis'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class CalendarReschedule
+{
+    /** @var ?array<string, mixed> */
+    public $proposal = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('proposal', $data)) {
+            $instance->proposal = $data['proposal'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class Campaign
+{
+    /** @var ObjectId */
+    public $_id = null;
+    /** @var ?string */
+    public $tenantId = null;
+    /** @var string */
+    public $name = null;
+    /** @var ?string */
+    public $goal = null;
+    /** @var ?string */
+    public $description = null;
+    /** @var ?string */
+    public $startsAt = null;
+    /** @var ?string */
+    public $endsAt = null;
+    /** @var 'planned' | 'active' | 'done' */
+    public $status = null;
+    /** @var ?string */
+    public $color = null;
+    /** @var ?ObjectId */
+    public $createdBy = null;
+    /** @var ?bool */
+    public $isDeleted = null;
+    /** @var ?DateTime */
+    public $createdAt = null;
+    /** @var ?DateTime */
+    public $updatedAt = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('_id', $data)) {
+            $instance->_id = $data['_id'];
+        }
+        if (array_key_exists('tenantId', $data)) {
+            $instance->tenantId = $data['tenantId'];
+        }
+        if (array_key_exists('name', $data)) {
+            $instance->name = $data['name'];
+        }
+        if (array_key_exists('goal', $data)) {
+            $instance->goal = $data['goal'];
+        }
+        if (array_key_exists('description', $data)) {
+            $instance->description = $data['description'];
+        }
+        if (array_key_exists('startsAt', $data)) {
+            $instance->startsAt = $data['startsAt'];
+        }
+        if (array_key_exists('endsAt', $data)) {
+            $instance->endsAt = $data['endsAt'];
+        }
+        if (array_key_exists('status', $data)) {
+            $instance->status = $data['status'];
+        }
+        if (array_key_exists('color', $data)) {
+            $instance->color = $data['color'];
+        }
+        if (array_key_exists('createdBy', $data)) {
+            $instance->createdBy = $data['createdBy'];
+        }
+        if (array_key_exists('isDeleted', $data)) {
+            $instance->isDeleted = $data['isDeleted'];
+        }
+        if (array_key_exists('createdAt', $data)) {
+            $instance->createdAt = $data['createdAt'];
+        }
+        if (array_key_exists('updatedAt', $data)) {
+            $instance->updatedAt = $data['updatedAt'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class CampaignWrapper
+{
+    /** @var Campaign */
+    public $campaign = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('campaign', $data)) {
+            $instance->campaign = $data['campaign'];
+        }
+
+        $nested = [
+            'campaign' => static fn (array $v): Campaign => Campaign::fromArray($v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class CampaignList
+{
+    /** @var Campaign[] */
+    public $campaigns = null;
+    /** @var Pagination */
+    public $pagination = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('campaigns', $data)) {
+            $instance->campaigns = $data['campaigns'];
+        }
+        if (array_key_exists('pagination', $data)) {
+            $instance->pagination = $data['pagination'];
+        }
+
+        $nested = [
+            'campaigns' => static fn (array $v): array => array_map(static fn ($x) => Campaign::fromArray($x), $v),
+            'pagination' => static fn (array $v): Pagination => Pagination::fromArray($v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class DigestAction
+{
+    /** @var 'calendar.overdue' | 'ai.lowAcceptance' | 'calendar.delivery' | 'seo.audit' */
+    public $code = null;
+    /** @var 'high' | 'medium' | 'low' */
+    public $severity = null;
+    /** @var string */
+    public $reason = null;
+    /** @var ?string */
+    public $href = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('code', $data)) {
+            $instance->code = $data['code'];
+        }
+        if (array_key_exists('severity', $data)) {
+            $instance->severity = $data['severity'];
+        }
+        if (array_key_exists('reason', $data)) {
+            $instance->reason = $data['reason'];
+        }
+        if (array_key_exists('href', $data)) {
+            $instance->href = $data['href'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class WeeklyDigest
+{
+    /** @var string */
+    public $weekOf = null;
+    /** @var array<string, mixed> */
+    public $range = null;
+    /** @var array<string, mixed> */
+    public $published = null;
+    /** @var array<string, mixed> */
+    public $ai = null;
+    /** @var DigestAction[] */
+    public $suggestedActions = null;
+    /** @var ?string[] */
+    public $wins = null;
+    /** @var ?string[] */
+    public $issues = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('weekOf', $data)) {
+            $instance->weekOf = $data['weekOf'];
+        }
+        if (array_key_exists('range', $data)) {
+            $instance->range = $data['range'];
+        }
+        if (array_key_exists('published', $data)) {
+            $instance->published = $data['published'];
+        }
+        if (array_key_exists('ai', $data)) {
+            $instance->ai = $data['ai'];
+        }
+        if (array_key_exists('suggestedActions', $data)) {
+            $instance->suggestedActions = $data['suggestedActions'];
+        }
+        if (array_key_exists('wins', $data)) {
+            $instance->wins = $data['wins'];
+        }
+        if (array_key_exists('issues', $data)) {
+            $instance->issues = $data['issues'];
+        }
+
+        $nested = [
+            'suggestedActions' => static fn (array $v): array => array_map(static fn ($x) => DigestAction::fromArray($x), $v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class WeeklyDigestWrapper
+{
+    /** @var WeeklyDigest */
+    public $digest = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('digest', $data)) {
+            $instance->digest = $data['digest'];
+        }
+
+        $nested = [
+            'digest' => static fn (array $v): WeeklyDigest => WeeklyDigest::fromArray($v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class SeoHealthCategoryRow
+{
+    /** @var ?string */
+    public $categoryId = null;
+    /** @var ?string */
+    public $categoryName = null;
+    /** @var float */
+    public $articles = null;
+    /** @var float */
+    public $issues = null;
+    /** @var float */
+    public $healthPercent = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('categoryId', $data)) {
+            $instance->categoryId = $data['categoryId'];
+        }
+        if (array_key_exists('categoryName', $data)) {
+            $instance->categoryName = $data['categoryName'];
+        }
+        if (array_key_exists('articles', $data)) {
+            $instance->articles = $data['articles'];
+        }
+        if (array_key_exists('issues', $data)) {
+            $instance->issues = $data['issues'];
+        }
+        if (array_key_exists('healthPercent', $data)) {
+            $instance->healthPercent = $data['healthPercent'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class SeoHealthReport
+{
+    /** @var ?array<string, mixed> */
+    public $range = null;
+    /** @var float */
+    public $scanned = null;
+    /** @var ?array<string, float> */
+    public $issueCounts = null;
+    /** @var float */
+    public $totalIssues = null;
+    /** @var float */
+    public $healthyPercent = null;
+    /** @var SeoHealthCategoryRow[] */
+    public $byCategory = null;
+    /** @var ?string[] */
+    public $notes = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('range', $data)) {
+            $instance->range = $data['range'];
+        }
+        if (array_key_exists('scanned', $data)) {
+            $instance->scanned = $data['scanned'];
+        }
+        if (array_key_exists('issueCounts', $data)) {
+            $instance->issueCounts = $data['issueCounts'];
+        }
+        if (array_key_exists('totalIssues', $data)) {
+            $instance->totalIssues = $data['totalIssues'];
+        }
+        if (array_key_exists('healthyPercent', $data)) {
+            $instance->healthyPercent = $data['healthyPercent'];
+        }
+        if (array_key_exists('byCategory', $data)) {
+            $instance->byCategory = $data['byCategory'];
+        }
+        if (array_key_exists('notes', $data)) {
+            $instance->notes = $data['notes'];
+        }
+
+        $nested = [
+            'byCategory' => static fn (array $v): array => array_map(static fn ($x) => SeoHealthCategoryRow::fromArray($x), $v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class CalendarAdherenceReport
+{
+    /** @var ?array<string, mixed> */
+    public $range = null;
+    /** @var float */
+    public $planned = null;
+    /** @var float */
+    public $published = null;
+    /** @var ?float */
+    public $publishedOnTime = null;
+    /** @var float */
+    public $deliveryRate = null;
+    /** @var float */
+    public $onTimeRate = null;
+    /** @var ?float */
+    public $medianLeadTimeDays = null;
+    /** @var float */
+    public $overdue = null;
+    /** @var ?array<string, mixed>[] */
+    public $campaigns = null;
+    /** @var ?string[] */
+    public $notes = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('range', $data)) {
+            $instance->range = $data['range'];
+        }
+        if (array_key_exists('planned', $data)) {
+            $instance->planned = $data['planned'];
+        }
+        if (array_key_exists('published', $data)) {
+            $instance->published = $data['published'];
+        }
+        if (array_key_exists('publishedOnTime', $data)) {
+            $instance->publishedOnTime = $data['publishedOnTime'];
+        }
+        if (array_key_exists('deliveryRate', $data)) {
+            $instance->deliveryRate = $data['deliveryRate'];
+        }
+        if (array_key_exists('onTimeRate', $data)) {
+            $instance->onTimeRate = $data['onTimeRate'];
+        }
+        if (array_key_exists('medianLeadTimeDays', $data)) {
+            $instance->medianLeadTimeDays = $data['medianLeadTimeDays'];
+        }
+        if (array_key_exists('overdue', $data)) {
+            $instance->overdue = $data['overdue'];
+        }
+        if (array_key_exists('campaigns', $data)) {
+            $instance->campaigns = $data['campaigns'];
+        }
+        if (array_key_exists('notes', $data)) {
+            $instance->notes = $data['notes'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class AiAcceptanceActionRow
+{
+    /** @var string */
+    public $actionId = null;
+    /** @var float */
+    public $runs = null;
+    /** @var float */
+    public $accepted = null;
+    /** @var ?float */
+    public $acceptanceRate = null;
+    /** @var ?float */
+    public $minutesSaved = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('actionId', $data)) {
+            $instance->actionId = $data['actionId'];
+        }
+        if (array_key_exists('runs', $data)) {
+            $instance->runs = $data['runs'];
+        }
+        if (array_key_exists('accepted', $data)) {
+            $instance->accepted = $data['accepted'];
+        }
+        if (array_key_exists('acceptanceRate', $data)) {
+            $instance->acceptanceRate = $data['acceptanceRate'];
+        }
+        if (array_key_exists('minutesSaved', $data)) {
+            $instance->minutesSaved = $data['minutesSaved'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class AiAcceptanceReport
+{
+    /** @var ?array<string, mixed> */
+    public $range = null;
+    /** @var float */
+    public $total = null;
+    /** @var float */
+    public $accepted = null;
+    /** @var float */
+    public $rejected = null;
+    /** @var float */
+    public $acceptanceRate = null;
+    /** @var ?array<string, mixed> */
+    public $credits = null;
+    /** @var array<string, mixed> */
+    public $timeSaved = null;
+    /** @var ?AiAcceptanceActionRow[] */
+    public $byAction = null;
+    /** @var ?string[] */
+    public $notes = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('range', $data)) {
+            $instance->range = $data['range'];
+        }
+        if (array_key_exists('total', $data)) {
+            $instance->total = $data['total'];
+        }
+        if (array_key_exists('accepted', $data)) {
+            $instance->accepted = $data['accepted'];
+        }
+        if (array_key_exists('rejected', $data)) {
+            $instance->rejected = $data['rejected'];
+        }
+        if (array_key_exists('acceptanceRate', $data)) {
+            $instance->acceptanceRate = $data['acceptanceRate'];
+        }
+        if (array_key_exists('credits', $data)) {
+            $instance->credits = $data['credits'];
+        }
+        if (array_key_exists('timeSaved', $data)) {
+            $instance->timeSaved = $data['timeSaved'];
+        }
+        if (array_key_exists('byAction', $data)) {
+            $instance->byAction = $data['byAction'];
+        }
+        if (array_key_exists('notes', $data)) {
+            $instance->notes = $data['notes'];
+        }
+
+        $nested = [
+            'byAction' => static fn (array $v): array => array_map(static fn ($x) => AiAcceptanceActionRow::fromArray($x), $v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class TranslationCoverageReportV2
+{
+    // No declared properties: this component is a list wrapper, whose
+    // payload is reached through the key the server sent it under.
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class ReportWrapper
+{
+    /** @var ?ReportPayload */
+    public $null = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('null', $data)) {
+            $instance->null = $data['null'];
+        }
+
+        $nested = [
+            'null' => static fn (array $v): ReportPayload => ReportPayload::fromArray($v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class ReportPayload
+{
+    /** @var ?SeoHealthReport | TranslationCoverageReportV2 | CalendarAdherenceReport | AiAcceptanceReport */
+    public $report = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('report', $data)) {
+            $instance->report = $data['report'];
+        }
+
+        $nested = [
+            'report' => static fn (array $v): SeoHealthReport => SeoHealthReport::fromArray($v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class SeoAuditIssue
+{
+    /** @var 'missing_meta_title' | 'missing_meta_description' | 'duplicate_title' | 'thin_content' | 'missing_alt_text' | 'broken_heading_order' | 'orphan_page' | 'missing_keyword' | 'no_traffic' */
+    public $code = null;
+    /** @var 'high' | 'medium' | 'low' */
+    public $severity = null;
+    /** @var ObjectId */
+    public $articleId = null;
+    /** @var ?string */
+    public $title = null;
+    /** @var string */
+    public $message = null;
+    /** @var ?string */
+    public $fixAction = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('code', $data)) {
+            $instance->code = $data['code'];
+        }
+        if (array_key_exists('severity', $data)) {
+            $instance->severity = $data['severity'];
+        }
+        if (array_key_exists('articleId', $data)) {
+            $instance->articleId = $data['articleId'];
+        }
+        if (array_key_exists('title', $data)) {
+            $instance->title = $data['title'];
+        }
+        if (array_key_exists('message', $data)) {
+            $instance->message = $data['message'];
+        }
+        if (array_key_exists('fixAction', $data)) {
+            $instance->fixAction = $data['fixAction'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class SeoAuditReport
+{
+    /** @var SeoAuditIssue[] */
+    public $issues = null;
+    /** @var array<string, float> */
+    public $summary = null;
+    /** @var float */
+    public $scanned = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('issues', $data)) {
+            $instance->issues = $data['issues'];
+        }
+        if (array_key_exists('summary', $data)) {
+            $instance->summary = $data['summary'];
+        }
+        if (array_key_exists('scanned', $data)) {
+            $instance->scanned = $data['scanned'];
+        }
+
+        $nested = [
+            'issues' => static fn (array $v): array => array_map(static fn ($x) => SeoAuditIssue::fromArray($x), $v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class CannibalizationGroup
+{
+    /** @var string */
+    public $keyword = null;
+    /** @var string[] */
+    public $articleIds = null;
+    /** @var ?string[] */
+    public $titles = null;
+    /** @var ObjectId */
+    public $recommendedKeep = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('keyword', $data)) {
+            $instance->keyword = $data['keyword'];
+        }
+        if (array_key_exists('articleIds', $data)) {
+            $instance->articleIds = $data['articleIds'];
+        }
+        if (array_key_exists('titles', $data)) {
+            $instance->titles = $data['titles'];
+        }
+        if (array_key_exists('recommendedKeep', $data)) {
+            $instance->recommendedKeep = $data['recommendedKeep'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class CannibalizationReport
+{
+    /** @var CannibalizationGroup[] */
+    public $groups = null;
+    /** @var array<string, mixed> */
+    public $summary = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('groups', $data)) {
+            $instance->groups = $data['groups'];
+        }
+        if (array_key_exists('summary', $data)) {
+            $instance->summary = $data['summary'];
+        }
+
+        $nested = [
+            'groups' => static fn (array $v): array => array_map(static fn ($x) => CannibalizationGroup::fromArray($x), $v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class RefreshCandidate
+{
+    /** @var ObjectId */
+    public $articleId = null;
+    /** @var ?string */
+    public $title = null;
+    /** @var ?float */
+    public $ageDays = null;
+    /** @var ?float */
+    public $viewsTotal = null;
+    /** @var ?float */
+    public $trendRatio = null;
+    /** @var 'high' | 'medium' | 'low' */
+    public $severity = null;
+    /** @var 'age' | 'declining' | 'no_traffic'[] */
+    public $reasons = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('articleId', $data)) {
+            $instance->articleId = $data['articleId'];
+        }
+        if (array_key_exists('title', $data)) {
+            $instance->title = $data['title'];
+        }
+        if (array_key_exists('ageDays', $data)) {
+            $instance->ageDays = $data['ageDays'];
+        }
+        if (array_key_exists('viewsTotal', $data)) {
+            $instance->viewsTotal = $data['viewsTotal'];
+        }
+        if (array_key_exists('trendRatio', $data)) {
+            $instance->trendRatio = $data['trendRatio'];
+        }
+        if (array_key_exists('severity', $data)) {
+            $instance->severity = $data['severity'];
+        }
+        if (array_key_exists('reasons', $data)) {
+            $instance->reasons = $data['reasons'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class RefreshCandidateReport
+{
+    /** @var RefreshCandidate[] */
+    public $candidates = null;
+    /** @var float */
+    public $scanned = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('candidates', $data)) {
+            $instance->candidates = $data['candidates'];
+        }
+        if (array_key_exists('scanned', $data)) {
+            $instance->scanned = $data['scanned'];
+        }
+
+        $nested = [
+            'candidates' => static fn (array $v): array => array_map(static fn ($x) => RefreshCandidate::fromArray($x), $v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class RefreshPlanItem
+{
+    /** @var ContentPlanItem */
+    public $item = null;
+    /** @var bool */
+    public $linked = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('item', $data)) {
+            $instance->item = $data['item'];
+        }
+        if (array_key_exists('linked', $data)) {
+            $instance->linked = $data['linked'];
+        }
+
+        $nested = [
+            'item' => static fn (array $v): ContentPlanItem => ContentPlanItem::fromArray($v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class RefreshPlanItemWrapper
+{
+    /** @var ?RefreshPlanItem */
+    public $null = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('null', $data)) {
+            $instance->null = $data['null'];
+        }
+
+        $nested = [
+            'null' => static fn (array $v): RefreshPlanItem => RefreshPlanItem::fromArray($v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class HreflangEntry
+{
+    /** @var string */
+    public $locale = null;
+    /** @var string */
+    public $hreflang = null;
+    /** @var string */
+    public $url = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('locale', $data)) {
+            $instance->locale = $data['locale'];
+        }
+        if (array_key_exists('hreflang', $data)) {
+            $instance->hreflang = $data['hreflang'];
+        }
+        if (array_key_exists('url', $data)) {
+            $instance->url = $data['url'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class HreflangGroup
+{
+    /** @var ?ObjectId */
+    public $articleId = null;
+    /** @var string */
+    public $canonical = null;
+    /** @var HreflangEntry[] */
+    public $alternates = null;
+    /** @var ?string */
+    public $xDefault = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('articleId', $data)) {
+            $instance->articleId = $data['articleId'];
+        }
+        if (array_key_exists('canonical', $data)) {
+            $instance->canonical = $data['canonical'];
+        }
+        if (array_key_exists('alternates', $data)) {
+            $instance->alternates = $data['alternates'];
+        }
+        if (array_key_exists('xDefault', $data)) {
+            $instance->xDefault = $data['xDefault'];
+        }
+
+        $nested = [
+            'alternates' => static fn (array $v): array => array_map(static fn ($x) => HreflangEntry::fromArray($x), $v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class HreflangWrapper
+{
+    /** @var HreflangGroup */
+    public $hreflang = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('hreflang', $data)) {
+            $instance->hreflang = $data['hreflang'];
+        }
+
+        $nested = [
+            'hreflang' => static fn (array $v): HreflangGroup => HreflangGroup::fromArray($v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class Redirect
+{
+    /** @var ObjectId */
+    public $_id = null;
+    /** @var ?string */
+    public $tenantId = null;
+    /** @var string */
+    public $fromSlug = null;
+    /** @var string */
+    public $toSlug = null;
+    /** @var ?ObjectId */
+    public $articleId = null;
+    /** @var ?DateTime */
+    public $createdAt = null;
+    /** @var ?DateTime */
+    public $updatedAt = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('_id', $data)) {
+            $instance->_id = $data['_id'];
+        }
+        if (array_key_exists('tenantId', $data)) {
+            $instance->tenantId = $data['tenantId'];
+        }
+        if (array_key_exists('fromSlug', $data)) {
+            $instance->fromSlug = $data['fromSlug'];
+        }
+        if (array_key_exists('toSlug', $data)) {
+            $instance->toSlug = $data['toSlug'];
+        }
+        if (array_key_exists('articleId', $data)) {
+            $instance->articleId = $data['articleId'];
+        }
+        if (array_key_exists('createdAt', $data)) {
+            $instance->createdAt = $data['createdAt'];
+        }
+        if (array_key_exists('updatedAt', $data)) {
+            $instance->updatedAt = $data['updatedAt'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class RedirectList
+{
+    /** @var Redirect[] */
+    public $redirects = null;
+    /** @var Pagination */
+    public $pagination = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('redirects', $data)) {
+            $instance->redirects = $data['redirects'];
+        }
+        if (array_key_exists('pagination', $data)) {
+            $instance->pagination = $data['pagination'];
+        }
+
+        $nested = [
+            'redirects' => static fn (array $v): array => array_map(static fn ($x) => Redirect::fromArray($x), $v),
+            'pagination' => static fn (array $v): Pagination => Pagination::fromArray($v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class TranslationCoverageRow
+{
+    /** @var 'article' | 'category' | 'subcategory' | 'form' */
+    public $entityType = null;
+    /** @var float */
+    public $covered = null;
+    /** @var float */
+    public $total = null;
+    /** @var array<string, float> */
+    public $missingByLocale = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('entityType', $data)) {
+            $instance->entityType = $data['entityType'];
+        }
+        if (array_key_exists('covered', $data)) {
+            $instance->covered = $data['covered'];
+        }
+        if (array_key_exists('total', $data)) {
+            $instance->total = $data['total'];
+        }
+        if (array_key_exists('missingByLocale', $data)) {
+            $instance->missingByLocale = $data['missingByLocale'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class TranslationCoverageReport
+{
+    /** @var string[] */
+    public $locales = null;
+    /** @var TranslationCoverageRow[] */
+    public $rows = null;
+    /** @var float */
+    public $completeness = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('locales', $data)) {
+            $instance->locales = $data['locales'];
+        }
+        if (array_key_exists('rows', $data)) {
+            $instance->rows = $data['rows'];
+        }
+        if (array_key_exists('completeness', $data)) {
+            $instance->completeness = $data['completeness'];
+        }
+
+        $nested = [
+            'rows' => static fn (array $v): array => array_map(static fn ($x) => TranslationCoverageRow::fromArray($x), $v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class ContentTypeProfile
+{
+    /** @var 'blog' | 'case_study' | 'landing' | 'news' */
+    public $type = null;
+    /** @var array<string, mixed> */
+    public $length = null;
+    /** @var array<string, float> */
+    public $weights = null;
+    /** @var ?string[] */
+    public $optionalSignals = null;
+    /** @var ?bool */
+    public $requiresSummary = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('type', $data)) {
+            $instance->type = $data['type'];
+        }
+        if (array_key_exists('length', $data)) {
+            $instance->length = $data['length'];
+        }
+        if (array_key_exists('weights', $data)) {
+            $instance->weights = $data['weights'];
+        }
+        if (array_key_exists('optionalSignals', $data)) {
+            $instance->optionalSignals = $data['optionalSignals'];
+        }
+        if (array_key_exists('requiresSummary', $data)) {
+            $instance->requiresSummary = $data['requiresSummary'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class ContentTypeProfileWrapper
+{
+    /** @var ?ContentTypeProfile */
+    public $profile = null;
+    /** @var ?ContentTypeProfile[] */
+    public $profiles = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('profile', $data)) {
+            $instance->profile = $data['profile'];
+        }
+        if (array_key_exists('profiles', $data)) {
+            $instance->profiles = $data['profiles'];
+        }
+
+        $nested = [
+            'profile' => static fn (array $v): ContentTypeProfile => ContentTypeProfile::fromArray($v),
+            'profiles' => static fn (array $v): array => array_map(static fn ($x) => ContentTypeProfile::fromArray($x), $v),
         ];
         foreach ($nested as $field => $convert) {
             if ($instance->{$field} !== null) {

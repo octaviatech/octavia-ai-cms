@@ -33,12 +33,15 @@ export type CMSInstance = {
   aiConversation: WrappedResource<OctaviaClient["aIConversation"]>;
   article: WrappedResource<OctaviaClient["articles"]>;
   author: WrappedResource<OctaviaClient["authors"]>;
+  campaign: WrappedResource<OctaviaClient["campaigns"]>;
   category: WrappedResource<OctaviaClient["categories"]>;
+  contentPlan: WrappedResource<OctaviaClient["contentPlan"]>;
   form: WrappedResource<OctaviaClient["forms"]>;
   formSubmission: WrappedResource<OctaviaClient["formSubmissions"]>;
   language: WrappedResource<OctaviaClient["languages"]>;
   media: WrappedResource<OctaviaClient["media"]>;
   report: WrappedResource<OctaviaClient["reports"]>;
+  seo: WrappedResource<OctaviaClient["sEOHub"]>;
   subcategory: WrappedResource<OctaviaClient["subcategories"]>;
   tag: WrappedResource<OctaviaClient["tags"]>;
   taxonomy: WrappedResource<OctaviaClient["taxonomy"]>;
@@ -117,12 +120,15 @@ export default class CMS {
       aiConversation: wrapResource(client.aIConversation),
       article: wrapResource(client.articles),
       author: wrapResource(client.authors),
+      campaign: wrapResource(client.campaigns),
       category: wrapResource(client.categories),
+      contentPlan: wrapResource(client.contentPlan),
       form: wrapResource(client.forms),
       formSubmission: wrapResource(client.formSubmissions),
       language: wrapResource(client.languages),
       media: wrapResource(client.media),
       report: wrapResource(client.reports),
+      seo: wrapResource(client.sEOHub),
       subcategory: wrapResource(client.subcategories),
       tag: wrapResource(client.tags),
       taxonomy: wrapResource(client.taxonomy),

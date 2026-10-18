@@ -281,6 +281,8 @@ export type Article = {
   isActive?: boolean;
   autoSummarize?: boolean;
   contentSource?: "human" | "ai" | "mixed";
+  contentBlocks?: ArticleContentBlocks;
+  derivedContent?: Array<ArticleDerivedContent>;
   engagement?: ArticleEngagementOverride;
   seo?: ArticleSeo;
   createdAt?: DateTime;
@@ -516,11 +518,100 @@ export type RepurposedOutput = {
   cta?: string;
 };
 
+export type NewsletterOutput = {
+  subject: string;
+  preheader?: string;
+  body: string;
+  cta?: string;
+};
+
+export type XThreadOutput = {
+  posts: Array<string>;
+};
+
+export type VideoScene = {
+  title: string;
+  durationSec: number;
+  narration: string;
+  bRoll?: string;
+};
+
+export type VideoScriptOutput = {
+  hook?: string;
+  scenes: Array<VideoScene>;
+  outro?: string;
+  totalSec: number;
+};
+
+export type FaqChannelOutput = {
+  items: Array<{
+  question: string;
+  answer: string;
+}>;
+};
+
+export type PressReleaseOutput = {
+  headline?: string;
+  dateline?: string;
+  lede?: string;
+  body?: Array<string>;
+  boilerplate?: string;
+};
+
+export type ContentBlockFaqItem = {
+  question: string;
+  answer: string;
+};
+
+export type ContentBlockTakeaway = {
+  label?: string;
+  text: string;
+};
+
+export type ArticleContentBlocks = {
+  faq?: {
+  [key: string]: Array<ContentBlockFaqItem>;
+};
+  tldr?: {
+  [key: string]: string;
+};
+  keyTakeaways?: {
+  [key: string]: Array<ContentBlockTakeaway>;
+};
+};
+
+export type ArticleDerivedContent = {
+  channel: "newsletter" | "xThread" | "videoScript" | "faq" | "pressRelease";
+  language?: unknown;
+  title?: string;
+  payload: string;
+  aiGenerationId?: unknown;
+  scheduledItemId?: unknown;
+  createdAt?: DateTime;
+  updatedAt?: DateTime;
+};
+
+export type RepurposeChannels = {
+  newsletter?: NewsletterOutput;
+  xThread?: XThreadOutput;
+  videoScript?: VideoScriptOutput;
+  faq?: FaqChannelOutput;
+  pressRelease?: PressReleaseOutput;
+};
+
+export type ChannelNote = {
+  channel: string;
+  notes: Array<string>;
+};
+
 export type RepurposeResult = {
   articleId?: unknown;
   platforms?: {
   [key: string]: RepurposedOutput;
 };
+  channels?: RepurposeChannels;
+  channelNotes?: Array<ChannelNote>;
+  derivedContentIds?: Array<string>;
   aiGenerationId?: string;
   tokens?: Tokens;
 };
@@ -2204,6 +2295,440 @@ export type MediaMissingAlt = {
   assets: Array<MediaAsset>;
   totalMissing: number;
   locale?: string;
+};
+
+export type ContentPlanStatus = "idea" | "planned" | "in_progress" | "in_review" | "scheduled" | "published" | "postponed" | "cancelled";
+
+export type ContentPlanLocale = {
+  code: string;
+  translationDueOffsetDays?: unknown;
+  status?: "pending" | "in_progress" | "done" | "outdated";
+};
+
+export type ContentPlanItem = {
+  _id: ObjectId;
+  tenantId?: string;
+  title: string;
+  brief?: unknown;
+  primaryKeyword?: unknown;
+  intent?: unknown;
+  funnelStage?: unknown;
+  category?: ObjectId | unknown;
+  subCategory?: ObjectId | unknown;
+  author?: ObjectId | unknown;
+  assignee?: ObjectId | unknown;
+  campaign?: ObjectId | unknown;
+  status: ContentPlanStatus;
+  source?: "manual" | "ai" | "content_gap" | "reader_comment" | "form_submission";
+  originRef?: unknown;
+  dueAt?: unknown;
+  plannedPublishAt?: unknown;
+  timezone?: unknown;
+  locales?: Array<ContentPlanLocale>;
+  articleId?: ObjectId | unknown;
+  notes?: unknown;
+  tags?: Array<string>;
+  createdBy?: ObjectId | unknown;
+  isDeleted?: boolean;
+  createdAt?: DateTime;
+  updatedAt?: DateTime;
+};
+
+export type ContentPlanItemWrapper = {
+  item: ContentPlanItem;
+};
+
+export type PlanWarning = {
+  code: "cadence_exceeded" | "cadence_under" | "keyword_collision" | "author_overload" | "publish_before_translation" | "past_due" | "overdue_publish";
+  severity: "high" | "medium" | "low";
+  itemIds: Array<string>;
+  message: string;
+};
+
+export type ContentCadence = {
+  _id?: ObjectId;
+  scope?: "tenant" | "category";
+  category?: ObjectId | unknown;
+  postsPerWeek?: number;
+  preferredWeekdays?: Array<number>;
+  preferredTime?: unknown;
+  timezone?: string;
+  weekendDays?: Array<number>;
+  createdAt?: DateTime;
+  updatedAt?: DateTime;
+};
+
+export type CadenceWrapper = {
+  cadence: ContentCadence | unknown;
+};
+
+export type ContentPlanList = {
+  items: Array<ContentPlanItem>;
+  warnings: Array<PlanWarning>;
+  cadence?: ContentCadence;
+};
+
+export type StartDraft = {
+  item: ContentPlanItem;
+  articleId: ObjectId;
+};
+
+export type StartDraftWrapper = {
+  null?: StartDraft;
+};
+
+export type ScheduleResult = {
+  item: ContentPlanItem;
+  articleScheduled: boolean;
+};
+
+export type ScheduleWrapper = {
+  null?: ScheduleResult;
+};
+
+export type ContentGap = {
+  code: "thin_category" | "missing_locale" | "stale_content" | "idle_keyword";
+  severity: "high" | "medium" | "low";
+  categoryId?: unknown;
+  categoryName?: string;
+  locale?: string;
+  articleIds: Array<string>;
+  articleTitles?: Array<string>;
+  message: string;
+  suggestedStatus: ContentPlanStatus;
+};
+
+export type ContentGapReport = {
+  gaps: Array<ContentGap>;
+  summary: {
+  total?: number;
+  thinCategory?: number;
+  missingLocale?: number;
+  staleContent?: number;
+};
+};
+
+export type CalendarIdea = {
+  title: string;
+  angle?: string;
+  brief?: string;
+  primaryKeyword: string;
+  intent?: "informational" | "navigational" | "commercial" | "transactional";
+  funnelStage?: "awareness" | "consideration" | "conversion" | "retention";
+  categoryName?: string;
+  localeVariants?: Array<{
+  code?: string;
+  title?: string;
+}>;
+  suggestedDate?: unknown;
+};
+
+export type CalendarIdeas = {
+  ideas: Array<CalendarIdea>;
+  requested?: number;
+};
+
+export type CalendarPlanEntry = {
+  plannedPublishAt: string;
+  weekday: number;
+  series?: string;
+  workingTitle?: string;
+};
+
+export type CalendarPeriodPlan = {
+  entries: Array<CalendarPlanEntry>;
+  cadence: {
+  postsPerWeek?: number;
+  preferredWeekdays?: Array<number>;
+  preferredTime?: string;
+  timezone?: string;
+};
+};
+
+export type CalendarBestTime = {
+  suggestion: {
+  weekday: number;
+  time: string;
+  reason: "weekday_traffic" | "cadence_default";
+};
+  samples?: number;
+  basis: "weekday_engagement";
+};
+
+export type CalendarReschedule = {
+  proposal?: unknown;
+};
+
+export type Campaign = {
+  _id: ObjectId;
+  tenantId?: string;
+  name: string;
+  goal?: unknown;
+  description?: unknown;
+  startsAt?: unknown;
+  endsAt?: unknown;
+  status: "planned" | "active" | "done";
+  color?: unknown;
+  createdBy?: ObjectId | unknown;
+  isDeleted?: boolean;
+  createdAt?: DateTime;
+  updatedAt?: DateTime;
+};
+
+export type CampaignWrapper = {
+  campaign: Campaign;
+};
+
+export type CampaignList = {
+  campaigns: Array<Campaign>;
+  pagination: Pagination;
+};
+
+export type DigestAction = {
+  code: "calendar.overdue" | "ai.lowAcceptance" | "calendar.delivery" | "seo.audit";
+  severity: "high" | "medium" | "low";
+  reason: string;
+  href?: string;
+};
+
+export type WeeklyDigest = {
+  weekOf: string;
+  range: {
+  from?: string;
+  to?: string;
+};
+  published: {
+  count?: number;
+  previous?: number;
+  delta?: number;
+};
+  ai: {
+  runs?: number;
+  acceptanceRate?: number;
+  minutesSaved?: number;
+};
+  suggestedActions: Array<DigestAction>;
+  wins?: Array<string>;
+  issues?: Array<string>;
+};
+
+export type WeeklyDigestWrapper = {
+  digest: WeeklyDigest;
+};
+
+export type SeoHealthCategoryRow = {
+  categoryId?: unknown;
+  categoryName?: string;
+  articles: number;
+  issues: number;
+  healthPercent: number;
+};
+
+export type SeoHealthReport = {
+  range?: {
+  from?: string;
+  to?: string;
+};
+  scanned: number;
+  issueCounts?: {
+  [key: string]: number;
+};
+  totalIssues: number;
+  healthyPercent: number;
+  byCategory: Array<SeoHealthCategoryRow>;
+  notes?: Array<string>;
+};
+
+export type CalendarAdherenceReport = {
+  range?: {
+  from?: string;
+  to?: string;
+};
+  planned: number;
+  published: number;
+  publishedOnTime?: number;
+  deliveryRate: number;
+  onTimeRate: number;
+  medianLeadTimeDays?: unknown;
+  overdue: number;
+  campaigns?: Array<{
+  campaignId?: ObjectId;
+  name?: string;
+  planned?: number;
+  published?: number;
+  deliveryRate?: number;
+}>;
+  notes?: Array<string>;
+};
+
+export type AiAcceptanceActionRow = {
+  actionId: string;
+  runs: number;
+  accepted: number;
+  acceptanceRate?: number;
+  minutesSaved?: number;
+};
+
+export type AiAcceptanceReport = {
+  range?: {
+  from?: string;
+  to?: string;
+};
+  total: number;
+  accepted: number;
+  rejected: number;
+  acceptanceRate: number;
+  credits?: {
+  total?: number;
+  accepted?: number;
+};
+  timeSaved: {
+  estimatedMinutes: number;
+  basis?: {
+  [key: string]: number;
+};
+  note: string;
+};
+  byAction?: Array<AiAcceptanceActionRow>;
+  notes?: Array<string>;
+};
+
+export type TranslationCoverageReportV2 = TranslationCoverageReport & {
+  missingArticles?: Array<{
+  articleId?: string;
+  locale?: string;
+  title?: string;
+}>;
+};
+
+export type ReportWrapper = {
+  null?: ReportPayload;
+};
+
+export type ReportPayload = {
+  report?: SeoHealthReport | TranslationCoverageReportV2 | CalendarAdherenceReport | AiAcceptanceReport;
+};
+
+export type SeoAuditIssue = {
+  code: "missing_meta_title" | "missing_meta_description" | "duplicate_title" | "thin_content" | "missing_alt_text" | "broken_heading_order" | "orphan_page" | "missing_keyword" | "no_traffic";
+  severity: "high" | "medium" | "low";
+  articleId: ObjectId;
+  title?: string;
+  message: string;
+  fixAction?: string | unknown;
+};
+
+export type SeoAuditReport = {
+  issues: Array<SeoAuditIssue>;
+  summary: {
+  [key: string]: number;
+};
+  scanned: number;
+};
+
+export type CannibalizationGroup = {
+  keyword: string;
+  articleIds: Array<string>;
+  titles?: Array<string>;
+  recommendedKeep: ObjectId;
+};
+
+export type CannibalizationReport = {
+  groups: Array<CannibalizationGroup>;
+  summary: {
+  total?: number;
+  articlesInvolved?: number;
+};
+};
+
+export type RefreshCandidate = {
+  articleId: ObjectId;
+  title?: string;
+  ageDays?: number;
+  viewsTotal?: number;
+  trendRatio?: unknown;
+  severity: "high" | "medium" | "low";
+  reasons: Array<"age" | "declining" | "no_traffic">;
+};
+
+export type RefreshCandidateReport = {
+  candidates: Array<RefreshCandidate>;
+  scanned: number;
+};
+
+export type RefreshPlanItem = {
+  item: ContentPlanItem;
+  linked: boolean;
+};
+
+export type RefreshPlanItemWrapper = {
+  null?: RefreshPlanItem;
+};
+
+export type HreflangEntry = {
+  locale: string;
+  hreflang: string;
+  url: string;
+};
+
+export type HreflangGroup = {
+  articleId?: ObjectId;
+  canonical: string;
+  alternates: Array<HreflangEntry>;
+  xDefault?: string | unknown;
+};
+
+export type HreflangWrapper = {
+  hreflang: HreflangGroup;
+};
+
+export type Redirect = {
+  _id: ObjectId;
+  tenantId?: string;
+  fromSlug: string;
+  toSlug: string;
+  articleId?: ObjectId;
+  createdAt?: DateTime;
+  updatedAt?: DateTime;
+};
+
+export type RedirectList = {
+  redirects: Array<Redirect>;
+  pagination: Pagination;
+};
+
+export type TranslationCoverageRow = {
+  entityType: "article" | "category" | "subcategory" | "form";
+  covered: number;
+  total: number;
+  missingByLocale: {
+  [key: string]: number;
+};
+};
+
+export type TranslationCoverageReport = {
+  locales: Array<string>;
+  rows: Array<TranslationCoverageRow>;
+  completeness: number;
+};
+
+export type ContentTypeProfile = {
+  type: "blog" | "case_study" | "landing" | "news";
+  length: {
+  min?: number;
+  comfortable?: number;
+  max?: number;
+};
+  weights: {
+  [key: string]: number;
+};
+  optionalSignals?: Array<string>;
+  requiresSummary?: boolean;
+};
+
+export type ContentTypeProfileWrapper = {
+  profile?: ContentTypeProfile;
+  profiles?: Array<ContentTypeProfile>;
 };
 
 export type Envelope = {

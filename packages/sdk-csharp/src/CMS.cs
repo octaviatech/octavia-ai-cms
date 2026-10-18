@@ -23,12 +23,15 @@ public sealed class CMS
     public AIConversationResource AIConversation { get; }
     public ArticlesResource Article { get; }
     public AuthorsResource Author { get; }
+    public CampaignsResource Campaign { get; }
     public CategoriesResource Category { get; }
+    public ContentPlanResource ContentPlan { get; }
     public FormsResource Form { get; }
     public FormSubmissionsResource FormSubmission { get; }
     public LanguagesResource Language { get; }
     public MediaResource Media { get; }
     public ReportsResource Report { get; }
+    public SEOHubResource Seo { get; }
     public SubcategoriesResource Subcategory { get; }
     public TagsResource Tag { get; }
     public TaxonomyResource Taxonomy { get; }
@@ -42,12 +45,15 @@ public sealed class CMS
         AIConversation = client.AIConversation;
         Article = client.Articles;
         Author = client.Authors;
+        Campaign = client.Campaigns;
         Category = client.Categories;
+        ContentPlan = client.ContentPlan;
         Form = client.Forms;
         FormSubmission = client.FormSubmissions;
         Language = client.Languages;
         Media = client.Media;
         Report = client.Reports;
+        Seo = client.SEOHub;
         Subcategory = client.Subcategories;
         Tag = client.Tags;
         Taxonomy = client.Taxonomy;

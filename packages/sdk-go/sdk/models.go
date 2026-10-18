@@ -213,6 +213,8 @@ type Article struct {
 	IsActive bool `json:"isActive"`
 	AutoSummarize bool `json:"autoSummarize"`
 	ContentSource string `json:"contentSource"`
+	ContentBlocks ArticleContentBlocks `json:"contentBlocks"`
+	DerivedContent []ArticleDerivedContent `json:"derivedContent"`
 	Engagement ArticleEngagementOverride `json:"engagement"`
 	SEO ArticleSeo `json:"seo"`
 	CreatedAt string `json:"createdAt"`
@@ -373,9 +375,89 @@ type RepurposedOutput struct {
 	Cta string `json:"cta"`
 }
 
+type NewsletterOutput struct {
+	Subject string `json:"subject"`
+	Preheader string `json:"preheader"`
+	Body string `json:"body"`
+	Cta string `json:"cta"`
+}
+
+type XThreadOutput struct {
+	Posts []string `json:"posts"`
+}
+
+type VideoScene struct {
+	Title string `json:"title"`
+	DurationSec float64 `json:"durationSec"`
+	Narration string `json:"narration"`
+	BRoll string `json:"bRoll"`
+}
+
+type VideoScriptOutput struct {
+	Hook string `json:"hook"`
+	Scenes []VideoScene `json:"scenes"`
+	Outro string `json:"outro"`
+	TotalSec float64 `json:"totalSec"`
+}
+
+type FaqChannelOutput struct {
+	Items []map[string]any `json:"items"`
+}
+
+type PressReleaseOutput struct {
+	Headline string `json:"headline"`
+	Dateline string `json:"dateline"`
+	Lede string `json:"lede"`
+	Body []string `json:"body"`
+	Boilerplate string `json:"boilerplate"`
+}
+
+type ContentBlockFaqItem struct {
+	Question string `json:"question"`
+	Answer string `json:"answer"`
+}
+
+type ContentBlockTakeaway struct {
+	Label string `json:"label"`
+	Text string `json:"text"`
+}
+
+type ArticleContentBlocks struct {
+	Faq map[string][]ContentBlockFaqItem `json:"faq"`
+	Tldr map[string]string `json:"tldr"`
+	KeyTakeaways map[string][]ContentBlockTakeaway `json:"keyTakeaways"`
+}
+
+type ArticleDerivedContent struct {
+	Channel string `json:"channel"`
+	Language *string `json:"language"`
+	Title string `json:"title"`
+	Payload string `json:"payload"`
+	AIGenerationID *string `json:"aiGenerationId"`
+	ScheduledItemID *string `json:"scheduledItemId"`
+	CreatedAt string `json:"createdAt"`
+	UpdatedAt string `json:"updatedAt"`
+}
+
+type RepurposeChannels struct {
+	Newsletter NewsletterOutput `json:"newsletter"`
+	XThread XThreadOutput `json:"xThread"`
+	VideoScript VideoScriptOutput `json:"videoScript"`
+	Faq FaqChannelOutput `json:"faq"`
+	PressRelease PressReleaseOutput `json:"pressRelease"`
+}
+
+type ChannelNote struct {
+	Channel string `json:"channel"`
+	Notes []string `json:"notes"`
+}
+
 type RepurposeResult struct {
 	ArticleID *string `json:"articleId"`
 	Platforms map[string]RepurposedOutput `json:"platforms"`
+	Channels RepurposeChannels `json:"channels"`
+	ChannelNotes []ChannelNote `json:"channelNotes"`
+	DerivedContentIds []string `json:"derivedContentIds"`
 	AIGenerationID string `json:"aiGenerationId"`
 	Tokens Tokens `json:"tokens"`
 }
@@ -1837,6 +1919,375 @@ type MediaMissingAlt struct {
 	Assets []MediaAsset `json:"assets"`
 	TotalMissing float64 `json:"totalMissing"`
 	Locale string `json:"locale"`
+}
+
+type ContentPlanStatus struct {
+	// List wrapper: the payload is reached through the key the server
+	// sent it under.
+	Extra map[string]any `json:"-"`
+}
+
+type ContentPlanLocale struct {
+	Code string `json:"code"`
+	TranslationDueOffsetDays *float64 `json:"translationDueOffsetDays"`
+	Status string `json:"status"`
+}
+
+type ContentPlanItem struct {
+	ID string `json:"_id"`
+	TenantID string `json:"tenantId"`
+	Title string `json:"title"`
+	Brief *string `json:"brief"`
+	PrimaryKeyword *string `json:"primaryKeyword"`
+	Intent *string `json:"intent"`
+	FunnelStage *string `json:"funnelStage"`
+	Category *string `json:"category"`
+	SubCategory *string `json:"subCategory"`
+	Author *string `json:"author"`
+	Assignee *string `json:"assignee"`
+	Campaign *string `json:"campaign"`
+	Status ContentPlanStatus `json:"status"`
+	Source string `json:"source"`
+	OriginRef *string `json:"originRef"`
+	DueAt *string `json:"dueAt"`
+	PlannedPublishAt *string `json:"plannedPublishAt"`
+	Timezone *string `json:"timezone"`
+	Locales []ContentPlanLocale `json:"locales"`
+	ArticleID *string `json:"articleId"`
+	Notes *string `json:"notes"`
+	Tags []string `json:"tags"`
+	CreatedBy *string `json:"createdBy"`
+	IsDeleted bool `json:"isDeleted"`
+	CreatedAt string `json:"createdAt"`
+	UpdatedAt string `json:"updatedAt"`
+}
+
+type ContentPlanItemWrapper struct {
+	Item ContentPlanItem `json:"item"`
+}
+
+type PlanWarning struct {
+	Code string `json:"code"`
+	Severity string `json:"severity"`
+	ItemIds []string `json:"itemIds"`
+	Message string `json:"message"`
+}
+
+type ContentCadence struct {
+	ID string `json:"_id"`
+	Scope string `json:"scope"`
+	Category *string `json:"category"`
+	PostsPerWeek float64 `json:"postsPerWeek"`
+	PreferredWeekdays []float64 `json:"preferredWeekdays"`
+	PreferredTime *string `json:"preferredTime"`
+	Timezone string `json:"timezone"`
+	WeekendDays []float64 `json:"weekendDays"`
+	CreatedAt string `json:"createdAt"`
+	UpdatedAt string `json:"updatedAt"`
+}
+
+type CadenceWrapper struct {
+	Cadence *ContentCadence `json:"cadence"`
+}
+
+type ContentPlanList struct {
+	Items []ContentPlanItem `json:"items"`
+	Warnings []PlanWarning `json:"warnings"`
+	Cadence ContentCadence `json:"cadence"`
+}
+
+type StartDraft struct {
+	Item ContentPlanItem `json:"item"`
+	ArticleID string `json:"articleId"`
+}
+
+type StartDraftWrapper struct {
+	Null StartDraft `json:"null"`
+}
+
+type ScheduleResult struct {
+	Item ContentPlanItem `json:"item"`
+	ArticleScheduled bool `json:"articleScheduled"`
+}
+
+type ScheduleWrapper struct {
+	Null ScheduleResult `json:"null"`
+}
+
+type ContentGap struct {
+	Code string `json:"code"`
+	Severity string `json:"severity"`
+	CategoryID *string `json:"categoryId"`
+	CategoryName string `json:"categoryName"`
+	Locale string `json:"locale"`
+	ArticleIds []string `json:"articleIds"`
+	ArticleTitles []string `json:"articleTitles"`
+	Message string `json:"message"`
+	SuggestedStatus ContentPlanStatus `json:"suggestedStatus"`
+}
+
+type ContentGapReport struct {
+	Gaps []ContentGap `json:"gaps"`
+	Summary map[string]any `json:"summary"`
+}
+
+type CalendarIdea struct {
+	Title string `json:"title"`
+	Angle string `json:"angle"`
+	Brief string `json:"brief"`
+	PrimaryKeyword string `json:"primaryKeyword"`
+	Intent string `json:"intent"`
+	FunnelStage string `json:"funnelStage"`
+	CategoryName string `json:"categoryName"`
+	LocaleVariants []map[string]any `json:"localeVariants"`
+	SuggestedDate *string `json:"suggestedDate"`
+}
+
+type CalendarIdeas struct {
+	IDeas []CalendarIdea `json:"ideas"`
+	Requested float64 `json:"requested"`
+}
+
+type CalendarPlanEntry struct {
+	PlannedPublishAt string `json:"plannedPublishAt"`
+	Weekday float64 `json:"weekday"`
+	Series string `json:"series"`
+	WorkingTitle string `json:"workingTitle"`
+}
+
+type CalendarPeriodPlan struct {
+	Entries []CalendarPlanEntry `json:"entries"`
+	Cadence map[string]any `json:"cadence"`
+}
+
+type CalendarBestTime struct {
+	Suggestion map[string]any `json:"suggestion"`
+	Samples float64 `json:"samples"`
+	Basis string `json:"basis"`
+}
+
+type CalendarReschedule struct {
+	Proposal *map[string]any `json:"proposal"`
+}
+
+type Campaign struct {
+	ID string `json:"_id"`
+	TenantID string `json:"tenantId"`
+	Name string `json:"name"`
+	Goal *string `json:"goal"`
+	Description *string `json:"description"`
+	StartsAt *string `json:"startsAt"`
+	EndsAt *string `json:"endsAt"`
+	Status string `json:"status"`
+	Color *string `json:"color"`
+	CreatedBy *string `json:"createdBy"`
+	IsDeleted bool `json:"isDeleted"`
+	CreatedAt string `json:"createdAt"`
+	UpdatedAt string `json:"updatedAt"`
+}
+
+type CampaignWrapper struct {
+	Campaign Campaign `json:"campaign"`
+}
+
+type CampaignList struct {
+	Campaigns []Campaign `json:"campaigns"`
+	Pagination Pagination `json:"pagination"`
+}
+
+type DigestAction struct {
+	Code string `json:"code"`
+	Severity string `json:"severity"`
+	Reason string `json:"reason"`
+	Href string `json:"href"`
+}
+
+type WeeklyDigest struct {
+	WeekOf string `json:"weekOf"`
+	Range map[string]any `json:"range"`
+	Published map[string]any `json:"published"`
+	AI map[string]any `json:"ai"`
+	SuggestedActions []DigestAction `json:"suggestedActions"`
+	Wins []string `json:"wins"`
+	Issues []string `json:"issues"`
+}
+
+type WeeklyDigestWrapper struct {
+	Digest WeeklyDigest `json:"digest"`
+}
+
+type SeoHealthCategoryRow struct {
+	CategoryID *string `json:"categoryId"`
+	CategoryName string `json:"categoryName"`
+	Articles float64 `json:"articles"`
+	Issues float64 `json:"issues"`
+	HealthPercent float64 `json:"healthPercent"`
+}
+
+type SeoHealthReport struct {
+	Range map[string]any `json:"range"`
+	Scanned float64 `json:"scanned"`
+	IssueCounts map[string]float64 `json:"issueCounts"`
+	TotalIssues float64 `json:"totalIssues"`
+	HealthyPercent float64 `json:"healthyPercent"`
+	ByCategory []SeoHealthCategoryRow `json:"byCategory"`
+	Notes []string `json:"notes"`
+}
+
+type CalendarAdherenceReport struct {
+	Range map[string]any `json:"range"`
+	Planned float64 `json:"planned"`
+	Published float64 `json:"published"`
+	PublishedOnTime float64 `json:"publishedOnTime"`
+	DeliveryRate float64 `json:"deliveryRate"`
+	OnTimeRate float64 `json:"onTimeRate"`
+	MedianLeadTimeDays *float64 `json:"medianLeadTimeDays"`
+	Overdue float64 `json:"overdue"`
+	Campaigns []map[string]any `json:"campaigns"`
+	Notes []string `json:"notes"`
+}
+
+type AiAcceptanceActionRow struct {
+	ActionID string `json:"actionId"`
+	Runs float64 `json:"runs"`
+	Accepted float64 `json:"accepted"`
+	AcceptanceRate float64 `json:"acceptanceRate"`
+	MinutesSaved float64 `json:"minutesSaved"`
+}
+
+type AiAcceptanceReport struct {
+	Range map[string]any `json:"range"`
+	Total float64 `json:"total"`
+	Accepted float64 `json:"accepted"`
+	Rejected float64 `json:"rejected"`
+	AcceptanceRate float64 `json:"acceptanceRate"`
+	Credits map[string]any `json:"credits"`
+	TimeSaved map[string]any `json:"timeSaved"`
+	ByAction []AiAcceptanceActionRow `json:"byAction"`
+	Notes []string `json:"notes"`
+}
+
+type TranslationCoverageReportV2 struct {
+	// List wrapper: the payload is reached through the key the server
+	// sent it under.
+	Extra map[string]any `json:"-"`
+}
+
+type ReportWrapper struct {
+	Null ReportPayload `json:"null"`
+}
+
+type ReportPayload struct {
+	Report any `json:"report"`
+}
+
+type SeoAuditIssue struct {
+	Code string `json:"code"`
+	Severity string `json:"severity"`
+	ArticleID string `json:"articleId"`
+	Title string `json:"title"`
+	Message string `json:"message"`
+	FixAction *string `json:"fixAction"`
+}
+
+type SeoAuditReport struct {
+	Issues []SeoAuditIssue `json:"issues"`
+	Summary map[string]float64 `json:"summary"`
+	Scanned float64 `json:"scanned"`
+}
+
+type CannibalizationGroup struct {
+	Keyword string `json:"keyword"`
+	ArticleIds []string `json:"articleIds"`
+	Titles []string `json:"titles"`
+	RecommendedKeep string `json:"recommendedKeep"`
+}
+
+type CannibalizationReport struct {
+	Groups []CannibalizationGroup `json:"groups"`
+	Summary map[string]any `json:"summary"`
+}
+
+type RefreshCandidate struct {
+	ArticleID string `json:"articleId"`
+	Title string `json:"title"`
+	AgeDays float64 `json:"ageDays"`
+	ViewsTotal float64 `json:"viewsTotal"`
+	TrendRatio *float64 `json:"trendRatio"`
+	Severity string `json:"severity"`
+	Reasons []string `json:"reasons"`
+}
+
+type RefreshCandidateReport struct {
+	Candidates []RefreshCandidate `json:"candidates"`
+	Scanned float64 `json:"scanned"`
+}
+
+type RefreshPlanItem struct {
+	Item ContentPlanItem `json:"item"`
+	Linked bool `json:"linked"`
+}
+
+type RefreshPlanItemWrapper struct {
+	Null RefreshPlanItem `json:"null"`
+}
+
+type HreflangEntry struct {
+	Locale string `json:"locale"`
+	Hreflang string `json:"hreflang"`
+	URL string `json:"url"`
+}
+
+type HreflangGroup struct {
+	ArticleID string `json:"articleId"`
+	Canonical string `json:"canonical"`
+	Alternates []HreflangEntry `json:"alternates"`
+	XDefault *string `json:"xDefault"`
+}
+
+type HreflangWrapper struct {
+	Hreflang HreflangGroup `json:"hreflang"`
+}
+
+type Redirect struct {
+	ID string `json:"_id"`
+	TenantID string `json:"tenantId"`
+	FromSlug string `json:"fromSlug"`
+	ToSlug string `json:"toSlug"`
+	ArticleID string `json:"articleId"`
+	CreatedAt string `json:"createdAt"`
+	UpdatedAt string `json:"updatedAt"`
+}
+
+type RedirectList struct {
+	Redirects []Redirect `json:"redirects"`
+	Pagination Pagination `json:"pagination"`
+}
+
+type TranslationCoverageRow struct {
+	EntityType string `json:"entityType"`
+	Covered float64 `json:"covered"`
+	Total float64 `json:"total"`
+	MissingByLocale map[string]float64 `json:"missingByLocale"`
+}
+
+type TranslationCoverageReport struct {
+	Locales []string `json:"locales"`
+	Rows []TranslationCoverageRow `json:"rows"`
+	Completeness float64 `json:"completeness"`
+}
+
+type ContentTypeProfile struct {
+	Type string `json:"type"`
+	Length map[string]any `json:"length"`
+	Weights map[string]float64 `json:"weights"`
+	OptionalSignals []string `json:"optionalSignals"`
+	RequiresSummary bool `json:"requiresSummary"`
+}
+
+type ContentTypeProfileWrapper struct {
+	Profile ContentTypeProfile `json:"profile"`
+	Profiles []ContentTypeProfile `json:"profiles"`
 }
 
 type Envelope struct {

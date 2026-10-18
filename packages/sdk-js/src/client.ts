@@ -6,12 +6,15 @@ import {
   AIConversationResource,
   ArticlesResource,
   AuthorsResource,
+  CampaignsResource,
   CategoriesResource,
+  ContentPlanResource,
   FormsResource,
   FormSubmissionsResource,
   LanguagesResource,
   MediaResource,
   ReportsResource,
+  SEOHubResource,
   SubcategoriesResource,
   TagsResource,
   TaxonomyResource,
@@ -25,12 +28,15 @@ export class OctaviaClient {
   readonly aIConversation: AIConversationResource;
   readonly articles: ArticlesResource;
   readonly authors: AuthorsResource;
+  readonly campaigns: CampaignsResource;
   readonly categories: CategoriesResource;
+  readonly contentPlan: ContentPlanResource;
   readonly forms: FormsResource;
   readonly formSubmissions: FormSubmissionsResource;
   readonly languages: LanguagesResource;
   readonly media: MediaResource;
   readonly reports: ReportsResource;
+  readonly sEOHub: SEOHubResource;
   readonly subcategories: SubcategoriesResource;
   readonly tags: TagsResource;
   readonly taxonomy: TaxonomyResource;
@@ -43,12 +49,15 @@ export class OctaviaClient {
     this.aIConversation = new AIConversationResource(this);
     this.articles = new ArticlesResource(this);
     this.authors = new AuthorsResource(this);
+    this.campaigns = new CampaignsResource(this);
     this.categories = new CategoriesResource(this);
+    this.contentPlan = new ContentPlanResource(this);
     this.forms = new FormsResource(this);
     this.formSubmissions = new FormSubmissionsResource(this);
     this.languages = new LanguagesResource(this);
     this.media = new MediaResource(this);
     this.reports = new ReportsResource(this);
+    this.sEOHub = new SEOHubResource(this);
     this.subcategories = new SubcategoriesResource(this);
     this.tags = new TagsResource(this);
     this.taxonomy = new TaxonomyResource(this);

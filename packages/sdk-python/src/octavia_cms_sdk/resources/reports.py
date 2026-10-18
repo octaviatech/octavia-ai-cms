@@ -25,6 +25,8 @@ from ..models import (
     CommentOverviewReport,
     DashboardConfigWrapper,
     NeedsAttentionReport,
+    WeeklyDigestWrapper,
+    ReportWrapper,
 )
 
 if TYPE_CHECKING:
@@ -99,3 +101,18 @@ class ReportsResource:
 
     def needsAttention(self, *, query: Optional[Dict[str, Any]] = None) -> NeedsAttentionReport:
         return self._client.request_typed(NeedsAttentionReport, "GET", "/reports/needsAttention", query=query, body=None)
+
+    def weeklyDigest(self, *, query: Optional[Dict[str, Any]] = None) -> WeeklyDigestWrapper:
+        return self._client.request_typed(WeeklyDigestWrapper, "GET", "/reports/weeklyDigest", query=query, body=None)
+
+    def seoHealth(self, *, query: Optional[Dict[str, Any]] = None) -> ReportWrapper:
+        return self._client.request_typed(ReportWrapper, "GET", "/reports/seoHealth", query=query, body=None)
+
+    def translationCoverage(self, *, query: Optional[Dict[str, Any]] = None) -> ReportWrapper:
+        return self._client.request_typed(ReportWrapper, "GET", "/reports/translationCoverage", query=query, body=None)
+
+    def calendarAdherence(self, *, query: Optional[Dict[str, Any]] = None) -> ReportWrapper:
+        return self._client.request_typed(ReportWrapper, "GET", "/reports/calendarAdherence", query=query, body=None)
+
+    def aiAcceptance(self, *, query: Optional[Dict[str, Any]] = None) -> ReportWrapper:
+        return self._client.request_typed(ReportWrapper, "GET", "/reports/aiAcceptance", query=query, body=None)

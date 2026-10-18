@@ -214,4 +214,49 @@ class ReportsResource
         return $this->client->request("GET", "/reports/needsAttention", $options, \Octavia\CmsSDK\Types\NeedsAttentionReport::class);
     }
 
+    /**
+     * @return \Octavia\CmsSDK\Envelope
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\WeeklyDigestWrapper>
+     */
+    public function weeklyDigest(array $options = []): Envelope
+    {
+        return $this->client->request("GET", "/reports/weeklyDigest", $options, \Octavia\CmsSDK\Types\WeeklyDigestWrapper::class);
+    }
+
+    /**
+     * @return \Octavia\CmsSDK\Envelope
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\ReportWrapper>
+     */
+    public function seoHealth(array $options = []): Envelope
+    {
+        return $this->client->request("GET", "/reports/seoHealth", $options, \Octavia\CmsSDK\Types\ReportWrapper::class);
+    }
+
+    /**
+     * @return \Octavia\CmsSDK\Envelope
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\ReportWrapper>
+     */
+    public function translationCoverage(array $options = []): Envelope
+    {
+        return $this->client->request("GET", "/reports/translationCoverage", $options, \Octavia\CmsSDK\Types\ReportWrapper::class);
+    }
+
+    /**
+     * @return \Octavia\CmsSDK\Envelope
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\ReportWrapper>
+     */
+    public function calendarAdherence(array $options = []): Envelope
+    {
+        return $this->client->request("GET", "/reports/calendarAdherence", $options, \Octavia\CmsSDK\Types\ReportWrapper::class);
+    }
+
+    /**
+     * @return \Octavia\CmsSDK\Envelope
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\ReportWrapper>
+     */
+    public function aiAcceptance(array $options = []): Envelope
+    {
+        return $this->client->request("GET", "/reports/aiAcceptance", $options, \Octavia\CmsSDK\Types\ReportWrapper::class);
+    }
+
 }

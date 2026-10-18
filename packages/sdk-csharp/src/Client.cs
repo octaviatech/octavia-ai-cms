@@ -69,12 +69,15 @@ public sealed class Client
     public AIConversationResource AIConversation { get; }
     public ArticlesResource Articles { get; }
     public AuthorsResource Authors { get; }
+    public CampaignsResource Campaigns { get; }
     public CategoriesResource Categories { get; }
+    public ContentPlanResource ContentPlan { get; }
     public FormsResource Forms { get; }
     public FormSubmissionsResource FormSubmissions { get; }
     public LanguagesResource Languages { get; }
     public MediaResource Media { get; }
     public ReportsResource Reports { get; }
+    public SEOHubResource SEOHub { get; }
     public SubcategoriesResource Subcategories { get; }
     public TagsResource Tags { get; }
     public TaxonomyResource Taxonomy { get; }
@@ -98,12 +101,15 @@ public sealed class Client
         AIConversation = new AIConversationResource(this);
         Articles = new ArticlesResource(this);
         Authors = new AuthorsResource(this);
+        Campaigns = new CampaignsResource(this);
         Categories = new CategoriesResource(this);
+        ContentPlan = new ContentPlanResource(this);
         Forms = new FormsResource(this);
         FormSubmissions = new FormSubmissionsResource(this);
         Languages = new LanguagesResource(this);
         Media = new MediaResource(this);
         Reports = new ReportsResource(this);
+        SEOHub = new SEOHubResource(this);
         Subcategories = new SubcategoriesResource(this);
         Tags = new TagsResource(this);
         Taxonomy = new TaxonomyResource(this);

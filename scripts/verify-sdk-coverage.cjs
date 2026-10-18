@@ -29,7 +29,10 @@ const EXCLUDED = new Set([
 // Keep in sync with EXCLUDED_TAGS / EXCLUDED_PATHS in the backend's
 // scripts/generate-sdks.js AND packages/sdk-js/scripts/generate.cjs — an
 // operation excluded there must be excluded from all five SDKs.
-const EXCLUDED_PATHS = new Set(["/reports/getTenantStatistics/{tenantId}"]);
+const EXCLUDED_PATHS = new Set([
+  "/reports/getTenantStatistics/{tenantId}",
+  "/content-plan/ics",
+]);
 
 const METHODS = new Set(["get", "post", "put", "patch", "delete"]);
 

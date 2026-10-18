@@ -668,6 +668,8 @@ class Article:
     is_active: bool = None
     auto_summarize: bool = None
     content_source: Literal["human"] | Literal["ai"] | Literal["mixed"] = None
+    content_blocks: ArticleContentBlocks = None
+    derived_content: List[ArticleDerivedContent] = None
     engagement: ArticleEngagementOverride = None
     seo: ArticleSeo = None
     created_at: DateTime = None
@@ -710,6 +712,8 @@ class Article:
             "isActive": "is_active",
             "autoSummarize": "auto_summarize",
             "contentSource": "content_source",
+            "contentBlocks": "content_blocks",
+            "derivedContent": "derived_content",
             "engagement": "engagement",
             "seo": "seo",
             "createdAt": "created_at",
@@ -722,6 +726,8 @@ class Article:
                 continue
             setattr(out, f, v)
         nested = {
+            "content_blocks": lambda v: ArticleContentBlocks.from_dict(v),
+            "derived_content": lambda v: [ArticleDerivedContent.from_dict(v) for v in v],
             "engagement": lambda v: ArticleEngagementOverride.from_dict(v),
             "seo": lambda v: ArticleSeo.from_dict(v),
         }
@@ -1270,11 +1276,359 @@ class RepurposedOutput:
 
 
 @dataclass
+class NewsletterOutput:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    subject: str = None
+    preheader: str = None
+    body: str = None
+    cta: str = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "NewsletterOutput":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "subject": "subject",
+            "preheader": "preheader",
+            "body": "body",
+            "cta": "cta",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        return out
+
+
+@dataclass
+class XThreadOutput:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    posts: List[str] = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "XThreadOutput":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "posts": "posts",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        return out
+
+
+@dataclass
+class VideoScene:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    title: str = None
+    duration_sec: float = None
+    narration: str = None
+    b_roll: str = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "VideoScene":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "title": "title",
+            "durationSec": "duration_sec",
+            "narration": "narration",
+            "bRoll": "b_roll",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        return out
+
+
+@dataclass
+class VideoScriptOutput:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    hook: str = None
+    scenes: List[VideoScene] = None
+    outro: str = None
+    total_sec: float = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "VideoScriptOutput":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "hook": "hook",
+            "scenes": "scenes",
+            "outro": "outro",
+            "totalSec": "total_sec",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        nested = {
+            "scenes": lambda v: [VideoScene.from_dict(v) for v in v],
+        }
+        for f, fn in nested.items():
+            if getattr(out, f, None) is not None:
+                setattr(out, f, fn(getattr(out, f)))
+        return out
+
+
+@dataclass
+class FaqChannelOutput:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    items: List[Dict[str, Any]] = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "FaqChannelOutput":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "items": "items",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        return out
+
+
+@dataclass
+class PressReleaseOutput:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    headline: str = None
+    dateline: str = None
+    lede: str = None
+    body: List[str] = None
+    boilerplate: str = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "PressReleaseOutput":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "headline": "headline",
+            "dateline": "dateline",
+            "lede": "lede",
+            "body": "body",
+            "boilerplate": "boilerplate",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        return out
+
+
+@dataclass
+class ContentBlockFaqItem:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    question: str = None
+    answer: str = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "ContentBlockFaqItem":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "question": "question",
+            "answer": "answer",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        return out
+
+
+@dataclass
+class ContentBlockTakeaway:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    label: str = None
+    text: str = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "ContentBlockTakeaway":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "label": "label",
+            "text": "text",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        return out
+
+
+@dataclass
+class ArticleContentBlocks:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    faq: Dict[str, List[ContentBlockFaqItem]] = None
+    tldr: Dict[str, str] = None
+    key_takeaways: Dict[str, List[ContentBlockTakeaway]] = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "ArticleContentBlocks":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "faq": "faq",
+            "tldr": "tldr",
+            "keyTakeaways": "key_takeaways",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        nested = {
+            "faq": lambda v: {k: [ContentBlockFaqItem.from_dict(v) for v in v] for k, v in v.items()},
+            "key_takeaways": lambda v: {k: [ContentBlockTakeaway.from_dict(v) for v in v] for k, v in v.items()},
+        }
+        for f, fn in nested.items():
+            if getattr(out, f, None) is not None:
+                setattr(out, f, fn(getattr(out, f)))
+        return out
+
+
+@dataclass
+class ArticleDerivedContent:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    channel: Literal["newsletter"] | Literal["xThread"] | Literal["videoScript"] | Literal["faq"] | Literal["pressRelease"] = None
+    language: Optional[str] = None
+    title: str = None
+    payload: str = None
+    ai_generation_id: Optional[str] = None
+    scheduled_item_id: Optional[str] = None
+    created_at: DateTime = None
+    updated_at: DateTime = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "ArticleDerivedContent":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "channel": "channel",
+            "language": "language",
+            "title": "title",
+            "payload": "payload",
+            "aiGenerationId": "ai_generation_id",
+            "scheduledItemId": "scheduled_item_id",
+            "createdAt": "created_at",
+            "updatedAt": "updated_at",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        return out
+
+
+@dataclass
+class RepurposeChannels:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    newsletter: NewsletterOutput = None
+    x_thread: XThreadOutput = None
+    video_script: VideoScriptOutput = None
+    faq: FaqChannelOutput = None
+    press_release: PressReleaseOutput = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "RepurposeChannels":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "newsletter": "newsletter",
+            "xThread": "x_thread",
+            "videoScript": "video_script",
+            "faq": "faq",
+            "pressRelease": "press_release",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        nested = {
+            "newsletter": lambda v: NewsletterOutput.from_dict(v),
+            "x_thread": lambda v: XThreadOutput.from_dict(v),
+            "video_script": lambda v: VideoScriptOutput.from_dict(v),
+            "faq": lambda v: FaqChannelOutput.from_dict(v),
+            "press_release": lambda v: PressReleaseOutput.from_dict(v),
+        }
+        for f, fn in nested.items():
+            if getattr(out, f, None) is not None:
+                setattr(out, f, fn(getattr(out, f)))
+        return out
+
+
+@dataclass
+class ChannelNote:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    channel: str = None
+    notes: List[str] = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "ChannelNote":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "channel": "channel",
+            "notes": "notes",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        return out
+
+
+@dataclass
 class RepurposeResult:
     """Generated from the OpenAPI spec — do not edit by hand."""
 
     article_id: Optional[str] = None
     platforms: Dict[str, RepurposedOutput] = None
+    channels: RepurposeChannels = None
+    channel_notes: List[ChannelNote] = None
+    derived_content_ids: List[str] = None
     ai_generation_id: str = None
     tokens: Tokens = None
 
@@ -1285,6 +1639,9 @@ class RepurposeResult:
         wire = {
             "articleId": "article_id",
             "platforms": "platforms",
+            "channels": "channels",
+            "channelNotes": "channel_notes",
+            "derivedContentIds": "derived_content_ids",
             "aiGenerationId": "ai_generation_id",
             "tokens": "tokens",
         }
@@ -1296,6 +1653,8 @@ class RepurposeResult:
             setattr(out, f, v)
         nested = {
             "platforms": lambda v: {k: RepurposedOutput.from_dict(v) for k, v in v.items()},
+            "channels": lambda v: RepurposeChannels.from_dict(v),
+            "channel_notes": lambda v: [ChannelNote.from_dict(v) for v in v],
             "tokens": lambda v: Tokens.from_dict(v),
         }
         for f, fn in nested.items():
@@ -7531,6 +7890,1615 @@ class MediaMissingAlt:
             setattr(out, f, v)
         nested = {
             "assets": lambda v: [MediaAsset.from_dict(v) for v in v],
+        }
+        for f, fn in nested.items():
+            if getattr(out, f, None) is not None:
+                setattr(out, f, fn(getattr(out, f)))
+        return out
+
+
+@dataclass
+class ContentPlanStatus:
+    """List wrapper or alias: the payload is reached through its key."""
+
+    def __init__(self, raw: Any = None) -> None:
+        self._raw = raw
+
+
+@dataclass
+class ContentPlanLocale:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    code: str = None
+    translation_due_offset_days: Optional[float] = None
+    status: Literal["pending"] | Literal["in_progress"] | Literal["done"] | Literal["outdated"] = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "ContentPlanLocale":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "code": "code",
+            "translationDueOffsetDays": "translation_due_offset_days",
+            "status": "status",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        return out
+
+
+@dataclass
+class ContentPlanItem:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    _id: ObjectId = None
+    tenant_id: str = None
+    title: str = None
+    brief: Optional[str] = None
+    primary_keyword: Optional[str] = None
+    intent: Optional[Literal["informational"] | Literal["navigational"] | Literal["commercial"] | Literal["transactional"] | Literal[null]] = None
+    funnel_stage: Optional[Literal["awareness"] | Literal["consideration"] | Literal["conversion"] | Literal["retention"] | Literal[null]] = None
+    category: Optional[ObjectId] = None
+    sub_category: Optional[ObjectId] = None
+    author: Optional[ObjectId] = None
+    assignee: Optional[ObjectId] = None
+    campaign: Optional[ObjectId] = None
+    status: ContentPlanStatus = None
+    source: Literal["manual"] | Literal["ai"] | Literal["content_gap"] | Literal["reader_comment"] | Literal["form_submission"] = None
+    origin_ref: Optional[str] = None
+    due_at: Optional[str] = None
+    planned_publish_at: Optional[str] = None
+    timezone: Optional[str] = None
+    locales: List[ContentPlanLocale] = None
+    article_id: Optional[ObjectId] = None
+    notes: Optional[str] = None
+    tags: List[str] = None
+    created_by: Optional[ObjectId] = None
+    is_deleted: bool = None
+    created_at: DateTime = None
+    updated_at: DateTime = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "ContentPlanItem":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "_id": "_id",
+            "tenantId": "tenant_id",
+            "title": "title",
+            "brief": "brief",
+            "primaryKeyword": "primary_keyword",
+            "intent": "intent",
+            "funnelStage": "funnel_stage",
+            "category": "category",
+            "subCategory": "sub_category",
+            "author": "author",
+            "assignee": "assignee",
+            "campaign": "campaign",
+            "status": "status",
+            "source": "source",
+            "originRef": "origin_ref",
+            "dueAt": "due_at",
+            "plannedPublishAt": "planned_publish_at",
+            "timezone": "timezone",
+            "locales": "locales",
+            "articleId": "article_id",
+            "notes": "notes",
+            "tags": "tags",
+            "createdBy": "created_by",
+            "isDeleted": "is_deleted",
+            "createdAt": "created_at",
+            "updatedAt": "updated_at",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        nested = {
+            "locales": lambda v: [ContentPlanLocale.from_dict(v) for v in v],
+        }
+        for f, fn in nested.items():
+            if getattr(out, f, None) is not None:
+                setattr(out, f, fn(getattr(out, f)))
+        return out
+
+
+@dataclass
+class ContentPlanItemWrapper:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    item: ContentPlanItem = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "ContentPlanItemWrapper":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "item": "item",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        nested = {
+            "item": lambda v: ContentPlanItem.from_dict(v),
+        }
+        for f, fn in nested.items():
+            if getattr(out, f, None) is not None:
+                setattr(out, f, fn(getattr(out, f)))
+        return out
+
+
+@dataclass
+class PlanWarning:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    code: Literal["cadence_exceeded"] | Literal["cadence_under"] | Literal["keyword_collision"] | Literal["author_overload"] | Literal["publish_before_translation"] | Literal["past_due"] | Literal["overdue_publish"] = None
+    severity: Literal["high"] | Literal["medium"] | Literal["low"] = None
+    item_ids: List[str] = None
+    message: str = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "PlanWarning":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "code": "code",
+            "severity": "severity",
+            "itemIds": "item_ids",
+            "message": "message",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        return out
+
+
+@dataclass
+class ContentCadence:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    _id: ObjectId = None
+    scope: Literal["tenant"] | Literal["category"] = None
+    category: Optional[ObjectId] = None
+    posts_per_week: float = None
+    preferred_weekdays: List[float] = None
+    preferred_time: Optional[str] = None
+    timezone: str = None
+    weekend_days: List[float] = None
+    created_at: DateTime = None
+    updated_at: DateTime = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "ContentCadence":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "_id": "_id",
+            "scope": "scope",
+            "category": "category",
+            "postsPerWeek": "posts_per_week",
+            "preferredWeekdays": "preferred_weekdays",
+            "preferredTime": "preferred_time",
+            "timezone": "timezone",
+            "weekendDays": "weekend_days",
+            "createdAt": "created_at",
+            "updatedAt": "updated_at",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        return out
+
+
+@dataclass
+class CadenceWrapper:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    cadence: Optional[ContentCadence] = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "CadenceWrapper":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "cadence": "cadence",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        nested = {
+            "cadence": lambda v: ContentCadence.from_dict(v),
+        }
+        for f, fn in nested.items():
+            if getattr(out, f, None) is not None:
+                setattr(out, f, fn(getattr(out, f)))
+        return out
+
+
+@dataclass
+class ContentPlanList:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    items: List[ContentPlanItem] = None
+    warnings: List[PlanWarning] = None
+    cadence: ContentCadence = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "ContentPlanList":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "items": "items",
+            "warnings": "warnings",
+            "cadence": "cadence",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        nested = {
+            "items": lambda v: [ContentPlanItem.from_dict(v) for v in v],
+            "warnings": lambda v: [PlanWarning.from_dict(v) for v in v],
+            "cadence": lambda v: ContentCadence.from_dict(v),
+        }
+        for f, fn in nested.items():
+            if getattr(out, f, None) is not None:
+                setattr(out, f, fn(getattr(out, f)))
+        return out
+
+
+@dataclass
+class StartDraft:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    item: ContentPlanItem = None
+    article_id: ObjectId = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "StartDraft":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "item": "item",
+            "articleId": "article_id",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        nested = {
+            "item": lambda v: ContentPlanItem.from_dict(v),
+        }
+        for f, fn in nested.items():
+            if getattr(out, f, None) is not None:
+                setattr(out, f, fn(getattr(out, f)))
+        return out
+
+
+@dataclass
+class StartDraftWrapper:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    null: StartDraft = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "StartDraftWrapper":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "null": "null",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        nested = {
+            "null": lambda v: StartDraft.from_dict(v),
+        }
+        for f, fn in nested.items():
+            if getattr(out, f, None) is not None:
+                setattr(out, f, fn(getattr(out, f)))
+        return out
+
+
+@dataclass
+class ScheduleResult:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    item: ContentPlanItem = None
+    article_scheduled: bool = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "ScheduleResult":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "item": "item",
+            "articleScheduled": "article_scheduled",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        nested = {
+            "item": lambda v: ContentPlanItem.from_dict(v),
+        }
+        for f, fn in nested.items():
+            if getattr(out, f, None) is not None:
+                setattr(out, f, fn(getattr(out, f)))
+        return out
+
+
+@dataclass
+class ScheduleWrapper:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    null: ScheduleResult = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "ScheduleWrapper":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "null": "null",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        nested = {
+            "null": lambda v: ScheduleResult.from_dict(v),
+        }
+        for f, fn in nested.items():
+            if getattr(out, f, None) is not None:
+                setattr(out, f, fn(getattr(out, f)))
+        return out
+
+
+@dataclass
+class ContentGap:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    code: Literal["thin_category"] | Literal["missing_locale"] | Literal["stale_content"] | Literal["idle_keyword"] = None
+    severity: Literal["high"] | Literal["medium"] | Literal["low"] = None
+    category_id: Optional[str] = None
+    category_name: str = None
+    locale: str = None
+    article_ids: List[str] = None
+    article_titles: List[str] = None
+    message: str = None
+    suggested_status: ContentPlanStatus = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "ContentGap":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "code": "code",
+            "severity": "severity",
+            "categoryId": "category_id",
+            "categoryName": "category_name",
+            "locale": "locale",
+            "articleIds": "article_ids",
+            "articleTitles": "article_titles",
+            "message": "message",
+            "suggestedStatus": "suggested_status",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        return out
+
+
+@dataclass
+class ContentGapReport:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    gaps: List[ContentGap] = None
+    summary: Dict[str, Any] = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "ContentGapReport":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "gaps": "gaps",
+            "summary": "summary",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        nested = {
+            "gaps": lambda v: [ContentGap.from_dict(v) for v in v],
+        }
+        for f, fn in nested.items():
+            if getattr(out, f, None) is not None:
+                setattr(out, f, fn(getattr(out, f)))
+        return out
+
+
+@dataclass
+class CalendarIdea:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    title: str = None
+    angle: str = None
+    brief: str = None
+    primary_keyword: str = None
+    intent: Literal["informational"] | Literal["navigational"] | Literal["commercial"] | Literal["transactional"] = None
+    funnel_stage: Literal["awareness"] | Literal["consideration"] | Literal["conversion"] | Literal["retention"] = None
+    category_name: str = None
+    locale_variants: List[Dict[str, Any]] = None
+    suggested_date: Optional[str] = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "CalendarIdea":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "title": "title",
+            "angle": "angle",
+            "brief": "brief",
+            "primaryKeyword": "primary_keyword",
+            "intent": "intent",
+            "funnelStage": "funnel_stage",
+            "categoryName": "category_name",
+            "localeVariants": "locale_variants",
+            "suggestedDate": "suggested_date",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        return out
+
+
+@dataclass
+class CalendarIdeas:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    ideas: List[CalendarIdea] = None
+    requested: float = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "CalendarIdeas":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "ideas": "ideas",
+            "requested": "requested",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        nested = {
+            "ideas": lambda v: [CalendarIdea.from_dict(v) for v in v],
+        }
+        for f, fn in nested.items():
+            if getattr(out, f, None) is not None:
+                setattr(out, f, fn(getattr(out, f)))
+        return out
+
+
+@dataclass
+class CalendarPlanEntry:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    planned_publish_at: str = None
+    weekday: float = None
+    series: str = None
+    working_title: str = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "CalendarPlanEntry":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "plannedPublishAt": "planned_publish_at",
+            "weekday": "weekday",
+            "series": "series",
+            "workingTitle": "working_title",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        return out
+
+
+@dataclass
+class CalendarPeriodPlan:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    entries: List[CalendarPlanEntry] = None
+    cadence: Dict[str, Any] = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "CalendarPeriodPlan":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "entries": "entries",
+            "cadence": "cadence",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        nested = {
+            "entries": lambda v: [CalendarPlanEntry.from_dict(v) for v in v],
+        }
+        for f, fn in nested.items():
+            if getattr(out, f, None) is not None:
+                setattr(out, f, fn(getattr(out, f)))
+        return out
+
+
+@dataclass
+class CalendarBestTime:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    suggestion: Dict[str, Any] = None
+    samples: float = None
+    basis: Literal["weekday_engagement"] = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "CalendarBestTime":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "suggestion": "suggestion",
+            "samples": "samples",
+            "basis": "basis",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        return out
+
+
+@dataclass
+class CalendarReschedule:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    proposal: Optional[Dict[str, Any]] = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "CalendarReschedule":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "proposal": "proposal",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        return out
+
+
+@dataclass
+class Campaign:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    _id: ObjectId = None
+    tenant_id: str = None
+    name: str = None
+    goal: Optional[str] = None
+    description: Optional[str] = None
+    starts_at: Optional[str] = None
+    ends_at: Optional[str] = None
+    status: Literal["planned"] | Literal["active"] | Literal["done"] = None
+    color: Optional[str] = None
+    created_by: Optional[ObjectId] = None
+    is_deleted: bool = None
+    created_at: DateTime = None
+    updated_at: DateTime = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "Campaign":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "_id": "_id",
+            "tenantId": "tenant_id",
+            "name": "name",
+            "goal": "goal",
+            "description": "description",
+            "startsAt": "starts_at",
+            "endsAt": "ends_at",
+            "status": "status",
+            "color": "color",
+            "createdBy": "created_by",
+            "isDeleted": "is_deleted",
+            "createdAt": "created_at",
+            "updatedAt": "updated_at",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        return out
+
+
+@dataclass
+class CampaignWrapper:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    campaign: Campaign = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "CampaignWrapper":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "campaign": "campaign",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        nested = {
+            "campaign": lambda v: Campaign.from_dict(v),
+        }
+        for f, fn in nested.items():
+            if getattr(out, f, None) is not None:
+                setattr(out, f, fn(getattr(out, f)))
+        return out
+
+
+@dataclass
+class CampaignList:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    campaigns: List[Campaign] = None
+    pagination: Pagination = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "CampaignList":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "campaigns": "campaigns",
+            "pagination": "pagination",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        nested = {
+            "campaigns": lambda v: [Campaign.from_dict(v) for v in v],
+            "pagination": lambda v: Pagination.from_dict(v),
+        }
+        for f, fn in nested.items():
+            if getattr(out, f, None) is not None:
+                setattr(out, f, fn(getattr(out, f)))
+        return out
+
+
+@dataclass
+class DigestAction:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    code: Literal["calendar.overdue"] | Literal["ai.lowAcceptance"] | Literal["calendar.delivery"] | Literal["seo.audit"] = None
+    severity: Literal["high"] | Literal["medium"] | Literal["low"] = None
+    reason: str = None
+    href: str = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "DigestAction":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "code": "code",
+            "severity": "severity",
+            "reason": "reason",
+            "href": "href",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        return out
+
+
+@dataclass
+class WeeklyDigest:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    week_of: str = None
+    range: Dict[str, Any] = None
+    published: Dict[str, Any] = None
+    ai: Dict[str, Any] = None
+    suggested_actions: List[DigestAction] = None
+    wins: List[str] = None
+    issues: List[str] = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "WeeklyDigest":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "weekOf": "week_of",
+            "range": "range",
+            "published": "published",
+            "ai": "ai",
+            "suggestedActions": "suggested_actions",
+            "wins": "wins",
+            "issues": "issues",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        nested = {
+            "suggested_actions": lambda v: [DigestAction.from_dict(v) for v in v],
+        }
+        for f, fn in nested.items():
+            if getattr(out, f, None) is not None:
+                setattr(out, f, fn(getattr(out, f)))
+        return out
+
+
+@dataclass
+class WeeklyDigestWrapper:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    digest: WeeklyDigest = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "WeeklyDigestWrapper":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "digest": "digest",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        nested = {
+            "digest": lambda v: WeeklyDigest.from_dict(v),
+        }
+        for f, fn in nested.items():
+            if getattr(out, f, None) is not None:
+                setattr(out, f, fn(getattr(out, f)))
+        return out
+
+
+@dataclass
+class SeoHealthCategoryRow:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    category_id: Optional[str] = None
+    category_name: str = None
+    articles: float = None
+    issues: float = None
+    health_percent: float = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "SeoHealthCategoryRow":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "categoryId": "category_id",
+            "categoryName": "category_name",
+            "articles": "articles",
+            "issues": "issues",
+            "healthPercent": "health_percent",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        return out
+
+
+@dataclass
+class SeoHealthReport:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    range: Dict[str, Any] = None
+    scanned: float = None
+    issue_counts: Dict[str, float] = None
+    total_issues: float = None
+    healthy_percent: float = None
+    by_category: List[SeoHealthCategoryRow] = None
+    notes: List[str] = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "SeoHealthReport":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "range": "range",
+            "scanned": "scanned",
+            "issueCounts": "issue_counts",
+            "totalIssues": "total_issues",
+            "healthyPercent": "healthy_percent",
+            "byCategory": "by_category",
+            "notes": "notes",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        nested = {
+            "by_category": lambda v: [SeoHealthCategoryRow.from_dict(v) for v in v],
+        }
+        for f, fn in nested.items():
+            if getattr(out, f, None) is not None:
+                setattr(out, f, fn(getattr(out, f)))
+        return out
+
+
+@dataclass
+class CalendarAdherenceReport:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    range: Dict[str, Any] = None
+    planned: float = None
+    published: float = None
+    published_on_time: float = None
+    delivery_rate: float = None
+    on_time_rate: float = None
+    median_lead_time_days: Optional[float] = None
+    overdue: float = None
+    campaigns: List[Dict[str, Any]] = None
+    notes: List[str] = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "CalendarAdherenceReport":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "range": "range",
+            "planned": "planned",
+            "published": "published",
+            "publishedOnTime": "published_on_time",
+            "deliveryRate": "delivery_rate",
+            "onTimeRate": "on_time_rate",
+            "medianLeadTimeDays": "median_lead_time_days",
+            "overdue": "overdue",
+            "campaigns": "campaigns",
+            "notes": "notes",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        return out
+
+
+@dataclass
+class AiAcceptanceActionRow:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    action_id: str = None
+    runs: float = None
+    accepted: float = None
+    acceptance_rate: float = None
+    minutes_saved: float = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "AiAcceptanceActionRow":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "actionId": "action_id",
+            "runs": "runs",
+            "accepted": "accepted",
+            "acceptanceRate": "acceptance_rate",
+            "minutesSaved": "minutes_saved",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        return out
+
+
+@dataclass
+class AiAcceptanceReport:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    range: Dict[str, Any] = None
+    total: float = None
+    accepted: float = None
+    rejected: float = None
+    acceptance_rate: float = None
+    credits: Dict[str, Any] = None
+    time_saved: Dict[str, Any] = None
+    by_action: List[AiAcceptanceActionRow] = None
+    notes: List[str] = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "AiAcceptanceReport":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "range": "range",
+            "total": "total",
+            "accepted": "accepted",
+            "rejected": "rejected",
+            "acceptanceRate": "acceptance_rate",
+            "credits": "credits",
+            "timeSaved": "time_saved",
+            "byAction": "by_action",
+            "notes": "notes",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        nested = {
+            "by_action": lambda v: [AiAcceptanceActionRow.from_dict(v) for v in v],
+        }
+        for f, fn in nested.items():
+            if getattr(out, f, None) is not None:
+                setattr(out, f, fn(getattr(out, f)))
+        return out
+
+
+@dataclass
+class TranslationCoverageReportV2:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    missing_articles: List[Dict[str, Any]] = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "TranslationCoverageReportV2":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "missingArticles": "missing_articles",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        return out
+
+
+@dataclass
+class ReportWrapper:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    null: ReportPayload = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "ReportWrapper":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "null": "null",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        nested = {
+            "null": lambda v: ReportPayload.from_dict(v),
+        }
+        for f, fn in nested.items():
+            if getattr(out, f, None) is not None:
+                setattr(out, f, fn(getattr(out, f)))
+        return out
+
+
+@dataclass
+class ReportPayload:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    report: SeoHealthReport | TranslationCoverageReportV2 | CalendarAdherenceReport | AiAcceptanceReport = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "ReportPayload":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "report": "report",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        nested = {
+            "report": lambda v: SeoHealthReport.from_dict(v),
+        }
+        for f, fn in nested.items():
+            if getattr(out, f, None) is not None:
+                setattr(out, f, fn(getattr(out, f)))
+        return out
+
+
+@dataclass
+class SeoAuditIssue:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    code: Literal["missing_meta_title"] | Literal["missing_meta_description"] | Literal["duplicate_title"] | Literal["thin_content"] | Literal["missing_alt_text"] | Literal["broken_heading_order"] | Literal["orphan_page"] | Literal["missing_keyword"] | Literal["no_traffic"] = None
+    severity: Literal["high"] | Literal["medium"] | Literal["low"] = None
+    article_id: ObjectId = None
+    title: str = None
+    message: str = None
+    fix_action: Optional[str] = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "SeoAuditIssue":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "code": "code",
+            "severity": "severity",
+            "articleId": "article_id",
+            "title": "title",
+            "message": "message",
+            "fixAction": "fix_action",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        return out
+
+
+@dataclass
+class SeoAuditReport:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    issues: List[SeoAuditIssue] = None
+    summary: Dict[str, float] = None
+    scanned: float = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "SeoAuditReport":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "issues": "issues",
+            "summary": "summary",
+            "scanned": "scanned",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        nested = {
+            "issues": lambda v: [SeoAuditIssue.from_dict(v) for v in v],
+        }
+        for f, fn in nested.items():
+            if getattr(out, f, None) is not None:
+                setattr(out, f, fn(getattr(out, f)))
+        return out
+
+
+@dataclass
+class CannibalizationGroup:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    keyword: str = None
+    article_ids: List[str] = None
+    titles: List[str] = None
+    recommended_keep: ObjectId = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "CannibalizationGroup":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "keyword": "keyword",
+            "articleIds": "article_ids",
+            "titles": "titles",
+            "recommendedKeep": "recommended_keep",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        return out
+
+
+@dataclass
+class CannibalizationReport:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    groups: List[CannibalizationGroup] = None
+    summary: Dict[str, Any] = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "CannibalizationReport":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "groups": "groups",
+            "summary": "summary",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        nested = {
+            "groups": lambda v: [CannibalizationGroup.from_dict(v) for v in v],
+        }
+        for f, fn in nested.items():
+            if getattr(out, f, None) is not None:
+                setattr(out, f, fn(getattr(out, f)))
+        return out
+
+
+@dataclass
+class RefreshCandidate:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    article_id: ObjectId = None
+    title: str = None
+    age_days: float = None
+    views_total: float = None
+    trend_ratio: Optional[float] = None
+    severity: Literal["high"] | Literal["medium"] | Literal["low"] = None
+    reasons: List[Literal["age"] | Literal["declining"] | Literal["no_traffic"]] = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "RefreshCandidate":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "articleId": "article_id",
+            "title": "title",
+            "ageDays": "age_days",
+            "viewsTotal": "views_total",
+            "trendRatio": "trend_ratio",
+            "severity": "severity",
+            "reasons": "reasons",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        return out
+
+
+@dataclass
+class RefreshCandidateReport:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    candidates: List[RefreshCandidate] = None
+    scanned: float = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "RefreshCandidateReport":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "candidates": "candidates",
+            "scanned": "scanned",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        nested = {
+            "candidates": lambda v: [RefreshCandidate.from_dict(v) for v in v],
+        }
+        for f, fn in nested.items():
+            if getattr(out, f, None) is not None:
+                setattr(out, f, fn(getattr(out, f)))
+        return out
+
+
+@dataclass
+class RefreshPlanItem:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    item: ContentPlanItem = None
+    linked: bool = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "RefreshPlanItem":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "item": "item",
+            "linked": "linked",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        nested = {
+            "item": lambda v: ContentPlanItem.from_dict(v),
+        }
+        for f, fn in nested.items():
+            if getattr(out, f, None) is not None:
+                setattr(out, f, fn(getattr(out, f)))
+        return out
+
+
+@dataclass
+class RefreshPlanItemWrapper:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    null: RefreshPlanItem = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "RefreshPlanItemWrapper":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "null": "null",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        nested = {
+            "null": lambda v: RefreshPlanItem.from_dict(v),
+        }
+        for f, fn in nested.items():
+            if getattr(out, f, None) is not None:
+                setattr(out, f, fn(getattr(out, f)))
+        return out
+
+
+@dataclass
+class HreflangEntry:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    locale: str = None
+    hreflang: str = None
+    url: str = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "HreflangEntry":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "locale": "locale",
+            "hreflang": "hreflang",
+            "url": "url",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        return out
+
+
+@dataclass
+class HreflangGroup:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    article_id: ObjectId = None
+    canonical: str = None
+    alternates: List[HreflangEntry] = None
+    x_default: Optional[str] = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "HreflangGroup":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "articleId": "article_id",
+            "canonical": "canonical",
+            "alternates": "alternates",
+            "xDefault": "x_default",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        nested = {
+            "alternates": lambda v: [HreflangEntry.from_dict(v) for v in v],
+        }
+        for f, fn in nested.items():
+            if getattr(out, f, None) is not None:
+                setattr(out, f, fn(getattr(out, f)))
+        return out
+
+
+@dataclass
+class HreflangWrapper:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    hreflang: HreflangGroup = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "HreflangWrapper":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "hreflang": "hreflang",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        nested = {
+            "hreflang": lambda v: HreflangGroup.from_dict(v),
+        }
+        for f, fn in nested.items():
+            if getattr(out, f, None) is not None:
+                setattr(out, f, fn(getattr(out, f)))
+        return out
+
+
+@dataclass
+class Redirect:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    _id: ObjectId = None
+    tenant_id: str = None
+    from_slug: str = None
+    to_slug: str = None
+    article_id: ObjectId = None
+    created_at: DateTime = None
+    updated_at: DateTime = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "Redirect":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "_id": "_id",
+            "tenantId": "tenant_id",
+            "fromSlug": "from_slug",
+            "toSlug": "to_slug",
+            "articleId": "article_id",
+            "createdAt": "created_at",
+            "updatedAt": "updated_at",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        return out
+
+
+@dataclass
+class RedirectList:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    redirects: List[Redirect] = None
+    pagination: Pagination = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "RedirectList":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "redirects": "redirects",
+            "pagination": "pagination",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        nested = {
+            "redirects": lambda v: [Redirect.from_dict(v) for v in v],
+            "pagination": lambda v: Pagination.from_dict(v),
+        }
+        for f, fn in nested.items():
+            if getattr(out, f, None) is not None:
+                setattr(out, f, fn(getattr(out, f)))
+        return out
+
+
+@dataclass
+class TranslationCoverageRow:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    entity_type: Literal["article"] | Literal["category"] | Literal["subcategory"] | Literal["form"] = None
+    covered: float = None
+    total: float = None
+    missing_by_locale: Dict[str, float] = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "TranslationCoverageRow":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "entityType": "entity_type",
+            "covered": "covered",
+            "total": "total",
+            "missingByLocale": "missing_by_locale",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        return out
+
+
+@dataclass
+class TranslationCoverageReport:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    locales: List[str] = None
+    rows: List[TranslationCoverageRow] = None
+    completeness: float = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "TranslationCoverageReport":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "locales": "locales",
+            "rows": "rows",
+            "completeness": "completeness",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        nested = {
+            "rows": lambda v: [TranslationCoverageRow.from_dict(v) for v in v],
+        }
+        for f, fn in nested.items():
+            if getattr(out, f, None) is not None:
+                setattr(out, f, fn(getattr(out, f)))
+        return out
+
+
+@dataclass
+class ContentTypeProfile:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    type_: Literal["blog"] | Literal["case_study"] | Literal["landing"] | Literal["news"] = None
+    length: Dict[str, Any] = None
+    weights: Dict[str, float] = None
+    optional_signals: List[str] = None
+    requires_summary: bool = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "ContentTypeProfile":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "type": "type_",
+            "length": "length",
+            "weights": "weights",
+            "optionalSignals": "optional_signals",
+            "requiresSummary": "requires_summary",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        return out
+
+
+@dataclass
+class ContentTypeProfileWrapper:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    profile: ContentTypeProfile = None
+    profiles: List[ContentTypeProfile] = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "ContentTypeProfileWrapper":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "profile": "profile",
+            "profiles": "profiles",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        nested = {
+            "profile": lambda v: ContentTypeProfile.from_dict(v),
+            "profiles": lambda v: [ContentTypeProfile.from_dict(v) for v in v],
         }
         for f, fn in nested.items():
             if getattr(out, f, None) is not None:

@@ -1442,6 +1442,69 @@ export type AuthorsGetBySlugResponse = Schemas.Envelope & {
   data?: Schemas.AuthorWrapper;
 };
 
+export type CampaignsGetAllPath = {};
+
+export type CampaignsGetAllQuery = {
+  status?: "planned" | "active" | "done" | "all";
+  from?: string;
+  to?: string;
+};
+
+export type CampaignsGetAllBody = undefined;
+
+export type CampaignsGetAllResponse = Schemas.Envelope & {
+  data?: Schemas.CampaignList;
+};
+
+export type CampaignsCreatePath = {};
+
+export type CampaignsCreateQuery = {};
+
+export type CampaignsCreateBody = {
+  name: string;
+  goal?: string;
+  description?: string;
+  startsAt?: string;
+  endsAt?: string;
+  status?: "planned" | "active" | "done";
+  color?: string;
+};
+
+export type CampaignsCreateResponse = Schemas.Envelope & {
+  data?: Schemas.CampaignWrapper;
+};
+
+export type CampaignsUpdatePath = {};
+
+export type CampaignsUpdateQuery = {};
+
+export type CampaignsUpdateBody = {
+  id: Schemas.ObjectId;
+  name?: string;
+  goal?: string;
+  description?: string;
+  startsAt?: string;
+  endsAt?: string;
+  status?: "planned" | "active" | "done";
+  color?: string;
+};
+
+export type CampaignsUpdateResponse = Schemas.Envelope & {
+  data?: Schemas.CampaignWrapper;
+};
+
+export type CampaignsDeleteIdPath = {
+  id: Schemas.ObjectId;
+};
+
+export type CampaignsDeleteIdQuery = {};
+
+export type CampaignsDeleteIdBody = undefined;
+
+export type CampaignsDeleteIdResponse = Schemas.Envelope & {
+  data?: Schemas.CampaignWrapper;
+};
+
 export type CategoriesCreatePath = {};
 
 export type CategoriesCreateQuery = {};
@@ -1525,6 +1588,244 @@ export type CategoriesGetBySlugBody = undefined;
 
 export type CategoriesGetBySlugResponse = Schemas.Envelope & {
   data?: Schemas.CategoryWrapper;
+};
+
+export type ContentPlanGetAllPath = {};
+
+export type ContentPlanGetAllQuery = {
+  from?: string;
+  to?: string;
+  status?: "all" | "idea" | "planned" | "in_progress" | "in_review" | "scheduled" | "published" | "postponed" | "cancelled";
+  categoryId?: Schemas.ObjectId;
+  authorId?: Schemas.ObjectId;
+  assigneeId?: Schemas.ObjectId;
+  campaignId?: Schemas.ObjectId;
+  locale?: string;
+  q?: string;
+  limit?: number;
+};
+
+export type ContentPlanGetAllBody = undefined;
+
+export type ContentPlanGetAllResponse = Schemas.Envelope & {
+  data?: Schemas.ContentPlanList;
+};
+
+export type ContentPlanCreatePath = {};
+
+export type ContentPlanCreateQuery = {};
+
+export type ContentPlanCreateBody = {
+  title: string;
+  brief?: string;
+  primaryKeyword?: string;
+  intent?: "informational" | "navigational" | "commercial" | "transactional" | null;
+  funnelStage?: "awareness" | "consideration" | "conversion" | "retention" | null;
+  category?: Schemas.ObjectId;
+  subCategory?: Schemas.ObjectId;
+  author?: Schemas.ObjectId;
+  assignee?: Schemas.ObjectId;
+  campaign?: Schemas.ObjectId;
+  status?: Schemas.ContentPlanStatus;
+  dueAt?: string;
+  plannedPublishAt?: string;
+  timezone?: string;
+  locales?: Array<Schemas.ContentPlanLocale>;
+  notes?: string;
+  tags?: Array<string>;
+};
+
+export type ContentPlanCreateResponse = Schemas.Envelope & {
+  data?: Schemas.ContentPlanItemWrapper;
+};
+
+export type ContentPlanUpdatePath = {};
+
+export type ContentPlanUpdateQuery = {};
+
+export type ContentPlanUpdateBody = {
+  id: Schemas.ObjectId;
+  title?: string;
+  brief?: string;
+  primaryKeyword?: string;
+  intent?: "informational" | "navigational" | "commercial" | "transactional" | null;
+  funnelStage?: "awareness" | "consideration" | "conversion" | "retention" | null;
+  category?: Schemas.ObjectId;
+  subCategory?: Schemas.ObjectId;
+  author?: Schemas.ObjectId;
+  assignee?: Schemas.ObjectId;
+  campaign?: Schemas.ObjectId;
+  status?: Schemas.ContentPlanStatus;
+  dueAt?: string;
+  plannedPublishAt?: string;
+  timezone?: string;
+  locales?: Array<Schemas.ContentPlanLocale>;
+  notes?: string;
+  tags?: Array<string>;
+};
+
+export type ContentPlanUpdateResponse = Schemas.Envelope & {
+  data?: Schemas.ContentPlanItemWrapper;
+};
+
+export type ContentPlanDeleteIdPath = {
+  id: Schemas.ObjectId;
+};
+
+export type ContentPlanDeleteIdQuery = {};
+
+export type ContentPlanDeleteIdBody = undefined;
+
+export type ContentPlanDeleteIdResponse = Schemas.Envelope & {
+  data?: Schemas.ContentPlanItemWrapper;
+};
+
+export type ContentPlanIdStartDraftPath = {
+  id: Schemas.ObjectId;
+};
+
+export type ContentPlanIdStartDraftQuery = {};
+
+export type ContentPlanIdStartDraftBody = {
+  sourceLocale?: string;
+};
+
+export type ContentPlanIdStartDraftResponse = Schemas.Envelope & {
+  data?: Schemas.StartDraftWrapper;
+};
+
+export type ContentPlanIdSchedulePath = {
+  id: Schemas.ObjectId;
+};
+
+export type ContentPlanIdScheduleQuery = {};
+
+export type ContentPlanIdScheduleBody = {
+  plannedPublishAt: string;
+  publishArticle?: boolean;
+};
+
+export type ContentPlanIdScheduleResponse = Schemas.Envelope & {
+  data?: Schemas.ScheduleWrapper;
+};
+
+export type ContentPlanGapsPath = {};
+
+export type ContentPlanGapsQuery = {
+  staleDays?: number;
+  locales?: string;
+};
+
+export type ContentPlanGapsBody = undefined;
+
+export type ContentPlanGapsResponse = Schemas.Envelope & {
+  data?: Schemas.ContentGapReport;
+};
+
+export type ContentPlanIdeasFromAiPath = {};
+
+export type ContentPlanIdeasFromAiQuery = {};
+
+export type ContentPlanIdeasFromAiBody = {
+  title: string;
+  brief?: string;
+  primaryKeyword?: string;
+  intent?: "informational" | "navigational" | "commercial" | "transactional";
+  funnelStage?: "awareness" | "consideration" | "conversion" | "retention";
+  category?: Schemas.ObjectId;
+  author?: Schemas.ObjectId;
+  campaign?: Schemas.ObjectId;
+  plannedPublishAt?: string;
+  locales?: Array<Schemas.ContentPlanLocale>;
+  source?: "ai" | "content_gap";
+};
+
+export type ContentPlanIdeasFromAiResponse = Schemas.Envelope & {
+  data?: Schemas.ContentPlanItemWrapper;
+};
+
+export type ContentPlanAiGenerateIdeasPath = {};
+
+export type ContentPlanAiGenerateIdeasQuery = {};
+
+export type ContentPlanAiGenerateIdeasBody = {
+  goal: string;
+  audience?: string;
+  timeframeWeeks?: number;
+  count?: number;
+  categories?: Array<Schemas.ObjectId>;
+  locales?: Array<string>;
+  constraints?: string;
+};
+
+export type ContentPlanAiGenerateIdeasResponse = Schemas.Envelope & {
+  data?: Schemas.CalendarIdeas;
+};
+
+export type ContentPlanAiPlanPeriodPath = {};
+
+export type ContentPlanAiPlanPeriodQuery = {};
+
+export type ContentPlanAiPlanPeriodBody = {
+  weeks?: number;
+  from?: string;
+  locales?: Array<string>;
+};
+
+export type ContentPlanAiPlanPeriodResponse = Schemas.Envelope & {
+  data?: Schemas.CalendarPeriodPlan;
+};
+
+export type ContentPlanAiBestTimePath = {};
+
+export type ContentPlanAiBestTimeQuery = {};
+
+export type ContentPlanAiBestTimeBody = undefined;
+
+export type ContentPlanAiBestTimeResponse = Schemas.Envelope & {
+  data?: Schemas.CalendarBestTime;
+};
+
+export type ContentPlanAiReschedulePath = {};
+
+export type ContentPlanAiRescheduleQuery = {};
+
+export type ContentPlanAiRescheduleBody = {
+  itemId: Schemas.ObjectId;
+};
+
+export type ContentPlanAiRescheduleResponse = Schemas.Envelope & {
+  data?: Schemas.CalendarReschedule;
+};
+
+export type ContentPlanCadenceGETPath = {};
+
+export type ContentPlanCadenceGETQuery = {
+  category?: Schemas.ObjectId;
+};
+
+export type ContentPlanCadenceGETBody = undefined;
+
+export type ContentPlanCadenceGETResponse = Schemas.Envelope & {
+  data?: Schemas.CadenceWrapper;
+};
+
+export type ContentPlanCadencePUTPath = {};
+
+export type ContentPlanCadencePUTQuery = {};
+
+export type ContentPlanCadencePUTBody = {
+  scope?: "tenant" | "category";
+  category?: Schemas.ObjectId;
+  postsPerWeek?: number;
+  preferredWeekdays?: Array<number>;
+  preferredTime?: string;
+  timezone?: string;
+  weekendDays?: Array<number>;
+};
+
+export type ContentPlanCadencePUTResponse = Schemas.Envelope & {
+  data?: Schemas.CadenceWrapper;
 };
 
 export type FormsCreatePath = {};
@@ -2574,6 +2875,178 @@ export type ReportsNeedsAttentionBody = undefined;
 
 export type ReportsNeedsAttentionResponse = Schemas.Envelope & {
   data?: Schemas.NeedsAttentionReport;
+};
+
+export type ReportsWeeklyDigestPath = {};
+
+export type ReportsWeeklyDigestQuery = {
+  on?: string;
+};
+
+export type ReportsWeeklyDigestBody = undefined;
+
+export type ReportsWeeklyDigestResponse = Schemas.Envelope & {
+  data?: Schemas.WeeklyDigestWrapper;
+};
+
+export type ReportsSeoHealthPath = {};
+
+export type ReportsSeoHealthQuery = {
+  from?: string;
+  to?: string;
+  limit?: number;
+};
+
+export type ReportsSeoHealthBody = undefined;
+
+export type ReportsSeoHealthResponse = Schemas.Envelope & {
+  data?: Schemas.ReportWrapper;
+};
+
+export type ReportsTranslationCoveragePath = {};
+
+export type ReportsTranslationCoverageQuery = {
+  locales?: string;
+  limit?: number;
+};
+
+export type ReportsTranslationCoverageBody = undefined;
+
+export type ReportsTranslationCoverageResponse = Schemas.Envelope & {
+  data?: Schemas.ReportWrapper;
+};
+
+export type ReportsCalendarAdherencePath = {};
+
+export type ReportsCalendarAdherenceQuery = {
+  from?: string;
+  to?: string;
+  limit?: number;
+};
+
+export type ReportsCalendarAdherenceBody = undefined;
+
+export type ReportsCalendarAdherenceResponse = Schemas.Envelope & {
+  data?: Schemas.ReportWrapper;
+};
+
+export type ReportsAiAcceptancePath = {};
+
+export type ReportsAiAcceptanceQuery = {
+  from?: string;
+  to?: string;
+  limit?: number;
+};
+
+export type ReportsAiAcceptanceBody = undefined;
+
+export type ReportsAiAcceptanceResponse = Schemas.Envelope & {
+  data?: Schemas.ReportWrapper;
+};
+
+export type SEOHubAuditPath = {};
+
+export type SEOHubAuditQuery = {
+  shallow?: boolean;
+  limit?: number;
+  code?: "missing_meta_title" | "missing_meta_description" | "duplicate_title" | "thin_content" | "missing_alt_text" | "broken_heading_order" | "orphan_page" | "missing_keyword" | "no_traffic";
+};
+
+export type SEOHubAuditBody = undefined;
+
+export type SEOHubAuditResponse = Schemas.Envelope & {
+  data?: Schemas.SeoAuditReport;
+};
+
+export type SEOHubCannibalizationPath = {};
+
+export type SEOHubCannibalizationQuery = {
+  limit?: number;
+};
+
+export type SEOHubCannibalizationBody = undefined;
+
+export type SEOHubCannibalizationResponse = Schemas.Envelope & {
+  data?: Schemas.CannibalizationReport;
+};
+
+export type SEOHubRefreshPath = {};
+
+export type SEOHubRefreshQuery = {
+  staleDays?: number;
+  limit?: number;
+  dailyViews?: string;
+};
+
+export type SEOHubRefreshBody = undefined;
+
+export type SEOHubRefreshResponse = Schemas.Envelope & {
+  data?: Schemas.RefreshCandidateReport;
+};
+
+export type SEOHubRefreshArticleIdPlanItemPath = {
+  articleId: Schemas.ObjectId;
+};
+
+export type SEOHubRefreshArticleIdPlanItemQuery = {};
+
+export type SEOHubRefreshArticleIdPlanItemBody = undefined;
+
+export type SEOHubRefreshArticleIdPlanItemResponse = Schemas.Envelope & {
+  data?: Schemas.RefreshPlanItemWrapper;
+};
+
+export type SEOHubHreflangArticleIdPath = {
+  articleId: Schemas.ObjectId;
+};
+
+export type SEOHubHreflangArticleIdQuery = {
+  baseUrl?: string;
+  localeStrategy?: "prefix" | "query" | "none";
+};
+
+export type SEOHubHreflangArticleIdBody = undefined;
+
+export type SEOHubHreflangArticleIdResponse = Schemas.Envelope & {
+  data?: Schemas.HreflangWrapper;
+};
+
+export type SEOHubRedirectsPath = {};
+
+export type SEOHubRedirectsQuery = {
+  from?: string;
+  limit?: number;
+};
+
+export type SEOHubRedirectsBody = undefined;
+
+export type SEOHubRedirectsResponse = Schemas.Envelope & {
+  data?: Schemas.RedirectList;
+};
+
+export type SEOHubTranslationCoveragePath = {};
+
+export type SEOHubTranslationCoverageQuery = {
+  locales?: string;
+  limit?: number;
+};
+
+export type SEOHubTranslationCoverageBody = undefined;
+
+export type SEOHubTranslationCoverageResponse = Schemas.Envelope & {
+  data?: Schemas.TranslationCoverageReport;
+};
+
+export type SEOHubContentTypesPath = {};
+
+export type SEOHubContentTypesQuery = {
+  type?: "blog" | "case_study" | "landing" | "news";
+};
+
+export type SEOHubContentTypesBody = undefined;
+
+export type SEOHubContentTypesResponse = Schemas.Envelope & {
+  data?: Schemas.ContentTypeProfileWrapper;
 };
 
 export type SubcategoriesCreatePath = {};

@@ -97,4 +97,24 @@ export class ReportsResource {
     return this.client.request<Ops.ReportsNeedsAttentionResponse>("GET", `/reports/needsAttention`, options);
   }
 
+  weeklyDigest(options?: RequestOptions<Ops.ReportsWeeklyDigestQuery>): Promise<Ops.ReportsWeeklyDigestResponse> {
+    return this.client.request<Ops.ReportsWeeklyDigestResponse>("GET", `/reports/weeklyDigest`, options);
+  }
+
+  seoHealth(options?: RequestOptions<Ops.ReportsSeoHealthQuery>): Promise<Ops.ReportsSeoHealthResponse> {
+    return this.client.request<Ops.ReportsSeoHealthResponse>("GET", `/reports/seoHealth`, options);
+  }
+
+  translationCoverage(options?: RequestOptions<Ops.ReportsTranslationCoverageQuery>): Promise<Ops.ReportsTranslationCoverageResponse> {
+    return this.client.request<Ops.ReportsTranslationCoverageResponse>("GET", `/reports/translationCoverage`, options);
+  }
+
+  calendarAdherence(options?: RequestOptions<Ops.ReportsCalendarAdherenceQuery>): Promise<Ops.ReportsCalendarAdherenceResponse> {
+    return this.client.request<Ops.ReportsCalendarAdherenceResponse>("GET", `/reports/calendarAdherence`, options);
+  }
+
+  aiAcceptance(options?: RequestOptions<Ops.ReportsAiAcceptanceQuery>): Promise<Ops.ReportsAiAcceptanceResponse> {
+    return this.client.request<Ops.ReportsAiAcceptanceResponse>("GET", `/reports/aiAcceptance`, options);
+  }
+
 }

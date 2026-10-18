@@ -93,3 +93,23 @@ func (r *ReportsResource) DashboardConfigPUT(body any, query map[string]any) CMS
 func (r *ReportsResource) NeedsAttention(query map[string]any) CMSResponse[NeedsAttentionReport] {
     return RequestInto[NeedsAttentionReport](r.client, "GET", "/reports/needsAttention", query, nil)
 }
+
+func (r *ReportsResource) WeeklyDigest(query map[string]any) CMSResponse[WeeklyDigestWrapper] {
+    return RequestInto[WeeklyDigestWrapper](r.client, "GET", "/reports/weeklyDigest", query, nil)
+}
+
+func (r *ReportsResource) SeoHealth(query map[string]any) CMSResponse[ReportWrapper] {
+    return RequestInto[ReportWrapper](r.client, "GET", "/reports/seoHealth", query, nil)
+}
+
+func (r *ReportsResource) TranslationCoverage(query map[string]any) CMSResponse[ReportWrapper] {
+    return RequestInto[ReportWrapper](r.client, "GET", "/reports/translationCoverage", query, nil)
+}
+
+func (r *ReportsResource) CalendarAdherence(query map[string]any) CMSResponse[ReportWrapper] {
+    return RequestInto[ReportWrapper](r.client, "GET", "/reports/calendarAdherence", query, nil)
+}
+
+func (r *ReportsResource) AiAcceptance(query map[string]any) CMSResponse[ReportWrapper] {
+    return RequestInto[ReportWrapper](r.client, "GET", "/reports/aiAcceptance", query, nil)
+}

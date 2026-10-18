@@ -198,7 +198,11 @@ const EXCLUDED_TAGS = new Set(['Users', 'Users - Auth', 'Users - Invites', 'Auth
 // MUST stay identical to EXCLUDED_PATHS in the backend's scripts/generate-sdks.js
 // — the four other generators already honour it and this one did not, so the JS
 // SDK alone exposed `getTenantStatistics` until Phase 3 caught it.
-const EXCLUDED_PATHS = new Set(['/reports/getTenantStatistics/{tenantId}']);
+const EXCLUDED_PATHS = new Set([
+  '/reports/getTenantStatistics/{tenantId}',
+  // K: the calendar's ICS subscription feed is not an SDK call.
+  '/content-plan/ics',
+]);
 
 const operations = [];
 const multiMethodPaths = new Set();
@@ -409,6 +413,10 @@ const FACADE = {
   'Forms': 'form', 'Languages': 'language',
   // Phase 3 / H + I — keep in sync with scripts/generate-sdks.js.
   'Taxonomy': 'taxonomy', 'Media': 'media',
+  // Phase 3 / K — the content calendar (the ICS feed is an EXCLUDED_PATH).
+  'Content Plan': 'contentPlan', 'Campaigns': 'campaign',
+  // Phase 3 / D-07, D-08, D-09, E-07
+  'SEO Hub': 'seo',
   'Reports': 'report', 'Subcategories': 'subcategory', 'Tags': 'tag',
 };
 const unknownTags = resourceNames.filter((r) => !FACADE[r.tag]).map((r) => r.tag);

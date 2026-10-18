@@ -104,6 +104,20 @@ public enum CaptchaConfigProviderEnum
     Turnstile,
 }
 
+public enum ArticleDerivedContentChannelEnum
+{
+    [EnumMember(Value = "newsletter")]
+    Newsletter,
+    [EnumMember(Value = "xThread")]
+    XThread,
+    [EnumMember(Value = "videoScript")]
+    VideoScript,
+    [EnumMember(Value = "faq")]
+    Faq,
+    [EnumMember(Value = "pressRelease")]
+    PressRelease,
+}
+
 public enum AIConversationRegenerateStatusEnum
 {
     [EnumMember(Value = "approved")]
@@ -752,6 +766,218 @@ public enum MediaMetadataSuggestionKindEnum
     Other,
 }
 
+public enum ContentPlanLocaleStatusEnum
+{
+    [EnumMember(Value = "pending")]
+    Pending,
+    [EnumMember(Value = "in_progress")]
+    InProgress,
+    [EnumMember(Value = "done")]
+    Done,
+    [EnumMember(Value = "outdated")]
+    Outdated,
+}
+
+public enum ContentPlanItemSourceEnum
+{
+    [EnumMember(Value = "manual")]
+    Manual,
+    [EnumMember(Value = "ai")]
+    Ai,
+    [EnumMember(Value = "content_gap")]
+    ContentGap,
+    [EnumMember(Value = "reader_comment")]
+    ReaderComment,
+    [EnumMember(Value = "form_submission")]
+    FormSubmission,
+}
+
+public enum PlanWarningCodeEnum
+{
+    [EnumMember(Value = "cadence_exceeded")]
+    CadenceExceeded,
+    [EnumMember(Value = "cadence_under")]
+    CadenceUnder,
+    [EnumMember(Value = "keyword_collision")]
+    KeywordCollision,
+    [EnumMember(Value = "author_overload")]
+    AuthorOverload,
+    [EnumMember(Value = "publish_before_translation")]
+    PublishBeforeTranslation,
+    [EnumMember(Value = "past_due")]
+    PastDue,
+    [EnumMember(Value = "overdue_publish")]
+    OverduePublish,
+}
+
+public enum PlanWarningSeverityEnum
+{
+    [EnumMember(Value = "high")]
+    High,
+    [EnumMember(Value = "medium")]
+    Medium,
+    [EnumMember(Value = "low")]
+    Low,
+}
+
+public enum ContentCadenceScopeEnum
+{
+    [EnumMember(Value = "tenant")]
+    Tenant,
+    [EnumMember(Value = "category")]
+    Category,
+}
+
+public enum ContentGapCodeEnum
+{
+    [EnumMember(Value = "thin_category")]
+    ThinCategory,
+    [EnumMember(Value = "missing_locale")]
+    MissingLocale,
+    [EnumMember(Value = "stale_content")]
+    StaleContent,
+    [EnumMember(Value = "idle_keyword")]
+    IdleKeyword,
+}
+
+public enum ContentGapSeverityEnum
+{
+    [EnumMember(Value = "high")]
+    High,
+    [EnumMember(Value = "medium")]
+    Medium,
+    [EnumMember(Value = "low")]
+    Low,
+}
+
+public enum CalendarIdeaIntentEnum
+{
+    [EnumMember(Value = "informational")]
+    Informational,
+    [EnumMember(Value = "navigational")]
+    Navigational,
+    [EnumMember(Value = "commercial")]
+    Commercial,
+    [EnumMember(Value = "transactional")]
+    Transactional,
+}
+
+public enum CalendarIdeaFunnelStageEnum
+{
+    [EnumMember(Value = "awareness")]
+    Awareness,
+    [EnumMember(Value = "consideration")]
+    Consideration,
+    [EnumMember(Value = "conversion")]
+    Conversion,
+    [EnumMember(Value = "retention")]
+    Retention,
+}
+
+public enum CalendarBestTimeBasisEnum
+{
+    [EnumMember(Value = "weekday_engagement")]
+    WeekdayEngagement,
+}
+
+public enum CampaignStatusEnum
+{
+    [EnumMember(Value = "planned")]
+    Planned,
+    [EnumMember(Value = "active")]
+    Active,
+    [EnumMember(Value = "done")]
+    Done,
+}
+
+public enum DigestActionCodeEnum
+{
+    [EnumMember(Value = "calendar.overdue")]
+    CalendarOverdue,
+    [EnumMember(Value = "ai.lowAcceptance")]
+    AiLowAcceptance,
+    [EnumMember(Value = "calendar.delivery")]
+    CalendarDelivery,
+    [EnumMember(Value = "seo.audit")]
+    SeoAudit,
+}
+
+public enum DigestActionSeverityEnum
+{
+    [EnumMember(Value = "high")]
+    High,
+    [EnumMember(Value = "medium")]
+    Medium,
+    [EnumMember(Value = "low")]
+    Low,
+}
+
+public enum SeoAuditIssueCodeEnum
+{
+    [EnumMember(Value = "missing_meta_title")]
+    MissingMetaTitle,
+    [EnumMember(Value = "missing_meta_description")]
+    MissingMetaDescription,
+    [EnumMember(Value = "duplicate_title")]
+    DuplicateTitle,
+    [EnumMember(Value = "thin_content")]
+    ThinContent,
+    [EnumMember(Value = "missing_alt_text")]
+    MissingAltText,
+    [EnumMember(Value = "broken_heading_order")]
+    BrokenHeadingOrder,
+    [EnumMember(Value = "orphan_page")]
+    OrphanPage,
+    [EnumMember(Value = "missing_keyword")]
+    MissingKeyword,
+    [EnumMember(Value = "no_traffic")]
+    NoTraffic,
+}
+
+public enum SeoAuditIssueSeverityEnum
+{
+    [EnumMember(Value = "high")]
+    High,
+    [EnumMember(Value = "medium")]
+    Medium,
+    [EnumMember(Value = "low")]
+    Low,
+}
+
+public enum RefreshCandidateSeverityEnum
+{
+    [EnumMember(Value = "high")]
+    High,
+    [EnumMember(Value = "medium")]
+    Medium,
+    [EnumMember(Value = "low")]
+    Low,
+}
+
+public enum TranslationCoverageRowEntityTypeEnum
+{
+    [EnumMember(Value = "article")]
+    Article,
+    [EnumMember(Value = "category")]
+    Category,
+    [EnumMember(Value = "subcategory")]
+    Subcategory,
+    [EnumMember(Value = "form")]
+    Form,
+}
+
+public enum ContentTypeProfileTypeEnum
+{
+    [EnumMember(Value = "blog")]
+    Blog,
+    [EnumMember(Value = "case_study")]
+    CaseStudy,
+    [EnumMember(Value = "landing")]
+    Landing,
+    [EnumMember(Value = "news")]
+    News,
+}
+
 public record MultilingualStringOrNull
 {
     [JsonExtensionData]
@@ -1252,6 +1478,12 @@ public record Article
     [JsonPropertyName("contentSource")]
     public ArticleContentSourceEnum? ContentSource { get; set; } = null;
 
+    [JsonPropertyName("contentBlocks")]
+    public ArticleContentBlocks? ContentBlocks { get; set; } = null;
+
+    [JsonPropertyName("derivedContent")]
+    public ArticleDerivedContent[]? DerivedContent { get; set; } = null;
+
     [JsonPropertyName("engagement")]
     public ArticleEngagementOverride? Engagement { get; set; } = null;
 
@@ -1643,6 +1875,165 @@ public record RepurposedOutput
     public string? Cta { get; set; } = null;
 }
 
+public record NewsletterOutput
+{
+    [JsonPropertyName("subject")]
+    public string Subject { get; set; } = null!;
+
+    [JsonPropertyName("preheader")]
+    public string? Preheader { get; set; } = null;
+
+    [JsonPropertyName("body")]
+    public string Body { get; set; } = null!;
+
+    [JsonPropertyName("cta")]
+    public string? Cta { get; set; } = null;
+}
+
+public record XThreadOutput
+{
+    [JsonPropertyName("posts")]
+    public string[] Posts { get; set; } = null!;
+}
+
+public record VideoScene
+{
+    [JsonPropertyName("title")]
+    public string Title { get; set; } = null!;
+
+    [JsonPropertyName("durationSec")]
+    public double DurationSec { get; set; }
+
+    [JsonPropertyName("narration")]
+    public string Narration { get; set; } = null!;
+
+    [JsonPropertyName("bRoll")]
+    public string? BRoll { get; set; } = null;
+}
+
+public record VideoScriptOutput
+{
+    [JsonPropertyName("hook")]
+    public string? Hook { get; set; } = null;
+
+    [JsonPropertyName("scenes")]
+    public VideoScene[] Scenes { get; set; } = null!;
+
+    [JsonPropertyName("outro")]
+    public string? Outro { get; set; } = null;
+
+    [JsonPropertyName("totalSec")]
+    public double TotalSec { get; set; }
+}
+
+public record FaqChannelOutput
+{
+    [JsonPropertyName("items")]
+    public Dictionary<string, JsonElement>[] Items { get; set; } = null!;
+}
+
+public record PressReleaseOutput
+{
+    [JsonPropertyName("headline")]
+    public string? Headline { get; set; } = null;
+
+    [JsonPropertyName("dateline")]
+    public string? Dateline { get; set; } = null;
+
+    [JsonPropertyName("lede")]
+    public string? Lede { get; set; } = null;
+
+    [JsonPropertyName("body")]
+    public string[]? Body { get; set; } = null;
+
+    [JsonPropertyName("boilerplate")]
+    public string? Boilerplate { get; set; } = null;
+}
+
+public record ContentBlockFaqItem
+{
+    [JsonPropertyName("question")]
+    public string Question { get; set; } = null!;
+
+    [JsonPropertyName("answer")]
+    public string Answer { get; set; } = null!;
+}
+
+public record ContentBlockTakeaway
+{
+    [JsonPropertyName("label")]
+    public string? Label { get; set; } = null;
+
+    [JsonPropertyName("text")]
+    public string Text { get; set; } = null!;
+}
+
+public record ArticleContentBlocks
+{
+    [JsonPropertyName("faq")]
+    public Dictionary<string, ContentBlockFaqItem[]>? Faq { get; set; } = null;
+
+    [JsonPropertyName("tldr")]
+    public Dictionary<string, string>? Tldr { get; set; } = null;
+
+    [JsonPropertyName("keyTakeaways")]
+    public Dictionary<string, ContentBlockTakeaway[]>? KeyTakeaways { get; set; } = null;
+}
+
+public record ArticleDerivedContent
+{
+    [JsonPropertyName("channel")]
+    public ArticleDerivedContentChannelEnum Channel { get; set; }
+
+    [JsonPropertyName("language")]
+    public string? Language { get; set; } = null;
+
+    [JsonPropertyName("title")]
+    public string? Title { get; set; } = null;
+
+    [JsonPropertyName("payload")]
+    public string Payload { get; set; } = null!;
+
+    [JsonPropertyName("aiGenerationId")]
+    public string? AiGenerationId { get; set; } = null;
+
+    [JsonPropertyName("scheduledItemId")]
+    public string? ScheduledItemId { get; set; } = null;
+
+    [JsonPropertyName("createdAt")]
+    public System.DateTime CreatedAt { get; set; }
+
+    [JsonPropertyName("updatedAt")]
+    public System.DateTime UpdatedAt { get; set; }
+}
+
+public record RepurposeChannels
+{
+    [JsonPropertyName("newsletter")]
+    public NewsletterOutput? Newsletter { get; set; } = null;
+
+    [JsonPropertyName("xThread")]
+    public XThreadOutput? XThread { get; set; } = null;
+
+    [JsonPropertyName("videoScript")]
+    public VideoScriptOutput? VideoScript { get; set; } = null;
+
+    [JsonPropertyName("faq")]
+    public FaqChannelOutput? Faq { get; set; } = null;
+
+    [JsonPropertyName("pressRelease")]
+    public PressReleaseOutput? PressRelease { get; set; } = null;
+}
+
+public record ChannelNote
+{
+    [JsonPropertyName("channel")]
+    public string Channel { get; set; } = null!;
+
+    [JsonPropertyName("notes")]
+    public string[] Notes { get; set; } = null!;
+}
+
 public record RepurposeResult
 {
     [JsonPropertyName("articleId")]
@@ -1650,6 +2041,15 @@ public record RepurposeResult
 
     [JsonPropertyName("platforms")]
     public Dictionary<string, RepurposedOutput>? Platforms { get; set; } = null;
+
+    [JsonPropertyName("channels")]
+    public RepurposeChannels? Channels { get; set; } = null;
+
+    [JsonPropertyName("channelNotes")]
+    public ChannelNote[]? ChannelNotes { get; set; } = null;
+
+    [JsonPropertyName("derivedContentIds")]
+    public string[]? DerivedContentIds { get; set; } = null;
 
     [JsonPropertyName("aiGenerationId")]
     public string? AiGenerationId { get; set; } = null;
@@ -4854,6 +5254,795 @@ public record MediaMissingAlt
 
     [JsonPropertyName("locale")]
     public string? Locale { get; set; } = null;
+}
+
+public record ContentPlanStatus
+{
+    [JsonExtensionData]
+    public Dictionary<string, JsonElement>? Extra { get; set; }
+}
+
+public record ContentPlanLocale
+{
+    [JsonPropertyName("code")]
+    public string Code { get; set; } = null!;
+
+    [JsonPropertyName("translationDueOffsetDays")]
+    public double? TranslationDueOffsetDays { get; set; } = null;
+
+    [JsonPropertyName("status")]
+    public ContentPlanLocaleStatusEnum? Status { get; set; } = null;
+}
+
+public record ContentPlanItem
+{
+    [JsonPropertyName("_id")]
+    public string Id { get; set; } = null!;
+
+    [JsonPropertyName("tenantId")]
+    public string? TenantId { get; set; } = null;
+
+    [JsonPropertyName("title")]
+    public string Title { get; set; } = null!;
+
+    [JsonPropertyName("brief")]
+    public string? Brief { get; set; } = null;
+
+    [JsonPropertyName("primaryKeyword")]
+    public string? PrimaryKeyword { get; set; } = null;
+
+    [JsonPropertyName("intent")]
+    public JsonElement Intent { get; set; }
+
+    [JsonPropertyName("funnelStage")]
+    public JsonElement FunnelStage { get; set; }
+
+    [JsonPropertyName("category")]
+    public string? Category { get; set; } = null;
+
+    [JsonPropertyName("subCategory")]
+    public string? SubCategory { get; set; } = null;
+
+    [JsonPropertyName("author")]
+    public string? Author { get; set; } = null;
+
+    [JsonPropertyName("assignee")]
+    public string? Assignee { get; set; } = null;
+
+    [JsonPropertyName("campaign")]
+    public string? Campaign { get; set; } = null;
+
+    [JsonPropertyName("status")]
+    public ContentPlanStatus Status { get; set; } = null!;
+
+    [JsonPropertyName("source")]
+    public ContentPlanItemSourceEnum? Source { get; set; } = null;
+
+    [JsonPropertyName("originRef")]
+    public string? OriginRef { get; set; } = null;
+
+    [JsonPropertyName("dueAt")]
+    public string? DueAt { get; set; } = null;
+
+    [JsonPropertyName("plannedPublishAt")]
+    public string? PlannedPublishAt { get; set; } = null;
+
+    [JsonPropertyName("timezone")]
+    public string? Timezone { get; set; } = null;
+
+    [JsonPropertyName("locales")]
+    public ContentPlanLocale[]? Locales { get; set; } = null;
+
+    [JsonPropertyName("articleId")]
+    public string? ArticleId { get; set; } = null;
+
+    [JsonPropertyName("notes")]
+    public string? Notes { get; set; } = null;
+
+    [JsonPropertyName("tags")]
+    public string[]? Tags { get; set; } = null;
+
+    [JsonPropertyName("createdBy")]
+    public string? CreatedBy { get; set; } = null;
+
+    [JsonPropertyName("isDeleted")]
+    public bool IsDeleted { get; set; }
+
+    [JsonPropertyName("createdAt")]
+    public System.DateTime CreatedAt { get; set; }
+
+    [JsonPropertyName("updatedAt")]
+    public System.DateTime UpdatedAt { get; set; }
+}
+
+public record ContentPlanItemWrapper
+{
+    [JsonPropertyName("item")]
+    public ContentPlanItem Item { get; set; } = null!;
+}
+
+public record PlanWarning
+{
+    [JsonPropertyName("code")]
+    public PlanWarningCodeEnum Code { get; set; }
+
+    [JsonPropertyName("severity")]
+    public PlanWarningSeverityEnum Severity { get; set; }
+
+    [JsonPropertyName("itemIds")]
+    public string[] ItemIds { get; set; } = null!;
+
+    [JsonPropertyName("message")]
+    public string Message { get; set; } = null!;
+}
+
+public record ContentCadence
+{
+    [JsonPropertyName("_id")]
+    public string? Id { get; set; } = null;
+
+    [JsonPropertyName("scope")]
+    public ContentCadenceScopeEnum? Scope { get; set; } = null;
+
+    [JsonPropertyName("category")]
+    public string? Category { get; set; } = null;
+
+    [JsonPropertyName("postsPerWeek")]
+    public double PostsPerWeek { get; set; }
+
+    [JsonPropertyName("preferredWeekdays")]
+    public double[]? PreferredWeekdays { get; set; } = null;
+
+    [JsonPropertyName("preferredTime")]
+    public string? PreferredTime { get; set; } = null;
+
+    [JsonPropertyName("timezone")]
+    public string? Timezone { get; set; } = null;
+
+    [JsonPropertyName("weekendDays")]
+    public double[]? WeekendDays { get; set; } = null;
+
+    [JsonPropertyName("createdAt")]
+    public System.DateTime CreatedAt { get; set; }
+
+    [JsonPropertyName("updatedAt")]
+    public System.DateTime UpdatedAt { get; set; }
+}
+
+public record CadenceWrapper
+{
+    [JsonPropertyName("cadence")]
+    public ContentCadence? Cadence { get; set; }
+}
+
+public record ContentPlanList
+{
+    [JsonPropertyName("items")]
+    public ContentPlanItem[] Items { get; set; } = null!;
+
+    [JsonPropertyName("warnings")]
+    public PlanWarning[] Warnings { get; set; } = null!;
+
+    [JsonPropertyName("cadence")]
+    public ContentCadence? Cadence { get; set; } = null;
+}
+
+public record StartDraft
+{
+    [JsonPropertyName("item")]
+    public ContentPlanItem Item { get; set; } = null!;
+
+    [JsonPropertyName("articleId")]
+    public string ArticleId { get; set; } = null!;
+}
+
+public record StartDraftWrapper
+{
+    [JsonPropertyName("null")]
+    public StartDraft? @Null { get; set; } = null;
+}
+
+public record ScheduleResult
+{
+    [JsonPropertyName("item")]
+    public ContentPlanItem Item { get; set; } = null!;
+
+    [JsonPropertyName("articleScheduled")]
+    public bool ArticleScheduled { get; set; }
+}
+
+public record ScheduleWrapper
+{
+    [JsonPropertyName("null")]
+    public ScheduleResult? @Null { get; set; } = null;
+}
+
+public record ContentGap
+{
+    [JsonPropertyName("code")]
+    public ContentGapCodeEnum Code { get; set; }
+
+    [JsonPropertyName("severity")]
+    public ContentGapSeverityEnum Severity { get; set; }
+
+    [JsonPropertyName("categoryId")]
+    public string? CategoryId { get; set; } = null;
+
+    [JsonPropertyName("categoryName")]
+    public string? CategoryName { get; set; } = null;
+
+    [JsonPropertyName("locale")]
+    public string? Locale { get; set; } = null;
+
+    [JsonPropertyName("articleIds")]
+    public string[] ArticleIds { get; set; } = null!;
+
+    [JsonPropertyName("articleTitles")]
+    public string[]? ArticleTitles { get; set; } = null;
+
+    [JsonPropertyName("message")]
+    public string Message { get; set; } = null!;
+
+    [JsonPropertyName("suggestedStatus")]
+    public ContentPlanStatus SuggestedStatus { get; set; } = null!;
+}
+
+public record ContentGapReport
+{
+    [JsonPropertyName("gaps")]
+    public ContentGap[] Gaps { get; set; } = null!;
+
+    [JsonPropertyName("summary")]
+    public Dictionary<string, JsonElement> Summary { get; set; } = null!;
+}
+
+public record CalendarIdea
+{
+    [JsonPropertyName("title")]
+    public string Title { get; set; } = null!;
+
+    [JsonPropertyName("angle")]
+    public string? Angle { get; set; } = null;
+
+    [JsonPropertyName("brief")]
+    public string? Brief { get; set; } = null;
+
+    [JsonPropertyName("primaryKeyword")]
+    public string PrimaryKeyword { get; set; } = null!;
+
+    [JsonPropertyName("intent")]
+    public CalendarIdeaIntentEnum? Intent { get; set; } = null;
+
+    [JsonPropertyName("funnelStage")]
+    public CalendarIdeaFunnelStageEnum? FunnelStage { get; set; } = null;
+
+    [JsonPropertyName("categoryName")]
+    public string? CategoryName { get; set; } = null;
+
+    [JsonPropertyName("localeVariants")]
+    public Dictionary<string, JsonElement>[]? LocaleVariants { get; set; } = null;
+
+    [JsonPropertyName("suggestedDate")]
+    public string? SuggestedDate { get; set; } = null;
+}
+
+public record CalendarIdeas
+{
+    [JsonPropertyName("ideas")]
+    public CalendarIdea[] Ideas { get; set; } = null!;
+
+    [JsonPropertyName("requested")]
+    public double Requested { get; set; }
+}
+
+public record CalendarPlanEntry
+{
+    [JsonPropertyName("plannedPublishAt")]
+    public string PlannedPublishAt { get; set; } = null!;
+
+    [JsonPropertyName("weekday")]
+    public double Weekday { get; set; }
+
+    [JsonPropertyName("series")]
+    public string? Series { get; set; } = null;
+
+    [JsonPropertyName("workingTitle")]
+    public string? WorkingTitle { get; set; } = null;
+}
+
+public record CalendarPeriodPlan
+{
+    [JsonPropertyName("entries")]
+    public CalendarPlanEntry[] Entries { get; set; } = null!;
+
+    [JsonPropertyName("cadence")]
+    public Dictionary<string, JsonElement> Cadence { get; set; } = null!;
+}
+
+public record CalendarBestTime
+{
+    [JsonPropertyName("suggestion")]
+    public Dictionary<string, JsonElement> Suggestion { get; set; } = null!;
+
+    [JsonPropertyName("samples")]
+    public double Samples { get; set; }
+
+    [JsonPropertyName("basis")]
+    public CalendarBestTimeBasisEnum Basis { get; set; }
+}
+
+public record CalendarReschedule
+{
+    [JsonPropertyName("proposal")]
+    public Dictionary<string, JsonElement>? Proposal { get; set; } = null;
+}
+
+public record Campaign
+{
+    [JsonPropertyName("_id")]
+    public string Id { get; set; } = null!;
+
+    [JsonPropertyName("tenantId")]
+    public string? TenantId { get; set; } = null;
+
+    [JsonPropertyName("name")]
+    public string Name { get; set; } = null!;
+
+    [JsonPropertyName("goal")]
+    public string? Goal { get; set; } = null;
+
+    [JsonPropertyName("description")]
+    public string? Description { get; set; } = null;
+
+    [JsonPropertyName("startsAt")]
+    public string? StartsAt { get; set; } = null;
+
+    [JsonPropertyName("endsAt")]
+    public string? EndsAt { get; set; } = null;
+
+    [JsonPropertyName("status")]
+    public CampaignStatusEnum Status { get; set; }
+
+    [JsonPropertyName("color")]
+    public string? Color { get; set; } = null;
+
+    [JsonPropertyName("createdBy")]
+    public string? CreatedBy { get; set; } = null;
+
+    [JsonPropertyName("isDeleted")]
+    public bool IsDeleted { get; set; }
+
+    [JsonPropertyName("createdAt")]
+    public System.DateTime CreatedAt { get; set; }
+
+    [JsonPropertyName("updatedAt")]
+    public System.DateTime UpdatedAt { get; set; }
+}
+
+public record CampaignWrapper
+{
+    [JsonPropertyName("campaign")]
+    public Campaign Campaign { get; set; } = null!;
+}
+
+public record CampaignList
+{
+    [JsonPropertyName("campaigns")]
+    public Campaign[] Campaigns { get; set; } = null!;
+
+    [JsonPropertyName("pagination")]
+    public Pagination Pagination { get; set; } = null!;
+}
+
+public record DigestAction
+{
+    [JsonPropertyName("code")]
+    public DigestActionCodeEnum Code { get; set; }
+
+    [JsonPropertyName("severity")]
+    public DigestActionSeverityEnum Severity { get; set; }
+
+    [JsonPropertyName("reason")]
+    public string Reason { get; set; } = null!;
+
+    [JsonPropertyName("href")]
+    public string? Href { get; set; } = null;
+}
+
+public record WeeklyDigest
+{
+    [JsonPropertyName("weekOf")]
+    public string WeekOf { get; set; } = null!;
+
+    [JsonPropertyName("range")]
+    public Dictionary<string, JsonElement> Range { get; set; } = null!;
+
+    [JsonPropertyName("published")]
+    public Dictionary<string, JsonElement> Published { get; set; } = null!;
+
+    [JsonPropertyName("ai")]
+    public Dictionary<string, JsonElement> Ai { get; set; } = null!;
+
+    [JsonPropertyName("suggestedActions")]
+    public DigestAction[] SuggestedActions { get; set; } = null!;
+
+    [JsonPropertyName("wins")]
+    public string[]? Wins { get; set; } = null;
+
+    [JsonPropertyName("issues")]
+    public string[]? Issues { get; set; } = null;
+}
+
+public record WeeklyDigestWrapper
+{
+    [JsonPropertyName("digest")]
+    public WeeklyDigest Digest { get; set; } = null!;
+}
+
+public record SeoHealthCategoryRow
+{
+    [JsonPropertyName("categoryId")]
+    public string? CategoryId { get; set; } = null;
+
+    [JsonPropertyName("categoryName")]
+    public string? CategoryName { get; set; } = null;
+
+    [JsonPropertyName("articles")]
+    public double Articles { get; set; }
+
+    [JsonPropertyName("issues")]
+    public double Issues { get; set; }
+
+    [JsonPropertyName("healthPercent")]
+    public double HealthPercent { get; set; }
+}
+
+public record SeoHealthReport
+{
+    [JsonPropertyName("range")]
+    public Dictionary<string, JsonElement>? Range { get; set; } = null;
+
+    [JsonPropertyName("scanned")]
+    public double Scanned { get; set; }
+
+    [JsonPropertyName("issueCounts")]
+    public Dictionary<string, double>? IssueCounts { get; set; } = null;
+
+    [JsonPropertyName("totalIssues")]
+    public double TotalIssues { get; set; }
+
+    [JsonPropertyName("healthyPercent")]
+    public double HealthyPercent { get; set; }
+
+    [JsonPropertyName("byCategory")]
+    public SeoHealthCategoryRow[] ByCategory { get; set; } = null!;
+
+    [JsonPropertyName("notes")]
+    public string[]? Notes { get; set; } = null;
+}
+
+public record CalendarAdherenceReport
+{
+    [JsonPropertyName("range")]
+    public Dictionary<string, JsonElement>? Range { get; set; } = null;
+
+    [JsonPropertyName("planned")]
+    public double Planned { get; set; }
+
+    [JsonPropertyName("published")]
+    public double Published { get; set; }
+
+    [JsonPropertyName("publishedOnTime")]
+    public double PublishedOnTime { get; set; }
+
+    [JsonPropertyName("deliveryRate")]
+    public double DeliveryRate { get; set; }
+
+    [JsonPropertyName("onTimeRate")]
+    public double OnTimeRate { get; set; }
+
+    [JsonPropertyName("medianLeadTimeDays")]
+    public double? MedianLeadTimeDays { get; set; } = null;
+
+    [JsonPropertyName("overdue")]
+    public double Overdue { get; set; }
+
+    [JsonPropertyName("campaigns")]
+    public Dictionary<string, JsonElement>[]? Campaigns { get; set; } = null;
+
+    [JsonPropertyName("notes")]
+    public string[]? Notes { get; set; } = null;
+}
+
+public record AiAcceptanceActionRow
+{
+    [JsonPropertyName("actionId")]
+    public string ActionId { get; set; } = null!;
+
+    [JsonPropertyName("runs")]
+    public double Runs { get; set; }
+
+    [JsonPropertyName("accepted")]
+    public double Accepted { get; set; }
+
+    [JsonPropertyName("acceptanceRate")]
+    public double AcceptanceRate { get; set; }
+
+    [JsonPropertyName("minutesSaved")]
+    public double MinutesSaved { get; set; }
+}
+
+public record AiAcceptanceReport
+{
+    [JsonPropertyName("range")]
+    public Dictionary<string, JsonElement>? Range { get; set; } = null;
+
+    [JsonPropertyName("total")]
+    public double Total { get; set; }
+
+    [JsonPropertyName("accepted")]
+    public double Accepted { get; set; }
+
+    [JsonPropertyName("rejected")]
+    public double Rejected { get; set; }
+
+    [JsonPropertyName("acceptanceRate")]
+    public double AcceptanceRate { get; set; }
+
+    [JsonPropertyName("credits")]
+    public Dictionary<string, JsonElement>? Credits { get; set; } = null;
+
+    [JsonPropertyName("timeSaved")]
+    public Dictionary<string, JsonElement> TimeSaved { get; set; } = null!;
+
+    [JsonPropertyName("byAction")]
+    public AiAcceptanceActionRow[]? ByAction { get; set; } = null;
+
+    [JsonPropertyName("notes")]
+    public string[]? Notes { get; set; } = null;
+}
+
+public record TranslationCoverageReportV2
+{
+    [JsonPropertyName("missingArticles")]
+    public Dictionary<string, JsonElement>[]? MissingArticles { get; set; } = null;
+}
+
+public record ReportWrapper
+{
+    [JsonPropertyName("null")]
+    public ReportPayload? @Null { get; set; } = null;
+}
+
+public record ReportPayload
+{
+    [JsonPropertyName("report")]
+    public object? Report { get; set; } = null;
+}
+
+public record SeoAuditIssue
+{
+    [JsonPropertyName("code")]
+    public SeoAuditIssueCodeEnum Code { get; set; }
+
+    [JsonPropertyName("severity")]
+    public SeoAuditIssueSeverityEnum Severity { get; set; }
+
+    [JsonPropertyName("articleId")]
+    public string ArticleId { get; set; } = null!;
+
+    [JsonPropertyName("title")]
+    public string? Title { get; set; } = null;
+
+    [JsonPropertyName("message")]
+    public string Message { get; set; } = null!;
+
+    [JsonPropertyName("fixAction")]
+    public string? FixAction { get; set; } = null;
+}
+
+public record SeoAuditReport
+{
+    [JsonPropertyName("issues")]
+    public SeoAuditIssue[] Issues { get; set; } = null!;
+
+    [JsonPropertyName("summary")]
+    public Dictionary<string, double> Summary { get; set; } = null!;
+
+    [JsonPropertyName("scanned")]
+    public double Scanned { get; set; }
+}
+
+public record CannibalizationGroup
+{
+    [JsonPropertyName("keyword")]
+    public string Keyword { get; set; } = null!;
+
+    [JsonPropertyName("articleIds")]
+    public string[] ArticleIds { get; set; } = null!;
+
+    [JsonPropertyName("titles")]
+    public string[]? Titles { get; set; } = null;
+
+    [JsonPropertyName("recommendedKeep")]
+    public string RecommendedKeep { get; set; } = null!;
+}
+
+public record CannibalizationReport
+{
+    [JsonPropertyName("groups")]
+    public CannibalizationGroup[] Groups { get; set; } = null!;
+
+    [JsonPropertyName("summary")]
+    public Dictionary<string, JsonElement> Summary { get; set; } = null!;
+}
+
+public record RefreshCandidate
+{
+    [JsonPropertyName("articleId")]
+    public string ArticleId { get; set; } = null!;
+
+    [JsonPropertyName("title")]
+    public string? Title { get; set; } = null;
+
+    [JsonPropertyName("ageDays")]
+    public double AgeDays { get; set; }
+
+    [JsonPropertyName("viewsTotal")]
+    public double ViewsTotal { get; set; }
+
+    [JsonPropertyName("trendRatio")]
+    public double? TrendRatio { get; set; } = null;
+
+    [JsonPropertyName("severity")]
+    public RefreshCandidateSeverityEnum Severity { get; set; }
+
+    [JsonPropertyName("reasons")]
+    public JsonElement Reasons { get; set; }
+}
+
+public record RefreshCandidateReport
+{
+    [JsonPropertyName("candidates")]
+    public RefreshCandidate[] Candidates { get; set; } = null!;
+
+    [JsonPropertyName("scanned")]
+    public double Scanned { get; set; }
+}
+
+public record RefreshPlanItem
+{
+    [JsonPropertyName("item")]
+    public ContentPlanItem Item { get; set; } = null!;
+
+    [JsonPropertyName("linked")]
+    public bool Linked { get; set; }
+}
+
+public record RefreshPlanItemWrapper
+{
+    [JsonPropertyName("null")]
+    public RefreshPlanItem? @Null { get; set; } = null;
+}
+
+public record HreflangEntry
+{
+    [JsonPropertyName("locale")]
+    public string Locale { get; set; } = null!;
+
+    [JsonPropertyName("hreflang")]
+    public string Hreflang { get; set; } = null!;
+
+    [JsonPropertyName("url")]
+    public string Url { get; set; } = null!;
+}
+
+public record HreflangGroup
+{
+    [JsonPropertyName("articleId")]
+    public string? ArticleId { get; set; } = null;
+
+    [JsonPropertyName("canonical")]
+    public string Canonical { get; set; } = null!;
+
+    [JsonPropertyName("alternates")]
+    public HreflangEntry[] Alternates { get; set; } = null!;
+
+    [JsonPropertyName("xDefault")]
+    public string? XDefault { get; set; } = null;
+}
+
+public record HreflangWrapper
+{
+    [JsonPropertyName("hreflang")]
+    public HreflangGroup Hreflang { get; set; } = null!;
+}
+
+public record Redirect
+{
+    [JsonPropertyName("_id")]
+    public string Id { get; set; } = null!;
+
+    [JsonPropertyName("tenantId")]
+    public string? TenantId { get; set; } = null;
+
+    [JsonPropertyName("fromSlug")]
+    public string FromSlug { get; set; } = null!;
+
+    [JsonPropertyName("toSlug")]
+    public string ToSlug { get; set; } = null!;
+
+    [JsonPropertyName("articleId")]
+    public string? ArticleId { get; set; } = null;
+
+    [JsonPropertyName("createdAt")]
+    public System.DateTime CreatedAt { get; set; }
+
+    [JsonPropertyName("updatedAt")]
+    public System.DateTime UpdatedAt { get; set; }
+}
+
+public record RedirectList
+{
+    [JsonPropertyName("redirects")]
+    public Redirect[] Redirects { get; set; } = null!;
+
+    [JsonPropertyName("pagination")]
+    public Pagination Pagination { get; set; } = null!;
+}
+
+public record TranslationCoverageRow
+{
+    [JsonPropertyName("entityType")]
+    public TranslationCoverageRowEntityTypeEnum EntityType { get; set; }
+
+    [JsonPropertyName("covered")]
+    public double Covered { get; set; }
+
+    [JsonPropertyName("total")]
+    public double Total { get; set; }
+
+    [JsonPropertyName("missingByLocale")]
+    public Dictionary<string, double> MissingByLocale { get; set; } = null!;
+}
+
+public record TranslationCoverageReport
+{
+    [JsonPropertyName("locales")]
+    public string[] Locales { get; set; } = null!;
+
+    [JsonPropertyName("rows")]
+    public TranslationCoverageRow[] Rows { get; set; } = null!;
+
+    [JsonPropertyName("completeness")]
+    public double Completeness { get; set; }
+}
+
+public record ContentTypeProfile
+{
+    [JsonPropertyName("type")]
+    public ContentTypeProfileTypeEnum Type { get; set; }
+
+    [JsonPropertyName("length")]
+    public Dictionary<string, JsonElement> Length { get; set; } = null!;
+
+    [JsonPropertyName("weights")]
+    public Dictionary<string, double> Weights { get; set; } = null!;
+
+    [JsonPropertyName("optionalSignals")]
+    public string[]? OptionalSignals { get; set; } = null;
+
+    [JsonPropertyName("requiresSummary")]
+    public bool RequiresSummary { get; set; }
+}
+
+public record ContentTypeProfileWrapper
+{
+    [JsonPropertyName("profile")]
+    public ContentTypeProfile? Profile { get; set; } = null;
+
+    [JsonPropertyName("profiles")]
+    public ContentTypeProfile[]? Profiles { get; set; } = null;
 }
 
 public record Envelope

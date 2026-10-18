@@ -937,6 +937,15 @@
               "mixed"
             ]
           },
+          "contentBlocks": {
+            "$ref": "#/components/schemas/ArticleContentBlocks"
+          },
+          "derivedContent": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ArticleDerivedContent"
+            }
+          },
           "engagement": {
             "$ref": "#/components/schemas/ArticleEngagementOverride"
           },
@@ -1785,6 +1794,288 @@
           }
         }
       },
+      "NewsletterOutput": {
+        "type": "object",
+        "required": [
+          "subject",
+          "body"
+        ],
+        "properties": {
+          "subject": {
+            "type": "string"
+          },
+          "preheader": {
+            "type": "string"
+          },
+          "body": {
+            "type": "string"
+          },
+          "cta": {
+            "type": "string"
+          }
+        }
+      },
+      "XThreadOutput": {
+        "type": "object",
+        "required": [
+          "posts"
+        ],
+        "description": "Ordered posts; each is at most 280 characters. A thread needs at least two.",
+        "properties": {
+          "posts": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "VideoScene": {
+        "type": "object",
+        "required": [
+          "title",
+          "durationSec",
+          "narration"
+        ],
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "durationSec": {
+            "type": "integer",
+            "minimum": 3,
+            "maximum": 120
+          },
+          "narration": {
+            "type": "string"
+          },
+          "bRoll": {
+            "type": "string"
+          }
+        }
+      },
+      "VideoScriptOutput": {
+        "type": "object",
+        "required": [
+          "scenes",
+          "totalSec"
+        ],
+        "description": "totalSec is computed from the scenes by the service, never taken from the model.",
+        "properties": {
+          "hook": {
+            "type": "string"
+          },
+          "scenes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VideoScene"
+            }
+          },
+          "outro": {
+            "type": "string"
+          },
+          "totalSec": {
+            "type": "integer"
+          }
+        }
+      },
+      "FaqChannelOutput": {
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "question",
+                "answer"
+              ],
+              "properties": {
+                "question": {
+                  "type": "string"
+                },
+                "answer": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "PressReleaseOutput": {
+        "type": "object",
+        "properties": {
+          "headline": {
+            "type": "string"
+          },
+          "dateline": {
+            "type": "string"
+          },
+          "lede": {
+            "type": "string"
+          },
+          "body": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "boilerplate": {
+            "type": "string"
+          }
+        }
+      },
+      "ContentBlockFaqItem": {
+        "type": "object",
+        "required": [
+          "question",
+          "answer"
+        ],
+        "properties": {
+          "question": {
+            "type": "string"
+          },
+          "answer": {
+            "type": "string"
+          }
+        }
+      },
+      "ContentBlockTakeaway": {
+        "type": "object",
+        "required": [
+          "text"
+        ],
+        "properties": {
+          "label": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          }
+        }
+      },
+      "ArticleContentBlocks": {
+        "type": "object",
+        "description": "C-06: per-locale FAQ items, TL;DR and key takeaways. Populated only when a human accepts the AI proposal that carries them.",
+        "properties": {
+          "faq": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/ContentBlockFaqItem"
+              }
+            }
+          },
+          "tldr": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "keyTakeaways": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/ContentBlockTakeaway"
+              }
+            }
+          }
+        }
+      },
+      "ArticleDerivedContent": {
+        "type": "object",
+        "required": [
+          "channel",
+          "payload"
+        ],
+        "description": "C-05: one repurposed output. `payload` is JSON-encoded because each channel has its own shape.",
+        "properties": {
+          "channel": {
+            "type": "string",
+            "enum": [
+              "newsletter",
+              "xThread",
+              "videoScript",
+              "faq",
+              "pressRelease"
+            ]
+          },
+          "language": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "title": {
+            "type": "string"
+          },
+          "payload": {
+            "type": "string"
+          },
+          "aiGenerationId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "scheduledItemId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "createdAt": {
+            "$ref": "#/components/schemas/DateTime"
+          },
+          "updatedAt": {
+            "$ref": "#/components/schemas/DateTime"
+          }
+        }
+      },
+      "RepurposeChannels": {
+        "type": "object",
+        "description": "Present only when `channels` was requested — the legacy response carries none of these keys.",
+        "properties": {
+          "newsletter": {
+            "$ref": "#/components/schemas/NewsletterOutput"
+          },
+          "xThread": {
+            "$ref": "#/components/schemas/XThreadOutput"
+          },
+          "videoScript": {
+            "$ref": "#/components/schemas/VideoScriptOutput"
+          },
+          "faq": {
+            "$ref": "#/components/schemas/FaqChannelOutput"
+          },
+          "pressRelease": {
+            "$ref": "#/components/schemas/PressReleaseOutput"
+          }
+        }
+      },
+      "ChannelNote": {
+        "type": "object",
+        "required": [
+          "channel",
+          "notes"
+        ],
+        "properties": {
+          "channel": {
+            "type": "string"
+          },
+          "notes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
       "RepurposeResult": {
         "type": "object",
         "properties": {
@@ -1798,6 +2089,21 @@
             "type": "object",
             "additionalProperties": {
               "$ref": "#/components/schemas/RepurposedOutput"
+            }
+          },
+          "channels": {
+            "$ref": "#/components/schemas/RepurposeChannels"
+          },
+          "channelNotes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ChannelNote"
+            }
+          },
+          "derivedContentIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
             }
           },
           "aiGenerationId": {
@@ -7616,6 +7922,1749 @@
           }
         }
       },
+      "ContentPlanStatus": {
+        "type": "string",
+        "enum": [
+          "idea",
+          "planned",
+          "in_progress",
+          "in_review",
+          "scheduled",
+          "published",
+          "postponed",
+          "cancelled"
+        ]
+      },
+      "ContentPlanLocale": {
+        "type": "object",
+        "required": [
+          "code"
+        ],
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "translationDueOffsetDays": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "description": "Days after plannedPublishAt by which this locale must be ready."
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "in_progress",
+              "done",
+              "outdated"
+            ],
+            "default": "pending"
+          }
+        }
+      },
+      "ContentPlanItem": {
+        "type": "object",
+        "required": [
+          "_id",
+          "title",
+          "status"
+        ],
+        "properties": {
+          "_id": {
+            "$ref": "#/components/schemas/ObjectId"
+          },
+          "tenantId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "brief": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "primaryKeyword": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "intent": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "informational",
+              "navigational",
+              "commercial",
+              "transactional",
+              null
+            ]
+          },
+          "funnelStage": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "awareness",
+              "consideration",
+              "conversion",
+              "retention",
+              null
+            ]
+          },
+          "category": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ObjectId"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "subCategory": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ObjectId"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "author": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ObjectId"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "assignee": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ObjectId"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "campaign": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ObjectId"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "status": {
+            "$ref": "#/components/schemas/ContentPlanStatus"
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "manual",
+              "ai",
+              "content_gap",
+              "reader_comment",
+              "form_submission"
+            ]
+          },
+          "originRef": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "dueAt": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "plannedPublishAt": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "timezone": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "locales": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ContentPlanLocale"
+            }
+          },
+          "articleId": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ObjectId"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "notes": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "createdBy": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ObjectId"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "$ref": "#/components/schemas/DateTime"
+          },
+          "updatedAt": {
+            "$ref": "#/components/schemas/DateTime"
+          }
+        }
+      },
+      "ContentPlanItemWrapper": {
+        "type": "object",
+        "required": [
+          "item"
+        ],
+        "properties": {
+          "item": {
+            "$ref": "#/components/schemas/ContentPlanItem"
+          }
+        }
+      },
+      "PlanWarning": {
+        "type": "object",
+        "required": [
+          "code",
+          "severity",
+          "itemIds",
+          "message"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "enum": [
+              "cadence_exceeded",
+              "cadence_under",
+              "keyword_collision",
+              "author_overload",
+              "publish_before_translation",
+              "past_due",
+              "overdue_publish"
+            ]
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "high",
+              "medium",
+              "low"
+            ]
+          },
+          "itemIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "ContentCadence": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "$ref": "#/components/schemas/ObjectId"
+          },
+          "scope": {
+            "type": "string",
+            "enum": [
+              "tenant",
+              "category"
+            ]
+          },
+          "category": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ObjectId"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "postsPerWeek": {
+            "type": "integer"
+          },
+          "preferredWeekdays": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "description": "0 = Sunday … 6 = Saturday"
+          },
+          "preferredTime": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "HH:mm in the rule timezone"
+          },
+          "timezone": {
+            "type": "string"
+          },
+          "weekendDays": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          },
+          "createdAt": {
+            "$ref": "#/components/schemas/DateTime"
+          },
+          "updatedAt": {
+            "$ref": "#/components/schemas/DateTime"
+          }
+        }
+      },
+      "CadenceWrapper": {
+        "type": "object",
+        "required": [
+          "cadence"
+        ],
+        "properties": {
+          "cadence": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ContentCadence"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "ContentPlanList": {
+        "type": "object",
+        "required": [
+          "items",
+          "warnings"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ContentPlanItem"
+            }
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PlanWarning"
+            }
+          },
+          "cadence": {
+            "$ref": "#/components/schemas/ContentCadence"
+          }
+        }
+      },
+      "StartDraft": {
+        "type": "object",
+        "required": [
+          "item",
+          "articleId"
+        ],
+        "properties": {
+          "item": {
+            "$ref": "#/components/schemas/ContentPlanItem"
+          },
+          "articleId": {
+            "$ref": "#/components/schemas/ObjectId"
+          }
+        }
+      },
+      "StartDraftWrapper": {
+        "type": "object",
+        "required": [
+          null
+        ],
+        "properties": {
+          "null": {
+            "$ref": "#/components/schemas/StartDraft"
+          }
+        }
+      },
+      "ScheduleResult": {
+        "type": "object",
+        "required": [
+          "item",
+          "articleScheduled"
+        ],
+        "properties": {
+          "item": {
+            "$ref": "#/components/schemas/ContentPlanItem"
+          },
+          "articleScheduled": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ScheduleWrapper": {
+        "type": "object",
+        "required": [
+          null
+        ],
+        "properties": {
+          "null": {
+            "$ref": "#/components/schemas/ScheduleResult"
+          }
+        }
+      },
+      "ContentGap": {
+        "type": "object",
+        "required": [
+          "code",
+          "severity",
+          "articleIds",
+          "message",
+          "suggestedStatus"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "enum": [
+              "thin_category",
+              "missing_locale",
+              "stale_content",
+              "idle_keyword"
+            ]
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "high",
+              "medium",
+              "low"
+            ]
+          },
+          "categoryId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "categoryName": {
+            "type": "string"
+          },
+          "locale": {
+            "type": "string"
+          },
+          "articleIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "articleTitles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "message": {
+            "type": "string"
+          },
+          "suggestedStatus": {
+            "$ref": "#/components/schemas/ContentPlanStatus"
+          }
+        }
+      },
+      "ContentGapReport": {
+        "type": "object",
+        "required": [
+          "gaps",
+          "summary"
+        ],
+        "properties": {
+          "gaps": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ContentGap"
+            }
+          },
+          "summary": {
+            "type": "object",
+            "properties": {
+              "total": {
+                "type": "integer"
+              },
+              "thinCategory": {
+                "type": "integer"
+              },
+              "missingLocale": {
+                "type": "integer"
+              },
+              "staleContent": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      },
+      "CalendarIdea": {
+        "type": "object",
+        "required": [
+          "title",
+          "primaryKeyword"
+        ],
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "angle": {
+            "type": "string"
+          },
+          "brief": {
+            "type": "string"
+          },
+          "primaryKeyword": {
+            "type": "string"
+          },
+          "intent": {
+            "type": "string",
+            "enum": [
+              "informational",
+              "navigational",
+              "commercial",
+              "transactional"
+            ]
+          },
+          "funnelStage": {
+            "type": "string",
+            "enum": [
+              "awareness",
+              "consideration",
+              "conversion",
+              "retention"
+            ]
+          },
+          "categoryName": {
+            "type": "string",
+            "description": "Empty when the model invented one"
+          },
+          "localeVariants": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "suggestedDate": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date"
+          }
+        }
+      },
+      "CalendarIdeas": {
+        "type": "object",
+        "required": [
+          "ideas"
+        ],
+        "properties": {
+          "ideas": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CalendarIdea"
+            }
+          },
+          "requested": {
+            "type": "integer"
+          }
+        }
+      },
+      "CalendarPlanEntry": {
+        "type": "object",
+        "required": [
+          "plannedPublishAt",
+          "weekday"
+        ],
+        "properties": {
+          "plannedPublishAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "weekday": {
+            "type": "integer"
+          },
+          "series": {
+            "type": "string"
+          },
+          "workingTitle": {
+            "type": "string"
+          }
+        }
+      },
+      "CalendarPeriodPlan": {
+        "type": "object",
+        "required": [
+          "entries",
+          "cadence"
+        ],
+        "properties": {
+          "entries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CalendarPlanEntry"
+            }
+          },
+          "cadence": {
+            "type": "object",
+            "properties": {
+              "postsPerWeek": {
+                "type": "integer"
+              },
+              "preferredWeekdays": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                }
+              },
+              "preferredTime": {
+                "type": "string"
+              },
+              "timezone": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "CalendarBestTime": {
+        "type": "object",
+        "required": [
+          "suggestion",
+          "basis"
+        ],
+        "properties": {
+          "suggestion": {
+            "type": "object",
+            "required": [
+              "weekday",
+              "time",
+              "reason"
+            ],
+            "properties": {
+              "weekday": {
+                "type": "integer"
+              },
+              "time": {
+                "type": "string"
+              },
+              "reason": {
+                "type": "string",
+                "enum": [
+                  "weekday_traffic",
+                  "cadence_default"
+                ]
+              }
+            }
+          },
+          "samples": {
+            "type": "integer"
+          },
+          "basis": {
+            "type": "string",
+            "enum": [
+              "weekday_engagement"
+            ]
+          }
+        }
+      },
+      "CalendarReschedule": {
+        "type": "object",
+        "properties": {
+          "proposal": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "plannedPublishAt",
+              "reason"
+            ],
+            "properties": {
+              "plannedPublishAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "reason": {
+                "type": "string",
+                "enum": [
+                  "next_free_cadence_slot"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "Campaign": {
+        "type": "object",
+        "required": [
+          "_id",
+          "name",
+          "status"
+        ],
+        "properties": {
+          "_id": {
+            "$ref": "#/components/schemas/ObjectId"
+          },
+          "tenantId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "goal": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "description": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "startsAt": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "endsAt": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "planned",
+              "active",
+              "done"
+            ]
+          },
+          "color": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "createdBy": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ObjectId"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "$ref": "#/components/schemas/DateTime"
+          },
+          "updatedAt": {
+            "$ref": "#/components/schemas/DateTime"
+          }
+        }
+      },
+      "CampaignWrapper": {
+        "type": "object",
+        "required": [
+          "campaign"
+        ],
+        "properties": {
+          "campaign": {
+            "$ref": "#/components/schemas/Campaign"
+          }
+        }
+      },
+      "CampaignList": {
+        "type": "object",
+        "required": [
+          "campaigns",
+          "pagination"
+        ],
+        "properties": {
+          "campaigns": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Campaign"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        }
+      },
+      "DigestAction": {
+        "type": "object",
+        "required": [
+          "code",
+          "severity",
+          "reason"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "enum": [
+              "calendar.overdue",
+              "ai.lowAcceptance",
+              "calendar.delivery",
+              "seo.audit"
+            ]
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "high",
+              "medium",
+              "low"
+            ]
+          },
+          "reason": {
+            "type": "string"
+          },
+          "href": {
+            "type": "string"
+          }
+        }
+      },
+      "WeeklyDigest": {
+        "type": "object",
+        "required": [
+          "weekOf",
+          "range",
+          "published",
+          "ai",
+          "suggestedActions"
+        ],
+        "properties": {
+          "weekOf": {
+            "type": "string"
+          },
+          "range": {
+            "type": "object",
+            "properties": {
+              "from": {
+                "type": "string",
+                "format": "date"
+              },
+              "to": {
+                "type": "string",
+                "format": "date"
+              }
+            }
+          },
+          "published": {
+            "type": "object",
+            "properties": {
+              "count": {
+                "type": "integer"
+              },
+              "previous": {
+                "type": "integer"
+              },
+              "delta": {
+                "type": "integer"
+              }
+            }
+          },
+          "ai": {
+            "type": "object",
+            "properties": {
+              "runs": {
+                "type": "integer"
+              },
+              "acceptanceRate": {
+                "type": "integer"
+              },
+              "minutesSaved": {
+                "type": "integer"
+              }
+            }
+          },
+          "suggestedActions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DigestAction"
+            }
+          },
+          "wins": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "issues": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "WeeklyDigestWrapper": {
+        "type": "object",
+        "required": [
+          "digest"
+        ],
+        "properties": {
+          "digest": {
+            "$ref": "#/components/schemas/WeeklyDigest"
+          }
+        }
+      },
+      "SeoHealthCategoryRow": {
+        "type": "object",
+        "required": [
+          "articles",
+          "issues",
+          "healthPercent"
+        ],
+        "properties": {
+          "categoryId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "categoryName": {
+            "type": "string"
+          },
+          "articles": {
+            "type": "integer"
+          },
+          "issues": {
+            "type": "integer"
+          },
+          "healthPercent": {
+            "type": "integer"
+          }
+        }
+      },
+      "SeoHealthReport": {
+        "type": "object",
+        "required": [
+          "scanned",
+          "totalIssues",
+          "healthyPercent",
+          "byCategory"
+        ],
+        "properties": {
+          "range": {
+            "type": "object",
+            "properties": {
+              "from": {
+                "type": "string",
+                "format": "date"
+              },
+              "to": {
+                "type": "string",
+                "format": "date"
+              }
+            }
+          },
+          "scanned": {
+            "type": "integer"
+          },
+          "issueCounts": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "integer"
+            }
+          },
+          "totalIssues": {
+            "type": "integer"
+          },
+          "healthyPercent": {
+            "type": "integer"
+          },
+          "byCategory": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SeoHealthCategoryRow"
+            }
+          },
+          "notes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "CalendarAdherenceReport": {
+        "type": "object",
+        "required": [
+          "planned",
+          "published",
+          "deliveryRate",
+          "onTimeRate",
+          "overdue"
+        ],
+        "properties": {
+          "range": {
+            "type": "object",
+            "properties": {
+              "from": {
+                "type": "string",
+                "format": "date"
+              },
+              "to": {
+                "type": "string",
+                "format": "date"
+              }
+            }
+          },
+          "planned": {
+            "type": "integer"
+          },
+          "published": {
+            "type": "integer"
+          },
+          "publishedOnTime": {
+            "type": "integer"
+          },
+          "deliveryRate": {
+            "type": "integer"
+          },
+          "onTimeRate": {
+            "type": "integer"
+          },
+          "medianLeadTimeDays": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "overdue": {
+            "type": "integer"
+          },
+          "campaigns": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "campaignId": {
+                  "$ref": "#/components/schemas/ObjectId"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "planned": {
+                  "type": "integer"
+                },
+                "published": {
+                  "type": "integer"
+                },
+                "deliveryRate": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "notes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "AiAcceptanceActionRow": {
+        "type": "object",
+        "required": [
+          "actionId",
+          "runs",
+          "accepted"
+        ],
+        "properties": {
+          "actionId": {
+            "type": "string"
+          },
+          "runs": {
+            "type": "integer"
+          },
+          "accepted": {
+            "type": "integer"
+          },
+          "acceptanceRate": {
+            "type": "integer"
+          },
+          "minutesSaved": {
+            "type": "integer"
+          }
+        }
+      },
+      "AiAcceptanceReport": {
+        "type": "object",
+        "required": [
+          "total",
+          "accepted",
+          "rejected",
+          "acceptanceRate",
+          "timeSaved"
+        ],
+        "properties": {
+          "range": {
+            "type": "object",
+            "properties": {
+              "from": {
+                "type": "string",
+                "format": "date"
+              },
+              "to": {
+                "type": "string",
+                "format": "date"
+              }
+            }
+          },
+          "total": {
+            "type": "integer"
+          },
+          "accepted": {
+            "type": "integer"
+          },
+          "rejected": {
+            "type": "integer"
+          },
+          "acceptanceRate": {
+            "type": "integer"
+          },
+          "credits": {
+            "type": "object",
+            "properties": {
+              "total": {
+                "type": "integer"
+              },
+              "accepted": {
+                "type": "integer"
+              }
+            }
+          },
+          "timeSaved": {
+            "type": "object",
+            "required": [
+              "estimatedMinutes",
+              "note"
+            ],
+            "description": "An estimate with a stated basis — accepted generations × the per-action duration in `basis`. It is not measured time, and `note` says so in every response.",
+            "properties": {
+              "estimatedMinutes": {
+                "type": "integer"
+              },
+              "basis": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer"
+                }
+              },
+              "note": {
+                "type": "string"
+              }
+            }
+          },
+          "byAction": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AiAcceptanceActionRow"
+            }
+          },
+          "notes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "TranslationCoverageReportV2": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/TranslationCoverageReport"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "missingArticles": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "articleId": {
+                      "type": "string"
+                    },
+                    "locale": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "ReportWrapper": {
+        "type": "object",
+        "required": [
+          null
+        ],
+        "properties": {
+          "null": {
+            "$ref": "#/components/schemas/ReportPayload"
+          }
+        }
+      },
+      "ReportPayload": {
+        "type": "object",
+        "description": "Envelope for the J-4 reports. `report` is one of SeoHealthReport, TranslationCoverageReportV2, CalendarAdherenceReport or AiAcceptanceReport, matching the endpoint that produced it.",
+        "properties": {
+          "report": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/SeoHealthReport"
+              },
+              {
+                "$ref": "#/components/schemas/TranslationCoverageReportV2"
+              },
+              {
+                "$ref": "#/components/schemas/CalendarAdherenceReport"
+              },
+              {
+                "$ref": "#/components/schemas/AiAcceptanceReport"
+              }
+            ]
+          }
+        }
+      },
+      "SeoAuditIssue": {
+        "type": "object",
+        "required": [
+          "code",
+          "severity",
+          "articleId",
+          "message"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "enum": [
+              "missing_meta_title",
+              "missing_meta_description",
+              "duplicate_title",
+              "thin_content",
+              "missing_alt_text",
+              "broken_heading_order",
+              "orphan_page",
+              "missing_keyword",
+              "no_traffic"
+            ]
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "high",
+              "medium",
+              "low"
+            ]
+          },
+          "articleId": {
+            "$ref": "#/components/schemas/ObjectId"
+          },
+          "title": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "fixAction": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "SeoAuditReport": {
+        "type": "object",
+        "required": [
+          "issues",
+          "summary",
+          "scanned"
+        ],
+        "properties": {
+          "issues": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SeoAuditIssue"
+            }
+          },
+          "summary": {
+            "type": "object",
+            "description": "Issue count per code, plus total.",
+            "additionalProperties": {
+              "type": "integer"
+            }
+          },
+          "scanned": {
+            "type": "integer",
+            "description": "Articles inspected"
+          }
+        }
+      },
+      "CannibalizationGroup": {
+        "type": "object",
+        "required": [
+          "keyword",
+          "articleIds",
+          "recommendedKeep"
+        ],
+        "properties": {
+          "keyword": {
+            "type": "string"
+          },
+          "articleIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "titles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "recommendedKeep": {
+            "$ref": "#/components/schemas/ObjectId",
+            "description": "Oldest article in the cluster — the canonical to keep"
+          }
+        }
+      },
+      "CannibalizationReport": {
+        "type": "object",
+        "required": [
+          "groups",
+          "summary"
+        ],
+        "properties": {
+          "groups": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CannibalizationGroup"
+            }
+          },
+          "summary": {
+            "type": "object",
+            "properties": {
+              "total": {
+                "type": "integer"
+              },
+              "articlesInvolved": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      },
+      "RefreshCandidate": {
+        "type": "object",
+        "required": [
+          "articleId",
+          "severity",
+          "reasons"
+        ],
+        "properties": {
+          "articleId": {
+            "$ref": "#/components/schemas/ObjectId"
+          },
+          "title": {
+            "type": "string"
+          },
+          "ageDays": {
+            "type": "integer"
+          },
+          "viewsTotal": {
+            "type": "integer"
+          },
+          "trendRatio": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "description": "Recent vs previous window; null when the baseline had no traffic"
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "high",
+              "medium",
+              "low"
+            ]
+          },
+          "reasons": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "age",
+                "declining",
+                "no_traffic"
+              ]
+            }
+          }
+        }
+      },
+      "RefreshCandidateReport": {
+        "type": "object",
+        "required": [
+          "candidates",
+          "scanned"
+        ],
+        "properties": {
+          "candidates": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RefreshCandidate"
+            }
+          },
+          "scanned": {
+            "type": "integer"
+          }
+        }
+      },
+      "RefreshPlanItem": {
+        "type": "object",
+        "required": [
+          "item",
+          "linked"
+        ],
+        "properties": {
+          "item": {
+            "$ref": "#/components/schemas/ContentPlanItem"
+          },
+          "linked": {
+            "type": "boolean",
+            "description": "true when an item already existed and nothing was created"
+          }
+        }
+      },
+      "RefreshPlanItemWrapper": {
+        "type": "object",
+        "required": [
+          null
+        ],
+        "properties": {
+          "null": {
+            "$ref": "#/components/schemas/RefreshPlanItem"
+          }
+        }
+      },
+      "HreflangEntry": {
+        "type": "object",
+        "required": [
+          "locale",
+          "hreflang",
+          "url"
+        ],
+        "properties": {
+          "locale": {
+            "type": "string"
+          },
+          "hreflang": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        }
+      },
+      "HreflangGroup": {
+        "type": "object",
+        "required": [
+          "canonical",
+          "alternates"
+        ],
+        "properties": {
+          "articleId": {
+            "$ref": "#/components/schemas/ObjectId"
+          },
+          "canonical": {
+            "type": "string"
+          },
+          "alternates": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HreflangEntry"
+            }
+          },
+          "xDefault": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "HreflangWrapper": {
+        "type": "object",
+        "required": [
+          "hreflang"
+        ],
+        "properties": {
+          "hreflang": {
+            "$ref": "#/components/schemas/HreflangGroup"
+          }
+        }
+      },
+      "Redirect": {
+        "type": "object",
+        "required": [
+          "_id",
+          "fromSlug",
+          "toSlug"
+        ],
+        "properties": {
+          "_id": {
+            "$ref": "#/components/schemas/ObjectId"
+          },
+          "tenantId": {
+            "type": "string"
+          },
+          "fromSlug": {
+            "type": "string",
+            "description": "Old slug, without a leading slash"
+          },
+          "toSlug": {
+            "type": "string"
+          },
+          "articleId": {
+            "$ref": "#/components/schemas/ObjectId"
+          },
+          "createdAt": {
+            "$ref": "#/components/schemas/DateTime"
+          },
+          "updatedAt": {
+            "$ref": "#/components/schemas/DateTime"
+          }
+        }
+      },
+      "RedirectList": {
+        "type": "object",
+        "required": [
+          "redirects",
+          "pagination"
+        ],
+        "properties": {
+          "redirects": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Redirect"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        }
+      },
+      "TranslationCoverageRow": {
+        "type": "object",
+        "required": [
+          "entityType",
+          "covered",
+          "total",
+          "missingByLocale"
+        ],
+        "properties": {
+          "entityType": {
+            "type": "string",
+            "enum": [
+              "article",
+              "category",
+              "subcategory",
+              "form"
+            ]
+          },
+          "covered": {
+            "type": "integer"
+          },
+          "total": {
+            "type": "integer"
+          },
+          "missingByLocale": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "integer"
+            }
+          }
+        }
+      },
+      "TranslationCoverageReport": {
+        "type": "object",
+        "required": [
+          "locales",
+          "rows",
+          "completeness"
+        ],
+        "properties": {
+          "locales": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "rows": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TranslationCoverageRow"
+            }
+          },
+          "completeness": {
+            "type": "integer",
+            "description": "Percent, 0-100"
+          }
+        }
+      },
+      "ContentTypeProfile": {
+        "type": "object",
+        "required": [
+          "type",
+          "length",
+          "weights"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "blog",
+              "case_study",
+              "landing",
+              "news"
+            ]
+          },
+          "length": {
+            "type": "object",
+            "description": "Word-count bands: below min is \"too short\", below comfortable is \"short\".",
+            "properties": {
+              "min": {
+                "type": "integer"
+              },
+              "comfortable": {
+                "type": "integer"
+              },
+              "max": {
+                "type": "integer"
+              }
+            }
+          },
+          "weights": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number"
+            }
+          },
+          "optionalSignals": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "requiresSummary": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ContentTypeProfileWrapper": {
+        "type": "object",
+        "properties": {
+          "profile": {
+            "$ref": "#/components/schemas/ContentTypeProfile"
+          },
+          "profiles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ContentTypeProfile"
+            }
+          }
+        }
+      },
       "Envelope": {
         "type": "object",
         "properties": {
@@ -9308,6 +11357,25 @@
                       "medium",
                       "long"
                     ]
+                  },
+                  "channels": {
+                    "type": "array",
+                    "description": "C-05: long-form channels generated in addition to the social platforms. Omit it for the pre-C-05 behaviour.\n",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "newsletter",
+                        "xThread",
+                        "videoScript",
+                        "faq",
+                        "pressRelease"
+                      ]
+                    },
+                    "maxItems": 5
+                  },
+                  "persist": {
+                    "type": "boolean",
+                    "description": "C-05: store each finished channel on the article as derived content, so it can be edited or scheduled later.\n"
                   }
                 }
               }
@@ -17875,6 +19943,317 @@
         }
       }
     },
+    "/campaigns/getAll": {
+      "get": {
+        "summary": "List campaigns",
+        "tags": [
+          "Campaigns"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "planned",
+                "active",
+                "done",
+                "all"
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "from",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/CampaignList"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/campaigns/create": {
+      "post": {
+        "summary": "Create a campaign",
+        "tags": [
+          "Campaigns"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "name"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 2,
+                    "maxLength": 160
+                  },
+                  "goal": {
+                    "type": "string",
+                    "maxLength": 500,
+                    "nullable": true
+                  },
+                  "description": {
+                    "type": "string",
+                    "maxLength": 4000,
+                    "nullable": true
+                  },
+                  "startsAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "nullable": true
+                  },
+                  "endsAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "nullable": true
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "planned",
+                      "active",
+                      "done"
+                    ],
+                    "default": "planned"
+                  },
+                  "color": {
+                    "type": "string",
+                    "maxLength": 20,
+                    "nullable": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/CampaignWrapper"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "406": {
+            "description": "Validation failed"
+          }
+        }
+      }
+    },
+    "/campaigns/update": {
+      "put": {
+        "summary": "Update a campaign",
+        "tags": [
+          "Campaigns"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "id"
+                ],
+                "properties": {
+                  "id": {
+                    "$ref": "#/components/schemas/ObjectId"
+                  },
+                  "name": {
+                    "type": "string",
+                    "minLength": 2,
+                    "maxLength": 160
+                  },
+                  "goal": {
+                    "type": "string",
+                    "maxLength": 500,
+                    "nullable": true
+                  },
+                  "description": {
+                    "type": "string",
+                    "maxLength": 4000,
+                    "nullable": true
+                  },
+                  "startsAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "nullable": true
+                  },
+                  "endsAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "nullable": true
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "planned",
+                      "active",
+                      "done"
+                    ]
+                  },
+                  "color": {
+                    "type": "string",
+                    "maxLength": 20,
+                    "nullable": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/CampaignWrapper"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Campaign not found"
+          }
+        }
+      }
+    },
+    "/campaigns/delete/{id}": {
+      "delete": {
+        "summary": "Soft-delete a campaign",
+        "description": "Plan items keep their `campaign` id but the campaign stops being listed.",
+        "tags": [
+          "Campaigns"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ObjectId"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/CampaignWrapper"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Campaign not found"
+          }
+        }
+      }
+    },
     "/categories/create": {
       "post": {
         "summary": "Create category",
@@ -18661,6 +21040,1260 @@
                       "data": null
                     }
                   }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/content-plan/getAll": {
+      "get": {
+        "summary": "Plan items in a window, with warnings and the cadence rule",
+        "description": "Returns the items for the calendar plus the deterministic warnings §10.3 asks for (past due, overdue publish, keyword cannibalization, author overload, translation deadline, cadence exceeded) and the tenant cadence rule. `from`/`to` only constrain the window when both are present.",
+        "tags": [
+          "Content Plan"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "from",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "all",
+                "idea",
+                "planned",
+                "in_progress",
+                "in_review",
+                "scheduled",
+                "published",
+                "postponed",
+                "cancelled"
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "categoryId",
+            "schema": {
+              "$ref": "#/components/schemas/ObjectId"
+            }
+          },
+          {
+            "in": "query",
+            "name": "authorId",
+            "schema": {
+              "$ref": "#/components/schemas/ObjectId"
+            }
+          },
+          {
+            "in": "query",
+            "name": "assigneeId",
+            "schema": {
+              "$ref": "#/components/schemas/ObjectId"
+            }
+          },
+          {
+            "in": "query",
+            "name": "campaignId",
+            "schema": {
+              "$ref": "#/components/schemas/ObjectId"
+            }
+          },
+          {
+            "in": "query",
+            "name": "locale",
+            "schema": {
+              "type": "string",
+              "maxLength": 20
+            }
+          },
+          {
+            "in": "query",
+            "name": "q",
+            "schema": {
+              "type": "string",
+              "maxLength": 120
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "default": 200
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/ContentPlanList"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "406": {
+            "description": "Validation failed"
+          }
+        }
+      }
+    },
+    "/content-plan/create": {
+      "post": {
+        "summary": "Create a plan item",
+        "description": "An item may exist with no article at all — that is an idea. `status` defaults to `idea`; the lifecycle only allows the transitions the calendar defines.",
+        "tags": [
+          "Content Plan"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "title"
+                ],
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "minLength": 3,
+                    "maxLength": 200
+                  },
+                  "brief": {
+                    "type": "string",
+                    "maxLength": 4000,
+                    "nullable": true
+                  },
+                  "primaryKeyword": {
+                    "type": "string",
+                    "maxLength": 80,
+                    "nullable": true
+                  },
+                  "intent": {
+                    "type": "string",
+                    "nullable": true,
+                    "enum": [
+                      "informational",
+                      "navigational",
+                      "commercial",
+                      "transactional",
+                      null
+                    ]
+                  },
+                  "funnelStage": {
+                    "type": "string",
+                    "nullable": true,
+                    "enum": [
+                      "awareness",
+                      "consideration",
+                      "conversion",
+                      "retention",
+                      null
+                    ]
+                  },
+                  "category": {
+                    "$ref": "#/components/schemas/ObjectId"
+                  },
+                  "subCategory": {
+                    "$ref": "#/components/schemas/ObjectId"
+                  },
+                  "author": {
+                    "$ref": "#/components/schemas/ObjectId"
+                  },
+                  "assignee": {
+                    "$ref": "#/components/schemas/ObjectId"
+                  },
+                  "campaign": {
+                    "$ref": "#/components/schemas/ObjectId"
+                  },
+                  "status": {
+                    "$ref": "#/components/schemas/ContentPlanStatus"
+                  },
+                  "dueAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "nullable": true
+                  },
+                  "plannedPublishAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "nullable": true
+                  },
+                  "timezone": {
+                    "type": "string",
+                    "maxLength": 60
+                  },
+                  "locales": {
+                    "type": "array",
+                    "maxItems": 12,
+                    "items": {
+                      "$ref": "#/components/schemas/ContentPlanLocale"
+                    }
+                  },
+                  "notes": {
+                    "type": "string",
+                    "maxLength": 8000,
+                    "nullable": true
+                  },
+                  "tags": {
+                    "type": "array",
+                    "maxItems": 12,
+                    "items": {
+                      "type": "string",
+                      "maxLength": 40
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/ContentPlanItemWrapper"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "406": {
+            "description": "Validation failed"
+          }
+        }
+      }
+    },
+    "/content-plan/update": {
+      "put": {
+        "summary": "Update a plan item",
+        "description": "Partial update. A status transition the lifecycle forbids (e.g. `published` → `idea`) is a 406 rather than a silent write. When the item has a linked article, the article's publish state wins over a manual status edit.",
+        "tags": [
+          "Content Plan"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "id"
+                ],
+                "properties": {
+                  "id": {
+                    "$ref": "#/components/schemas/ObjectId"
+                  },
+                  "title": {
+                    "type": "string",
+                    "minLength": 3,
+                    "maxLength": 200
+                  },
+                  "brief": {
+                    "type": "string",
+                    "maxLength": 4000,
+                    "nullable": true
+                  },
+                  "primaryKeyword": {
+                    "type": "string",
+                    "maxLength": 80,
+                    "nullable": true
+                  },
+                  "intent": {
+                    "type": "string",
+                    "nullable": true,
+                    "enum": [
+                      "informational",
+                      "navigational",
+                      "commercial",
+                      "transactional",
+                      null
+                    ]
+                  },
+                  "funnelStage": {
+                    "type": "string",
+                    "nullable": true,
+                    "enum": [
+                      "awareness",
+                      "consideration",
+                      "conversion",
+                      "retention",
+                      null
+                    ]
+                  },
+                  "category": {
+                    "$ref": "#/components/schemas/ObjectId"
+                  },
+                  "subCategory": {
+                    "$ref": "#/components/schemas/ObjectId"
+                  },
+                  "author": {
+                    "$ref": "#/components/schemas/ObjectId"
+                  },
+                  "assignee": {
+                    "$ref": "#/components/schemas/ObjectId"
+                  },
+                  "campaign": {
+                    "$ref": "#/components/schemas/ObjectId"
+                  },
+                  "status": {
+                    "$ref": "#/components/schemas/ContentPlanStatus"
+                  },
+                  "dueAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "nullable": true
+                  },
+                  "plannedPublishAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "nullable": true
+                  },
+                  "timezone": {
+                    "type": "string",
+                    "maxLength": 60
+                  },
+                  "locales": {
+                    "type": "array",
+                    "maxItems": 12,
+                    "items": {
+                      "$ref": "#/components/schemas/ContentPlanLocale"
+                    }
+                  },
+                  "notes": {
+                    "type": "string",
+                    "maxLength": 8000,
+                    "nullable": true
+                  },
+                  "tags": {
+                    "type": "array",
+                    "maxItems": 12,
+                    "items": {
+                      "type": "string",
+                      "maxLength": 40
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/ContentPlanItemWrapper"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Plan item not found"
+          },
+          "406": {
+            "description": "Validation failed or an illegal status transition"
+          }
+        }
+      }
+    },
+    "/content-plan/delete/{id}": {
+      "delete": {
+        "summary": "Soft-delete a plan item",
+        "tags": [
+          "Content Plan"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ObjectId"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/ContentPlanItemWrapper"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Plan item not found"
+          }
+        }
+      }
+    },
+    "/content-plan/{id}/start-draft": {
+      "post": {
+        "summary": "Create the linked draft article (K action 4)",
+        "description": "Creates an unpublished Article pre-filled from the item (title, brief as summary, category, author, slug) and moves the item to `in_progress`. Idempotent: calling it again returns the existing article instead of creating a second one.",
+        "tags": [
+          "Content Plan"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ObjectId"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "sourceLocale": {
+                    "type": "string",
+                    "maxLength": 20,
+                    "description": "Locale the draft is written in; defaults to the item's first locale."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Draft created (or the existing one returned)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/StartDraftWrapper"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Plan item not found"
+          },
+          "406": {
+            "description": "The item has no category or author"
+          }
+        }
+      }
+    },
+    "/content-plan/{id}/schedule": {
+      "post": {
+        "summary": "Set the planned publish date and schedule the linked article",
+        "description": "Sets `plannedPublishAt` and moves the item to `scheduled`. When the item already has a draft article, the article is scheduled too (`isPublished: true` + `publishDate`), which is how scheduled publishing already works in this service — pass `publishArticle: false` to hold the article back as a draft.",
+        "tags": [
+          "Content Plan"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ObjectId"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "plannedPublishAt"
+                ],
+                "properties": {
+                  "plannedPublishAt": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "publishArticle": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Schedule the linked article as well."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Scheduled",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/ScheduleWrapper"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Plan item not found"
+          },
+          "406": {
+            "description": "Invalid date, or the item's status cannot be scheduled"
+          }
+        }
+      }
+    },
+    "/content-plan/gaps": {
+      "get": {
+        "summary": "Coverage and refresh candidates (K action 3)",
+        "description": "Deterministic gap analysis: thin categories, published articles missing a locale, and content untouched for longer than `staleDays`. No credits are spent — each gap carries the kind of plan item it would become.",
+        "tags": [
+          "Content Plan"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "staleDays",
+            "schema": {
+              "type": "integer",
+              "minimum": 30,
+              "maximum": 1095,
+              "default": 180
+            }
+          },
+          {
+            "in": "query",
+            "name": "locales",
+            "description": "Locale codes, comma separated or repeated.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/ContentGapReport"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/content-plan/ideas/from-ai": {
+      "post": {
+        "summary": "Store a generated idea as a plan item",
+        "description": "The human half of AI idea generation: the model proposes, this endpoint stores one accepted idea. `source` defaults to `ai`.",
+        "tags": [
+          "Content Plan"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "title"
+                ],
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "minLength": 3,
+                    "maxLength": 200
+                  },
+                  "brief": {
+                    "type": "string",
+                    "maxLength": 4000,
+                    "nullable": true
+                  },
+                  "primaryKeyword": {
+                    "type": "string",
+                    "maxLength": 80,
+                    "nullable": true
+                  },
+                  "intent": {
+                    "type": "string",
+                    "enum": [
+                      "informational",
+                      "navigational",
+                      "commercial",
+                      "transactional"
+                    ]
+                  },
+                  "funnelStage": {
+                    "type": "string",
+                    "enum": [
+                      "awareness",
+                      "consideration",
+                      "conversion",
+                      "retention"
+                    ]
+                  },
+                  "category": {
+                    "$ref": "#/components/schemas/ObjectId"
+                  },
+                  "author": {
+                    "$ref": "#/components/schemas/ObjectId"
+                  },
+                  "campaign": {
+                    "$ref": "#/components/schemas/ObjectId"
+                  },
+                  "plannedPublishAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "nullable": true
+                  },
+                  "locales": {
+                    "type": "array",
+                    "maxItems": 12,
+                    "items": {
+                      "$ref": "#/components/schemas/ContentPlanLocale"
+                    }
+                  },
+                  "source": {
+                    "type": "string",
+                    "enum": [
+                      "ai",
+                      "content_gap"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/ContentPlanItemWrapper"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "406": {
+            "description": "Validation failed"
+          }
+        }
+      }
+    },
+    "/content-plan/ai/generate-ideas": {
+      "post": {
+        "summary": "Generate editorial ideas (K action 1)",
+        "description": "Returns idea proposals only — nothing is written. Apply one with `POST /content-plan/ideas/from-ai`. Category names the model invents are dropped, and a second idea on the same keyword is discarded, so the result cannot create cannibalization on arrival.",
+        "tags": [
+          "Content Plan"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "goal"
+                ],
+                "properties": {
+                  "goal": {
+                    "type": "string",
+                    "minLength": 3,
+                    "maxLength": 400
+                  },
+                  "audience": {
+                    "type": "string",
+                    "maxLength": 200,
+                    "nullable": true
+                  },
+                  "timeframeWeeks": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 26,
+                    "default": 4
+                  },
+                  "count": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 12,
+                    "default": 6
+                  },
+                  "categories": {
+                    "type": "array",
+                    "maxItems": 20,
+                    "items": {
+                      "$ref": "#/components/schemas/ObjectId"
+                    }
+                  },
+                  "locales": {
+                    "type": "array",
+                    "maxItems": 8,
+                    "items": {
+                      "type": "string",
+                      "maxLength": 20
+                    }
+                  },
+                  "constraints": {
+                    "type": "string",
+                    "maxLength": 1000,
+                    "nullable": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ideas returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/CalendarIdeas"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "406": {
+            "description": "Validation failed"
+          }
+        }
+      }
+    },
+    "/content-plan/ai/plan-period": {
+      "post": {
+        "summary": "Fill the next weeks from the cadence rule (K action 2)",
+        "description": "The slots are computed deterministically from the cadence rule; the model only names each slot's series and working title. Nothing is written — apply entries with `POST /content-plan/create`.",
+        "tags": [
+          "Content Plan"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "weeks": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 13,
+                    "default": 4
+                  },
+                  "from": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "locales": {
+                    "type": "array",
+                    "maxItems": 8,
+                    "items": {
+                      "type": "string",
+                      "maxLength": 20
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Entries returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/CalendarPeriodPlan"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/content-plan/ai/best-time": {
+      "post": {
+        "summary": "Suggest the best publish weekday/time (K action 6)",
+        "description": "Hourly analytics are not available in this service (§10.5), so the suggestion is derived from published articles' weekday engagement and the cadence preferences. Free — no model call.",
+        "tags": [
+          "Content Plan"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Suggestion returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/CalendarBestTime"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/content-plan/ai/reschedule": {
+      "post": {
+        "summary": "Propose a new date for a slipped item (K action 7)",
+        "description": "Deterministic: slides the item into the next free cadence slot. Returns a proposal only — apply it with `PUT /content-plan/update`.",
+        "tags": [
+          "Content Plan"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "itemId"
+                ],
+                "properties": {
+                  "itemId": {
+                    "$ref": "#/components/schemas/ObjectId"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Proposal returned (null when the next 6 weeks are full)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/CalendarReschedule"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Plan item not found"
+          }
+        }
+      }
+    },
+    "/content-plan/cadence": {
+      "get": {
+        "summary": "Cadence rule for the tenant (or one category)",
+        "tags": [
+          "Content Plan"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "category",
+            "schema": {
+              "$ref": "#/components/schemas/ObjectId"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK (`cadence` is null until one is configured)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/CadenceWrapper"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Create or replace the cadence rule",
+        "description": "Upsert keyed on (tenant, scope, category). `preferredTime` is HH:mm in the rule's own timezone; `weekendDays` is 0=Sunday…6=Saturday and is tenant-configurable (fa starts Saturday).",
+        "tags": [
+          "Content Plan"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "scope": {
+                    "type": "string",
+                    "enum": [
+                      "tenant",
+                      "category"
+                    ],
+                    "default": "tenant"
+                  },
+                  "category": {
+                    "$ref": "#/components/schemas/ObjectId"
+                  },
+                  "postsPerWeek": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 70,
+                    "default": 3
+                  },
+                  "preferredWeekdays": {
+                    "type": "array",
+                    "maxItems": 7,
+                    "items": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 6
+                    }
+                  },
+                  "preferredTime": {
+                    "type": "string",
+                    "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
+                  },
+                  "timezone": {
+                    "type": "string",
+                    "maxLength": 60
+                  },
+                  "weekendDays": {
+                    "type": "array",
+                    "maxItems": 7,
+                    "items": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 6
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Cadence stored",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/CadenceWrapper"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "406": {
+            "description": "Validation failed"
+          }
+        }
+      }
+    },
+    "/content-plan/ics": {
+      "get": {
+        "summary": "Read-only ICS feed of the calendar",
+        "description": "`text/calendar` feed of every scheduled plan item for the tenant, so an editor can subscribe from Google/Apple Calendar. Excluded from the public SDKs (token feed, §0.2).",
+        "tags": [
+          "Content Plan"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ICS document in `data.ics`",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "object",
+                          "properties": {
+                            "ics": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
                 }
               }
             }
@@ -25614,7 +29247,7 @@
       },
       "put": {
         "summary": "Save the dashboard layout preference for the authenticated user",
-        "description": "Upserts the dashboard configuration for the tenant and user resolved from the request context and returns the normalized result. The whole body is optional — an empty body, a body with no `slots`, or an empty `slots` array all fall back to the built-in default configuration. The response is always the fully normalized config, so unknown widget types, spans and ranges are replaced by their defaults. The authenticated user id is stored as `updatedBy`.",
+        "description": "Upserts the dashboard configuration for the tenant and user resolved from the request context and returns the normalized result. The whole body is optional Ã¢â‚¬â€ an empty body, a body with no `slots`, or an empty `slots` array all fall back to the built-in default configuration. The response is always the fully normalized config, so unknown widget types, spans and ranges are replaced by their defaults. The authenticated user id is stored as `updatedBy`.",
         "tags": [
           "Reports"
         ],
@@ -25881,6 +29514,822 @@
           },
           "500": {
             "description": "Server error"
+          }
+        }
+      }
+    },
+    "/reports/weeklyDigest": {
+      "get": {
+        "summary": "Weekly AI digest payload (J-2)",
+        "description": "This week's performance, what went well, what needs attention and the three actions worth taking Ã¢â‚¬â€ chosen deterministically by severity, so the same week always produces the same recommendations. The dashboard card renders this; email delivery is the notification service's job, which this service does not own.",
+        "tags": [
+          "Reports"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "on",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "description": "Any day inside the week; defaults to now."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/WeeklyDigestWrapper"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "406": {
+            "description": "Validation failed"
+          }
+        }
+      }
+    },
+    "/reports/seoHealth": {
+      "get": {
+        "summary": "SEO health report (J-4)",
+        "description": "Issue counts from the deterministic D-07 audit, the share of articles with no high-severity issue, and a per-category rollup sorted worst-first so one bad category is visible without opening the audit.",
+        "tags": [
+          "Reports"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "from",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 5000,
+              "default": 1000
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/ReportWrapper"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "406": {
+            "description": "Validation failed"
+          }
+        }
+      }
+    },
+    "/reports/translationCoverage": {
+      "get": {
+        "summary": "Translation coverage report (J-4 / E-07)",
+        "description": "Coverage per entity type plus the articles missing each locale, so the number in the report and the list in the SEO Hub can never disagree Ã¢â‚¬â€ both read the same analysis.",
+        "tags": [
+          "Reports"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "locales",
+            "description": "Locale codes, comma separated.",
+            "schema": {
+              "type": "string",
+              "maxLength": 300
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 2000,
+              "default": 1000
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/ReportWrapper"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "406": {
+            "description": "locales is required"
+          }
+        }
+      }
+    },
+    "/reports/calendarAdherence": {
+      "get": {
+        "summary": "Calendar adherence report (J-4 / K)",
+        "description": "Planned vs shipped, on-time rate, median lead time from plan creation to publish, overdue items and a per-campaign rollup. \"On time\" means published no more than a day after the planned date Ã¢â‚¬â€ the definition travels with the report in `notes`.",
+        "tags": [
+          "Reports"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "from",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "description": "Defaults to 90 days ago."
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 5000,
+              "default": 1000
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/ReportWrapper"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reports/aiAcceptance": {
+      "get": {
+        "summary": "AI acceptance and time saved (J-4)",
+        "description": "Acceptance rate over **decided** generations only (an abandoned run is neither a win nor a loss), credits by outcome, and an estimated time-saved figure. The estimate's per-action basis is returned alongside it so the number can be argued with instead of trusted Ã¢â‚¬â€ it is not measured time.",
+        "tags": [
+          "Reports"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "from",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "description": "Defaults to 30 days ago."
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 5000,
+              "default": 3000
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/ReportWrapper"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/seo/audit": {
+      "get": {
+        "summary": "Run the site-wide SEO audit (D-07)",
+        "description": "Scans the tenant's articles for missing meta titles/descriptions/keywords, duplicate meta titles, thin content (relative to each article's D-04 content type), images without alt text, broken heading order and orphan pages. Deterministic — the same articles always produce the same issues, which is what makes a bulk fix meaningful. `shallow: true` skips the body scan (meta issues only).",
+        "tags": [
+          "SEO Hub"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "shallow",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "description": "Skip the content-body checks (thin content, alt text, headings, orphans)."
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 2000,
+              "default": 1000
+            }
+          },
+          {
+            "in": "query",
+            "name": "code",
+            "description": "Return only one issue type.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "missing_meta_title",
+                "missing_meta_description",
+                "duplicate_title",
+                "thin_content",
+                "missing_alt_text",
+                "broken_heading_order",
+                "orphan_page",
+                "missing_keyword",
+                "no_traffic"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Audit report",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/SeoAuditReport"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "406": {
+            "description": "Validation failed"
+          }
+        }
+      }
+    },
+    "/seo/cannibalization": {
+      "get": {
+        "summary": "Articles competing for the same keyword (D-07)",
+        "description": "Groups published articles that target the same `primaryKeyword`. The oldest is returned as `recommendedKeep` — the canonical of the cluster — so a merge has an obvious winner.",
+        "tags": [
+          "SEO Hub"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 2000,
+              "default": 1000
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/CannibalizationReport"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/seo/refresh": {
+      "get": {
+        "summary": "Stale or declining articles (D-08)",
+        "description": "Detects refresh candidates from age plus a views trend. Views are daily counters from the logs service (§10.5), so the trend is computed from the ascending daily series passed in `dailyViews` (articleId → counts); without it only age counts. Age alone qualifies, but an old page whose traffic still grows stays `low`.",
+        "tags": [
+          "SEO Hub"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "staleDays",
+            "schema": {
+              "type": "integer",
+              "minimum": 30,
+              "maximum": 1095,
+              "default": 180
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 2000,
+              "default": 1000
+            }
+          },
+          {
+            "in": "query",
+            "name": "dailyViews",
+            "description": "JSON object of articleId → ascending daily view counts. Pass it as an object or a JSON string; the logs service is the only source that has this data.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/RefreshCandidateReport"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "406": {
+            "description": "Validation failed"
+          }
+        }
+      }
+    },
+    "/seo/refresh/{articleId}/plan-item": {
+      "post": {
+        "summary": "Turn a refresh candidate into a calendar item (D-08 → K)",
+        "description": "Creates a `content_gap` plan item linked to the article. Idempotent: an article that already has a live item returns it instead of creating a second one.",
+        "tags": [
+          "SEO Hub"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "articleId",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ObjectId"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Created (or the existing item)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/RefreshPlanItemWrapper"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Article not found"
+          }
+        }
+      }
+    },
+    "/seo/hreflang/{articleId}": {
+      "get": {
+        "summary": "hreflang alternates + canonical for one article (D-09)",
+        "description": "Returns one alternate per locale that actually has content, plus the canonical. The article has a single slug (D-02), so alternates differ only by locale prefix. An explicit `seoMeta.canonicalUrl[locale]` overrides the generated URL, and the canonical never points at a locale with no content.",
+        "tags": [
+          "SEO Hub"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "articleId",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ObjectId"
+            }
+          },
+          {
+            "in": "query",
+            "name": "baseUrl",
+            "schema": {
+              "type": "string",
+              "maxLength": 300
+            },
+            "description": "Site base; defaults to PUBLIC_SITE_URL, then https://octavia.ir"
+          },
+          {
+            "in": "query",
+            "name": "localeStrategy",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "prefix",
+                "query",
+                "none"
+              ],
+              "default": "prefix"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/HreflangWrapper"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Article not found"
+          }
+        }
+      }
+    },
+    "/seo/redirects": {
+      "get": {
+        "summary": "List the 301 redirects created by slug changes (D-07 / D-02)",
+        "tags": [
+          "SEO Hub"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "from",
+            "description": "Exact old slug to look up (without a leading slash).",
+            "schema": {
+              "type": "string",
+              "maxLength": 300
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 500,
+              "default": 200
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/RedirectList"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/seo/translation-coverage": {
+      "get": {
+        "summary": "Translation coverage per entity type (E-07)",
+        "description": "How many articles, categories and subcategories are complete across the tenant's locales, and how many are missing each one. A description without a name does not count as translated — the listing would be unusable.",
+        "tags": [
+          "SEO Hub"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "locales",
+            "description": "Locale codes, comma separated.",
+            "schema": {
+              "type": "string",
+              "maxLength": 300
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 2000,
+              "default": 1000
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/TranslationCoverageReport"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "406": {
+            "description": "locales is required"
+          }
+        }
+      }
+    },
+    "/seo/content-types": {
+      "get": {
+        "summary": "The D-04 content-type profiles (thresholds and weights)",
+        "description": "The word-count bands and signal weights the analyzer applies per content type, so a UI can explain a score (\"a landing page is expected to be short\") instead of showing an unexplained number. Pass `type` for one profile.",
+        "tags": [
+          "SEO Hub"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "type",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "blog",
+                "case_study",
+                "landing",
+                "news"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/ContentTypeProfileWrapper"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
           }
         }
       }
@@ -27522,8 +31971,20 @@
   },
   "tags": [
     {
+      "name": "Content Plan",
+      "description": "Content Calendar (K). Plan items are a planning layer above articles: an item can be a bare idea with no article, and gains an articleId when drafting starts. Two dates drive it — dueAt (draft deadline) and plannedPublishAt (target publish date)."
+    },
+    {
+      "name": "Campaigns",
+      "description": "Campaign groupings for calendar items (launch, seasonal series), each with a goal and a date range."
+    },
+    {
       "name": "Media",
       "description": "Media library metadata (I-1). The binary objects are stored by the external storage service; this service keeps the CMS-side metadata: kind, per-locale alt text and captions, tags and the reverse \"used by\" index."
+    },
+    {
+      "name": "SEO Hub",
+      "description": "Site-wide SEO (D-07): the deterministic audit, keyword cannibalization, the 301 redirects slug changes create, hreflang/canonical groups (D-09) and the translation coverage report (E-07). Finding an issue is deterministic; fixing one is an AI proposal elsewhere."
     },
     {
       "name": "Tags",

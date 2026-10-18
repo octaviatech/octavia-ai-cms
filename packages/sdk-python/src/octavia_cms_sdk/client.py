@@ -11,12 +11,15 @@ from .resources.ai import AIResource
 from .resources.ai_conversation import AIConversationResource
 from .resources.articles import ArticlesResource
 from .resources.authors import AuthorsResource
+from .resources.campaigns import CampaignsResource
 from .resources.categories import CategoriesResource
+from .resources.content_plan import ContentPlanResource
 from .resources.forms import FormsResource
 from .resources.form_submissions import FormSubmissionsResource
 from .resources.languages import LanguagesResource
 from .resources.media import MediaResource
 from .resources.reports import ReportsResource
+from .resources.seo_hub import SEOHubResource
 from .resources.subcategories import SubcategoriesResource
 from .resources.tags import TagsResource
 from .resources.taxonomy import TaxonomyResource
@@ -52,12 +55,15 @@ class Client:
         self.ai_conversation = AIConversationResource(self)
         self.articles = ArticlesResource(self)
         self.authors = AuthorsResource(self)
+        self.campaigns = CampaignsResource(self)
         self.categories = CategoriesResource(self)
+        self.content_plan = ContentPlanResource(self)
         self.forms = FormsResource(self)
         self.form_submissions = FormSubmissionsResource(self)
         self.languages = LanguagesResource(self)
         self.media = MediaResource(self)
         self.reports = ReportsResource(self)
+        self.seo_hub = SEOHubResource(self)
         self.subcategories = SubcategoriesResource(self)
         self.tags = TagsResource(self)
         self.taxonomy = TaxonomyResource(self)
