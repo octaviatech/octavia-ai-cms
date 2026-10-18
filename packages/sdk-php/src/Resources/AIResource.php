@@ -117,11 +117,11 @@ class AIResource
 
     /**
      * @return \Octavia\CmsSDK\Envelope
-     * @phpstan-return \Octavia\CmsSDK\Envelope<null>
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\AiAutofillResult>
      */
     public function autofillArticle($body, array $options = []): Envelope
     {
-        return $this->client->request("POST", "/ai/autofillArticle", array_merge($options, ["body" => $body]));
+        return $this->client->request("POST", "/ai/autofillArticle", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\AiAutofillResult::class);
     }
 
     /**
@@ -261,20 +261,20 @@ class AIResource
 
     /**
      * @return \Octavia\CmsSDK\Envelope
-     * @phpstan-return \Octavia\CmsSDK\Envelope<null>
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\CreditSnapshot>
      */
     public function credits(array $options = []): Envelope
     {
-        return $this->client->request("GET", "/ai/credits", $options);
+        return $this->client->request("GET", "/ai/credits", $options, \Octavia\CmsSDK\Types\CreditSnapshot::class);
     }
 
     /**
      * @return \Octavia\CmsSDK\Envelope
-     * @phpstan-return \Octavia\CmsSDK\Envelope<null>
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\TokenEstimate>
      */
     public function estimate($body, array $options = []): Envelope
     {
-        return $this->client->request("POST", "/ai/estimate", array_merge($options, ["body" => $body]));
+        return $this->client->request("POST", "/ai/estimate", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\TokenEstimate::class);
     }
 
     /**
@@ -288,11 +288,11 @@ class AIResource
 
     /**
      * @return \Octavia\CmsSDK\Envelope
-     * @phpstan-return \Octavia\CmsSDK\Envelope<null>
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\AiRunList>
      */
     public function creditsRuns(array $options = []): Envelope
     {
-        return $this->client->request("GET", "/ai/credits/runs", $options);
+        return $this->client->request("GET", "/ai/credits/runs", $options, \Octavia\CmsSDK\Types\AiRunList::class);
     }
 
     /**
@@ -306,137 +306,137 @@ class AIResource
 
     /**
      * @return \Octavia\CmsSDK\Envelope
-     * @phpstan-return \Octavia\CmsSDK\Envelope<null>
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\AiProposal>
      */
     public function proposalsPOST($body, array $options = []): Envelope
     {
-        return $this->client->request("POST", "/ai/proposals", array_merge($options, ["body" => $body]));
+        return $this->client->request("POST", "/ai/proposals", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\AiProposal::class);
     }
 
     /**
      * @return \Octavia\CmsSDK\Envelope
-     * @phpstan-return \Octavia\CmsSDK\Envelope<null>
+     * @phpstan-return \Octavia\CmsSDK\Envelope<array<int, \Octavia\CmsSDK\Types\AiProposal>>
      */
     public function proposalsGET(array $options = []): Envelope
     {
-        return $this->client->request("GET", "/ai/proposals", $options);
+        return $this->client->request("GET", "/ai/proposals", $options, \Octavia\CmsSDK\Types\AiProposal::class);
     }
 
     /**
      * @return \Octavia\CmsSDK\Envelope
-     * @phpstan-return \Octavia\CmsSDK\Envelope<null>
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\AiProposalCount>
      */
     public function proposalsCount(array $options = []): Envelope
     {
-        return $this->client->request("GET", "/ai/proposals/count", $options);
+        return $this->client->request("GET", "/ai/proposals/count", $options, \Octavia\CmsSDK\Types\AiProposalCount::class);
     }
 
     /**
      * @return \Octavia\CmsSDK\Envelope
-     * @phpstan-return \Octavia\CmsSDK\Envelope<null>
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\AiProposal>
      */
     public function proposalsId($id, array $options = []): Envelope
     {
-        return $this->client->request("GET", "/ai/proposals/" . rawurlencode($id) . "", $options);
+        return $this->client->request("GET", "/ai/proposals/" . rawurlencode($id) . "", $options, \Octavia\CmsSDK\Types\AiProposal::class);
     }
 
     /**
      * @return \Octavia\CmsSDK\Envelope
-     * @phpstan-return \Octavia\CmsSDK\Envelope<null>
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\AiProposalDecision>
      */
     public function proposalsIdAccept($id, array $options = []): Envelope
     {
-        return $this->client->request("POST", "/ai/proposals/" . rawurlencode($id) . "/accept", $options);
+        return $this->client->request("POST", "/ai/proposals/" . rawurlencode($id) . "/accept", $options, \Octavia\CmsSDK\Types\AiProposalDecision::class);
     }
 
     /**
      * @return \Octavia\CmsSDK\Envelope
-     * @phpstan-return \Octavia\CmsSDK\Envelope<null>
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\AiProposal>
      */
     public function proposalsIdReject($id, array $options = []): Envelope
     {
-        return $this->client->request("POST", "/ai/proposals/" . rawurlencode($id) . "/reject", $options);
+        return $this->client->request("POST", "/ai/proposals/" . rawurlencode($id) . "/reject", $options, \Octavia\CmsSDK\Types\AiProposal::class);
     }
 
     /**
      * @return \Octavia\CmsSDK\Envelope
-     * @phpstan-return \Octavia\CmsSDK\Envelope<null>
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\AiProposal>
      */
     public function proposalsIdUndo($id, array $options = []): Envelope
     {
-        return $this->client->request("POST", "/ai/proposals/" . rawurlencode($id) . "/undo", $options);
+        return $this->client->request("POST", "/ai/proposals/" . rawurlencode($id) . "/undo", $options, \Octavia\CmsSDK\Types\AiProposal::class);
     }
 
     /**
      * @return \Octavia\CmsSDK\Envelope
-     * @phpstan-return \Octavia\CmsSDK\Envelope<null>
+     * @phpstan-return \Octavia\CmsSDK\Envelope<array<int, \Octavia\CmsSDK\Types\AiProposalBulkResultItem>>
      */
     public function proposalsBulkAccept($body, array $options = []): Envelope
     {
-        return $this->client->request("POST", "/ai/proposals/bulk-accept", array_merge($options, ["body" => $body]));
+        return $this->client->request("POST", "/ai/proposals/bulk-accept", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\AiProposalBulkResultItem::class);
     }
 
     /**
      * @return \Octavia\CmsSDK\Envelope
-     * @phpstan-return \Octavia\CmsSDK\Envelope<null>
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\AiSettings>
      */
     public function settingsGET(array $options = []): Envelope
     {
-        return $this->client->request("GET", "/ai/settings", $options);
+        return $this->client->request("GET", "/ai/settings", $options, \Octavia\CmsSDK\Types\AiSettings::class);
     }
 
     /**
      * @return \Octavia\CmsSDK\Envelope
-     * @phpstan-return \Octavia\CmsSDK\Envelope<null>
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\AiSettings>
      */
     public function settingsPUT($body, array $options = []): Envelope
     {
-        return $this->client->request("PUT", "/ai/settings", array_merge($options, ["body" => $body]));
+        return $this->client->request("PUT", "/ai/settings", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\AiSettings::class);
     }
 
     /**
      * @return \Octavia\CmsSDK\Envelope
-     * @phpstan-return \Octavia\CmsSDK\Envelope<null>
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\ArticleRevisionList>
      */
     public function revisionsArticleId($articleId, array $options = []): Envelope
     {
-        return $this->client->request("GET", "/articles/revisions/" . rawurlencode($articleId) . "", $options);
+        return $this->client->request("GET", "/articles/revisions/" . rawurlencode($articleId) . "", $options, \Octavia\CmsSDK\Types\ArticleRevisionList::class);
     }
 
     /**
      * @return \Octavia\CmsSDK\Envelope
-     * @phpstan-return \Octavia\CmsSDK\Envelope<null>
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\ArticleRevisionRestore>
      */
     public function revisionsArticleIdRevisionIdRestore($articleId, $revisionId, array $options = []): Envelope
     {
-        return $this->client->request("POST", "/articles/revisions/" . rawurlencode($articleId) . "/" . rawurlencode($revisionId) . "/restore", $options);
+        return $this->client->request("POST", "/articles/revisions/" . rawurlencode($articleId) . "/" . rawurlencode($revisionId) . "/restore", $options, \Octavia\CmsSDK\Types\ArticleRevisionRestore::class);
     }
 
     /**
      * @return \Octavia\CmsSDK\Envelope
-     * @phpstan-return \Octavia\CmsSDK\Envelope<null>
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\ArticleReadiness>
      */
     public function readinessArticleId($articleId, array $options = []): Envelope
     {
-        return $this->client->request("GET", "/articles/readiness/" . rawurlencode($articleId) . "", $options);
+        return $this->client->request("GET", "/articles/readiness/" . rawurlencode($articleId) . "", $options, \Octavia\CmsSDK\Types\ArticleReadiness::class);
     }
 
     /**
      * @return \Octavia\CmsSDK\Envelope
-     * @phpstan-return \Octavia\CmsSDK\Envelope<null>
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\TranslationStateReport>
      */
     public function translationStateArticleId($articleId, array $options = []): Envelope
     {
-        return $this->client->request("GET", "/articles/translation-state/" . rawurlencode($articleId) . "", $options);
+        return $this->client->request("GET", "/articles/translation-state/" . rawurlencode($articleId) . "", $options, \Octavia\CmsSDK\Types\TranslationStateReport::class);
     }
 
     /**
      * @return \Octavia\CmsSDK\Envelope
-     * @phpstan-return \Octavia\CmsSDK\Envelope<null>
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\TranslationStateDoc>
      */
     public function translationStateArticleIdLocaleComplete($articleId, $locale, $body, array $options = []): Envelope
     {
-        return $this->client->request("POST", "/articles/translation-state/" . rawurlencode($articleId) . "/" . rawurlencode($locale) . "/complete", array_merge($options, ["body" => $body]));
+        return $this->client->request("POST", "/articles/translation-state/" . rawurlencode($articleId) . "/" . rawurlencode($locale) . "/complete", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\TranslationStateDoc::class);
     }
 
 }

@@ -57,4 +57,36 @@ export class FormSubmissionsResource {
     return this.client.request<Ops.FormSubmissionsSubmissionDeleteIdResponse>("DELETE", `/forms/submission/delete/${encodeURIComponent(id)}`, options);
   }
 
+  submissionsFacets(options?: RequestOptions<Ops.FormSubmissionsSubmissionsFacetsQuery>): Promise<Ops.FormSubmissionsSubmissionsFacetsResponse> {
+    return this.client.request<Ops.FormSubmissionsSubmissionsFacetsResponse>("GET", `/forms/submissions/facets`, options);
+  }
+
+  submissionIdAnalyze(id: Ops.FormSubmissionsSubmissionIdAnalyzePath["id"], body: Ops.FormSubmissionsSubmissionIdAnalyzeBody, options?: RequestOptions<Ops.FormSubmissionsSubmissionIdAnalyzeQuery>): Promise<Ops.FormSubmissionsSubmissionIdAnalyzeResponse> {
+    return this.client.request<Ops.FormSubmissionsSubmissionIdAnalyzeResponse>("POST", `/forms/submission/${encodeURIComponent(id)}/analyze`, { ...(options || {}), body });
+  }
+
+  submissionsAnalyze(body: Ops.FormSubmissionsSubmissionsAnalyzeBody, options?: RequestOptions<Ops.FormSubmissionsSubmissionsAnalyzeQuery>): Promise<Ops.FormSubmissionsSubmissionsAnalyzeResponse> {
+    return this.client.request<Ops.FormSubmissionsSubmissionsAnalyzeResponse>("POST", `/forms/submissions/analyze`, { ...(options || {}), body });
+  }
+
+  submissionIdNotes(id: Ops.FormSubmissionsSubmissionIdNotesPath["id"], body: Ops.FormSubmissionsSubmissionIdNotesBody, options?: RequestOptions<Ops.FormSubmissionsSubmissionIdNotesQuery>): Promise<Ops.FormSubmissionsSubmissionIdNotesResponse> {
+    return this.client.request<Ops.FormSubmissionsSubmissionIdNotesResponse>("POST", `/forms/submission/${encodeURIComponent(id)}/notes`, { ...(options || {}), body });
+  }
+
+  submissionIdActivity(id: Ops.FormSubmissionsSubmissionIdActivityPath["id"], options?: RequestOptions<Ops.FormSubmissionsSubmissionIdActivityQuery>): Promise<Ops.FormSubmissionsSubmissionIdActivityResponse> {
+    return this.client.request<Ops.FormSubmissionsSubmissionIdActivityResponse>("GET", `/forms/submission/${encodeURIComponent(id)}/activity`, options);
+  }
+
+  submissionIdReplyDraft(id: Ops.FormSubmissionsSubmissionIdReplyDraftPath["id"], body: Ops.FormSubmissionsSubmissionIdReplyDraftBody, options?: RequestOptions<Ops.FormSubmissionsSubmissionIdReplyDraftQuery>): Promise<Ops.FormSubmissionsSubmissionIdReplyDraftResponse> {
+    return this.client.request<Ops.FormSubmissionsSubmissionIdReplyDraftResponse>("POST", `/forms/submission/${encodeURIComponent(id)}/reply-draft`, { ...(options || {}), body });
+  }
+
+  submissionIdReply(id: Ops.FormSubmissionsSubmissionIdReplyPath["id"], body: Ops.FormSubmissionsSubmissionIdReplyBody, options?: RequestOptions<Ops.FormSubmissionsSubmissionIdReplyQuery>): Promise<Ops.FormSubmissionsSubmissionIdReplyResponse> {
+    return this.client.request<Ops.FormSubmissionsSubmissionIdReplyResponse>("POST", `/forms/submission/${encodeURIComponent(id)}/reply`, { ...(options || {}), body });
+  }
+
+  submissionsDigest(options?: RequestOptions<Ops.FormSubmissionsSubmissionsDigestQuery>): Promise<Ops.FormSubmissionsSubmissionsDigestResponse> {
+    return this.client.request<Ops.FormSubmissionsSubmissionsDigestResponse>("GET", `/forms/submissions/digest`, options);
+  }
+
 }

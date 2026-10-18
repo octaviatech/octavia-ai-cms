@@ -73,9 +73,11 @@ public sealed class Client
     public FormsResource Forms { get; }
     public FormSubmissionsResource FormSubmissions { get; }
     public LanguagesResource Languages { get; }
+    public MediaResource Media { get; }
     public ReportsResource Reports { get; }
     public SubcategoriesResource Subcategories { get; }
     public TagsResource Tags { get; }
+    public TaxonomyResource Taxonomy { get; }
     // @generated fields:end
 
     private readonly ClientConfig _config;
@@ -100,9 +102,11 @@ public sealed class Client
         Forms = new FormsResource(this);
         FormSubmissions = new FormSubmissionsResource(this);
         Languages = new LanguagesResource(this);
+        Media = new MediaResource(this);
         Reports = new ReportsResource(this);
         Subcategories = new SubcategoriesResource(this);
         Tags = new TagsResource(this);
+        Taxonomy = new TaxonomyResource(this);
         // @generated ctor:end
     }
 

@@ -1572,8 +1572,13 @@
             "enum": [
               0,
               1,
-              2
-            ]
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "description": "0 pending, 1 approved, 2 rejected (original lifecycle) â€” 3 in review, 4 replied, 5 closed, 6 spam."
           },
           "submittedAt": {
             "$ref": "#/components/schemas/DateTime"
@@ -1610,8 +1615,13 @@
             "enum": [
               0,
               1,
-              2
-            ]
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "description": "0 pending, 1 approved, 2 rejected (original lifecycle) â€” 3 in review, 4 replied, 5 closed, 6 spam."
           },
           "submittedAt": {
             "$ref": "#/components/schemas/DateTime"
@@ -1678,6 +1688,32 @@
                     }
                   }
                 }
+              },
+              "assignee": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/ObjectId"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "tags": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "analysis": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/SubmissionAnalysis"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
               }
             }
           }
@@ -4830,6 +4866,2756 @@
           }
         }
       },
+      "SubmissionAnalysis": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "$ref": "#/components/schemas/ObjectId"
+          },
+          "tenantId": {
+            "$ref": "#/components/schemas/ObjectId"
+          },
+          "submissionId": {
+            "$ref": "#/components/schemas/ObjectId"
+          },
+          "formId": {
+            "$ref": "#/components/schemas/ObjectId"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "lead",
+              "support",
+              "feedback",
+              "spam",
+              "other"
+            ]
+          },
+          "priority": {
+            "type": "string",
+            "enum": [
+              "low",
+              "normal",
+              "high",
+              "urgent"
+            ]
+          },
+          "sentiment": {
+            "type": "string",
+            "enum": [
+              "positive",
+              "neutral",
+              "negative",
+              "mixed"
+            ]
+          },
+          "language": {
+            "type": "string"
+          },
+          "spamScore": {
+            "type": "number"
+          },
+          "entities": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "company": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "email": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "phone": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "url": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          },
+          "topics": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "provider": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "providerModel": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "promptVersion": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "source": {
+            "type": "string"
+          },
+          "analyzedAt": {
+            "$ref": "#/components/schemas/DateTime"
+          },
+          "createdAt": {
+            "$ref": "#/components/schemas/DateTime"
+          },
+          "updatedAt": {
+            "$ref": "#/components/schemas/DateTime"
+          }
+        }
+      },
+      "SubmissionActivity": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "$ref": "#/components/schemas/ObjectId"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "status",
+              "assign",
+              "note",
+              "reply",
+              "ai",
+              "tag"
+            ]
+          },
+          "actorId": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ObjectId"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "actorType": {
+            "type": "string",
+            "enum": [
+              "user",
+              "ai",
+              "system"
+            ]
+          },
+          "payload": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "createdAt": {
+            "$ref": "#/components/schemas/DateTime"
+          }
+        }
+      },
+      "SubmissionReply": {
+        "type": "object",
+        "required": [
+          "_id",
+          "submissionId",
+          "subject",
+          "body",
+          "status"
+        ],
+        "properties": {
+          "_id": {
+            "$ref": "#/components/schemas/ObjectId"
+          },
+          "submissionId": {
+            "$ref": "#/components/schemas/ObjectId"
+          },
+          "channel": {
+            "type": "string"
+          },
+          "locale": {
+            "type": "string"
+          },
+          "subject": {
+            "type": "string"
+          },
+          "body": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "sent",
+              "failed"
+            ]
+          },
+          "to": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "templateKey": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "draftSource": {
+            "type": "string",
+            "enum": [
+              "ai",
+              "human"
+            ]
+          },
+          "sentAt": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/DateTime"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "error": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "createdAt": {
+            "$ref": "#/components/schemas/DateTime"
+          }
+        }
+      },
+      "SubmissionAnalysisWrapper": {
+        "type": "object",
+        "required": [
+          "analysis"
+        ],
+        "properties": {
+          "analysis": {
+            "$ref": "#/components/schemas/SubmissionAnalysis"
+          }
+        }
+      },
+      "SubmissionAnalysisResult": {
+        "type": "object",
+        "required": [
+          "analysis",
+          "spamApplied"
+        ],
+        "properties": {
+          "analysis": {
+            "$ref": "#/components/schemas/SubmissionAnalysis"
+          },
+          "spamApplied": {
+            "type": "boolean"
+          }
+        }
+      },
+      "SubmissionBulkAnalysis": {
+        "type": "object",
+        "required": [
+          "results",
+          "summary"
+        ],
+        "properties": {
+          "results": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "submissionId": {
+                  "type": "string"
+                },
+                "ok": {
+                  "type": "boolean"
+                },
+                "spamScore": {
+                  "oneOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "error": {
+                  "oneOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "summary": {
+            "type": "object",
+            "properties": {
+              "requested": {
+                "type": "integer"
+              },
+              "succeeded": {
+                "type": "integer"
+              },
+              "failed": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      },
+      "SubmissionActivityList": {
+        "type": "object",
+        "required": [
+          "activity",
+          "replies"
+        ],
+        "properties": {
+          "activity": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SubmissionActivity"
+            }
+          },
+          "replies": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SubmissionReply"
+            }
+          }
+        }
+      },
+      "SubmissionReplyWrapper": {
+        "type": "object",
+        "required": [
+          "reply"
+        ],
+        "properties": {
+          "reply": {
+            "$ref": "#/components/schemas/SubmissionReply"
+          }
+        }
+      },
+      "SubmissionActivityWrapper": {
+        "type": "object",
+        "required": [
+          "activity"
+        ],
+        "properties": {
+          "activity": {
+            "$ref": "#/components/schemas/SubmissionActivity"
+          }
+        }
+      },
+      "SubmissionInboxFacets": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "integer"
+            }
+          },
+          "category": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "integer"
+            }
+          },
+          "priority": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "integer"
+            }
+          },
+          "assignee": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "userId": {
+                  "type": "string"
+                },
+                "count": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        }
+      },
+      "SubmissionDetailWrapper": {
+        "type": "object",
+        "required": [
+          "submission"
+        ],
+        "properties": {
+          "submission": {
+            "$ref": "#/components/schemas/FormSubmissionEnriched"
+          },
+          "activity": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SubmissionActivity"
+            }
+          },
+          "replies": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SubmissionReply"
+            }
+          }
+        }
+      },
+      "SubmissionDigestAggregates": {
+        "type": "object",
+        "properties": {
+          "from": {
+            "$ref": "#/components/schemas/DateTime"
+          },
+          "to": {
+            "$ref": "#/components/schemas/DateTime"
+          },
+          "total": {
+            "type": "integer"
+          },
+          "previousTotal": {
+            "type": "integer"
+          },
+          "byCategory": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "integer"
+            }
+          },
+          "byPriority": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "integer"
+            }
+          },
+          "byStatus": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "integer"
+            }
+          },
+          "byLanguage": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "integer"
+            }
+          },
+          "byForm": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "formId": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "count": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "urgentCount": {
+            "type": "integer"
+          },
+          "spamCount": {
+            "type": "integer"
+          },
+          "topics": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "topic": {
+                  "type": "string"
+                },
+                "count": {
+                  "type": "integer"
+                },
+                "samples": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "SubmissionDigest": {
+        "type": "object",
+        "required": [
+          "aggregates"
+        ],
+        "properties": {
+          "aggregates": {
+            "$ref": "#/components/schemas/SubmissionDigestAggregates"
+          },
+          "headline": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "topics": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "topic": {
+                  "type": "string"
+                },
+                "sentiment": {
+                  "type": "string"
+                },
+                "note": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "actions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "detail": {
+                  "type": "string"
+                },
+                "severity": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "SubmissionDigestWrapper": {
+        "type": "object",
+        "required": [
+          "digest"
+        ],
+        "properties": {
+          "digest": {
+            "$ref": "#/components/schemas/SubmissionDigest"
+          }
+        }
+      },
+      "FormDraftField": {
+        "type": "object",
+        "required": [
+          "name",
+          "type",
+          "label",
+          "required"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "label": {
+            "$ref": "#/components/schemas/MultilingualString"
+          },
+          "placeholder": {
+            "$ref": "#/components/schemas/MultilingualString"
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "colSpan": {
+            "type": "integer"
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": "string"
+                },
+                "label": {
+                  "$ref": "#/components/schemas/MultilingualString"
+                }
+              }
+            }
+          },
+          "validation": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        }
+      },
+      "FormDraft": {
+        "type": "object",
+        "required": [
+          "title",
+          "slug",
+          "sections"
+        ],
+        "properties": {
+          "title": {
+            "$ref": "#/components/schemas/MultilingualString"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "description": {
+            "$ref": "#/components/schemas/MultilingualString"
+          },
+          "submitButtonText": {
+            "$ref": "#/components/schemas/MultilingualString"
+          },
+          "formType": {
+            "type": "string",
+            "enum": [
+              "public",
+              "internal"
+            ]
+          },
+          "sections": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "$ref": "#/components/schemas/MultilingualString"
+                },
+                "description": {
+                  "$ref": "#/components/schemas/MultilingualString"
+                },
+                "fields": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FormDraftField"
+                  }
+                }
+              }
+            }
+          },
+          "captcha": {
+            "type": "object",
+            "properties": {
+              "enabled": {
+                "type": "boolean"
+              }
+            }
+          },
+          "fieldCount": {
+            "type": "integer"
+          },
+          "truncated": {
+            "type": "boolean"
+          }
+        }
+      },
+      "FormDraftWrapper": {
+        "type": "object",
+        "required": [
+          "draft"
+        ],
+        "properties": {
+          "draft": {
+            "$ref": "#/components/schemas/FormDraft"
+          }
+        }
+      },
+      "FormImproveSuggestion": {
+        "type": "object",
+        "properties": {
+          "fieldName": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "current": {
+            "type": "string"
+          },
+          "proposed": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          }
+        }
+      },
+      "FormImproveWrapper": {
+        "type": "object",
+        "required": [
+          "suggestions"
+        ],
+        "properties": {
+          "formId": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "suggestions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FormImproveSuggestion"
+            }
+          },
+          "reorder": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "CommentModeration": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "$ref": "#/components/schemas/ObjectId"
+          },
+          "tenantId": {
+            "$ref": "#/components/schemas/ObjectId"
+          },
+          "commentId": {
+            "$ref": "#/components/schemas/ObjectId"
+          },
+          "articleId": {
+            "$ref": "#/components/schemas/ObjectId"
+          },
+          "toxicity": {
+            "type": "number"
+          },
+          "spamScore": {
+            "type": "number"
+          },
+          "sentiment": {
+            "type": "string",
+            "enum": [
+              "positive",
+              "neutral",
+              "negative",
+              "mixed"
+            ]
+          },
+          "language": {
+            "type": "string"
+          },
+          "decision": {
+            "type": "string",
+            "enum": [
+              "approve",
+              "hold",
+              "reject"
+            ]
+          },
+          "reasons": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "suggestedReply": {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "body": {
+                    "type": "string"
+                  },
+                  "locale": {
+                    "type": "string"
+                  },
+                  "createdAt": {
+                    "$ref": "#/components/schemas/DateTime"
+                  }
+                }
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "autoApplied": {
+            "type": "boolean"
+          },
+          "provider": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "providerModel": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "promptVersion": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "analyzedAt": {
+            "$ref": "#/components/schemas/DateTime"
+          },
+          "createdAt": {
+            "$ref": "#/components/schemas/DateTime"
+          },
+          "updatedAt": {
+            "$ref": "#/components/schemas/DateTime"
+          }
+        }
+      },
+      "CommentModerationSummary": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "$ref": "#/components/schemas/ObjectId"
+          },
+          "toxicity": {
+            "type": "number"
+          },
+          "spamScore": {
+            "type": "number"
+          },
+          "sentiment": {
+            "type": "string"
+          },
+          "language": {
+            "type": "string"
+          },
+          "decision": {
+            "type": "string",
+            "enum": [
+              "approve",
+              "hold",
+              "reject"
+            ]
+          },
+          "reasons": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "autoApplied": {
+            "type": "boolean"
+          },
+          "analyzedAt": {
+            "$ref": "#/components/schemas/DateTime"
+          }
+        }
+      },
+      "ModerationResultWrapper": {
+        "type": "object",
+        "required": [
+          "moderation"
+        ],
+        "properties": {
+          "moderation": {
+            "$ref": "#/components/schemas/CommentModeration"
+          },
+          "nextStatus": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "pending",
+              "approved",
+              "rejected",
+              null
+            ]
+          }
+        }
+      },
+      "CommentReplyDraft": {
+        "type": "object",
+        "required": [
+          "body"
+        ],
+        "properties": {
+          "body": {
+            "type": "string"
+          },
+          "locale": {
+            "type": "string"
+          }
+        }
+      },
+      "CommentReplyDraftWrapper": {
+        "type": "object",
+        "required": [
+          "reply"
+        ],
+        "properties": {
+          "reply": {
+            "$ref": "#/components/schemas/CommentReplyDraft"
+          }
+        }
+      },
+      "MinedQuestionIdea": {
+        "type": "object",
+        "required": [
+          "topic"
+        ],
+        "properties": {
+          "topic": {
+            "type": "string"
+          },
+          "angle": {
+            "type": "string"
+          },
+          "questionCount": {
+            "type": "integer"
+          },
+          "exampleQuestionIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "primaryKeyword": {
+            "type": "string"
+          },
+          "funnelStage": {
+            "type": "string",
+            "enum": [
+              "awareness",
+              "consideration",
+              "conversion"
+            ]
+          }
+        }
+      },
+      "MinedQuestionsWrapper": {
+        "type": "object",
+        "required": [
+          "ideas"
+        ],
+        "properties": {
+          "ideas": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MinedQuestionIdea"
+            }
+          }
+        }
+      },
+      "EffectiveModerationPolicy": {
+        "type": "object",
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "always",
+              "if_safe",
+              "never"
+            ]
+          },
+          "maxToxicity": {
+            "type": "number"
+          },
+          "maxSpamScore": {
+            "type": "number"
+          },
+          "autoRejectSpamScore": {
+            "type": "number"
+          },
+          "maxLinks": {
+            "type": "integer"
+          },
+          "blockedTerms": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "reasons": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "EffectivePolicyWrapper": {
+        "type": "object",
+        "required": [
+          "policy"
+        ],
+        "properties": {
+          "policy": {
+            "$ref": "#/components/schemas/EffectiveModerationPolicy"
+          },
+          "articleId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "AiFeatureFlags": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "copilot": {
+            "type": "boolean"
+          },
+          "autofill": {
+            "type": "boolean"
+          },
+          "inline": {
+            "type": "boolean"
+          },
+          "bulk": {
+            "type": "boolean"
+          },
+          "forms": {
+            "type": "boolean"
+          },
+          "submissions": {
+            "type": "boolean"
+          },
+          "comments": {
+            "type": "boolean"
+          },
+          "calendar": {
+            "type": "boolean"
+          },
+          "seo": {
+            "type": "boolean"
+          },
+          "brandVoice": {
+            "type": "boolean"
+          },
+          "jobs": {
+            "type": "boolean"
+          }
+        }
+      },
+      "AiAutoApplyPolicy": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "copilot": {
+            "type": "string",
+            "enum": [
+              "never",
+              "safe",
+              "always"
+            ]
+          },
+          "autofill": {
+            "type": "string",
+            "enum": [
+              "never",
+              "safe",
+              "always"
+            ]
+          },
+          "inline": {
+            "type": "string",
+            "enum": [
+              "never",
+              "safe",
+              "always"
+            ]
+          },
+          "bulk": {
+            "type": "string",
+            "enum": [
+              "never",
+              "safe",
+              "always"
+            ]
+          },
+          "forms": {
+            "type": "string",
+            "enum": [
+              "never",
+              "safe",
+              "always"
+            ]
+          },
+          "submissions": {
+            "type": "string",
+            "enum": [
+              "never",
+              "safe",
+              "always"
+            ]
+          },
+          "comments": {
+            "type": "string",
+            "enum": [
+              "never",
+              "safe",
+              "always"
+            ]
+          },
+          "calendar": {
+            "type": "string",
+            "enum": [
+              "never",
+              "safe",
+              "always"
+            ]
+          },
+          "seo": {
+            "type": "string",
+            "enum": [
+              "never",
+              "safe",
+              "always"
+            ]
+          },
+          "brandVoice": {
+            "type": "string",
+            "enum": [
+              "never",
+              "safe",
+              "always"
+            ]
+          },
+          "jobs": {
+            "type": "string",
+            "enum": [
+              "never",
+              "safe",
+              "always"
+            ]
+          }
+        }
+      },
+      "BrandVoiceProfile": {
+        "type": "object",
+        "nullable": true,
+        "description": "Structured brand-voice profile (L-1). Null when the tenant has not configured one.",
+        "properties": {
+          "tone": {
+            "type": "string"
+          },
+          "audience": {
+            "type": "string"
+          },
+          "readingLevel": {
+            "type": "string"
+          },
+          "do": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "dont": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "bannedTerms": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "examples": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "persianRegister": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "formal",
+              "neutral",
+              "casual",
+              null
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "description": "Auto-increments on every profile change; also the brand cache key"
+          }
+        }
+      },
+      "LegacyGlossaryEntry": {
+        "type": "object",
+        "properties": {
+          "term": {
+            "type": "string"
+          },
+          "translation": {
+            "type": "string"
+          }
+        }
+      },
+      "AiSettings": {
+        "type": "object",
+        "description": "Resolved per-tenant AI settings, every field normalized/defaulted.",
+        "required": [
+          "featureFlags",
+          "autoApplyPolicy",
+          "piiMasking",
+          "retentionDays"
+        ],
+        "properties": {
+          "brandVoice": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Legacy brand-voice string"
+          },
+          "glossary": {
+            "type": "array",
+            "description": "Legacy embedded glossary (deprecated; see /glossary/*)",
+            "items": {
+              "$ref": "#/components/schemas/LegacyGlossaryEntry"
+            }
+          },
+          "brandVoiceVersion": {
+            "type": "string"
+          },
+          "autoApply": {
+            "type": "boolean",
+            "description": "Legacy flag (superseded by autoApplyPolicy)"
+          },
+          "defaultTier": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "fast",
+              "balanced",
+              "strong",
+              null
+            ]
+          },
+          "featureFlags": {
+            "$ref": "#/components/schemas/AiFeatureFlags"
+          },
+          "autoApplyPolicy": {
+            "$ref": "#/components/schemas/AiAutoApplyPolicy"
+          },
+          "dailyQuotaPerUser": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "defaultLocales": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "piiMasking": {
+            "type": "object",
+            "required": [
+              "submissions",
+              "comments"
+            ],
+            "properties": {
+              "submissions": {
+                "type": "boolean"
+              },
+              "comments": {
+                "type": "boolean"
+              }
+            }
+          },
+          "retentionDays": {
+            "type": "integer"
+          },
+          "modelTierOverrides": {
+            "type": "object",
+            "description": "Action/model key → tier",
+            "additionalProperties": {
+              "type": "string",
+              "enum": [
+                "fast",
+                "balanced",
+                "strong"
+              ]
+            }
+          },
+          "brandVoiceProfile": {
+            "$ref": "#/components/schemas/BrandVoiceProfile"
+          },
+          "createdAt": {
+            "$ref": "#/components/schemas/DateTime"
+          },
+          "updatedAt": {
+            "$ref": "#/components/schemas/DateTime"
+          }
+        }
+      },
+      "BrandVoiceSettings": {
+        "type": "object",
+        "description": "Brand voice slice of the AI settings (GET and PUT answer the same shape).",
+        "properties": {
+          "brandVoice": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "glossary": {
+            "type": "array",
+            "description": "Legacy embedded glossary (deprecated)",
+            "items": {
+              "$ref": "#/components/schemas/LegacyGlossaryEntry"
+            }
+          },
+          "brandVoiceProfile": {
+            "$ref": "#/components/schemas/BrandVoiceProfile"
+          },
+          "brandVoiceVersion": {
+            "type": "string"
+          }
+        }
+      },
+      "CreditSnapshot": {
+        "type": "object",
+        "required": [
+          "period",
+          "used",
+          "reserved",
+          "limit",
+          "remaining",
+          "available"
+        ],
+        "properties": {
+          "period": {
+            "type": "string",
+            "description": "UTC billing period key, e.g. 2026-10"
+          },
+          "used": {
+            "type": "integer"
+          },
+          "reserved": {
+            "type": "integer"
+          },
+          "limit": {
+            "type": "integer"
+          },
+          "remaining": {
+            "type": "integer"
+          },
+          "available": {
+            "type": "integer"
+          }
+        }
+      },
+      "TokenEstimate": {
+        "type": "object",
+        "required": [
+          "actionId",
+          "estimatedTokens"
+        ],
+        "properties": {
+          "actionId": {
+            "type": "string"
+          },
+          "estimatedTokens": {
+            "type": "integer"
+          }
+        }
+      },
+      "AiRunSubmission": {
+        "type": "object",
+        "description": "202 response of POST /ai/run for a background (async) action.",
+        "required": [
+          "runId",
+          "mode",
+          "estimatedTokens"
+        ],
+        "properties": {
+          "runId": {
+            "type": "string"
+          },
+          "mode": {
+            "type": "string"
+          },
+          "estimatedTokens": {
+            "type": "integer"
+          }
+        }
+      },
+      "AiRunInsufficientCredits": {
+        "type": "object",
+        "description": "426 body — the soft credit gate refuses the run.",
+        "required": [
+          "reason",
+          "used",
+          "reserved",
+          "limit",
+          "estimate"
+        ],
+        "properties": {
+          "reason": {
+            "type": "string",
+            "enum": [
+              "AI_INSUFFICIENT_CREDITS"
+            ]
+          },
+          "used": {
+            "type": "integer"
+          },
+          "reserved": {
+            "type": "integer"
+          },
+          "limit": {
+            "type": "integer"
+          },
+          "estimate": {
+            "type": "integer"
+          }
+        }
+      },
+      "AiRunConflict": {
+        "type": "object",
+        "description": "409 body — the idempotency key (runId) is already in flight.",
+        "required": [
+          "runId",
+          "status"
+        ],
+        "properties": {
+          "runId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "already_running"
+            ]
+          }
+        }
+      },
+      "AiRunListItem": {
+        "type": "object",
+        "required": [
+          "runId",
+          "actionId",
+          "status",
+          "estimated"
+        ],
+        "properties": {
+          "runId": {
+            "type": "string"
+          },
+          "actionId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "reserved",
+              "settled",
+              "refunded",
+              "void"
+            ],
+            "description": "reserved = running/queued · void = done (self-billed) · settled = billed · refunded = failed"
+          },
+          "estimated": {
+            "type": "integer"
+          },
+          "actual": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "reason": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "outcome": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Job outcome tag (draft_created / proposal_created)"
+          },
+          "meta": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "additionalProperties": true
+          },
+          "createdAt": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          }
+        }
+      },
+      "AiRunList": {
+        "type": "object",
+        "required": [
+          "runs"
+        ],
+        "properties": {
+          "runs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AiRunListItem"
+            }
+          }
+        }
+      },
+      "AiProposalPatch": {
+        "type": "object",
+        "required": [
+          "path",
+          "after"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Dotted path into the article doc, e.g. mainTitle.en"
+          },
+          "lang": {
+            "type": "string"
+          },
+          "key": {
+            "type": "string",
+            "description": "Map field target (B-07 galleryAlt): one map key, stored flat"
+          },
+          "before": {
+            "description": "Value at proposal time; null when the field did not exist"
+          },
+          "after": {
+            "description": "AI-proposed value"
+          }
+        }
+      },
+      "AiProposal": {
+        "type": "object",
+        "required": [
+          "_id",
+          "articleId",
+          "actionId",
+          "status",
+          "patches"
+        ],
+        "properties": {
+          "_id": {
+            "$ref": "#/components/schemas/ObjectId"
+          },
+          "tenantId": {
+            "type": "string"
+          },
+          "articleId": {
+            "type": "string",
+            "description": "Article id (or form/submission id)"
+          },
+          "actionId": {
+            "type": "string",
+            "description": "Registry action that produced the patch"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "accepted",
+              "rejected",
+              "reverted",
+              "expired"
+            ]
+          },
+          "createdByUserId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "decidedByUserId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "locale": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Primary locale the output targets"
+          },
+          "patches": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AiProposalPatch"
+            }
+          },
+          "baseHash": {
+            "type": "string"
+          },
+          "decidedAt": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "createdAt": {
+            "$ref": "#/components/schemas/DateTime"
+          },
+          "updatedAt": {
+            "$ref": "#/components/schemas/DateTime"
+          }
+        }
+      },
+      "AiProposalCount": {
+        "type": "object",
+        "required": [
+          "count"
+        ],
+        "properties": {
+          "count": {
+            "type": "integer"
+          }
+        }
+      },
+      "AiProposalDecision": {
+        "type": "object",
+        "description": "Accept response: the updated proposal plus the patches that were written.",
+        "required": [
+          "proposal",
+          "appliedPatches"
+        ],
+        "properties": {
+          "proposal": {
+            "$ref": "#/components/schemas/AiProposal"
+          },
+          "appliedPatches": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AiProposalPatch"
+            }
+          }
+        }
+      },
+      "AiProposalStale": {
+        "type": "object",
+        "description": "409 body — the article changed since the proposal was created.",
+        "required": [
+          "reason"
+        ],
+        "properties": {
+          "reason": {
+            "type": "string",
+            "enum": [
+              "AI_PROPOSAL_STALE",
+              "AI_PROPOSAL_INVALID_STATE"
+            ]
+          }
+        }
+      },
+      "AiProposalBulkResultItem": {
+        "type": "object",
+        "required": [
+          "id",
+          "status"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "accepted",
+              "failed"
+            ]
+          },
+          "reason": {
+            "type": "string"
+          }
+        }
+      },
+      "AiAutofillResult": {
+        "type": "object",
+        "required": [
+          "proposalId",
+          "filled",
+          "skipped"
+        ],
+        "properties": {
+          "proposalId": {
+            "type": "string",
+            "description": "Empty when there was nothing to fill"
+          },
+          "filled": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "skipped": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "ArticleRevisionSnapshot": {
+        "type": "object",
+        "properties": {
+          "mainTitle": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "summary": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "content": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "ArticleRevision": {
+        "type": "object",
+        "required": [
+          "_id",
+          "articleId",
+          "locale",
+          "source",
+          "snapshot"
+        ],
+        "properties": {
+          "_id": {
+            "$ref": "#/components/schemas/ObjectId"
+          },
+          "articleId": {
+            "type": "string"
+          },
+          "locale": {
+            "type": "string",
+            "description": "Snapshot locale; \"common\" = article-wide change"
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "manual",
+              "ai",
+              "restore",
+              "system",
+              "seed"
+            ]
+          },
+          "userId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "aiProposalId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "restoredFrom": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "snapshot": {
+            "$ref": "#/components/schemas/ArticleRevisionSnapshot"
+          },
+          "createdAt": {
+            "$ref": "#/components/schemas/DateTime"
+          },
+          "updatedAt": {
+            "$ref": "#/components/schemas/DateTime"
+          }
+        }
+      },
+      "ArticleRevisionList": {
+        "type": "object",
+        "required": [
+          "revisions"
+        ],
+        "properties": {
+          "revisions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ArticleRevision"
+            }
+          },
+          "maxRevisionsPerLocale": {
+            "type": "integer"
+          }
+        }
+      },
+      "ArticleRevisionRestore": {
+        "type": "object",
+        "required": [
+          "article",
+          "revision"
+        ],
+        "properties": {
+          "article": {
+            "$ref": "#/components/schemas/Article"
+          },
+          "revision": {
+            "$ref": "#/components/schemas/ArticleRevision"
+          }
+        }
+      },
+      "ReadinessItem": {
+        "type": "object",
+        "required": [
+          "id",
+          "label",
+          "state",
+          "locales"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Machine label (UI i18n key readiness.items.<id>)"
+          },
+          "label": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "ok",
+              "warning",
+              "missing"
+            ]
+          },
+          "locales": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "[] = article-wide"
+          },
+          "detail": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "ArticleReadiness": {
+        "type": "object",
+        "required": [
+          "articleId",
+          "itemType",
+          "contentSource",
+          "items",
+          "blockers",
+          "warnings"
+        ],
+        "properties": {
+          "articleId": {
+            "type": "string"
+          },
+          "itemType": {
+            "type": "string",
+            "enum": [
+              "article"
+            ]
+          },
+          "contentSource": {
+            "type": "string",
+            "description": "ai | human | mixed"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReadinessItem"
+            }
+          },
+          "blockers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Hard blockers — disable the Publish CTA"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "TranslationStateItem": {
+        "type": "object",
+        "required": [
+          "locale",
+          "state",
+          "sourceOutdated"
+        ],
+        "properties": {
+          "locale": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "missing",
+              "done",
+              "outdated"
+            ]
+          },
+          "storedState": {
+            "type": "string",
+            "enum": [
+              "missing",
+              "done",
+              "outdated"
+            ]
+          },
+          "sourceOutdated": {
+            "type": "boolean"
+          },
+          "updatedAt": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          }
+        }
+      },
+      "TranslationStateReport": {
+        "type": "object",
+        "required": [
+          "articleId",
+          "sourceLocale",
+          "items"
+        ],
+        "properties": {
+          "articleId": {
+            "type": "string"
+          },
+          "sourceLocale": {
+            "type": "string"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TranslationStateItem"
+            }
+          }
+        }
+      },
+      "TranslationStateDoc": {
+        "type": "object",
+        "required": [
+          "articleId",
+          "locale",
+          "sourceHash",
+          "targetHash"
+        ],
+        "properties": {
+          "_id": {
+            "$ref": "#/components/schemas/ObjectId"
+          },
+          "articleId": {
+            "type": "string"
+          },
+          "locale": {
+            "type": "string"
+          },
+          "sourceLocale": {
+            "type": "string"
+          },
+          "sourceHash": {
+            "type": "string"
+          },
+          "targetHash": {
+            "type": "string"
+          },
+          "blockHashes": {
+            "type": "object",
+            "description": "Per-block source fingerprints (E-02 incremental translation)",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "updatedByUserId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "createdAt": {
+            "$ref": "#/components/schemas/DateTime"
+          },
+          "updatedAt": {
+            "$ref": "#/components/schemas/DateTime"
+          }
+        }
+      },
+      "AiEvent": {
+        "type": "object",
+        "description": "One `data:` frame of GET /ai/events/stream (text/event-stream).",
+        "required": [
+          "event",
+          "occurredAt"
+        ],
+        "properties": {
+          "event": {
+            "type": "string",
+            "description": "Event name, e.g. ai.credits.settled"
+          },
+          "occurredAt": {
+            "$ref": "#/components/schemas/DateTime"
+          },
+          "payload": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        }
+      },
+      "GlossaryTerm": {
+        "type": "object",
+        "required": [
+          "_id",
+          "source",
+          "sourceLocale",
+          "target",
+          "targetLocale",
+          "doNotTranslate"
+        ],
+        "properties": {
+          "_id": {
+            "$ref": "#/components/schemas/ObjectId"
+          },
+          "source": {
+            "type": "string"
+          },
+          "sourceLocale": {
+            "type": "string"
+          },
+          "target": {
+            "type": "string"
+          },
+          "targetLocale": {
+            "type": "string"
+          },
+          "doNotTranslate": {
+            "type": "boolean"
+          },
+          "note": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "UI-only usage note; never sent to the model"
+          },
+          "createdAt": {
+            "$ref": "#/components/schemas/DateTime"
+          },
+          "updatedAt": {
+            "$ref": "#/components/schemas/DateTime"
+          }
+        }
+      },
+      "GlossaryTermWrapper": {
+        "type": "object",
+        "required": [
+          "term"
+        ],
+        "properties": {
+          "term": {
+            "$ref": "#/components/schemas/GlossaryTerm"
+          }
+        }
+      },
+      "KnowledgeSource": {
+        "type": "object",
+        "required": [
+          "_id",
+          "type",
+          "title",
+          "status",
+          "chunkCount"
+        ],
+        "properties": {
+          "_id": {
+            "$ref": "#/components/schemas/ObjectId"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "url",
+              "text",
+              "file"
+            ]
+          },
+          "title": {
+            "type": "string"
+          },
+          "uri": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "content": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "locale": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "indexed",
+              "failed"
+            ]
+          },
+          "error": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "chunkCount": {
+            "type": "integer"
+          },
+          "tokenCount": {
+            "type": "integer"
+          },
+          "indexedAt": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "createdAt": {
+            "$ref": "#/components/schemas/DateTime"
+          },
+          "updatedAt": {
+            "$ref": "#/components/schemas/DateTime"
+          }
+        }
+      },
+      "KnowledgeSourceWrapper": {
+        "type": "object",
+        "required": [
+          "source"
+        ],
+        "properties": {
+          "source": {
+            "$ref": "#/components/schemas/KnowledgeSource"
+          }
+        }
+      },
+      "TaxonomyFinding": {
+        "type": "object",
+        "required": [
+          "code",
+          "severity",
+          "entityType",
+          "message",
+          "fixAction"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "enum": [
+              "duplicate_category",
+              "duplicate_subcategory",
+              "near_duplicate_category",
+              "empty_category",
+              "no_description",
+              "no_seo",
+              "unbalanced_category",
+              "orphan_subcategory"
+            ]
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "high",
+              "medium",
+              "low"
+            ]
+          },
+          "entityType": {
+            "type": "string",
+            "enum": [
+              "category",
+              "subcategory"
+            ]
+          },
+          "entityId": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "names": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "message": {
+            "type": "string"
+          },
+          "fixAction": {
+            "type": "string"
+          }
+        }
+      },
+      "TaxonomyAudit": {
+        "type": "object",
+        "required": [
+          "findings",
+          "summary"
+        ],
+        "properties": {
+          "findings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TaxonomyFinding"
+            }
+          },
+          "summary": {
+            "type": "object",
+            "properties": {
+              "total": {
+                "type": "integer"
+              },
+              "high": {
+                "type": "integer"
+              },
+              "medium": {
+                "type": "integer"
+              },
+              "low": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      },
+      "TaxonomySeoEntry": {
+        "type": "object",
+        "properties": {
+          "metaTitle": {
+            "type": "string"
+          },
+          "metaDescription": {
+            "type": "string"
+          },
+          "focusKeyword": {
+            "type": "string"
+          }
+        }
+      },
+      "CategorySeoSuggestion": {
+        "type": "object",
+        "required": [
+          "entityType",
+          "entityId",
+          "seo"
+        ],
+        "properties": {
+          "entityType": {
+            "type": "string",
+            "enum": [
+              "category",
+              "subcategory"
+            ]
+          },
+          "entityId": {
+            "$ref": "#/components/schemas/ObjectId"
+          },
+          "seo": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/TaxonomySeoEntry"
+            }
+          }
+        }
+      },
+      "TagSuggestion": {
+        "type": "object",
+        "required": [
+          "tag"
+        ],
+        "properties": {
+          "tag": {
+            "type": "string"
+          },
+          "isNew": {
+            "type": "boolean"
+          },
+          "confidence": {
+            "type": "number"
+          }
+        }
+      },
+      "TagSuggestions": {
+        "type": "object",
+        "required": [
+          "tags"
+        ],
+        "properties": {
+          "tags": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TagSuggestion"
+            }
+          }
+        }
+      },
+      "TagMergeResult": {
+        "type": "object",
+        "required": [
+          "from",
+          "into",
+          "articlesUpdated"
+        ],
+        "properties": {
+          "from": {
+            "type": "string"
+          },
+          "into": {
+            "type": "string"
+          },
+          "articlesUpdated": {
+            "type": "integer"
+          }
+        }
+      },
+      "TagUsageRefresh": {
+        "type": "object",
+        "description": "Result of POST /taxonomy/tags/refreshUsage (H-3).",
+        "required": [
+          "updated"
+        ],
+        "properties": {
+          "updated": {
+            "type": "integer"
+          }
+        }
+      },
+      "AuthorBioSuggestion": {
+        "type": "object",
+        "required": [
+          "authorId"
+        ],
+        "properties": {
+          "authorId": {
+            "$ref": "#/components/schemas/ObjectId"
+          },
+          "bio": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "expertise": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "AuthorSuggestion": {
+        "type": "object",
+        "required": [
+          "authorId",
+          "score"
+        ],
+        "properties": {
+          "authorId": {
+            "$ref": "#/components/schemas/ObjectId"
+          },
+          "score": {
+            "type": "number"
+          },
+          "matched": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "AuthorSuggestions": {
+        "type": "object",
+        "required": [
+          "suggestions"
+        ],
+        "properties": {
+          "suggestions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AuthorSuggestion"
+            }
+          }
+        }
+      },
+      "MediaAsset": {
+        "type": "object",
+        "required": [
+          "_id",
+          "url",
+          "kind"
+        ],
+        "properties": {
+          "_id": {
+            "$ref": "#/components/schemas/ObjectId"
+          },
+          "tenantId": {
+            "$ref": "#/components/schemas/ObjectId"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "image",
+              "video",
+              "audio",
+              "document",
+              "other"
+            ]
+          },
+          "url": {
+            "type": "string"
+          },
+          "storageKey": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "fileName": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "mimeType": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "sizeBytes": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "width": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "height": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "altText": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "caption": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "aiMetadata": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "additionalProperties": true
+          },
+          "usage": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "entityType": {
+                  "type": "string"
+                },
+                "entityId": {
+                  "$ref": "#/components/schemas/ObjectId"
+                },
+                "field": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "$ref": "#/components/schemas/DateTime"
+          },
+          "updatedAt": {
+            "$ref": "#/components/schemas/DateTime"
+          }
+        }
+      },
+      "MediaAssetList": {
+        "type": "object",
+        "required": [
+          "assets",
+          "pagination"
+        ],
+        "properties": {
+          "assets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MediaAsset"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        }
+      },
+      "MediaAssetWrapper": {
+        "type": "object",
+        "required": [
+          "asset"
+        ],
+        "properties": {
+          "asset": {
+            "$ref": "#/components/schemas/MediaAsset"
+          }
+        }
+      },
+      "MediaUsageRef": {
+        "type": "object",
+        "required": [
+          "entityType",
+          "entityId",
+          "field"
+        ],
+        "properties": {
+          "entityType": {
+            "type": "string"
+          },
+          "entityId": {
+            "$ref": "#/components/schemas/ObjectId"
+          },
+          "field": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          }
+        }
+      },
+      "MediaUsage": {
+        "type": "object",
+        "required": [
+          "usages"
+        ],
+        "properties": {
+          "usages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MediaUsageRef"
+            }
+          }
+        }
+      },
+      "MediaMetadataSuggestion": {
+        "type": "object",
+        "required": [
+          "altText",
+          "tags",
+          "kind"
+        ],
+        "properties": {
+          "assetId": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "url": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "mimeType": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "locale": {
+            "type": "string"
+          },
+          "altText": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "image",
+              "video",
+              "audio",
+              "document",
+              "other"
+            ]
+          }
+        }
+      },
+      "MediaMissingAlt": {
+        "type": "object",
+        "required": [
+          "assets",
+          "totalMissing"
+        ],
+        "properties": {
+          "assets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MediaAsset"
+            }
+          },
+          "totalMissing": {
+            "type": "integer"
+          },
+          "locale": {
+            "type": "string"
+          }
+        }
+      },
       "Envelope": {
         "type": "object",
         "properties": {
@@ -5904,7 +8690,26 @@
         },
         "responses": {
           "200": {
-            "description": "Metadata proposal created (or nothing to fill)"
+            "description": "Metadata proposal created (or nothing to fill)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/AiAutofillResult"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
           },
           "404": {
             "description": "Article not found"
@@ -8145,7 +10950,26 @@
         ],
         "responses": {
           "200": {
-            "description": "Credit snapshot"
+            "description": "Credit snapshot",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/CreditSnapshot"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
           }
         }
       }
@@ -8185,7 +11009,26 @@
         },
         "responses": {
           "200": {
-            "description": "Estimated tokens"
+            "description": "Estimated tokens",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/TokenEstimate"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
           },
           "404": {
             "description": "Unknown action id"
@@ -8195,7 +11038,7 @@
     },
     "/ai/run": {
       "post": {
-        "summary": "Submit a background AI run (202; credits reserved up front)",
+        "summary": "Run an AI action — sync actions answer 200 inline, heavier actions submit a background run (202)",
         "tags": [
           "AI"
         ],
@@ -8231,14 +11074,98 @@
           }
         },
         "responses": {
+          "200": {
+            "description": "Sync action executed inline (generateTitle / article.improveSelection / article.continueWriting / article.autocategorize)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "description": "The action's own payload — `data` is the action result, so it is typed per action (AiTitleResult, AiSeoResult, AiArticlePatch…). Treat it as `unknown` unless you know the actionId you sent.",
+                      "properties": {
+                        "data": {
+                          "type": "object",
+                          "additionalProperties": true
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
           "202": {
-            "description": "Run accepted (poll the ledger / SSE)"
+            "description": "Background run accepted (poll the ledger / SSE)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/AiRunSubmission"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
           },
           "404": {
             "description": "Unknown action id"
           },
           "409": {
-            "description": "Run already submitted for this runId"
+            "description": "Run already submitted for this runId",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/AiRunConflict"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "426": {
+            "description": "Upgrade required (ai_tokens limit exceeded)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/AiRunInsufficientCredits"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
           }
         }
       }
@@ -8267,7 +11194,26 @@
         ],
         "responses": {
           "200": {
-            "description": "Ledger-backed run list"
+            "description": "Ledger-backed run list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/AiRunList"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
           }
         }
       }
@@ -8295,7 +11241,20 @@
         ],
         "responses": {
           "200": {
-            "description": "text/event-stream of {event, occurredAt, payload}"
+            "description": "text/event-stream. Each `data:` frame is a JSON AiEvent; the connection closes after 30 minutes and can be resumed with `lastId`.",
+            "content": {
+              "text/event-stream": {
+                "schema": {
+                  "type": "string",
+                  "description": "Serialized AiEvent frames. NOTE (D24): the generated SDKs still treat this as an ordinary request and cannot consume the stream — read it with your own SSE client until `x-sse` support lands (A-11)."
+                },
+                "examples": {
+                  "frame": {
+                    "value": "data: {\"event\":\"ai.credits.settled\",\"occurredAt\":\"2026-10-18T09:00:00.000Z\",\"payload\":{\"runId\":\"…\",\"actual\":120}}"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -8380,7 +11339,26 @@
         },
         "responses": {
           "201": {
-            "description": "Proposal created"
+            "description": "Proposal created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/AiProposal"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
           }
         }
       },
@@ -8435,7 +11413,29 @@
         ],
         "responses": {
           "200": {
-            "description": "List of proposals"
+            "description": "List of proposals (`data` is the array itself)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/AiProposal"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
           }
         }
       }
@@ -8453,8 +11453,25 @@
         ],
         "responses": {
           "200": {
-            "description": {
-              "pending": "number"
+            "description": "Pending proposal count (drives the AI Inbox badge)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/AiProposalCount"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
             }
           }
         }
@@ -8483,7 +11500,29 @@
         ],
         "responses": {
           "200": {
-            "description": "Proposal"
+            "description": "Proposal",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/AiProposal"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Proposal not found"
           }
         }
       }
@@ -8511,10 +11550,48 @@
         ],
         "responses": {
           "200": {
-            "description": "Patches applied"
+            "description": "Patches applied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/AiProposalDecision"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
           },
           "409": {
-            "description": "Proposal stale (article changed) or already decided"
+            "description": "Proposal stale (article changed) or already decided",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/AiProposalStale"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
           }
         }
       }
@@ -8542,7 +11619,26 @@
         ],
         "responses": {
           "200": {
-            "description": "Proposal rejected"
+            "description": "Proposal rejected",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/AiProposal"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
           }
         }
       }
@@ -8570,7 +11666,26 @@
         ],
         "responses": {
           "200": {
-            "description": "Proposal reverted"
+            "description": "Proposal reverted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/AiProposal"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
           }
         }
       }
@@ -8609,10 +11724,54 @@
         },
         "responses": {
           "200": {
-            "description": "All accepted"
+            "description": "All accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/AiProposalBulkResultItem"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
           },
           "207": {
-            "description": "Some proposals failed (stale / invalid state)"
+            "description": "Some proposals failed (stale / invalid state)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/AiProposalBulkResultItem"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
           }
         }
       }
@@ -8704,291 +11863,7 @@
                       "type": "object",
                       "properties": {
                         "data": {
-                          "type": "object",
-                          "description": "Resolved per-tenant AI settings with every field normalized/defaulted.",
-                          "required": [
-                            "featureFlags",
-                            "autoApplyPolicy",
-                            "piiMasking",
-                            "retentionDays"
-                          ],
-                          "properties": {
-                            "brandVoice": {
-                              "type": "string",
-                              "nullable": true,
-                              "description": "Legacy brand-voice string"
-                            },
-                            "glossary": {
-                              "type": "array",
-                              "description": "Legacy embedded glossary (deprecated; see /glossary/*)",
-                              "items": {
-                                "type": "object",
-                                "required": [
-                                  "term",
-                                  "translation"
-                                ],
-                                "properties": {
-                                  "term": {
-                                    "type": "string"
-                                  },
-                                  "translation": {
-                                    "type": "string"
-                                  }
-                                }
-                              }
-                            },
-                            "brandVoiceVersion": {
-                              "type": "string",
-                              "description": "Cache key; changes when brand voice/glossary change"
-                            },
-                            "autoApply": {
-                              "type": "boolean",
-                              "description": "Legacy flag (superseded by autoApplyPolicy)"
-                            },
-                            "defaultTier": {
-                              "type": "string",
-                              "nullable": true,
-                              "enum": [
-                                "fast",
-                                "balanced",
-                                "strong"
-                              ]
-                            },
-                            "featureFlags": {
-                              "type": "object",
-                              "additionalProperties": false,
-                              "properties": {
-                                "copilot": {
-                                  "type": "boolean"
-                                },
-                                "autofill": {
-                                  "type": "boolean"
-                                },
-                                "inline": {
-                                  "type": "boolean"
-                                },
-                                "bulk": {
-                                  "type": "boolean"
-                                },
-                                "forms": {
-                                  "type": "boolean"
-                                },
-                                "submissions": {
-                                  "type": "boolean"
-                                },
-                                "comments": {
-                                  "type": "boolean"
-                                },
-                                "calendar": {
-                                  "type": "boolean"
-                                },
-                                "seo": {
-                                  "type": "boolean"
-                                },
-                                "brandVoice": {
-                                  "type": "boolean"
-                                },
-                                "jobs": {
-                                  "type": "boolean"
-                                }
-                              }
-                            },
-                            "autoApplyPolicy": {
-                              "type": "object",
-                              "additionalProperties": false,
-                              "properties": {
-                                "copilot": {
-                                  "type": "string",
-                                  "enum": [
-                                    "never",
-                                    "safe",
-                                    "always"
-                                  ]
-                                },
-                                "autofill": {
-                                  "type": "string",
-                                  "enum": [
-                                    "never",
-                                    "safe",
-                                    "always"
-                                  ]
-                                },
-                                "inline": {
-                                  "type": "string",
-                                  "enum": [
-                                    "never",
-                                    "safe",
-                                    "always"
-                                  ]
-                                },
-                                "bulk": {
-                                  "type": "string",
-                                  "enum": [
-                                    "never",
-                                    "safe",
-                                    "always"
-                                  ]
-                                },
-                                "forms": {
-                                  "type": "string",
-                                  "enum": [
-                                    "never",
-                                    "safe",
-                                    "always"
-                                  ]
-                                },
-                                "submissions": {
-                                  "type": "string",
-                                  "enum": [
-                                    "never",
-                                    "safe",
-                                    "always"
-                                  ]
-                                },
-                                "comments": {
-                                  "type": "string",
-                                  "enum": [
-                                    "never",
-                                    "safe",
-                                    "always"
-                                  ]
-                                },
-                                "calendar": {
-                                  "type": "string",
-                                  "enum": [
-                                    "never",
-                                    "safe",
-                                    "always"
-                                  ]
-                                },
-                                "seo": {
-                                  "type": "string",
-                                  "enum": [
-                                    "never",
-                                    "safe",
-                                    "always"
-                                  ]
-                                },
-                                "brandVoice": {
-                                  "type": "string",
-                                  "enum": [
-                                    "never",
-                                    "safe",
-                                    "always"
-                                  ]
-                                },
-                                "jobs": {
-                                  "type": "string",
-                                  "enum": [
-                                    "never",
-                                    "safe",
-                                    "always"
-                                  ]
-                                }
-                              }
-                            },
-                            "dailyQuotaPerUser": {
-                              "type": "integer",
-                              "nullable": true
-                            },
-                            "defaultLocales": {
-                              "type": "array",
-                              "items": {
-                                "type": "string"
-                              }
-                            },
-                            "piiMasking": {
-                              "type": "object",
-                              "required": [
-                                "submissions",
-                                "comments"
-                              ],
-                              "properties": {
-                                "submissions": {
-                                  "type": "boolean"
-                                },
-                                "comments": {
-                                  "type": "boolean"
-                                }
-                              }
-                            },
-                            "retentionDays": {
-                              "type": "integer"
-                            },
-                            "modelTierOverrides": {
-                              "type": "object",
-                              "description": "Action/model key → tier",
-                              "additionalProperties": {
-                                "type": "string",
-                                "enum": [
-                                  "fast",
-                                  "balanced",
-                                  "strong"
-                                ]
-                              }
-                            },
-                            "brandVoiceProfile": {
-                              "type": "object",
-                              "description": "Stored brand-voice profile; null when the tenant has not configured one.",
-                              "nullable": true,
-                              "properties": {
-                                "tone": {
-                                  "type": "string"
-                                },
-                                "audience": {
-                                  "type": "string"
-                                },
-                                "readingLevel": {
-                                  "type": "string"
-                                },
-                                "do": {
-                                  "type": "array",
-                                  "items": {
-                                    "type": "string"
-                                  }
-                                },
-                                "dont": {
-                                  "type": "array",
-                                  "items": {
-                                    "type": "string"
-                                  }
-                                },
-                                "bannedTerms": {
-                                  "type": "array",
-                                  "items": {
-                                    "type": "string"
-                                  }
-                                },
-                                "examples": {
-                                  "type": "array",
-                                  "items": {
-                                    "type": "string"
-                                  }
-                                },
-                                "persianRegister": {
-                                  "type": "string",
-                                  "nullable": true,
-                                  "enum": [
-                                    "formal",
-                                    "neutral",
-                                    "casual"
-                                  ]
-                                },
-                                "version": {
-                                  "type": "integer",
-                                  "description": "Auto-increments on every profile change"
-                                }
-                              }
-                            },
-                            "createdAt": {
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            "updatedAt": {
-                              "type": "string",
-                              "format": "date-time"
-                            }
-                          }
+                          "$ref": "#/components/schemas/AiSettings"
                         }
                       }
                     }
@@ -9332,7 +12207,26 @@
         },
         "responses": {
           "200": {
-            "description": "Updated AI settings (normalized; see GET /ai/settings)"
+            "description": "Updated AI settings (normalized; see GET /ai/settings)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/AiSettings"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
           },
           "406": {
             "description": "Validation failed"
@@ -9366,83 +12260,7 @@
                       "type": "object",
                       "properties": {
                         "data": {
-                          "type": "object",
-                          "properties": {
-                            "brandVoice": {
-                              "type": "string",
-                              "nullable": true
-                            },
-                            "glossary": {
-                              "type": "array",
-                              "description": "Legacy embedded glossary (deprecated)",
-                              "items": {
-                                "type": "object",
-                                "properties": {
-                                  "term": {
-                                    "type": "string"
-                                  },
-                                  "translation": {
-                                    "type": "string"
-                                  }
-                                }
-                              }
-                            },
-                            "brandVoiceProfile": {
-                              "type": "object",
-                              "nullable": true,
-                              "description": "Structured brand-voice profile (L-1)",
-                              "properties": {
-                                "tone": {
-                                  "type": "string"
-                                },
-                                "audience": {
-                                  "type": "string"
-                                },
-                                "readingLevel": {
-                                  "type": "string"
-                                },
-                                "do": {
-                                  "type": "array",
-                                  "items": {
-                                    "type": "string"
-                                  }
-                                },
-                                "dont": {
-                                  "type": "array",
-                                  "items": {
-                                    "type": "string"
-                                  }
-                                },
-                                "bannedTerms": {
-                                  "type": "array",
-                                  "items": {
-                                    "type": "string"
-                                  }
-                                },
-                                "examples": {
-                                  "type": "array",
-                                  "items": {
-                                    "type": "string"
-                                  }
-                                },
-                                "persianRegister": {
-                                  "type": "string",
-                                  "nullable": true,
-                                  "enum": [
-                                    "formal",
-                                    "neutral",
-                                    "casual"
-                                  ]
-                                },
-                                "version": {
-                                  "type": "integer"
-                                }
-                              }
-                            },
-                            "brandVoiceVersion": {
-                              "type": "string"
-                            }
-                          }
+                          "$ref": "#/components/schemas/BrandVoiceSettings"
                         }
                       }
                     }
@@ -9546,7 +12364,26 @@
         },
         "responses": {
           "200": {
-            "description": "Updated brand-voice slice (same shape as GET /ai/brand-voice data)"
+            "description": "Updated brand-voice slice (same shape as GET /ai/brand-voice data)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/BrandVoiceSettings"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
           },
           "406": {
             "description": "Validation failed"
@@ -12734,6 +15571,270 @@
         }
       }
     },
+    "/articles/comments/minedQuestions": {
+      "get": {
+        "summary": "Mine reader questions into content ideas (G-4)",
+        "description": "Clusters approved reader comments that look like questions into content ideas (topic, angle, primary keyword, funnel stage) for the content-calendar backlog. The response never contains comment ids the caller did not scope the query to.",
+        "tags": [
+          "Articles"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "articleId",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-fA-F0-9]{24}$"
+            },
+            "description": "Restrict the mining to one article."
+          },
+          {
+            "in": "query",
+            "name": "days",
+            "schema": {
+              "type": "integer",
+              "default": 60,
+              "minimum": 1,
+              "maximum": 180
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "default": 40,
+              "minimum": 5,
+              "maximum": 100
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/MinedQuestionsWrapper"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/articles/comments/effectivePolicy": {
+      "get": {
+        "summary": "Get the effective engagement policy (G-2)",
+        "description": "Resolves the moderation thresholds that actually apply, following the tenant → article override precedence. Use it to explain why a comment is still pending.",
+        "tags": [
+          "Articles"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "articleId",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-fA-F0-9]{24}$"
+            },
+            "description": "Article whose override should be taken into account."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/EffectivePolicyWrapper"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/articles/comments/{commentId}/moderate": {
+      "post": {
+        "summary": "Moderate one comment with AI (G-1)",
+        "description": "Scores the comment for toxicity, spam, sentiment and language, then applies the engagement policy (approve / hold / reject). The verdict is stored in CommentModeration; `apply: false` performs a dry run.",
+        "tags": [
+          "Articles"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "commentId",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-fA-F0-9]{24}$"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "apply": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Apply the decision to the comment status."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Moderation stored",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/ModerationResultWrapper"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Comment not found"
+          }
+        }
+      }
+    },
+    "/articles/comments/{commentId}/reply-draft": {
+      "post": {
+        "summary": "Draft a reply to a comment with AI (G-3)",
+        "description": "Writes a short courteous reply in the commenter's language with the tenant Brand Voice applied and stores it as a suggestion on the moderation record. Sending is always an explicit human action.",
+        "tags": [
+          "Articles"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "commentId",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-fA-F0-9]{24}$"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "instruction": {
+                    "type": "string",
+                    "maxLength": 1000,
+                    "description": "Extra tone instruction for the draft."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Draft created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/CommentReplyDraftWrapper"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Comment not found"
+          }
+        }
+      }
+    },
     "/articles/comments/{commentId}": {
       "patch": {
         "summary": "Update comment",
@@ -13725,7 +16826,26 @@
         ],
         "responses": {
           "200": {
-            "description": "Revisions retrieved"
+            "description": "Revisions retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/ArticleRevisionList"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
           }
         }
       }
@@ -13761,7 +16881,26 @@
         ],
         "responses": {
           "200": {
-            "description": "Revision restored"
+            "description": "Revision restored",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/ArticleRevisionRestore"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
           },
           "404": {
             "description": "Revision or article not found"
@@ -13792,7 +16931,26 @@
         ],
         "responses": {
           "200": {
-            "description": "Readiness items with ok / warning / missing states"
+            "description": "Readiness items with ok / warning / missing states",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/ArticleReadiness"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
           },
           "404": {
             "description": "Article not found"
@@ -13823,7 +16981,26 @@
         ],
         "responses": {
           "200": {
-            "description": "Translation statuses per locale"
+            "description": "Translation statuses per locale",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/TranslationStateReport"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
           },
           "404": {
             "description": "Article not found"
@@ -13883,10 +17060,32 @@
         },
         "responses": {
           "200": {
-            "description": "Stored"
+            "description": "Stored",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/TranslationStateDoc"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
           },
           "404": {
             "description": "Article not found"
+          },
+          "406": {
+            "description": "Article has no source locale content"
           }
         }
       }
@@ -17901,6 +21100,710 @@
         }
       }
     },
+    "/forms/ai/generate": {
+      "post": {
+        "summary": "Create a form draft with AI (F-1)",
+        "description": "Turns a plain-language brief into a form DRAFT (title, sections, fields with labels, placeholders, required flags, options and validation). Nothing is written: preview the draft and save it with `POST /forms/create`. Public-form drafts come back with `captcha.enabled = true` (F-8). Every field type is one of the 17 supported types.",
+        "tags": [
+          "Forms"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "prompt"
+                ],
+                "properties": {
+                  "prompt": {
+                    "type": "string",
+                    "minLength": 10,
+                    "maxLength": 4000,
+                    "example": "Webinar signup with 5 fields and a confirmation email"
+                  },
+                  "locales": {
+                    "type": "array",
+                    "minItems": 1,
+                    "maxItems": 8,
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Languages every label is generated in (defaults to [\"en\"])."
+                  },
+                  "formType": {
+                    "type": "string",
+                    "enum": [
+                      "public",
+                      "internal"
+                    ],
+                    "default": "public"
+                  },
+                  "maxFields": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 30,
+                    "default": 12
+                  },
+                  "tone": {
+                    "type": "string",
+                    "maxLength": 200,
+                    "description": "Optional extra tone hint; Brand Voice still applies."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Draft generated (not saved)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/FormDraftWrapper"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "406": {
+            "description": "Validation failed"
+          },
+          "502": {
+            "description": "The model returned output that could not be validated"
+          }
+        }
+      }
+    },
+    "/forms/{id}/ai/improve": {
+      "post": {
+        "summary": "Suggest improvements for a form (F-2)",
+        "description": "Reviews a stored form and returns per-field suggestions (label, placeholder, help, required, order, validation, remove, add) plus an optional field reorder. Suggestions only — the builder applies them through `PUT /forms/update`.",
+        "tags": [
+          "Forms"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-fA-F0-9]{24}$"
+            },
+            "description": "24-char hex identifier of the form."
+          }
+        ],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "locales": {
+                    "type": "array",
+                    "minItems": 1,
+                    "maxItems": 8,
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "focus": {
+                    "type": "string",
+                    "enum": [
+                      "all",
+                      "labels",
+                      "order",
+                      "validation",
+                      "help"
+                    ],
+                    "default": "all"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Suggestions generated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/FormImproveWrapper"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Form not found"
+          }
+        }
+      }
+    },
+    "/forms/submissions/facets": {
+      "get": {
+        "summary": "Get submissions inbox facets",
+        "description": "Counts per status, AI category, AI priority and assignee for the inbox filter bar (F-4). Statuses 0|1|2 are the original lifecycle; 3..6 were added later (in_review, replied, closed, spam).",
+        "tags": [
+          "Form Submissions"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/SubmissionInboxFacets"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/forms/submission/{id}/analyze": {
+      "post": {
+        "summary": "Analyze one submission with AI",
+        "description": "Runs the F-5 analysis pipeline for a single submission (summary, category, priority, sentiment, language, spam score, entities) and upserts SubmissionAnalysis. When `applySpamPolicy` is not false and the score is at or above the policy threshold, the submission status moves to 6 (spam).",
+        "tags": [
+          "Form Submissions"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-fA-F0-9]{24}$"
+            },
+            "description": "24-char hex identifier of the submission."
+          }
+        ],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "applySpamPolicy": {
+                    "type": "boolean",
+                    "default": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Analysis stored",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/SubmissionAnalysisResult"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Submission not found"
+          },
+          "502": {
+            "description": "The model returned output that could not be validated"
+          }
+        }
+      }
+    },
+    "/forms/submissions/analyze": {
+      "post": {
+        "summary": "Analyze many submissions with AI",
+        "description": "Bulk variant of the F-5 pipeline (max 100 ids, 3 concurrent calls). The response contains one result row per submission so the UI can show per-item status.",
+        "tags": [
+          "Form Submissions"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "submissionIds"
+                ],
+                "properties": {
+                  "submissionIds": {
+                    "type": "array",
+                    "minItems": 1,
+                    "maxItems": 100,
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Per-submission results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/SubmissionBulkAnalysis"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/forms/submission/{id}/notes": {
+      "post": {
+        "summary": "Add an internal note to a submission",
+        "description": "Adds a SubmissionActivity entry (type note) to the inbox activity feed.",
+        "tags": [
+          "Form Submissions"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-fA-F0-9]{24}$"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "note"
+                ],
+                "properties": {
+                  "note": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Note created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/SubmissionActivityWrapper"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/forms/submission/{id}/activity": {
+      "get": {
+        "summary": "Get submission activity and reply drafts",
+        "description": "Returns the SubmissionActivity feed (status changes, assignment, notes, replies, AI events) and every reply draft for the submission.",
+        "tags": [
+          "Form Submissions"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-fA-F0-9]{24}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/SubmissionActivityList"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/forms/submission/{id}/reply-draft": {
+      "post": {
+        "summary": "Draft a reply with AI",
+        "description": "F-6: drafts a reply in the submitter's language with the tenant Brand Voice applied and stores it as a SubmissionReply with status draft. Sending is a separate, explicit action (`/forms/submission/{id}/reply`).",
+        "tags": [
+          "Form Submissions"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-fA-F0-9]{24}$"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "instruction": {
+                    "type": "string",
+                    "maxLength": 2000
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Draft created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/SubmissionReplyWrapper"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Submission not found"
+          }
+        }
+      }
+    },
+    "/forms/submission/{id}/reply": {
+      "post": {
+        "summary": "Send a stored reply draft",
+        "description": "Sends the (optionally edited) reply through the notification service (`notifications.send.v1`). Defaults to the newest unsent draft. The recipient is resolved from the form's email-type field. On success the submission moves to status 4 (replied) when it was still pending.",
+        "tags": [
+          "Form Submissions"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-fA-F0-9]{24}$"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "replyId": {
+                    "type": "string"
+                  },
+                  "subject": {
+                    "type": "string",
+                    "maxLength": 200
+                  },
+                  "body": {
+                    "type": "string",
+                    "maxLength": 5000
+                  },
+                  "templateKey": {
+                    "type": "string",
+                    "maxLength": 120
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Reply queued for delivery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/SubmissionReplyWrapper"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "406": {
+            "description": "No draft or no recipient email could be resolved"
+          },
+          "502": {
+            "description": "The notification service queue rejected the message"
+          }
+        }
+      }
+    },
+    "/forms/submissions/digest": {
+      "get": {
+        "summary": "Weekly submissions digest (F-9)",
+        "description": "Deterministic aggregates for the period (counts by status/category/priority/language, top forms, topics) plus an AI narrative. The aggregates are always returned even when the narrative could not be generated.",
+        "tags": [
+          "Form Submissions"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "days",
+            "schema": {
+              "type": "integer",
+              "default": 7,
+              "minimum": 1,
+              "maximum": 90
+            },
+            "description": "Size of the window in days."
+          },
+          {
+            "in": "query",
+            "name": "formId",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-fA-F0-9]{24}$"
+            },
+            "description": "Restrict the digest to one form."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/SubmissionDigestWrapper"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
     "/glossary/getAll": {
       "get": {
         "summary": "List glossary terms for the tenant",
@@ -18203,7 +22106,26 @@
         },
         "responses": {
           "200": {
-            "description": "Updated"
+            "description": "Updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/GlossaryTermWrapper"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
           },
           "404": {
             "description": "Term not found for this tenant"
@@ -18241,7 +22163,26 @@
         ],
         "responses": {
           "200": {
-            "description": "Deleted"
+            "description": "Deleted (`data` is null — the delete is a hard delete)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "null"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
           },
           "400": {
             "description": "Invalid id"
@@ -18596,7 +22537,26 @@
         },
         "responses": {
           "201": {
-            "description": "Created (status indexed or pending)"
+            "description": "Created (status indexed or pending)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/KnowledgeSourceWrapper"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
           },
           "406": {
             "description": "Validation failed"
@@ -18628,7 +22588,26 @@
         ],
         "responses": {
           "200": {
-            "description": "Deleted"
+            "description": "Deleted (`data` is null — the delete is a hard delete)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "null"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
           },
           "400": {
             "description": "Invalid id"
@@ -18663,7 +22642,26 @@
         ],
         "responses": {
           "200": {
-            "description": "Indexed (see data.source.status)"
+            "description": "Indexed (see data.source.status)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/KnowledgeSourceWrapper"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
           },
           "404": {
             "description": "Source not found for this tenant"
@@ -19238,6 +23236,521 @@
           },
           "500": {
             "description": "Server error"
+          }
+        }
+      }
+    },
+    "/media/getAll": {
+      "get": {
+        "summary": "List media library assets",
+        "description": "Paginated library listing. `q` runs a keyword search over file name and tags, `missingAltIn` returns only assets without alt text in that locale (the C-08 signal), and `tag` filters by tag.",
+        "tags": [
+          "Media"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 24
+            }
+          },
+          {
+            "in": "query",
+            "name": "kind",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "image",
+                "video",
+                "audio",
+                "document",
+                "other",
+                "all"
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "q",
+            "schema": {
+              "type": "string",
+              "maxLength": 120
+            }
+          },
+          {
+            "in": "query",
+            "name": "tag",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "missingAltIn",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Locale code; only assets without alt text in it are returned."
+          },
+          {
+            "in": "query",
+            "name": "sort",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "newest",
+                "oldest",
+                "largest",
+                "name"
+              ],
+              "default": "newest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/MediaAssetList"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/media/create": {
+      "post": {
+        "summary": "Register an uploaded file as a library asset",
+        "description": "Idempotent by URL. Inline `data:` URLs are rejected with 406 â€” the file must be uploaded to the storage service first (defect D25).",
+        "tags": [
+          "Media"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "url"
+                ],
+                "properties": {
+                  "url": {
+                    "type": "string",
+                    "maxLength": 2048
+                  },
+                  "mimeType": {
+                    "type": "string",
+                    "maxLength": 120
+                  },
+                  "fileName": {
+                    "type": "string",
+                    "maxLength": 300
+                  },
+                  "sizeBytes": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "width": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "height": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Asset registered",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/MediaAssetWrapper"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "406": {
+            "description": "Inline data URL rejected"
+          }
+        }
+      }
+    },
+    "/media/update": {
+      "put": {
+        "summary": "Update library metadata",
+        "description": "Update the per-locale alt text / captions, or the tags, of one asset.",
+        "tags": [
+          "Media"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "id"
+                ],
+                "properties": {
+                  "id": {
+                    "$ref": "#/components/schemas/ObjectId"
+                  },
+                  "altText": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "string",
+                      "maxLength": 300
+                    }
+                  },
+                  "caption": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "string",
+                      "maxLength": 300
+                    }
+                  },
+                  "tags": {
+                    "type": "array",
+                    "maxItems": 12,
+                    "items": {
+                      "type": "string",
+                      "maxLength": 40
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Asset updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/MediaAssetWrapper"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Asset not found"
+          }
+        }
+      }
+    },
+    "/media/delete/{id}": {
+      "delete": {
+        "summary": "Soft-delete a library asset",
+        "description": "Marks the asset deleted in the CMS. The object in the storage service is removed by the storage cleanup flow, not here.",
+        "tags": [
+          "Media"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ObjectId"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Asset deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/MediaAssetWrapper"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Asset not found"
+          }
+        }
+      }
+    },
+    "/media/usage": {
+      "get": {
+        "summary": "Where is this asset used?",
+        "description": "Scans the article media arrays (thumbnail, gallery, videos, audios, documents, files) for the URL and returns the referencing articles.",
+        "tags": [
+          "Media"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "url",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/MediaUsage"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "406": {
+            "description": "url is required"
+          }
+        }
+      }
+    },
+    "/media/ai/metadata": {
+      "post": {
+        "summary": "Suggest alt text and tags for an asset (I-2)",
+        "description": "Returns a suggestion only â€” nothing is written. The caller applies it with `PUT /media/update`, or under the tenant's `safe` auto-apply policy.",
+        "tags": [
+          "Media"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "assetId": {
+                    "type": "string"
+                  },
+                  "imageUrl": {
+                    "type": "string",
+                    "maxLength": 2048
+                  },
+                  "filename": {
+                    "type": "string",
+                    "maxLength": 300
+                  },
+                  "context": {
+                    "type": "string",
+                    "maxLength": 2000
+                  },
+                  "locale": {
+                    "type": "string",
+                    "maxLength": 20,
+                    "default": "en"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Suggestion returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/MediaMetadataSuggestion"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "406": {
+            "description": "Provide assetId, imageUrl or filename"
+          }
+        }
+      }
+    },
+    "/media/ai/missingAlt": {
+      "get": {
+        "summary": "List images missing alt text in a locale",
+        "description": "I-2 bulk helper: the assets that still need alt text for the given locale, so the library can offer a \"generate for N missing images\" action.",
+        "tags": [
+          "Media"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "locale",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "maxLength": 20
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/MediaMissingAlt"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "406": {
+            "description": "locale is required"
           }
         }
       }
@@ -22574,12 +27087,451 @@
           }
         }
       }
+    },
+    "/taxonomy/audit": {
+      "get": {
+        "summary": "Audit the category taxonomy (H-2)",
+        "description": "Detects duplicate and near-duplicate categories, categories without articles, without a description or without SEO, and unbalanced structures. Deterministic â€” it spends no credits. Each finding carries a `fixAction` the UI can run.",
+        "tags": [
+          "Taxonomy"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "severity",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "high",
+                "medium",
+                "low"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/TaxonomyAudit"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/taxonomy/category-seo": {
+      "post": {
+        "summary": "Generate SEO metadata for a category (H-1)",
+        "description": "Writes per-locale meta title, meta description and focus keyword for a category or subcategory. Returns a proposal â€” apply it with `PUT /categories/update` or `PUT /subcategories/update`.",
+        "tags": [
+          "Taxonomy"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "entityType",
+                  "entityId"
+                ],
+                "properties": {
+                  "entityType": {
+                    "type": "string",
+                    "enum": [
+                      "category",
+                      "subcategory"
+                    ]
+                  },
+                  "entityId": {
+                    "$ref": "#/components/schemas/ObjectId"
+                  },
+                  "locales": {
+                    "type": "array",
+                    "maxItems": 8,
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Suggestion returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/CategorySeoSuggestion"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Category not found"
+          }
+        }
+      }
+    },
+    "/taxonomy/suggest-tags": {
+      "post": {
+        "summary": "Suggest tags for a text (H-3)",
+        "description": "Returns at most 8 tags, flagging which ones are new. Suggests existing tenant tags when they fit, so the taxonomy stays clean.",
+        "tags": [
+          "Taxonomy"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "text"
+                ],
+                "properties": {
+                  "text": {
+                    "type": "string",
+                    "minLength": 20,
+                    "maxLength": 20000
+                  },
+                  "existingTags": {
+                    "type": "array",
+                    "maxItems": 200,
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Suggestions returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/TagSuggestions"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "406": {
+            "description": "Validation failed"
+          }
+        }
+      }
+    },
+    "/taxonomy/tags/merge": {
+      "post": {
+        "summary": "Merge one tag into another (H-3)",
+        "description": "Moves the tag onto every article that carries it, removes the old value from `Article.tags` (still a plain string array) and reports how many articles changed.",
+        "tags": [
+          "Taxonomy"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "fromTag",
+                  "intoTag"
+                ],
+                "properties": {
+                  "fromTag": {
+                    "type": "string",
+                    "maxLength": 40
+                  },
+                  "intoTag": {
+                    "type": "string",
+                    "maxLength": 40
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Merge completed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/TagMergeResult"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "406": {
+            "description": "Tags missing or identical"
+          }
+        }
+      }
+    },
+    "/taxonomy/tags/refreshUsage": {
+      "post": {
+        "summary": "Recompute tag usage counts (H-3)",
+        "description": "Recalculates `Tag.usageCount` from the articles that carry each tag.",
+        "tags": [
+          "Taxonomy"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/TagUsageRefresh"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/taxonomy/author-bio": {
+      "post": {
+        "summary": "Generate an author bio and expertise (H-4)",
+        "description": "Writes a per-locale bio plus up to 6 expertise labels, based on the author's published articles. Returns a proposal; apply it with `PUT /authors/update`.",
+        "tags": [
+          "Taxonomy"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "authorId"
+                ],
+                "properties": {
+                  "authorId": {
+                    "$ref": "#/components/schemas/ObjectId"
+                  },
+                  "locales": {
+                    "type": "array",
+                    "maxItems": 8,
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Suggestion returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/AuthorBioSuggestion"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Author not found"
+          }
+        }
+      }
+    },
+    "/taxonomy/authors/suggest": {
+      "post": {
+        "summary": "Suggest authors for a brief (H-4 / K)",
+        "description": "Ranks the tenant's authors by how closely their `expertise` matches the brief's keywords, plus a small prior for how much they have published. Deterministic.",
+        "tags": [
+          "Taxonomy"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "brief"
+                ],
+                "properties": {
+                  "brief": {
+                    "type": "string",
+                    "minLength": 20
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Suggestions returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/AuthorSuggestions"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "406": {
+            "description": "Validation failed"
+          }
+        }
+      }
     }
   },
   "tags": [
     {
+      "name": "Media",
+      "description": "Media library metadata (I-1). The binary objects are stored by the external storage service; this service keeps the CMS-side metadata: kind, per-locale alt text and captions, tags and the reverse \"used by\" index."
+    },
+    {
       "name": "Tags",
       "description": "Tag management endpoints"
+    },
+    {
+      "name": "Taxonomy",
+      "description": "Category, subcategory, tag and author intelligence (H). The audit is deterministic and free; the generation endpoints return suggestions that a human applies through the normal create/update endpoints."
     }
   ]
 }

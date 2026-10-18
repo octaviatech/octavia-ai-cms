@@ -7,7 +7,9 @@ export const resourceRegistry = {
   forms: "FormsResource",
   formSubmissions: "FormSubmissionsResource",
   languages: "LanguagesResource",
+  media: "MediaResource",
   reports: "ReportsResource",
   subcategories: "SubcategoriesResource",
   tags: "TagsResource",
+  taxonomy: "TaxonomyResource",
 } as const;

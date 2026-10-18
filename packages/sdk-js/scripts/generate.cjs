@@ -7,7 +7,50 @@ const repoRoot = path.resolve(__dirname, '../..', '..');
 const packagesRoot = process.env.SDK_OUT_ROOT
   ? path.resolve(process.env.SDK_OUT_ROOT)
   : path.join(repoRoot, 'packages');
-const openapiPath = path.join(repoRoot, 'openapi.json');
+// The spec INPUT is the backend repo's `openapi.json` (the single source of
+// truth, rebuilt with `npm run openapi:build`). This repo keeps a COPY at its
+// root for the published-spec link — reading that copy silently regenerates
+// stale code whenever the copy lags behind, which is exactly what happened
+// through Phase 3. So:
+//   1. OPENAPI_SRC (or CMS_REPO_ROOT) wins when set;
+//   2. otherwise the root copy is used, but only if it is NOT older than the
+//      backend spec we can find;
+//   3. a mismatch is reported loudly instead of being ignored.
+const rootCopy = path.join(repoRoot, 'openapi.json');
+const backendSpec = process.env.OPENAPI_SRC
+  ? path.resolve(process.env.OPENAPI_SRC)
+  : process.env.CMS_REPO_ROOT
+    ? path.join(path.resolve(process.env.CMS_REPO_ROOT), 'openapi.json')
+    : null;
+
+const exists = (p) => {
+  try {
+    return fs.existsSync(p);
+  } catch {
+    return false;
+  }
+};
+
+let openapiPath = rootCopy;
+if (backendSpec && exists(backendSpec)) {
+  openapiPath = backendSpec;
+  if (exists(rootCopy) && fs.statSync(rootCopy).mtimeMs < fs.statSync(backendSpec).mtimeMs) {
+    console.warn(
+      '[sdk-js] WARNING: the openapi.json copy at the SDK repo root is older than ' +
+      `${backendSpec}.\n[sdk-js] Generating from the newer backend spec, but refresh the ` +
+      'published copy before releasing:\n' +
+      `          copy "${backendSpec}" "${rootCopy}"`,
+    );
+  }
+} else if (!exists(rootCopy)) {
+  console.error(
+    '[sdk-js] no openapi.json found.\n' +
+      'Set OPENAPI_SRC=<backend repo>/openapi.json (or CMS_REPO_ROOT=<backend repo>) ' +
+      'and run `npm run openapi:build` there first.',
+  );
+  process.exit(1);
+}
+
 const outResourcesDir = path.join(packagesRoot, 'sdk-js/src/resources');
 const outGeneratedDir = path.join(packagesRoot, 'sdk-js/src/generated');
 
@@ -150,6 +193,12 @@ const pickSuccessResponse = (responses) => {
 
 // Auth, RBAC and user-account surface is deliberately not part of the public SDK.
 const EXCLUDED_TAGS = new Set(['Users', 'Users - Auth', 'Users - Invites', 'Auth', 'RBAC', 'AI Admin']);
+// Tenant-scoped admin endpoints that take the tenant as a path parameter: an SDK
+// consumer is already inside their tenant, so passing it again is redundant.
+// MUST stay identical to EXCLUDED_PATHS in the backend's scripts/generate-sdks.js
+// — the four other generators already honour it and this one did not, so the JS
+// SDK alone exposed `getTenantStatistics` until Phase 3 caught it.
+const EXCLUDED_PATHS = new Set(['/reports/getTenantStatistics/{tenantId}']);
 
 const operations = [];
 const multiMethodPaths = new Set();
@@ -160,6 +209,7 @@ for (const [p, methods] of Object.entries(op.paths)) {
     if (!httpMethods.has(method)) continue;
     const tag = (def.tags && def.tags[0]) || 'default';
     if (EXCLUDED_TAGS.has(tag)) continue;
+    if (EXCLUDED_PATHS.has(p)) continue;
     const params = (def.parameters || []).filter(x => x && x.in === 'path');
     const queryParams = (def.parameters || []).filter(x => x && x.in === 'query');
     const hasBody = Boolean(def.requestBody);
@@ -356,8 +406,10 @@ fs.writeFileSync(path.join(outResourcesDir, 'registry.ts'), registryLines.join('
 const FACADE = {
   'AI': 'ai', 'AI Conversation': 'aiConversation', 'Articles': 'article',
   'Authors': 'author', 'Categories': 'category', 'Form Submissions': 'formSubmission',
-  'Forms': 'form', 'Languages': 'language', 'Reports': 'report',
-  'Subcategories': 'subcategory', 'Tags': 'tag',
+  'Forms': 'form', 'Languages': 'language',
+  // Phase 3 / H + I — keep in sync with scripts/generate-sdks.js.
+  'Taxonomy': 'taxonomy', 'Media': 'media',
+  'Reports': 'report', 'Subcategories': 'subcategory', 'Tags': 'tag',
 };
 const unknownTags = resourceNames.filter((r) => !FACADE[r.tag]).map((r) => r.tag);
 for (const tag of new Set(unknownTags)) console.log(`  WARN no facade name for tag "${tag}"`);

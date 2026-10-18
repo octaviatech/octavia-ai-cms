@@ -10,9 +10,11 @@ import {
   FormsResource,
   FormSubmissionsResource,
   LanguagesResource,
+  MediaResource,
   ReportsResource,
   SubcategoriesResource,
   TagsResource,
+  TaxonomyResource,
   // @generated imports:end
 } from "./resources";
 
@@ -27,9 +29,11 @@ export class OctaviaClient {
   readonly forms: FormsResource;
   readonly formSubmissions: FormSubmissionsResource;
   readonly languages: LanguagesResource;
+  readonly media: MediaResource;
   readonly reports: ReportsResource;
   readonly subcategories: SubcategoriesResource;
   readonly tags: TagsResource;
+  readonly taxonomy: TaxonomyResource;
   // @generated fields:end
 
   constructor(config: ClientConfig) {
@@ -43,9 +47,11 @@ export class OctaviaClient {
     this.forms = new FormsResource(this);
     this.formSubmissions = new FormSubmissionsResource(this);
     this.languages = new LanguagesResource(this);
+    this.media = new MediaResource(this);
     this.reports = new ReportsResource(this);
     this.subcategories = new SubcategoriesResource(this);
     this.tags = new TagsResource(this);
+    this.taxonomy = new TaxonomyResource(this);
     // @generated ctor:end
   }
 

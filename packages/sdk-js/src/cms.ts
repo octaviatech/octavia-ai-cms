@@ -37,9 +37,11 @@ export type CMSInstance = {
   form: WrappedResource<OctaviaClient["forms"]>;
   formSubmission: WrappedResource<OctaviaClient["formSubmissions"]>;
   language: WrappedResource<OctaviaClient["languages"]>;
+  media: WrappedResource<OctaviaClient["media"]>;
   report: WrappedResource<OctaviaClient["reports"]>;
   subcategory: WrappedResource<OctaviaClient["subcategories"]>;
   tag: WrappedResource<OctaviaClient["tags"]>;
+  taxonomy: WrappedResource<OctaviaClient["taxonomy"]>;
   // @generated resources:end
   raw: OctaviaClient;
 };
@@ -119,9 +121,11 @@ export default class CMS {
       form: wrapResource(client.forms),
       formSubmission: wrapResource(client.formSubmissions),
       language: wrapResource(client.languages),
+      media: wrapResource(client.media),
       report: wrapResource(client.reports),
       subcategory: wrapResource(client.subcategories),
       tag: wrapResource(client.tags),
+      taxonomy: wrapResource(client.taxonomy),
       // @generated assign:end
       raw: client,
     };

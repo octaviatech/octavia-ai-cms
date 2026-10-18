@@ -159,7 +159,9 @@ export type AIAutofillArticleBody = {
   includeExisting?: boolean;
 };
 
-export type AIAutofillArticleResponse = unknown;
+export type AIAutofillArticleResponse = Schemas.Envelope & {
+  data?: Schemas.AiAutofillResult;
+};
 
 export type AIOptimizeArticleStreamPath = {};
 
@@ -506,7 +508,9 @@ export type AICreditsQuery = {};
 
 export type AICreditsBody = undefined;
 
-export type AICreditsResponse = unknown;
+export type AICreditsResponse = Schemas.Envelope & {
+  data?: Schemas.CreditSnapshot;
+};
 
 export type AIEstimatePath = {};
 
@@ -519,7 +523,9 @@ export type AIEstimateBody = {
 };
 };
 
-export type AIEstimateResponse = unknown;
+export type AIEstimateResponse = Schemas.Envelope & {
+  data?: Schemas.TokenEstimate;
+};
 
 export type AIRunPath = {};
 
@@ -533,7 +539,11 @@ export type AIRunBody = {
   runId?: string;
 };
 
-export type AIRunResponse = unknown;
+export type AIRunResponse = Schemas.Envelope & {
+  data?: {
+  [key: string]: unknown;
+};
+};
 
 export type AICreditsRunsPath = {};
 
@@ -543,7 +553,9 @@ export type AICreditsRunsQuery = {
 
 export type AICreditsRunsBody = undefined;
 
-export type AICreditsRunsResponse = unknown;
+export type AICreditsRunsResponse = Schemas.Envelope & {
+  data?: Schemas.AiRunList;
+};
 
 export type AIEventsStreamPath = {};
 
@@ -575,7 +587,9 @@ export type AIProposalsPOSTBody = {
 }>;
 };
 
-export type AIProposalsPOSTResponse = unknown;
+export type AIProposalsPOSTResponse = Schemas.Envelope & {
+  data?: Schemas.AiProposal;
+};
 
 export type AIProposalsGETPath = {};
 
@@ -588,7 +602,9 @@ export type AIProposalsGETQuery = {
 
 export type AIProposalsGETBody = undefined;
 
-export type AIProposalsGETResponse = unknown;
+export type AIProposalsGETResponse = Schemas.Envelope & {
+  data?: Array<Schemas.AiProposal>;
+};
 
 export type AIProposalsCountPath = {};
 
@@ -596,7 +612,9 @@ export type AIProposalsCountQuery = {};
 
 export type AIProposalsCountBody = undefined;
 
-export type AIProposalsCountResponse = unknown;
+export type AIProposalsCountResponse = Schemas.Envelope & {
+  data?: Schemas.AiProposalCount;
+};
 
 export type AIProposalsIdPath = {
   id: string;
@@ -606,7 +624,9 @@ export type AIProposalsIdQuery = {};
 
 export type AIProposalsIdBody = undefined;
 
-export type AIProposalsIdResponse = unknown;
+export type AIProposalsIdResponse = Schemas.Envelope & {
+  data?: Schemas.AiProposal;
+};
 
 export type AIProposalsIdAcceptPath = {
   id: string;
@@ -616,7 +636,9 @@ export type AIProposalsIdAcceptQuery = {};
 
 export type AIProposalsIdAcceptBody = undefined;
 
-export type AIProposalsIdAcceptResponse = unknown;
+export type AIProposalsIdAcceptResponse = Schemas.Envelope & {
+  data?: Schemas.AiProposalDecision;
+};
 
 export type AIProposalsIdRejectPath = {
   id: string;
@@ -626,7 +648,9 @@ export type AIProposalsIdRejectQuery = {};
 
 export type AIProposalsIdRejectBody = undefined;
 
-export type AIProposalsIdRejectResponse = unknown;
+export type AIProposalsIdRejectResponse = Schemas.Envelope & {
+  data?: Schemas.AiProposal;
+};
 
 export type AIProposalsIdUndoPath = {
   id: string;
@@ -636,7 +660,9 @@ export type AIProposalsIdUndoQuery = {};
 
 export type AIProposalsIdUndoBody = undefined;
 
-export type AIProposalsIdUndoResponse = unknown;
+export type AIProposalsIdUndoResponse = Schemas.Envelope & {
+  data?: Schemas.AiProposal;
+};
 
 export type AIProposalsBulkAcceptPath = {};
 
@@ -646,7 +672,9 @@ export type AIProposalsBulkAcceptBody = {
   ids: Array<string>;
 };
 
-export type AIProposalsBulkAcceptResponse = unknown;
+export type AIProposalsBulkAcceptResponse = Schemas.Envelope & {
+  data?: Array<Schemas.AiProposalBulkResultItem>;
+};
 
 export type AISettingsGETPath = {};
 
@@ -655,65 +683,7 @@ export type AISettingsGETQuery = {};
 export type AISettingsGETBody = undefined;
 
 export type AISettingsGETResponse = Schemas.Envelope & {
-  data?: {
-  brandVoice?: string;
-  glossary?: Array<{
-  term: string;
-  translation: string;
-}>;
-  brandVoiceVersion?: string;
-  autoApply?: boolean;
-  defaultTier?: "fast" | "balanced" | "strong";
-  featureFlags: {
-  copilot?: boolean;
-  autofill?: boolean;
-  inline?: boolean;
-  bulk?: boolean;
-  forms?: boolean;
-  submissions?: boolean;
-  comments?: boolean;
-  calendar?: boolean;
-  seo?: boolean;
-  brandVoice?: boolean;
-  jobs?: boolean;
-};
-  autoApplyPolicy: {
-  copilot?: "never" | "safe" | "always";
-  autofill?: "never" | "safe" | "always";
-  inline?: "never" | "safe" | "always";
-  bulk?: "never" | "safe" | "always";
-  forms?: "never" | "safe" | "always";
-  submissions?: "never" | "safe" | "always";
-  comments?: "never" | "safe" | "always";
-  calendar?: "never" | "safe" | "always";
-  seo?: "never" | "safe" | "always";
-  brandVoice?: "never" | "safe" | "always";
-  jobs?: "never" | "safe" | "always";
-};
-  dailyQuotaPerUser?: number;
-  defaultLocales?: Array<string>;
-  piiMasking: {
-  submissions: boolean;
-  comments: boolean;
-};
-  retentionDays: number;
-  modelTierOverrides?: {
-  [key: string]: "fast" | "balanced" | "strong";
-};
-  brandVoiceProfile?: {
-  tone?: string;
-  audience?: string;
-  readingLevel?: string;
-  do?: Array<string>;
-  dont?: Array<string>;
-  bannedTerms?: Array<string>;
-  examples?: Array<string>;
-  persianRegister?: "formal" | "neutral" | "casual";
-  version?: number;
-};
-  createdAt?: string;
-  updatedAt?: string;
-};
+  data?: Schemas.AiSettings;
 };
 
 export type AISettingsPUTPath = {};
@@ -776,7 +746,9 @@ export type AISettingsPUTBody = {
 };
 };
 
-export type AISettingsPUTResponse = unknown;
+export type AISettingsPUTResponse = Schemas.Envelope & {
+  data?: Schemas.AiSettings;
+};
 
 export type ArticlesCreatePath = {};
 
@@ -1163,6 +1135,60 @@ export type ArticlesCommentsGetAllResponse = Schemas.Envelope & {
   data?: Schemas.ArticleList;
 };
 
+export type ArticlesCommentsMinedQuestionsPath = {};
+
+export type ArticlesCommentsMinedQuestionsQuery = {
+  articleId?: string;
+  days?: number;
+  limit?: number;
+};
+
+export type ArticlesCommentsMinedQuestionsBody = undefined;
+
+export type ArticlesCommentsMinedQuestionsResponse = Schemas.Envelope & {
+  data?: Schemas.MinedQuestionsWrapper;
+};
+
+export type ArticlesCommentsEffectivePolicyPath = {};
+
+export type ArticlesCommentsEffectivePolicyQuery = {
+  articleId?: string;
+};
+
+export type ArticlesCommentsEffectivePolicyBody = undefined;
+
+export type ArticlesCommentsEffectivePolicyResponse = Schemas.Envelope & {
+  data?: Schemas.EffectivePolicyWrapper;
+};
+
+export type ArticlesCommentsCommentIdModeratePath = {
+  commentId: string;
+};
+
+export type ArticlesCommentsCommentIdModerateQuery = {};
+
+export type ArticlesCommentsCommentIdModerateBody = {
+  apply?: boolean;
+};
+
+export type ArticlesCommentsCommentIdModerateResponse = Schemas.Envelope & {
+  data?: Schemas.ModerationResultWrapper;
+};
+
+export type ArticlesCommentsCommentIdReplyDraftPath = {
+  commentId: string;
+};
+
+export type ArticlesCommentsCommentIdReplyDraftQuery = {};
+
+export type ArticlesCommentsCommentIdReplyDraftBody = {
+  instruction?: string;
+};
+
+export type ArticlesCommentsCommentIdReplyDraftResponse = Schemas.Envelope & {
+  data?: Schemas.CommentReplyDraftWrapper;
+};
+
 export type ArticlesCommentsCommentIdPATCHPath = {
   commentId: string;
 };
@@ -1271,7 +1297,9 @@ export type AIRevisionsArticleIdQuery = {
 
 export type AIRevisionsArticleIdBody = undefined;
 
-export type AIRevisionsArticleIdResponse = unknown;
+export type AIRevisionsArticleIdResponse = Schemas.Envelope & {
+  data?: Schemas.ArticleRevisionList;
+};
 
 export type AIRevisionsArticleIdRevisionIdRestorePath = {
   articleId: string;
@@ -1282,7 +1310,9 @@ export type AIRevisionsArticleIdRevisionIdRestoreQuery = {};
 
 export type AIRevisionsArticleIdRevisionIdRestoreBody = undefined;
 
-export type AIRevisionsArticleIdRevisionIdRestoreResponse = unknown;
+export type AIRevisionsArticleIdRevisionIdRestoreResponse = Schemas.Envelope & {
+  data?: Schemas.ArticleRevisionRestore;
+};
 
 export type AIReadinessArticleIdPath = {
   articleId: string;
@@ -1292,7 +1322,9 @@ export type AIReadinessArticleIdQuery = {};
 
 export type AIReadinessArticleIdBody = undefined;
 
-export type AIReadinessArticleIdResponse = unknown;
+export type AIReadinessArticleIdResponse = Schemas.Envelope & {
+  data?: Schemas.ArticleReadiness;
+};
 
 export type AITranslationStateArticleIdPath = {
   articleId: string;
@@ -1302,7 +1334,9 @@ export type AITranslationStateArticleIdQuery = {};
 
 export type AITranslationStateArticleIdBody = undefined;
 
-export type AITranslationStateArticleIdResponse = unknown;
+export type AITranslationStateArticleIdResponse = Schemas.Envelope & {
+  data?: Schemas.TranslationStateReport;
+};
 
 export type AITranslationStateArticleIdLocaleCompletePath = {
   articleId: string;
@@ -1318,7 +1352,9 @@ export type AITranslationStateArticleIdLocaleCompleteBody = {
 };
 };
 
-export type AITranslationStateArticleIdLocaleCompleteResponse = unknown;
+export type AITranslationStateArticleIdLocaleCompleteResponse = Schemas.Envelope & {
+  data?: Schemas.TranslationStateDoc;
+};
 
 export type AuthorsCreatePath = {};
 
@@ -1923,6 +1959,143 @@ export type FormsCaptchaConfigSecretResponse = Schemas.Envelope & {
   data?: Schemas.CaptchaConfigWrapper;
 };
 
+export type FormsAiGeneratePath = {};
+
+export type FormsAiGenerateQuery = {};
+
+export type FormsAiGenerateBody = {
+  prompt: string;
+  locales?: Array<string>;
+  formType?: "public" | "internal";
+  maxFields?: number;
+  tone?: string;
+};
+
+export type FormsAiGenerateResponse = Schemas.Envelope & {
+  data?: Schemas.FormDraftWrapper;
+};
+
+export type FormsIdAiImprovePath = {
+  id: string;
+};
+
+export type FormsIdAiImproveQuery = {};
+
+export type FormsIdAiImproveBody = {
+  locales?: Array<string>;
+  focus?: "all" | "labels" | "order" | "validation" | "help";
+};
+
+export type FormsIdAiImproveResponse = Schemas.Envelope & {
+  data?: Schemas.FormImproveWrapper;
+};
+
+export type FormSubmissionsSubmissionsFacetsPath = {};
+
+export type FormSubmissionsSubmissionsFacetsQuery = {};
+
+export type FormSubmissionsSubmissionsFacetsBody = undefined;
+
+export type FormSubmissionsSubmissionsFacetsResponse = Schemas.Envelope & {
+  data?: Schemas.SubmissionInboxFacets;
+};
+
+export type FormSubmissionsSubmissionIdAnalyzePath = {
+  id: string;
+};
+
+export type FormSubmissionsSubmissionIdAnalyzeQuery = {};
+
+export type FormSubmissionsSubmissionIdAnalyzeBody = {
+  applySpamPolicy?: boolean;
+};
+
+export type FormSubmissionsSubmissionIdAnalyzeResponse = Schemas.Envelope & {
+  data?: Schemas.SubmissionAnalysisResult;
+};
+
+export type FormSubmissionsSubmissionsAnalyzePath = {};
+
+export type FormSubmissionsSubmissionsAnalyzeQuery = {};
+
+export type FormSubmissionsSubmissionsAnalyzeBody = {
+  submissionIds: Array<string>;
+};
+
+export type FormSubmissionsSubmissionsAnalyzeResponse = Schemas.Envelope & {
+  data?: Schemas.SubmissionBulkAnalysis;
+};
+
+export type FormSubmissionsSubmissionIdNotesPath = {
+  id: string;
+};
+
+export type FormSubmissionsSubmissionIdNotesQuery = {};
+
+export type FormSubmissionsSubmissionIdNotesBody = {
+  note: string;
+};
+
+export type FormSubmissionsSubmissionIdNotesResponse = Schemas.Envelope & {
+  data?: Schemas.SubmissionActivityWrapper;
+};
+
+export type FormSubmissionsSubmissionIdActivityPath = {
+  id: string;
+};
+
+export type FormSubmissionsSubmissionIdActivityQuery = {};
+
+export type FormSubmissionsSubmissionIdActivityBody = undefined;
+
+export type FormSubmissionsSubmissionIdActivityResponse = Schemas.Envelope & {
+  data?: Schemas.SubmissionActivityList;
+};
+
+export type FormSubmissionsSubmissionIdReplyDraftPath = {
+  id: string;
+};
+
+export type FormSubmissionsSubmissionIdReplyDraftQuery = {};
+
+export type FormSubmissionsSubmissionIdReplyDraftBody = {
+  instruction?: string;
+};
+
+export type FormSubmissionsSubmissionIdReplyDraftResponse = Schemas.Envelope & {
+  data?: Schemas.SubmissionReplyWrapper;
+};
+
+export type FormSubmissionsSubmissionIdReplyPath = {
+  id: string;
+};
+
+export type FormSubmissionsSubmissionIdReplyQuery = {};
+
+export type FormSubmissionsSubmissionIdReplyBody = {
+  replyId?: string;
+  subject?: string;
+  body?: string;
+  templateKey?: string;
+};
+
+export type FormSubmissionsSubmissionIdReplyResponse = Schemas.Envelope & {
+  data?: Schemas.SubmissionReplyWrapper;
+};
+
+export type FormSubmissionsSubmissionsDigestPath = {};
+
+export type FormSubmissionsSubmissionsDigestQuery = {
+  days?: number;
+  formId?: string;
+};
+
+export type FormSubmissionsSubmissionsDigestBody = undefined;
+
+export type FormSubmissionsSubmissionsDigestResponse = Schemas.Envelope & {
+  data?: Schemas.SubmissionDigestWrapper;
+};
+
 export type LanguagesCreatePath = {};
 
 export type LanguagesCreateQuery = {};
@@ -1989,6 +2162,113 @@ export type LanguagesDeleteIdResponse = Schemas.Envelope & {
   data?: unknown;
 };
 
+export type MediaGetAllPath = {};
+
+export type MediaGetAllQuery = {
+  page?: number;
+  limit?: number;
+  kind?: "image" | "video" | "audio" | "document" | "other" | "all";
+  q?: string;
+  tag?: string;
+  missingAltIn?: string;
+  sort?: "newest" | "oldest" | "largest" | "name";
+};
+
+export type MediaGetAllBody = undefined;
+
+export type MediaGetAllResponse = Schemas.Envelope & {
+  data?: Schemas.MediaAssetList;
+};
+
+export type MediaCreatePath = {};
+
+export type MediaCreateQuery = {};
+
+export type MediaCreateBody = {
+  url: string;
+  mimeType?: string;
+  fileName?: string;
+  sizeBytes?: number;
+  width?: number;
+  height?: number;
+};
+
+export type MediaCreateResponse = Schemas.Envelope & {
+  data?: Schemas.MediaAssetWrapper;
+};
+
+export type MediaUpdatePath = {};
+
+export type MediaUpdateQuery = {};
+
+export type MediaUpdateBody = {
+  id: Schemas.ObjectId;
+  altText?: {
+  [key: string]: string;
+};
+  caption?: {
+  [key: string]: string;
+};
+  tags?: Array<string>;
+};
+
+export type MediaUpdateResponse = Schemas.Envelope & {
+  data?: Schemas.MediaAssetWrapper;
+};
+
+export type MediaDeleteIdPath = {
+  id: Schemas.ObjectId;
+};
+
+export type MediaDeleteIdQuery = {};
+
+export type MediaDeleteIdBody = undefined;
+
+export type MediaDeleteIdResponse = Schemas.Envelope & {
+  data?: Schemas.MediaAssetWrapper;
+};
+
+export type MediaUsagePath = {};
+
+export type MediaUsageQuery = {
+  url: string;
+};
+
+export type MediaUsageBody = undefined;
+
+export type MediaUsageResponse = Schemas.Envelope & {
+  data?: Schemas.MediaUsage;
+};
+
+export type MediaAiMetadataPath = {};
+
+export type MediaAiMetadataQuery = {};
+
+export type MediaAiMetadataBody = {
+  assetId?: string;
+  imageUrl?: string;
+  filename?: string;
+  context?: string;
+  locale?: string;
+};
+
+export type MediaAiMetadataResponse = Schemas.Envelope & {
+  data?: Schemas.MediaMetadataSuggestion;
+};
+
+export type MediaAiMissingAltPath = {};
+
+export type MediaAiMissingAltQuery = {
+  locale: string;
+  limit?: number;
+};
+
+export type MediaAiMissingAltBody = undefined;
+
+export type MediaAiMissingAltResponse = Schemas.Envelope & {
+  data?: Schemas.MediaMissingAlt;
+};
+
 export type ReportsGetStatisticsPath = {};
 
 export type ReportsGetStatisticsQuery = {};
@@ -1996,18 +2276,6 @@ export type ReportsGetStatisticsQuery = {};
 export type ReportsGetStatisticsBody = undefined;
 
 export type ReportsGetStatisticsResponse = Schemas.Envelope & {
-  data?: Schemas.TenantUsageStats;
-};
-
-export type ReportsGetTenantStatisticsTenantIdPath = {
-  tenantId: string;
-};
-
-export type ReportsGetTenantStatisticsTenantIdQuery = {};
-
-export type ReportsGetTenantStatisticsTenantIdBody = undefined;
-
-export type ReportsGetTenantStatisticsTenantIdResponse = Schemas.Envelope & {
   data?: Schemas.TenantUsageStats;
 };
 
@@ -2452,4 +2720,91 @@ export type TagsSearchBody = undefined;
 
 export type TagsSearchResponse = Schemas.Envelope & {
   data?: Schemas.TagSearchResult;
+};
+
+export type TaxonomyAuditPath = {};
+
+export type TaxonomyAuditQuery = {
+  severity?: "high" | "medium" | "low";
+};
+
+export type TaxonomyAuditBody = undefined;
+
+export type TaxonomyAuditResponse = Schemas.Envelope & {
+  data?: Schemas.TaxonomyAudit;
+};
+
+export type TaxonomyCategorySeoPath = {};
+
+export type TaxonomyCategorySeoQuery = {};
+
+export type TaxonomyCategorySeoBody = {
+  entityType: "category" | "subcategory";
+  entityId: Schemas.ObjectId;
+  locales?: Array<string>;
+};
+
+export type TaxonomyCategorySeoResponse = Schemas.Envelope & {
+  data?: Schemas.CategorySeoSuggestion;
+};
+
+export type TaxonomySuggestTagsPath = {};
+
+export type TaxonomySuggestTagsQuery = {};
+
+export type TaxonomySuggestTagsBody = {
+  text: string;
+  existingTags?: Array<string>;
+};
+
+export type TaxonomySuggestTagsResponse = Schemas.Envelope & {
+  data?: Schemas.TagSuggestions;
+};
+
+export type TaxonomyTagsMergePath = {};
+
+export type TaxonomyTagsMergeQuery = {};
+
+export type TaxonomyTagsMergeBody = {
+  fromTag: string;
+  intoTag: string;
+};
+
+export type TaxonomyTagsMergeResponse = Schemas.Envelope & {
+  data?: Schemas.TagMergeResult;
+};
+
+export type TaxonomyTagsRefreshUsagePath = {};
+
+export type TaxonomyTagsRefreshUsageQuery = {};
+
+export type TaxonomyTagsRefreshUsageBody = undefined;
+
+export type TaxonomyTagsRefreshUsageResponse = Schemas.Envelope & {
+  data?: Schemas.TagUsageRefresh;
+};
+
+export type TaxonomyAuthorBioPath = {};
+
+export type TaxonomyAuthorBioQuery = {};
+
+export type TaxonomyAuthorBioBody = {
+  authorId: Schemas.ObjectId;
+  locales?: Array<string>;
+};
+
+export type TaxonomyAuthorBioResponse = Schemas.Envelope & {
+  data?: Schemas.AuthorBioSuggestion;
+};
+
+export type TaxonomyAuthorsSuggestPath = {};
+
+export type TaxonomyAuthorsSuggestQuery = {};
+
+export type TaxonomyAuthorsSuggestBody = {
+  brief: string;
+};
+
+export type TaxonomyAuthorsSuggestResponse = Schemas.Envelope & {
+  data?: Schemas.AuthorSuggestions;
 };

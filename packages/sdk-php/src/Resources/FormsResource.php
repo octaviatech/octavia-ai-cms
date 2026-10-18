@@ -106,4 +106,22 @@ class FormsResource
         return $this->client->request("PATCH", "/forms/captcha/config/secret", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\CaptchaConfigWrapper::class);
     }
 
+    /**
+     * @return \Octavia\CmsSDK\Envelope
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\FormDraftWrapper>
+     */
+    public function aiGenerate($body, array $options = []): Envelope
+    {
+        return $this->client->request("POST", "/forms/ai/generate", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\FormDraftWrapper::class);
+    }
+
+    /**
+     * @return \Octavia\CmsSDK\Envelope
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\FormImproveWrapper>
+     */
+    public function idAiImprove($id, $body, array $options = []): Envelope
+    {
+        return $this->client->request("POST", "/forms/" . rawurlencode($id) . "/ai/improve", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\FormImproveWrapper::class);
+    }
+
 }

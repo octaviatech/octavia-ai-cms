@@ -302,6 +302,456 @@ public enum NeedsAttentionItemEntityTypeEnum
     Translation,
 }
 
+public enum SubmissionAnalysisCategoryEnum
+{
+    [EnumMember(Value = "lead")]
+    Lead,
+    [EnumMember(Value = "support")]
+    Support,
+    [EnumMember(Value = "feedback")]
+    Feedback,
+    [EnumMember(Value = "spam")]
+    Spam,
+    [EnumMember(Value = "other")]
+    Other,
+}
+
+public enum SubmissionAnalysisPriorityEnum
+{
+    [EnumMember(Value = "low")]
+    Low,
+    [EnumMember(Value = "normal")]
+    Normal,
+    [EnumMember(Value = "high")]
+    High,
+    [EnumMember(Value = "urgent")]
+    Urgent,
+}
+
+public enum SubmissionAnalysisSentimentEnum
+{
+    [EnumMember(Value = "positive")]
+    Positive,
+    [EnumMember(Value = "neutral")]
+    Neutral,
+    [EnumMember(Value = "negative")]
+    Negative,
+    [EnumMember(Value = "mixed")]
+    Mixed,
+}
+
+public enum SubmissionActivityTypeEnum
+{
+    [EnumMember(Value = "status")]
+    Status,
+    [EnumMember(Value = "assign")]
+    Assign,
+    [EnumMember(Value = "note")]
+    Note,
+    [EnumMember(Value = "reply")]
+    Reply,
+    [EnumMember(Value = "ai")]
+    Ai,
+    [EnumMember(Value = "tag")]
+    Tag,
+}
+
+public enum SubmissionActivityActorTypeEnum
+{
+    [EnumMember(Value = "user")]
+    User,
+    [EnumMember(Value = "ai")]
+    Ai,
+    [EnumMember(Value = "system")]
+    System,
+}
+
+public enum SubmissionReplyStatusEnum
+{
+    [EnumMember(Value = "draft")]
+    Draft,
+    [EnumMember(Value = "sent")]
+    Sent,
+    [EnumMember(Value = "failed")]
+    Failed,
+}
+
+public enum SubmissionReplyDraftSourceEnum
+{
+    [EnumMember(Value = "ai")]
+    Ai,
+    [EnumMember(Value = "human")]
+    Human,
+}
+
+public enum FormDraftFormTypeEnum
+{
+    [EnumMember(Value = "public")]
+    @Public,
+    [EnumMember(Value = "internal")]
+    @Internal,
+}
+
+public enum CommentModerationSentimentEnum
+{
+    [EnumMember(Value = "positive")]
+    Positive,
+    [EnumMember(Value = "neutral")]
+    Neutral,
+    [EnumMember(Value = "negative")]
+    Negative,
+    [EnumMember(Value = "mixed")]
+    Mixed,
+}
+
+public enum CommentModerationDecisionEnum
+{
+    [EnumMember(Value = "approve")]
+    Approve,
+    [EnumMember(Value = "hold")]
+    Hold,
+    [EnumMember(Value = "reject")]
+    Reject,
+}
+
+public enum CommentModerationSummaryDecisionEnum
+{
+    [EnumMember(Value = "approve")]
+    Approve,
+    [EnumMember(Value = "hold")]
+    Hold,
+    [EnumMember(Value = "reject")]
+    Reject,
+}
+
+public enum MinedQuestionIdeaFunnelStageEnum
+{
+    [EnumMember(Value = "awareness")]
+    Awareness,
+    [EnumMember(Value = "consideration")]
+    Consideration,
+    [EnumMember(Value = "conversion")]
+    Conversion,
+}
+
+public enum EffectiveModerationPolicyModeEnum
+{
+    [EnumMember(Value = "always")]
+    Always,
+    [EnumMember(Value = "if_safe")]
+    IfSafe,
+    [EnumMember(Value = "never")]
+    Never,
+}
+
+public enum AiAutoApplyPolicyCopilotEnum
+{
+    [EnumMember(Value = "never")]
+    Never,
+    [EnumMember(Value = "safe")]
+    Safe,
+    [EnumMember(Value = "always")]
+    Always,
+}
+
+public enum AiAutoApplyPolicyAutofillEnum
+{
+    [EnumMember(Value = "never")]
+    Never,
+    [EnumMember(Value = "safe")]
+    Safe,
+    [EnumMember(Value = "always")]
+    Always,
+}
+
+public enum AiAutoApplyPolicyInlineEnum
+{
+    [EnumMember(Value = "never")]
+    Never,
+    [EnumMember(Value = "safe")]
+    Safe,
+    [EnumMember(Value = "always")]
+    Always,
+}
+
+public enum AiAutoApplyPolicyBulkEnum
+{
+    [EnumMember(Value = "never")]
+    Never,
+    [EnumMember(Value = "safe")]
+    Safe,
+    [EnumMember(Value = "always")]
+    Always,
+}
+
+public enum AiAutoApplyPolicyFormsEnum
+{
+    [EnumMember(Value = "never")]
+    Never,
+    [EnumMember(Value = "safe")]
+    Safe,
+    [EnumMember(Value = "always")]
+    Always,
+}
+
+public enum AiAutoApplyPolicySubmissionsEnum
+{
+    [EnumMember(Value = "never")]
+    Never,
+    [EnumMember(Value = "safe")]
+    Safe,
+    [EnumMember(Value = "always")]
+    Always,
+}
+
+public enum AiAutoApplyPolicyCommentsEnum
+{
+    [EnumMember(Value = "never")]
+    Never,
+    [EnumMember(Value = "safe")]
+    Safe,
+    [EnumMember(Value = "always")]
+    Always,
+}
+
+public enum AiAutoApplyPolicyCalendarEnum
+{
+    [EnumMember(Value = "never")]
+    Never,
+    [EnumMember(Value = "safe")]
+    Safe,
+    [EnumMember(Value = "always")]
+    Always,
+}
+
+public enum AiAutoApplyPolicySeoEnum
+{
+    [EnumMember(Value = "never")]
+    Never,
+    [EnumMember(Value = "safe")]
+    Safe,
+    [EnumMember(Value = "always")]
+    Always,
+}
+
+public enum AiAutoApplyPolicyBrandVoiceEnum
+{
+    [EnumMember(Value = "never")]
+    Never,
+    [EnumMember(Value = "safe")]
+    Safe,
+    [EnumMember(Value = "always")]
+    Always,
+}
+
+public enum AiAutoApplyPolicyJobsEnum
+{
+    [EnumMember(Value = "never")]
+    Never,
+    [EnumMember(Value = "safe")]
+    Safe,
+    [EnumMember(Value = "always")]
+    Always,
+}
+
+public enum AiRunInsufficientCreditsReasonEnum
+{
+    [EnumMember(Value = "AI_INSUFFICIENT_CREDITS")]
+    AIINSUFFICIENTCREDITS,
+}
+
+public enum AiRunConflictStatusEnum
+{
+    [EnumMember(Value = "already_running")]
+    AlreadyRunning,
+}
+
+public enum AiRunListItemStatusEnum
+{
+    [EnumMember(Value = "reserved")]
+    Reserved,
+    [EnumMember(Value = "settled")]
+    Settled,
+    [EnumMember(Value = "refunded")]
+    Refunded,
+    [EnumMember(Value = "void")]
+    @Void,
+}
+
+public enum AiProposalStatusEnum
+{
+    [EnumMember(Value = "pending")]
+    Pending,
+    [EnumMember(Value = "accepted")]
+    Accepted,
+    [EnumMember(Value = "rejected")]
+    Rejected,
+    [EnumMember(Value = "reverted")]
+    Reverted,
+    [EnumMember(Value = "expired")]
+    Expired,
+}
+
+public enum AiProposalStaleReasonEnum
+{
+    [EnumMember(Value = "AI_PROPOSAL_STALE")]
+    AIPROPOSALSTALE,
+    [EnumMember(Value = "AI_PROPOSAL_INVALID_STATE")]
+    AIPROPOSALINVALIDSTATE,
+}
+
+public enum AiProposalBulkResultItemStatusEnum
+{
+    [EnumMember(Value = "accepted")]
+    Accepted,
+    [EnumMember(Value = "failed")]
+    Failed,
+}
+
+public enum ArticleRevisionSourceEnum
+{
+    [EnumMember(Value = "manual")]
+    Manual,
+    [EnumMember(Value = "ai")]
+    Ai,
+    [EnumMember(Value = "restore")]
+    Restore,
+    [EnumMember(Value = "system")]
+    System,
+    [EnumMember(Value = "seed")]
+    Seed,
+}
+
+public enum ReadinessItemStateEnum
+{
+    [EnumMember(Value = "ok")]
+    Ok,
+    [EnumMember(Value = "warning")]
+    Warning,
+    [EnumMember(Value = "missing")]
+    Missing,
+}
+
+public enum ArticleReadinessItemTypeEnum
+{
+    [EnumMember(Value = "article")]
+    Article,
+}
+
+public enum TranslationStateItemStateEnum
+{
+    [EnumMember(Value = "missing")]
+    Missing,
+    [EnumMember(Value = "done")]
+    Done,
+    [EnumMember(Value = "outdated")]
+    Outdated,
+}
+
+public enum TranslationStateItemStoredStateEnum
+{
+    [EnumMember(Value = "missing")]
+    Missing,
+    [EnumMember(Value = "done")]
+    Done,
+    [EnumMember(Value = "outdated")]
+    Outdated,
+}
+
+public enum KnowledgeSourceTypeEnum
+{
+    [EnumMember(Value = "url")]
+    Url,
+    [EnumMember(Value = "text")]
+    Text,
+    [EnumMember(Value = "file")]
+    File,
+}
+
+public enum KnowledgeSourceStatusEnum
+{
+    [EnumMember(Value = "pending")]
+    Pending,
+    [EnumMember(Value = "indexed")]
+    Indexed,
+    [EnumMember(Value = "failed")]
+    Failed,
+}
+
+public enum TaxonomyFindingCodeEnum
+{
+    [EnumMember(Value = "duplicate_category")]
+    DuplicateCategory,
+    [EnumMember(Value = "duplicate_subcategory")]
+    DuplicateSubcategory,
+    [EnumMember(Value = "near_duplicate_category")]
+    NearDuplicateCategory,
+    [EnumMember(Value = "empty_category")]
+    EmptyCategory,
+    [EnumMember(Value = "no_description")]
+    NoDescription,
+    [EnumMember(Value = "no_seo")]
+    NoSeo,
+    [EnumMember(Value = "unbalanced_category")]
+    UnbalancedCategory,
+    [EnumMember(Value = "orphan_subcategory")]
+    OrphanSubcategory,
+}
+
+public enum TaxonomyFindingSeverityEnum
+{
+    [EnumMember(Value = "high")]
+    High,
+    [EnumMember(Value = "medium")]
+    Medium,
+    [EnumMember(Value = "low")]
+    Low,
+}
+
+public enum TaxonomyFindingEntityTypeEnum
+{
+    [EnumMember(Value = "category")]
+    Category,
+    [EnumMember(Value = "subcategory")]
+    Subcategory,
+}
+
+public enum CategorySeoSuggestionEntityTypeEnum
+{
+    [EnumMember(Value = "category")]
+    Category,
+    [EnumMember(Value = "subcategory")]
+    Subcategory,
+}
+
+public enum MediaAssetKindEnum
+{
+    [EnumMember(Value = "image")]
+    Image,
+    [EnumMember(Value = "video")]
+    Video,
+    [EnumMember(Value = "audio")]
+    Audio,
+    [EnumMember(Value = "document")]
+    Document,
+    [EnumMember(Value = "other")]
+    Other,
+}
+
+public enum MediaMetadataSuggestionKindEnum
+{
+    [EnumMember(Value = "image")]
+    Image,
+    [EnumMember(Value = "video")]
+    Video,
+    [EnumMember(Value = "audio")]
+    Audio,
+    [EnumMember(Value = "document")]
+    Document,
+    [EnumMember(Value = "other")]
+    Other,
+}
+
 public record MultilingualStringOrNull
 {
     [JsonExtensionData]
@@ -1137,6 +1587,15 @@ public record FormSubmissionEnriched
 
     [JsonPropertyName("reverseRelations")]
     public Dictionary<string, JsonElement>[]? ReverseRelations { get; set; } = null;
+
+    [JsonPropertyName("assignee")]
+    public string? Assignee { get; set; } = null;
+
+    [JsonPropertyName("tags")]
+    public string[]? Tags { get; set; } = null;
+
+    [JsonPropertyName("analysis")]
+    public SubmissionAnalysis? Analysis { get; set; } = null;
 }
 
 public record CaptchaConfig
@@ -2967,6 +3426,1434 @@ public record NeedsAttentionReport
 
     [JsonPropertyName("items")]
     public NeedsAttentionItem[] Items { get; set; } = null!;
+}
+
+public record SubmissionAnalysis
+{
+    [JsonPropertyName("_id")]
+    public string? Id { get; set; } = null;
+
+    [JsonPropertyName("tenantId")]
+    public string? TenantId { get; set; } = null;
+
+    [JsonPropertyName("submissionId")]
+    public string? SubmissionId { get; set; } = null;
+
+    [JsonPropertyName("formId")]
+    public string? FormId { get; set; } = null;
+
+    [JsonPropertyName("summary")]
+    public string? Summary { get; set; } = null;
+
+    [JsonPropertyName("category")]
+    public SubmissionAnalysisCategoryEnum? Category { get; set; } = null;
+
+    [JsonPropertyName("priority")]
+    public SubmissionAnalysisPriorityEnum? Priority { get; set; } = null;
+
+    [JsonPropertyName("sentiment")]
+    public SubmissionAnalysisSentimentEnum? Sentiment { get; set; } = null;
+
+    [JsonPropertyName("language")]
+    public string? Language { get; set; } = null;
+
+    [JsonPropertyName("spamScore")]
+    public double SpamScore { get; set; }
+
+    [JsonPropertyName("entities")]
+    public Dictionary<string, JsonElement>? Entities { get; set; } = null;
+
+    [JsonPropertyName("topics")]
+    public string[]? Topics { get; set; } = null;
+
+    [JsonPropertyName("provider")]
+    public string? Provider { get; set; } = null;
+
+    [JsonPropertyName("providerModel")]
+    public string? ProviderModel { get; set; } = null;
+
+    [JsonPropertyName("promptVersion")]
+    public string? PromptVersion { get; set; } = null;
+
+    [JsonPropertyName("source")]
+    public string? Source { get; set; } = null;
+
+    [JsonPropertyName("analyzedAt")]
+    public System.DateTime AnalyzedAt { get; set; }
+
+    [JsonPropertyName("createdAt")]
+    public System.DateTime CreatedAt { get; set; }
+
+    [JsonPropertyName("updatedAt")]
+    public System.DateTime UpdatedAt { get; set; }
+}
+
+public record SubmissionActivity
+{
+    [JsonPropertyName("_id")]
+    public string? Id { get; set; } = null;
+
+    [JsonPropertyName("type")]
+    public SubmissionActivityTypeEnum? Type { get; set; } = null;
+
+    [JsonPropertyName("actorId")]
+    public string? ActorId { get; set; } = null;
+
+    [JsonPropertyName("actorType")]
+    public SubmissionActivityActorTypeEnum? ActorType { get; set; } = null;
+
+    [JsonPropertyName("payload")]
+    public Dictionary<string, JsonElement>? Payload { get; set; } = null;
+
+    [JsonPropertyName("createdAt")]
+    public System.DateTime CreatedAt { get; set; }
+}
+
+public record SubmissionReply
+{
+    [JsonPropertyName("_id")]
+    public string Id { get; set; } = null!;
+
+    [JsonPropertyName("submissionId")]
+    public string SubmissionId { get; set; } = null!;
+
+    [JsonPropertyName("channel")]
+    public string? Channel { get; set; } = null;
+
+    [JsonPropertyName("locale")]
+    public string? Locale { get; set; } = null;
+
+    [JsonPropertyName("subject")]
+    public string Subject { get; set; } = null!;
+
+    [JsonPropertyName("body")]
+    public string Body { get; set; } = null!;
+
+    [JsonPropertyName("status")]
+    public SubmissionReplyStatusEnum Status { get; set; }
+
+    [JsonPropertyName("to")]
+    public string? To { get; set; } = null;
+
+    [JsonPropertyName("templateKey")]
+    public string? TemplateKey { get; set; } = null;
+
+    [JsonPropertyName("draftSource")]
+    public SubmissionReplyDraftSourceEnum? DraftSource { get; set; } = null;
+
+    [JsonPropertyName("sentAt")]
+    public System.DateTime? SentAt { get; set; } = null;
+
+    [JsonPropertyName("error")]
+    public string? Error { get; set; } = null;
+
+    [JsonPropertyName("createdAt")]
+    public System.DateTime CreatedAt { get; set; }
+}
+
+public record SubmissionAnalysisWrapper
+{
+    [JsonPropertyName("analysis")]
+    public SubmissionAnalysis Analysis { get; set; } = null!;
+}
+
+public record SubmissionAnalysisResult
+{
+    [JsonPropertyName("analysis")]
+    public SubmissionAnalysis Analysis { get; set; } = null!;
+
+    [JsonPropertyName("spamApplied")]
+    public bool SpamApplied { get; set; }
+}
+
+public record SubmissionBulkAnalysis
+{
+    [JsonPropertyName("results")]
+    public Dictionary<string, JsonElement>[] Results { get; set; } = null!;
+
+    [JsonPropertyName("summary")]
+    public Dictionary<string, JsonElement> Summary { get; set; } = null!;
+}
+
+public record SubmissionActivityList
+{
+    [JsonPropertyName("activity")]
+    public SubmissionActivity[] Activity { get; set; } = null!;
+
+    [JsonPropertyName("replies")]
+    public SubmissionReply[] Replies { get; set; } = null!;
+}
+
+public record SubmissionReplyWrapper
+{
+    [JsonPropertyName("reply")]
+    public SubmissionReply Reply { get; set; } = null!;
+}
+
+public record SubmissionActivityWrapper
+{
+    [JsonPropertyName("activity")]
+    public SubmissionActivity Activity { get; set; } = null!;
+}
+
+public record SubmissionInboxFacets
+{
+    [JsonPropertyName("status")]
+    public Dictionary<string, double>? Status { get; set; } = null;
+
+    [JsonPropertyName("category")]
+    public Dictionary<string, double>? Category { get; set; } = null;
+
+    [JsonPropertyName("priority")]
+    public Dictionary<string, double>? Priority { get; set; } = null;
+
+    [JsonPropertyName("assignee")]
+    public Dictionary<string, JsonElement>[]? Assignee { get; set; } = null;
+}
+
+public record SubmissionDetailWrapper
+{
+    [JsonPropertyName("submission")]
+    public FormSubmissionEnriched Submission { get; set; } = null!;
+
+    [JsonPropertyName("activity")]
+    public SubmissionActivity[]? Activity { get; set; } = null;
+
+    [JsonPropertyName("replies")]
+    public SubmissionReply[]? Replies { get; set; } = null;
+}
+
+public record SubmissionDigestAggregates
+{
+    [JsonPropertyName("from")]
+    public System.DateTime From { get; set; }
+
+    [JsonPropertyName("to")]
+    public System.DateTime To { get; set; }
+
+    [JsonPropertyName("total")]
+    public double Total { get; set; }
+
+    [JsonPropertyName("previousTotal")]
+    public double PreviousTotal { get; set; }
+
+    [JsonPropertyName("byCategory")]
+    public Dictionary<string, double>? ByCategory { get; set; } = null;
+
+    [JsonPropertyName("byPriority")]
+    public Dictionary<string, double>? ByPriority { get; set; } = null;
+
+    [JsonPropertyName("byStatus")]
+    public Dictionary<string, double>? ByStatus { get; set; } = null;
+
+    [JsonPropertyName("byLanguage")]
+    public Dictionary<string, double>? ByLanguage { get; set; } = null;
+
+    [JsonPropertyName("byForm")]
+    public Dictionary<string, JsonElement>[]? ByForm { get; set; } = null;
+
+    [JsonPropertyName("urgentCount")]
+    public double UrgentCount { get; set; }
+
+    [JsonPropertyName("spamCount")]
+    public double SpamCount { get; set; }
+
+    [JsonPropertyName("topics")]
+    public Dictionary<string, JsonElement>[]? Topics { get; set; } = null;
+}
+
+public record SubmissionDigest
+{
+    [JsonPropertyName("aggregates")]
+    public SubmissionDigestAggregates Aggregates { get; set; } = null!;
+
+    [JsonPropertyName("headline")]
+    public string? Headline { get; set; } = null;
+
+    [JsonPropertyName("summary")]
+    public string? Summary { get; set; } = null;
+
+    [JsonPropertyName("topics")]
+    public Dictionary<string, JsonElement>[]? Topics { get; set; } = null;
+
+    [JsonPropertyName("actions")]
+    public Dictionary<string, JsonElement>[]? Actions { get; set; } = null;
+}
+
+public record SubmissionDigestWrapper
+{
+    [JsonPropertyName("digest")]
+    public SubmissionDigest Digest { get; set; } = null!;
+}
+
+public record FormDraftField
+{
+    [JsonPropertyName("name")]
+    public string Name { get; set; } = null!;
+
+    [JsonPropertyName("type")]
+    public string Type { get; set; } = null!;
+
+    [JsonPropertyName("label")]
+    public MultilingualString Label { get; set; } = null!;
+
+    [JsonPropertyName("placeholder")]
+    public MultilingualString? Placeholder { get; set; } = null;
+
+    [JsonPropertyName("required")]
+    public bool Required { get; set; }
+
+    [JsonPropertyName("colSpan")]
+    public double ColSpan { get; set; }
+
+    [JsonPropertyName("options")]
+    public Dictionary<string, JsonElement>[]? Options { get; set; } = null;
+
+    [JsonPropertyName("validation")]
+    public Dictionary<string, JsonElement>? Validation { get; set; } = null;
+}
+
+public record FormDraft
+{
+    [JsonPropertyName("title")]
+    public MultilingualString Title { get; set; } = null!;
+
+    [JsonPropertyName("slug")]
+    public string Slug { get; set; } = null!;
+
+    [JsonPropertyName("description")]
+    public MultilingualString? Description { get; set; } = null;
+
+    [JsonPropertyName("submitButtonText")]
+    public MultilingualString? SubmitButtonText { get; set; } = null;
+
+    [JsonPropertyName("formType")]
+    public FormDraftFormTypeEnum? FormType { get; set; } = null;
+
+    [JsonPropertyName("sections")]
+    public Dictionary<string, JsonElement>[] Sections { get; set; } = null!;
+
+    [JsonPropertyName("captcha")]
+    public Dictionary<string, JsonElement>? Captcha { get; set; } = null;
+
+    [JsonPropertyName("fieldCount")]
+    public double FieldCount { get; set; }
+
+    [JsonPropertyName("truncated")]
+    public bool Truncated { get; set; }
+}
+
+public record FormDraftWrapper
+{
+    [JsonPropertyName("draft")]
+    public FormDraft Draft { get; set; } = null!;
+}
+
+public record FormImproveSuggestion
+{
+    [JsonPropertyName("fieldName")]
+    public string? FieldName { get; set; } = null;
+
+    [JsonPropertyName("kind")]
+    public string? Kind { get; set; } = null;
+
+    [JsonPropertyName("current")]
+    public string? Current { get; set; } = null;
+
+    [JsonPropertyName("proposed")]
+    public string? Proposed { get; set; } = null;
+
+    [JsonPropertyName("reason")]
+    public string? Reason { get; set; } = null;
+}
+
+public record FormImproveWrapper
+{
+    [JsonPropertyName("formId")]
+    public string? FormId { get; set; } = null;
+
+    [JsonPropertyName("summary")]
+    public string? Summary { get; set; } = null;
+
+    [JsonPropertyName("suggestions")]
+    public FormImproveSuggestion[] Suggestions { get; set; } = null!;
+
+    [JsonPropertyName("reorder")]
+    public string[]? Reorder { get; set; } = null;
+}
+
+public record CommentModeration
+{
+    [JsonPropertyName("_id")]
+    public string? Id { get; set; } = null;
+
+    [JsonPropertyName("tenantId")]
+    public string? TenantId { get; set; } = null;
+
+    [JsonPropertyName("commentId")]
+    public string? CommentId { get; set; } = null;
+
+    [JsonPropertyName("articleId")]
+    public string? ArticleId { get; set; } = null;
+
+    [JsonPropertyName("toxicity")]
+    public double Toxicity { get; set; }
+
+    [JsonPropertyName("spamScore")]
+    public double SpamScore { get; set; }
+
+    [JsonPropertyName("sentiment")]
+    public CommentModerationSentimentEnum? Sentiment { get; set; } = null;
+
+    [JsonPropertyName("language")]
+    public string? Language { get; set; } = null;
+
+    [JsonPropertyName("decision")]
+    public CommentModerationDecisionEnum? Decision { get; set; } = null;
+
+    [JsonPropertyName("reasons")]
+    public string[]? Reasons { get; set; } = null;
+
+    [JsonPropertyName("suggestedReply")]
+    public Dictionary<string, JsonElement>? SuggestedReply { get; set; } = null;
+
+    [JsonPropertyName("autoApplied")]
+    public bool AutoApplied { get; set; }
+
+    [JsonPropertyName("provider")]
+    public string? Provider { get; set; } = null;
+
+    [JsonPropertyName("providerModel")]
+    public string? ProviderModel { get; set; } = null;
+
+    [JsonPropertyName("promptVersion")]
+    public string? PromptVersion { get; set; } = null;
+
+    [JsonPropertyName("analyzedAt")]
+    public System.DateTime AnalyzedAt { get; set; }
+
+    [JsonPropertyName("createdAt")]
+    public System.DateTime CreatedAt { get; set; }
+
+    [JsonPropertyName("updatedAt")]
+    public System.DateTime UpdatedAt { get; set; }
+}
+
+public record CommentModerationSummary
+{
+    [JsonPropertyName("_id")]
+    public string? Id { get; set; } = null;
+
+    [JsonPropertyName("toxicity")]
+    public double Toxicity { get; set; }
+
+    [JsonPropertyName("spamScore")]
+    public double SpamScore { get; set; }
+
+    [JsonPropertyName("sentiment")]
+    public string? Sentiment { get; set; } = null;
+
+    [JsonPropertyName("language")]
+    public string? Language { get; set; } = null;
+
+    [JsonPropertyName("decision")]
+    public CommentModerationSummaryDecisionEnum? Decision { get; set; } = null;
+
+    [JsonPropertyName("reasons")]
+    public string[]? Reasons { get; set; } = null;
+
+    [JsonPropertyName("autoApplied")]
+    public bool AutoApplied { get; set; }
+
+    [JsonPropertyName("analyzedAt")]
+    public System.DateTime AnalyzedAt { get; set; }
+}
+
+public record ModerationResultWrapper
+{
+    [JsonPropertyName("moderation")]
+    public CommentModeration Moderation { get; set; } = null!;
+
+    [JsonPropertyName("nextStatus")]
+    public JsonElement NextStatus { get; set; }
+}
+
+public record CommentReplyDraft
+{
+    [JsonPropertyName("body")]
+    public string Body { get; set; } = null!;
+
+    [JsonPropertyName("locale")]
+    public string? Locale { get; set; } = null;
+}
+
+public record CommentReplyDraftWrapper
+{
+    [JsonPropertyName("reply")]
+    public CommentReplyDraft Reply { get; set; } = null!;
+}
+
+public record MinedQuestionIdea
+{
+    [JsonPropertyName("topic")]
+    public string Topic { get; set; } = null!;
+
+    [JsonPropertyName("angle")]
+    public string? Angle { get; set; } = null;
+
+    [JsonPropertyName("questionCount")]
+    public double QuestionCount { get; set; }
+
+    [JsonPropertyName("exampleQuestionIds")]
+    public string[]? ExampleQuestionIds { get; set; } = null;
+
+    [JsonPropertyName("primaryKeyword")]
+    public string? PrimaryKeyword { get; set; } = null;
+
+    [JsonPropertyName("funnelStage")]
+    public MinedQuestionIdeaFunnelStageEnum? FunnelStage { get; set; } = null;
+}
+
+public record MinedQuestionsWrapper
+{
+    [JsonPropertyName("ideas")]
+    public MinedQuestionIdea[] Ideas { get; set; } = null!;
+}
+
+public record EffectiveModerationPolicy
+{
+    [JsonPropertyName("mode")]
+    public EffectiveModerationPolicyModeEnum? Mode { get; set; } = null;
+
+    [JsonPropertyName("maxToxicity")]
+    public double MaxToxicity { get; set; }
+
+    [JsonPropertyName("maxSpamScore")]
+    public double MaxSpamScore { get; set; }
+
+    [JsonPropertyName("autoRejectSpamScore")]
+    public double AutoRejectSpamScore { get; set; }
+
+    [JsonPropertyName("maxLinks")]
+    public double MaxLinks { get; set; }
+
+    [JsonPropertyName("blockedTerms")]
+    public string[]? BlockedTerms { get; set; } = null;
+
+    [JsonPropertyName("reasons")]
+    public string[]? Reasons { get; set; } = null;
+}
+
+public record EffectivePolicyWrapper
+{
+    [JsonPropertyName("policy")]
+    public EffectiveModerationPolicy Policy { get; set; } = null!;
+
+    [JsonPropertyName("articleId")]
+    public string? ArticleId { get; set; } = null;
+}
+
+public record AiFeatureFlags
+{
+    [JsonPropertyName("copilot")]
+    public bool Copilot { get; set; }
+
+    [JsonPropertyName("autofill")]
+    public bool Autofill { get; set; }
+
+    [JsonPropertyName("inline")]
+    public bool Inline { get; set; }
+
+    [JsonPropertyName("bulk")]
+    public bool Bulk { get; set; }
+
+    [JsonPropertyName("forms")]
+    public bool Forms { get; set; }
+
+    [JsonPropertyName("submissions")]
+    public bool Submissions { get; set; }
+
+    [JsonPropertyName("comments")]
+    public bool Comments { get; set; }
+
+    [JsonPropertyName("calendar")]
+    public bool Calendar { get; set; }
+
+    [JsonPropertyName("seo")]
+    public bool Seo { get; set; }
+
+    [JsonPropertyName("brandVoice")]
+    public bool BrandVoice { get; set; }
+
+    [JsonPropertyName("jobs")]
+    public bool Jobs { get; set; }
+}
+
+public record AiAutoApplyPolicy
+{
+    [JsonPropertyName("copilot")]
+    public AiAutoApplyPolicyCopilotEnum? Copilot { get; set; } = null;
+
+    [JsonPropertyName("autofill")]
+    public AiAutoApplyPolicyAutofillEnum? Autofill { get; set; } = null;
+
+    [JsonPropertyName("inline")]
+    public AiAutoApplyPolicyInlineEnum? Inline { get; set; } = null;
+
+    [JsonPropertyName("bulk")]
+    public AiAutoApplyPolicyBulkEnum? Bulk { get; set; } = null;
+
+    [JsonPropertyName("forms")]
+    public AiAutoApplyPolicyFormsEnum? Forms { get; set; } = null;
+
+    [JsonPropertyName("submissions")]
+    public AiAutoApplyPolicySubmissionsEnum? Submissions { get; set; } = null;
+
+    [JsonPropertyName("comments")]
+    public AiAutoApplyPolicyCommentsEnum? Comments { get; set; } = null;
+
+    [JsonPropertyName("calendar")]
+    public AiAutoApplyPolicyCalendarEnum? Calendar { get; set; } = null;
+
+    [JsonPropertyName("seo")]
+    public AiAutoApplyPolicySeoEnum? Seo { get; set; } = null;
+
+    [JsonPropertyName("brandVoice")]
+    public AiAutoApplyPolicyBrandVoiceEnum? BrandVoice { get; set; } = null;
+
+    [JsonPropertyName("jobs")]
+    public AiAutoApplyPolicyJobsEnum? Jobs { get; set; } = null;
+}
+
+public record BrandVoiceProfile
+{
+    [JsonPropertyName("tone")]
+    public string? Tone { get; set; } = null;
+
+    [JsonPropertyName("audience")]
+    public string? Audience { get; set; } = null;
+
+    [JsonPropertyName("readingLevel")]
+    public string? ReadingLevel { get; set; } = null;
+
+    [JsonPropertyName("do")]
+    public string[]? @Do { get; set; } = null;
+
+    [JsonPropertyName("dont")]
+    public string[]? Dont { get; set; } = null;
+
+    [JsonPropertyName("bannedTerms")]
+    public string[]? BannedTerms { get; set; } = null;
+
+    [JsonPropertyName("examples")]
+    public string[]? Examples { get; set; } = null;
+
+    [JsonPropertyName("persianRegister")]
+    public JsonElement PersianRegister { get; set; }
+
+    [JsonPropertyName("version")]
+    public double Version { get; set; }
+}
+
+public record LegacyGlossaryEntry
+{
+    [JsonPropertyName("term")]
+    public string? Term { get; set; } = null;
+
+    [JsonPropertyName("translation")]
+    public string? Translation { get; set; } = null;
+}
+
+public record AiSettings
+{
+    [JsonPropertyName("brandVoice")]
+    public string? BrandVoice { get; set; } = null;
+
+    [JsonPropertyName("glossary")]
+    public LegacyGlossaryEntry[]? Glossary { get; set; } = null;
+
+    [JsonPropertyName("brandVoiceVersion")]
+    public string? BrandVoiceVersion { get; set; } = null;
+
+    [JsonPropertyName("autoApply")]
+    public bool AutoApply { get; set; }
+
+    [JsonPropertyName("defaultTier")]
+    public JsonElement DefaultTier { get; set; }
+
+    [JsonPropertyName("featureFlags")]
+    public AiFeatureFlags FeatureFlags { get; set; } = null!;
+
+    [JsonPropertyName("autoApplyPolicy")]
+    public AiAutoApplyPolicy AutoApplyPolicy { get; set; } = null!;
+
+    [JsonPropertyName("dailyQuotaPerUser")]
+    public double? DailyQuotaPerUser { get; set; } = null;
+
+    [JsonPropertyName("defaultLocales")]
+    public string[]? DefaultLocales { get; set; } = null;
+
+    [JsonPropertyName("piiMasking")]
+    public Dictionary<string, JsonElement> PiiMasking { get; set; } = null!;
+
+    [JsonPropertyName("retentionDays")]
+    public double RetentionDays { get; set; }
+
+    [JsonPropertyName("modelTierOverrides")]
+    public JsonElement ModelTierOverrides { get; set; }
+
+    [JsonPropertyName("brandVoiceProfile")]
+    public BrandVoiceProfile? BrandVoiceProfile { get; set; } = null;
+
+    [JsonPropertyName("createdAt")]
+    public System.DateTime CreatedAt { get; set; }
+
+    [JsonPropertyName("updatedAt")]
+    public System.DateTime UpdatedAt { get; set; }
+}
+
+public record BrandVoiceSettings
+{
+    [JsonPropertyName("brandVoice")]
+    public string? BrandVoice { get; set; } = null;
+
+    [JsonPropertyName("glossary")]
+    public LegacyGlossaryEntry[]? Glossary { get; set; } = null;
+
+    [JsonPropertyName("brandVoiceProfile")]
+    public BrandVoiceProfile? BrandVoiceProfile { get; set; } = null;
+
+    [JsonPropertyName("brandVoiceVersion")]
+    public string? BrandVoiceVersion { get; set; } = null;
+}
+
+public record CreditSnapshot
+{
+    [JsonPropertyName("period")]
+    public string Period { get; set; } = null!;
+
+    [JsonPropertyName("used")]
+    public double Used { get; set; }
+
+    [JsonPropertyName("reserved")]
+    public double Reserved { get; set; }
+
+    [JsonPropertyName("limit")]
+    public double Limit { get; set; }
+
+    [JsonPropertyName("remaining")]
+    public double Remaining { get; set; }
+
+    [JsonPropertyName("available")]
+    public double Available { get; set; }
+}
+
+public record TokenEstimate
+{
+    [JsonPropertyName("actionId")]
+    public string ActionId { get; set; } = null!;
+
+    [JsonPropertyName("estimatedTokens")]
+    public double EstimatedTokens { get; set; }
+}
+
+public record AiRunSubmission
+{
+    [JsonPropertyName("runId")]
+    public string RunId { get; set; } = null!;
+
+    [JsonPropertyName("mode")]
+    public string Mode { get; set; } = null!;
+
+    [JsonPropertyName("estimatedTokens")]
+    public double EstimatedTokens { get; set; }
+}
+
+public record AiRunInsufficientCredits
+{
+    [JsonPropertyName("reason")]
+    public AiRunInsufficientCreditsReasonEnum Reason { get; set; }
+
+    [JsonPropertyName("used")]
+    public double Used { get; set; }
+
+    [JsonPropertyName("reserved")]
+    public double Reserved { get; set; }
+
+    [JsonPropertyName("limit")]
+    public double Limit { get; set; }
+
+    [JsonPropertyName("estimate")]
+    public double Estimate { get; set; }
+}
+
+public record AiRunConflict
+{
+    [JsonPropertyName("runId")]
+    public string RunId { get; set; } = null!;
+
+    [JsonPropertyName("status")]
+    public AiRunConflictStatusEnum Status { get; set; }
+}
+
+public record AiRunListItem
+{
+    [JsonPropertyName("runId")]
+    public string RunId { get; set; } = null!;
+
+    [JsonPropertyName("actionId")]
+    public string ActionId { get; set; } = null!;
+
+    [JsonPropertyName("status")]
+    public AiRunListItemStatusEnum Status { get; set; }
+
+    [JsonPropertyName("estimated")]
+    public double Estimated { get; set; }
+
+    [JsonPropertyName("actual")]
+    public double? Actual { get; set; } = null;
+
+    [JsonPropertyName("reason")]
+    public string? Reason { get; set; } = null;
+
+    [JsonPropertyName("outcome")]
+    public string? Outcome { get; set; } = null;
+
+    [JsonPropertyName("meta")]
+    public Dictionary<string, JsonElement>? Meta { get; set; } = null;
+
+    [JsonPropertyName("createdAt")]
+    public string? CreatedAt { get; set; } = null;
+}
+
+public record AiRunList
+{
+    [JsonPropertyName("runs")]
+    public AiRunListItem[] Runs { get; set; } = null!;
+}
+
+public record AiProposalPatch
+{
+    [JsonPropertyName("path")]
+    public string Path { get; set; } = null!;
+
+    [JsonPropertyName("lang")]
+    public string? Lang { get; set; } = null;
+
+    [JsonPropertyName("key")]
+    public string? Key { get; set; } = null;
+
+    [JsonPropertyName("before")]
+    public JsonElement Before { get; set; }
+
+    [JsonPropertyName("after")]
+    public JsonElement After { get; set; }
+}
+
+public record AiProposal
+{
+    [JsonPropertyName("_id")]
+    public string Id { get; set; } = null!;
+
+    [JsonPropertyName("tenantId")]
+    public string? TenantId { get; set; } = null;
+
+    [JsonPropertyName("articleId")]
+    public string ArticleId { get; set; } = null!;
+
+    [JsonPropertyName("actionId")]
+    public string ActionId { get; set; } = null!;
+
+    [JsonPropertyName("status")]
+    public AiProposalStatusEnum Status { get; set; }
+
+    [JsonPropertyName("createdByUserId")]
+    public string? CreatedByUserId { get; set; } = null;
+
+    [JsonPropertyName("decidedByUserId")]
+    public string? DecidedByUserId { get; set; } = null;
+
+    [JsonPropertyName("locale")]
+    public string? Locale { get; set; } = null;
+
+    [JsonPropertyName("patches")]
+    public AiProposalPatch[] Patches { get; set; } = null!;
+
+    [JsonPropertyName("baseHash")]
+    public string? BaseHash { get; set; } = null;
+
+    [JsonPropertyName("decidedAt")]
+    public string? DecidedAt { get; set; } = null;
+
+    [JsonPropertyName("createdAt")]
+    public System.DateTime CreatedAt { get; set; }
+
+    [JsonPropertyName("updatedAt")]
+    public System.DateTime UpdatedAt { get; set; }
+}
+
+public record AiProposalCount
+{
+    [JsonPropertyName("count")]
+    public double Count { get; set; }
+}
+
+public record AiProposalDecision
+{
+    [JsonPropertyName("proposal")]
+    public AiProposal Proposal { get; set; } = null!;
+
+    [JsonPropertyName("appliedPatches")]
+    public AiProposalPatch[] AppliedPatches { get; set; } = null!;
+}
+
+public record AiProposalStale
+{
+    [JsonPropertyName("reason")]
+    public AiProposalStaleReasonEnum Reason { get; set; }
+}
+
+public record AiProposalBulkResultItem
+{
+    [JsonPropertyName("id")]
+    public string Id { get; set; } = null!;
+
+    [JsonPropertyName("status")]
+    public AiProposalBulkResultItemStatusEnum Status { get; set; }
+
+    [JsonPropertyName("reason")]
+    public string? Reason { get; set; } = null;
+}
+
+public record AiAutofillResult
+{
+    [JsonPropertyName("proposalId")]
+    public string ProposalId { get; set; } = null!;
+
+    [JsonPropertyName("filled")]
+    public string[] Filled { get; set; } = null!;
+
+    [JsonPropertyName("skipped")]
+    public string[] Skipped { get; set; } = null!;
+}
+
+public record ArticleRevisionSnapshot
+{
+    [JsonPropertyName("mainTitle")]
+    public string? MainTitle { get; set; } = null;
+
+    [JsonPropertyName("summary")]
+    public string? Summary { get; set; } = null;
+
+    [JsonPropertyName("content")]
+    public string? Content { get; set; } = null;
+
+    [JsonPropertyName("tags")]
+    public string[]? Tags { get; set; } = null;
+}
+
+public record ArticleRevision
+{
+    [JsonPropertyName("_id")]
+    public string Id { get; set; } = null!;
+
+    [JsonPropertyName("articleId")]
+    public string ArticleId { get; set; } = null!;
+
+    [JsonPropertyName("locale")]
+    public string Locale { get; set; } = null!;
+
+    [JsonPropertyName("source")]
+    public ArticleRevisionSourceEnum Source { get; set; }
+
+    [JsonPropertyName("userId")]
+    public string? UserId { get; set; } = null;
+
+    [JsonPropertyName("aiProposalId")]
+    public string? AiProposalId { get; set; } = null;
+
+    [JsonPropertyName("restoredFrom")]
+    public string? RestoredFrom { get; set; } = null;
+
+    [JsonPropertyName("snapshot")]
+    public ArticleRevisionSnapshot Snapshot { get; set; } = null!;
+
+    [JsonPropertyName("createdAt")]
+    public System.DateTime CreatedAt { get; set; }
+
+    [JsonPropertyName("updatedAt")]
+    public System.DateTime UpdatedAt { get; set; }
+}
+
+public record ArticleRevisionList
+{
+    [JsonPropertyName("revisions")]
+    public ArticleRevision[] Revisions { get; set; } = null!;
+
+    [JsonPropertyName("maxRevisionsPerLocale")]
+    public double MaxRevisionsPerLocale { get; set; }
+}
+
+public record ArticleRevisionRestore
+{
+    [JsonPropertyName("article")]
+    public Article Article { get; set; } = null!;
+
+    [JsonPropertyName("revision")]
+    public ArticleRevision Revision { get; set; } = null!;
+}
+
+public record ReadinessItem
+{
+    [JsonPropertyName("id")]
+    public string Id { get; set; } = null!;
+
+    [JsonPropertyName("label")]
+    public string Label { get; set; } = null!;
+
+    [JsonPropertyName("state")]
+    public ReadinessItemStateEnum State { get; set; }
+
+    [JsonPropertyName("locales")]
+    public string[] Locales { get; set; } = null!;
+
+    [JsonPropertyName("detail")]
+    public string? Detail { get; set; } = null;
+}
+
+public record ArticleReadiness
+{
+    [JsonPropertyName("articleId")]
+    public string ArticleId { get; set; } = null!;
+
+    [JsonPropertyName("itemType")]
+    public ArticleReadinessItemTypeEnum ItemType { get; set; }
+
+    [JsonPropertyName("contentSource")]
+    public string ContentSource { get; set; } = null!;
+
+    [JsonPropertyName("items")]
+    public ReadinessItem[] Items { get; set; } = null!;
+
+    [JsonPropertyName("blockers")]
+    public string[] Blockers { get; set; } = null!;
+
+    [JsonPropertyName("warnings")]
+    public string[] Warnings { get; set; } = null!;
+}
+
+public record TranslationStateItem
+{
+    [JsonPropertyName("locale")]
+    public string Locale { get; set; } = null!;
+
+    [JsonPropertyName("state")]
+    public TranslationStateItemStateEnum State { get; set; }
+
+    [JsonPropertyName("storedState")]
+    public TranslationStateItemStoredStateEnum? StoredState { get; set; } = null;
+
+    [JsonPropertyName("sourceOutdated")]
+    public bool SourceOutdated { get; set; }
+
+    [JsonPropertyName("updatedAt")]
+    public string? UpdatedAt { get; set; } = null;
+}
+
+public record TranslationStateReport
+{
+    [JsonPropertyName("articleId")]
+    public string ArticleId { get; set; } = null!;
+
+    [JsonPropertyName("sourceLocale")]
+    public string SourceLocale { get; set; } = null!;
+
+    [JsonPropertyName("items")]
+    public TranslationStateItem[] Items { get; set; } = null!;
+}
+
+public record TranslationStateDoc
+{
+    [JsonPropertyName("_id")]
+    public string? Id { get; set; } = null;
+
+    [JsonPropertyName("articleId")]
+    public string ArticleId { get; set; } = null!;
+
+    [JsonPropertyName("locale")]
+    public string Locale { get; set; } = null!;
+
+    [JsonPropertyName("sourceLocale")]
+    public string? SourceLocale { get; set; } = null;
+
+    [JsonPropertyName("sourceHash")]
+    public string SourceHash { get; set; } = null!;
+
+    [JsonPropertyName("targetHash")]
+    public string TargetHash { get; set; } = null!;
+
+    [JsonPropertyName("blockHashes")]
+    public Dictionary<string, string>? BlockHashes { get; set; } = null;
+
+    [JsonPropertyName("updatedByUserId")]
+    public string? UpdatedByUserId { get; set; } = null;
+
+    [JsonPropertyName("createdAt")]
+    public System.DateTime CreatedAt { get; set; }
+
+    [JsonPropertyName("updatedAt")]
+    public System.DateTime UpdatedAt { get; set; }
+}
+
+public record AiEvent
+{
+    [JsonPropertyName("event")]
+    public string @Event { get; set; } = null!;
+
+    [JsonPropertyName("occurredAt")]
+    public System.DateTime OccurredAt { get; set; }
+
+    [JsonPropertyName("payload")]
+    public Dictionary<string, JsonElement>? Payload { get; set; } = null;
+}
+
+public record GlossaryTerm
+{
+    [JsonPropertyName("_id")]
+    public string Id { get; set; } = null!;
+
+    [JsonPropertyName("source")]
+    public string Source { get; set; } = null!;
+
+    [JsonPropertyName("sourceLocale")]
+    public string SourceLocale { get; set; } = null!;
+
+    [JsonPropertyName("target")]
+    public string Target { get; set; } = null!;
+
+    [JsonPropertyName("targetLocale")]
+    public string TargetLocale { get; set; } = null!;
+
+    [JsonPropertyName("doNotTranslate")]
+    public bool DoNotTranslate { get; set; }
+
+    [JsonPropertyName("note")]
+    public string? Note { get; set; } = null;
+
+    [JsonPropertyName("createdAt")]
+    public System.DateTime CreatedAt { get; set; }
+
+    [JsonPropertyName("updatedAt")]
+    public System.DateTime UpdatedAt { get; set; }
+}
+
+public record GlossaryTermWrapper
+{
+    [JsonPropertyName("term")]
+    public GlossaryTerm Term { get; set; } = null!;
+}
+
+public record KnowledgeSource
+{
+    [JsonPropertyName("_id")]
+    public string Id { get; set; } = null!;
+
+    [JsonPropertyName("type")]
+    public KnowledgeSourceTypeEnum Type { get; set; }
+
+    [JsonPropertyName("title")]
+    public string Title { get; set; } = null!;
+
+    [JsonPropertyName("uri")]
+    public string? Uri { get; set; } = null;
+
+    [JsonPropertyName("content")]
+    public string? Content { get; set; } = null;
+
+    [JsonPropertyName("locale")]
+    public string? Locale { get; set; } = null;
+
+    [JsonPropertyName("status")]
+    public KnowledgeSourceStatusEnum Status { get; set; }
+
+    [JsonPropertyName("error")]
+    public string? Error { get; set; } = null;
+
+    [JsonPropertyName("chunkCount")]
+    public double ChunkCount { get; set; }
+
+    [JsonPropertyName("tokenCount")]
+    public double TokenCount { get; set; }
+
+    [JsonPropertyName("indexedAt")]
+    public string? IndexedAt { get; set; } = null;
+
+    [JsonPropertyName("createdAt")]
+    public System.DateTime CreatedAt { get; set; }
+
+    [JsonPropertyName("updatedAt")]
+    public System.DateTime UpdatedAt { get; set; }
+}
+
+public record KnowledgeSourceWrapper
+{
+    [JsonPropertyName("source")]
+    public KnowledgeSource Source { get; set; } = null!;
+}
+
+public record TaxonomyFinding
+{
+    [JsonPropertyName("code")]
+    public TaxonomyFindingCodeEnum Code { get; set; }
+
+    [JsonPropertyName("severity")]
+    public TaxonomyFindingSeverityEnum Severity { get; set; }
+
+    [JsonPropertyName("entityType")]
+    public TaxonomyFindingEntityTypeEnum EntityType { get; set; }
+
+    [JsonPropertyName("entityId")]
+    public string? EntityId { get; set; } = null;
+
+    [JsonPropertyName("names")]
+    public string[]? Names { get; set; } = null;
+
+    [JsonPropertyName("message")]
+    public string Message { get; set; } = null!;
+
+    [JsonPropertyName("fixAction")]
+    public string FixAction { get; set; } = null!;
+}
+
+public record TaxonomyAudit
+{
+    [JsonPropertyName("findings")]
+    public TaxonomyFinding[] Findings { get; set; } = null!;
+
+    [JsonPropertyName("summary")]
+    public Dictionary<string, JsonElement> Summary { get; set; } = null!;
+}
+
+public record TaxonomySeoEntry
+{
+    [JsonPropertyName("metaTitle")]
+    public string? MetaTitle { get; set; } = null;
+
+    [JsonPropertyName("metaDescription")]
+    public string? MetaDescription { get; set; } = null;
+
+    [JsonPropertyName("focusKeyword")]
+    public string? FocusKeyword { get; set; } = null;
+}
+
+public record CategorySeoSuggestion
+{
+    [JsonPropertyName("entityType")]
+    public CategorySeoSuggestionEntityTypeEnum EntityType { get; set; }
+
+    [JsonPropertyName("entityId")]
+    public string EntityId { get; set; } = null!;
+
+    [JsonPropertyName("seo")]
+    public Dictionary<string, TaxonomySeoEntry> Seo { get; set; } = null!;
+}
+
+public record TagSuggestion
+{
+    [JsonPropertyName("tag")]
+    public string Tag { get; set; } = null!;
+
+    [JsonPropertyName("isNew")]
+    public bool IsNew { get; set; }
+
+    [JsonPropertyName("confidence")]
+    public double Confidence { get; set; }
+}
+
+public record TagSuggestions
+{
+    [JsonPropertyName("tags")]
+    public TagSuggestion[] Tags { get; set; } = null!;
+}
+
+public record TagMergeResult
+{
+    [JsonPropertyName("from")]
+    public string From { get; set; } = null!;
+
+    [JsonPropertyName("into")]
+    public string Into { get; set; } = null!;
+
+    [JsonPropertyName("articlesUpdated")]
+    public double ArticlesUpdated { get; set; }
+}
+
+public record TagUsageRefresh
+{
+    [JsonPropertyName("updated")]
+    public double Updated { get; set; }
+}
+
+public record AuthorBioSuggestion
+{
+    [JsonPropertyName("authorId")]
+    public string AuthorId { get; set; } = null!;
+
+    [JsonPropertyName("bio")]
+    public Dictionary<string, string>? Bio { get; set; } = null;
+
+    [JsonPropertyName("expertise")]
+    public string[]? Expertise { get; set; } = null;
+}
+
+public record AuthorSuggestion
+{
+    [JsonPropertyName("authorId")]
+    public string AuthorId { get; set; } = null!;
+
+    [JsonPropertyName("score")]
+    public double Score { get; set; }
+
+    [JsonPropertyName("matched")]
+    public string[]? Matched { get; set; } = null;
+}
+
+public record AuthorSuggestions
+{
+    [JsonPropertyName("suggestions")]
+    public AuthorSuggestion[] Suggestions { get; set; } = null!;
+}
+
+public record MediaAsset
+{
+    [JsonPropertyName("_id")]
+    public string Id { get; set; } = null!;
+
+    [JsonPropertyName("tenantId")]
+    public string? TenantId { get; set; } = null;
+
+    [JsonPropertyName("kind")]
+    public MediaAssetKindEnum Kind { get; set; }
+
+    [JsonPropertyName("url")]
+    public string Url { get; set; } = null!;
+
+    [JsonPropertyName("storageKey")]
+    public string? StorageKey { get; set; } = null;
+
+    [JsonPropertyName("fileName")]
+    public string? FileName { get; set; } = null;
+
+    [JsonPropertyName("mimeType")]
+    public string? MimeType { get; set; } = null;
+
+    [JsonPropertyName("sizeBytes")]
+    public double? SizeBytes { get; set; } = null;
+
+    [JsonPropertyName("width")]
+    public double? Width { get; set; } = null;
+
+    [JsonPropertyName("height")]
+    public double? Height { get; set; } = null;
+
+    [JsonPropertyName("altText")]
+    public Dictionary<string, string>? AltText { get; set; } = null;
+
+    [JsonPropertyName("caption")]
+    public Dictionary<string, string>? Caption { get; set; } = null;
+
+    [JsonPropertyName("tags")]
+    public string[]? Tags { get; set; } = null;
+
+    [JsonPropertyName("aiMetadata")]
+    public Dictionary<string, JsonElement>? AiMetadata { get; set; } = null;
+
+    [JsonPropertyName("usage")]
+    public Dictionary<string, JsonElement>[]? Usage { get; set; } = null;
+
+    [JsonPropertyName("isDeleted")]
+    public bool IsDeleted { get; set; }
+
+    [JsonPropertyName("createdAt")]
+    public System.DateTime CreatedAt { get; set; }
+
+    [JsonPropertyName("updatedAt")]
+    public System.DateTime UpdatedAt { get; set; }
+}
+
+public record MediaAssetList
+{
+    [JsonPropertyName("assets")]
+    public MediaAsset[] Assets { get; set; } = null!;
+
+    [JsonPropertyName("pagination")]
+    public Pagination Pagination { get; set; } = null!;
+}
+
+public record MediaAssetWrapper
+{
+    [JsonPropertyName("asset")]
+    public MediaAsset Asset { get; set; } = null!;
+}
+
+public record MediaUsageRef
+{
+    [JsonPropertyName("entityType")]
+    public string EntityType { get; set; } = null!;
+
+    [JsonPropertyName("entityId")]
+    public string EntityId { get; set; } = null!;
+
+    [JsonPropertyName("field")]
+    public string Field { get; set; } = null!;
+
+    [JsonPropertyName("title")]
+    public string? Title { get; set; } = null;
+
+    [JsonPropertyName("slug")]
+    public string? Slug { get; set; } = null;
+}
+
+public record MediaUsage
+{
+    [JsonPropertyName("usages")]
+    public MediaUsageRef[] Usages { get; set; } = null!;
+}
+
+public record MediaMetadataSuggestion
+{
+    [JsonPropertyName("assetId")]
+    public string? AssetId { get; set; } = null;
+
+    [JsonPropertyName("url")]
+    public string? Url { get; set; } = null;
+
+    [JsonPropertyName("mimeType")]
+    public string? MimeType { get; set; } = null;
+
+    [JsonPropertyName("locale")]
+    public string? Locale { get; set; } = null;
+
+    [JsonPropertyName("altText")]
+    public string AltText { get; set; } = null!;
+
+    [JsonPropertyName("tags")]
+    public string[] Tags { get; set; } = null!;
+
+    [JsonPropertyName("kind")]
+    public MediaMetadataSuggestionKindEnum Kind { get; set; }
+}
+
+public record MediaMissingAlt
+{
+    [JsonPropertyName("assets")]
+    public MediaAsset[] Assets { get; set; } = null!;
+
+    [JsonPropertyName("totalMissing")]
+    public double TotalMissing { get; set; }
+
+    [JsonPropertyName("locale")]
+    public string? Locale { get; set; } = null;
 }
 
 public record Envelope

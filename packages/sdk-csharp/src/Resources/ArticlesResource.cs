@@ -123,6 +123,26 @@ public class ArticlesResource
         return _client.RequestAsync<ArticleList>("GET", "/articles/comments/getAll", query, null);
     }
 
+    public Task<CMSResponse<MinedQuestionsWrapper>> CommentsMinedQuestionsAsync(Dictionary<string, string?>? query = null)
+    {
+        return _client.RequestAsync<MinedQuestionsWrapper>("GET", "/articles/comments/minedQuestions", query, null);
+    }
+
+    public Task<CMSResponse<EffectivePolicyWrapper>> CommentsEffectivePolicyAsync(Dictionary<string, string?>? query = null)
+    {
+        return _client.RequestAsync<EffectivePolicyWrapper>("GET", "/articles/comments/effectivePolicy", query, null);
+    }
+
+    public Task<CMSResponse<ModerationResultWrapper>> CommentsCommentIdModerateAsync(string commentId, object body, Dictionary<string, string?>? query = null)
+    {
+        return _client.RequestAsync<ModerationResultWrapper>("POST", "/articles/comments/" + Uri.EscapeDataString(commentId) + "/moderate", query, body);
+    }
+
+    public Task<CMSResponse<CommentReplyDraftWrapper>> CommentsCommentIdReplyDraftAsync(string commentId, object body, Dictionary<string, string?>? query = null)
+    {
+        return _client.RequestAsync<CommentReplyDraftWrapper>("POST", "/articles/comments/" + Uri.EscapeDataString(commentId) + "/reply-draft", query, body);
+    }
+
     public Task<CMSResponse<CommentWrapper>> CommentsCommentIdPATCHAsync(string commentId, object body, Dictionary<string, string?>? query = null)
     {
         return _client.RequestAsync<CommentWrapper>("PATCH", "/articles/comments/" + Uri.EscapeDataString(commentId) + "", query, body);

@@ -216,6 +216,42 @@ class ArticlesResource
 
     /**
      * @return \Octavia\CmsSDK\Envelope
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\MinedQuestionsWrapper>
+     */
+    public function commentsMinedQuestions(array $options = []): Envelope
+    {
+        return $this->client->request("GET", "/articles/comments/minedQuestions", $options, \Octavia\CmsSDK\Types\MinedQuestionsWrapper::class);
+    }
+
+    /**
+     * @return \Octavia\CmsSDK\Envelope
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\EffectivePolicyWrapper>
+     */
+    public function commentsEffectivePolicy(array $options = []): Envelope
+    {
+        return $this->client->request("GET", "/articles/comments/effectivePolicy", $options, \Octavia\CmsSDK\Types\EffectivePolicyWrapper::class);
+    }
+
+    /**
+     * @return \Octavia\CmsSDK\Envelope
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\ModerationResultWrapper>
+     */
+    public function commentsCommentIdModerate($commentId, $body, array $options = []): Envelope
+    {
+        return $this->client->request("POST", "/articles/comments/" . rawurlencode($commentId) . "/moderate", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\ModerationResultWrapper::class);
+    }
+
+    /**
+     * @return \Octavia\CmsSDK\Envelope
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\CommentReplyDraftWrapper>
+     */
+    public function commentsCommentIdReplyDraft($commentId, $body, array $options = []): Envelope
+    {
+        return $this->client->request("POST", "/articles/comments/" . rawurlencode($commentId) . "/reply-draft", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\CommentReplyDraftWrapper::class);
+    }
+
+    /**
+     * @return \Octavia\CmsSDK\Envelope
      * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\CommentWrapper>
      */
     public function commentsCommentIdPATCH($commentId, $body, array $options = []): Envelope

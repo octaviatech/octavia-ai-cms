@@ -94,6 +94,22 @@ func (r *ArticlesResource) CommentsGetAll(query map[string]any) CMSResponse[Arti
     return RequestInto[ArticleList](r.client, "GET", "/articles/comments/getAll", query, nil)
 }
 
+func (r *ArticlesResource) CommentsMinedQuestions(query map[string]any) CMSResponse[MinedQuestionsWrapper] {
+    return RequestInto[MinedQuestionsWrapper](r.client, "GET", "/articles/comments/minedQuestions", query, nil)
+}
+
+func (r *ArticlesResource) CommentsEffectivePolicy(query map[string]any) CMSResponse[EffectivePolicyWrapper] {
+    return RequestInto[EffectivePolicyWrapper](r.client, "GET", "/articles/comments/effectivePolicy", query, nil)
+}
+
+func (r *ArticlesResource) CommentsCommentIdModerate(commentId string, body any, query map[string]any) CMSResponse[ModerationResultWrapper] {
+    return RequestInto[ModerationResultWrapper](r.client, "POST", "/articles/comments/" + url.PathEscape(commentId) + "/moderate", query, body)
+}
+
+func (r *ArticlesResource) CommentsCommentIdReplyDraft(commentId string, body any, query map[string]any) CMSResponse[CommentReplyDraftWrapper] {
+    return RequestInto[CommentReplyDraftWrapper](r.client, "POST", "/articles/comments/" + url.PathEscape(commentId) + "/reply-draft", query, body)
+}
+
 func (r *ArticlesResource) CommentsCommentIdPATCH(commentId string, body any, query map[string]any) CMSResponse[CommentWrapper] {
     return RequestInto[CommentWrapper](r.client, "PATCH", "/articles/comments/" + url.PathEscape(commentId), query, body)
 }

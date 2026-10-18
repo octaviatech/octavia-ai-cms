@@ -10,9 +10,11 @@ from .resources.categories import CategoriesResource
 from .resources.forms import FormsResource
 from .resources.form_submissions import FormSubmissionsResource
 from .resources.languages import LanguagesResource
+from .resources.media import MediaResource
 from .resources.reports import ReportsResource
 from .resources.subcategories import SubcategoriesResource
 from .resources.tags import TagsResource
+from .resources.taxonomy import TaxonomyResource
 # @generated resources:end
 
 # @generated all:begin
@@ -31,8 +33,10 @@ __all__ = [
     "FormsResource",
     "FormSubmissionsResource",
     "LanguagesResource",
+    "MediaResource",
     "ReportsResource",
     "SubcategoriesResource",
     "TagsResource",
+    "TaxonomyResource",
 ]
 # @generated all:end

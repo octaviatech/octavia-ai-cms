@@ -8287,6 +8287,4234 @@ class NeedsAttentionReport
 /**
  * Generated from the OpenAPI spec — do not edit by hand.
  */
+class SubmissionAnalysis
+{
+    /** @var ?ObjectId */
+    public $_id = null;
+    /** @var ?ObjectId */
+    public $tenantId = null;
+    /** @var ?ObjectId */
+    public $submissionId = null;
+    /** @var ?ObjectId */
+    public $formId = null;
+    /** @var ?string */
+    public $summary = null;
+    /** @var ?'lead' | 'support' | 'feedback' | 'spam' | 'other' */
+    public $category = null;
+    /** @var ?'low' | 'normal' | 'high' | 'urgent' */
+    public $priority = null;
+    /** @var ?'positive' | 'neutral' | 'negative' | 'mixed' */
+    public $sentiment = null;
+    /** @var ?string */
+    public $language = null;
+    /** @var ?float */
+    public $spamScore = null;
+    /** @var ?array<string, mixed> */
+    public $entities = null;
+    /** @var ?string[] */
+    public $topics = null;
+    /** @var ?string */
+    public $provider = null;
+    /** @var ?string */
+    public $providerModel = null;
+    /** @var ?string */
+    public $promptVersion = null;
+    /** @var ?string */
+    public $source = null;
+    /** @var ?DateTime */
+    public $analyzedAt = null;
+    /** @var ?DateTime */
+    public $createdAt = null;
+    /** @var ?DateTime */
+    public $updatedAt = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('_id', $data)) {
+            $instance->_id = $data['_id'];
+        }
+        if (array_key_exists('tenantId', $data)) {
+            $instance->tenantId = $data['tenantId'];
+        }
+        if (array_key_exists('submissionId', $data)) {
+            $instance->submissionId = $data['submissionId'];
+        }
+        if (array_key_exists('formId', $data)) {
+            $instance->formId = $data['formId'];
+        }
+        if (array_key_exists('summary', $data)) {
+            $instance->summary = $data['summary'];
+        }
+        if (array_key_exists('category', $data)) {
+            $instance->category = $data['category'];
+        }
+        if (array_key_exists('priority', $data)) {
+            $instance->priority = $data['priority'];
+        }
+        if (array_key_exists('sentiment', $data)) {
+            $instance->sentiment = $data['sentiment'];
+        }
+        if (array_key_exists('language', $data)) {
+            $instance->language = $data['language'];
+        }
+        if (array_key_exists('spamScore', $data)) {
+            $instance->spamScore = $data['spamScore'];
+        }
+        if (array_key_exists('entities', $data)) {
+            $instance->entities = $data['entities'];
+        }
+        if (array_key_exists('topics', $data)) {
+            $instance->topics = $data['topics'];
+        }
+        if (array_key_exists('provider', $data)) {
+            $instance->provider = $data['provider'];
+        }
+        if (array_key_exists('providerModel', $data)) {
+            $instance->providerModel = $data['providerModel'];
+        }
+        if (array_key_exists('promptVersion', $data)) {
+            $instance->promptVersion = $data['promptVersion'];
+        }
+        if (array_key_exists('source', $data)) {
+            $instance->source = $data['source'];
+        }
+        if (array_key_exists('analyzedAt', $data)) {
+            $instance->analyzedAt = $data['analyzedAt'];
+        }
+        if (array_key_exists('createdAt', $data)) {
+            $instance->createdAt = $data['createdAt'];
+        }
+        if (array_key_exists('updatedAt', $data)) {
+            $instance->updatedAt = $data['updatedAt'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class SubmissionActivity
+{
+    /** @var ?ObjectId */
+    public $_id = null;
+    /** @var ?'status' | 'assign' | 'note' | 'reply' | 'ai' | 'tag' */
+    public $type = null;
+    /** @var ?ObjectId */
+    public $actorId = null;
+    /** @var ?'user' | 'ai' | 'system' */
+    public $actorType = null;
+    /** @var ?array<string, mixed> */
+    public $payload = null;
+    /** @var ?DateTime */
+    public $createdAt = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('_id', $data)) {
+            $instance->_id = $data['_id'];
+        }
+        if (array_key_exists('type', $data)) {
+            $instance->type = $data['type'];
+        }
+        if (array_key_exists('actorId', $data)) {
+            $instance->actorId = $data['actorId'];
+        }
+        if (array_key_exists('actorType', $data)) {
+            $instance->actorType = $data['actorType'];
+        }
+        if (array_key_exists('payload', $data)) {
+            $instance->payload = $data['payload'];
+        }
+        if (array_key_exists('createdAt', $data)) {
+            $instance->createdAt = $data['createdAt'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class SubmissionReply
+{
+    /** @var ObjectId */
+    public $_id = null;
+    /** @var ObjectId */
+    public $submissionId = null;
+    /** @var ?string */
+    public $channel = null;
+    /** @var ?string */
+    public $locale = null;
+    /** @var string */
+    public $subject = null;
+    /** @var string */
+    public $body = null;
+    /** @var 'draft' | 'sent' | 'failed' */
+    public $status = null;
+    /** @var ?string */
+    public $to = null;
+    /** @var ?string */
+    public $templateKey = null;
+    /** @var ?'ai' | 'human' */
+    public $draftSource = null;
+    /** @var ?DateTime */
+    public $sentAt = null;
+    /** @var ?string */
+    public $error = null;
+    /** @var ?DateTime */
+    public $createdAt = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('_id', $data)) {
+            $instance->_id = $data['_id'];
+        }
+        if (array_key_exists('submissionId', $data)) {
+            $instance->submissionId = $data['submissionId'];
+        }
+        if (array_key_exists('channel', $data)) {
+            $instance->channel = $data['channel'];
+        }
+        if (array_key_exists('locale', $data)) {
+            $instance->locale = $data['locale'];
+        }
+        if (array_key_exists('subject', $data)) {
+            $instance->subject = $data['subject'];
+        }
+        if (array_key_exists('body', $data)) {
+            $instance->body = $data['body'];
+        }
+        if (array_key_exists('status', $data)) {
+            $instance->status = $data['status'];
+        }
+        if (array_key_exists('to', $data)) {
+            $instance->to = $data['to'];
+        }
+        if (array_key_exists('templateKey', $data)) {
+            $instance->templateKey = $data['templateKey'];
+        }
+        if (array_key_exists('draftSource', $data)) {
+            $instance->draftSource = $data['draftSource'];
+        }
+        if (array_key_exists('sentAt', $data)) {
+            $instance->sentAt = $data['sentAt'];
+        }
+        if (array_key_exists('error', $data)) {
+            $instance->error = $data['error'];
+        }
+        if (array_key_exists('createdAt', $data)) {
+            $instance->createdAt = $data['createdAt'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class SubmissionAnalysisWrapper
+{
+    /** @var SubmissionAnalysis */
+    public $analysis = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('analysis', $data)) {
+            $instance->analysis = $data['analysis'];
+        }
+
+        $nested = [
+            'analysis' => static fn (array $v): SubmissionAnalysis => SubmissionAnalysis::fromArray($v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class SubmissionAnalysisResult
+{
+    /** @var SubmissionAnalysis */
+    public $analysis = null;
+    /** @var bool */
+    public $spamApplied = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('analysis', $data)) {
+            $instance->analysis = $data['analysis'];
+        }
+        if (array_key_exists('spamApplied', $data)) {
+            $instance->spamApplied = $data['spamApplied'];
+        }
+
+        $nested = [
+            'analysis' => static fn (array $v): SubmissionAnalysis => SubmissionAnalysis::fromArray($v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class SubmissionBulkAnalysis
+{
+    /** @var array<string, mixed>[] */
+    public $results = null;
+    /** @var array<string, mixed> */
+    public $summary = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('results', $data)) {
+            $instance->results = $data['results'];
+        }
+        if (array_key_exists('summary', $data)) {
+            $instance->summary = $data['summary'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class SubmissionActivityList
+{
+    /** @var SubmissionActivity[] */
+    public $activity = null;
+    /** @var SubmissionReply[] */
+    public $replies = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('activity', $data)) {
+            $instance->activity = $data['activity'];
+        }
+        if (array_key_exists('replies', $data)) {
+            $instance->replies = $data['replies'];
+        }
+
+        $nested = [
+            'activity' => static fn (array $v): array => array_map(static fn ($x) => SubmissionActivity::fromArray($x), $v),
+            'replies' => static fn (array $v): array => array_map(static fn ($x) => SubmissionReply::fromArray($x), $v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class SubmissionReplyWrapper
+{
+    /** @var SubmissionReply */
+    public $reply = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('reply', $data)) {
+            $instance->reply = $data['reply'];
+        }
+
+        $nested = [
+            'reply' => static fn (array $v): SubmissionReply => SubmissionReply::fromArray($v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class SubmissionActivityWrapper
+{
+    /** @var SubmissionActivity */
+    public $activity = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('activity', $data)) {
+            $instance->activity = $data['activity'];
+        }
+
+        $nested = [
+            'activity' => static fn (array $v): SubmissionActivity => SubmissionActivity::fromArray($v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class SubmissionInboxFacets
+{
+    /** @var ?array<string, float> */
+    public $status = null;
+    /** @var ?array<string, float> */
+    public $category = null;
+    /** @var ?array<string, float> */
+    public $priority = null;
+    /** @var ?array<string, mixed>[] */
+    public $assignee = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('status', $data)) {
+            $instance->status = $data['status'];
+        }
+        if (array_key_exists('category', $data)) {
+            $instance->category = $data['category'];
+        }
+        if (array_key_exists('priority', $data)) {
+            $instance->priority = $data['priority'];
+        }
+        if (array_key_exists('assignee', $data)) {
+            $instance->assignee = $data['assignee'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class SubmissionDetailWrapper
+{
+    /** @var FormSubmissionEnriched */
+    public $submission = null;
+    /** @var ?SubmissionActivity[] */
+    public $activity = null;
+    /** @var ?SubmissionReply[] */
+    public $replies = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('submission', $data)) {
+            $instance->submission = $data['submission'];
+        }
+        if (array_key_exists('activity', $data)) {
+            $instance->activity = $data['activity'];
+        }
+        if (array_key_exists('replies', $data)) {
+            $instance->replies = $data['replies'];
+        }
+
+        $nested = [
+            'submission' => static fn (array $v): FormSubmissionEnriched => FormSubmissionEnriched::fromArray($v),
+            'activity' => static fn (array $v): array => array_map(static fn ($x) => SubmissionActivity::fromArray($x), $v),
+            'replies' => static fn (array $v): array => array_map(static fn ($x) => SubmissionReply::fromArray($x), $v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class SubmissionDigestAggregates
+{
+    /** @var ?DateTime */
+    public $from = null;
+    /** @var ?DateTime */
+    public $to = null;
+    /** @var ?float */
+    public $total = null;
+    /** @var ?float */
+    public $previousTotal = null;
+    /** @var ?array<string, float> */
+    public $byCategory = null;
+    /** @var ?array<string, float> */
+    public $byPriority = null;
+    /** @var ?array<string, float> */
+    public $byStatus = null;
+    /** @var ?array<string, float> */
+    public $byLanguage = null;
+    /** @var ?array<string, mixed>[] */
+    public $byForm = null;
+    /** @var ?float */
+    public $urgentCount = null;
+    /** @var ?float */
+    public $spamCount = null;
+    /** @var ?array<string, mixed>[] */
+    public $topics = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('from', $data)) {
+            $instance->from = $data['from'];
+        }
+        if (array_key_exists('to', $data)) {
+            $instance->to = $data['to'];
+        }
+        if (array_key_exists('total', $data)) {
+            $instance->total = $data['total'];
+        }
+        if (array_key_exists('previousTotal', $data)) {
+            $instance->previousTotal = $data['previousTotal'];
+        }
+        if (array_key_exists('byCategory', $data)) {
+            $instance->byCategory = $data['byCategory'];
+        }
+        if (array_key_exists('byPriority', $data)) {
+            $instance->byPriority = $data['byPriority'];
+        }
+        if (array_key_exists('byStatus', $data)) {
+            $instance->byStatus = $data['byStatus'];
+        }
+        if (array_key_exists('byLanguage', $data)) {
+            $instance->byLanguage = $data['byLanguage'];
+        }
+        if (array_key_exists('byForm', $data)) {
+            $instance->byForm = $data['byForm'];
+        }
+        if (array_key_exists('urgentCount', $data)) {
+            $instance->urgentCount = $data['urgentCount'];
+        }
+        if (array_key_exists('spamCount', $data)) {
+            $instance->spamCount = $data['spamCount'];
+        }
+        if (array_key_exists('topics', $data)) {
+            $instance->topics = $data['topics'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class SubmissionDigest
+{
+    /** @var SubmissionDigestAggregates */
+    public $aggregates = null;
+    /** @var ?string */
+    public $headline = null;
+    /** @var ?string */
+    public $summary = null;
+    /** @var ?array<string, mixed>[] */
+    public $topics = null;
+    /** @var ?array<string, mixed>[] */
+    public $actions = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('aggregates', $data)) {
+            $instance->aggregates = $data['aggregates'];
+        }
+        if (array_key_exists('headline', $data)) {
+            $instance->headline = $data['headline'];
+        }
+        if (array_key_exists('summary', $data)) {
+            $instance->summary = $data['summary'];
+        }
+        if (array_key_exists('topics', $data)) {
+            $instance->topics = $data['topics'];
+        }
+        if (array_key_exists('actions', $data)) {
+            $instance->actions = $data['actions'];
+        }
+
+        $nested = [
+            'aggregates' => static fn (array $v): SubmissionDigestAggregates => SubmissionDigestAggregates::fromArray($v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class SubmissionDigestWrapper
+{
+    /** @var SubmissionDigest */
+    public $digest = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('digest', $data)) {
+            $instance->digest = $data['digest'];
+        }
+
+        $nested = [
+            'digest' => static fn (array $v): SubmissionDigest => SubmissionDigest::fromArray($v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class FormDraftField
+{
+    /** @var string */
+    public $name = null;
+    /** @var string */
+    public $type = null;
+    /** @var MultilingualString */
+    public $label = null;
+    /** @var ?MultilingualString */
+    public $placeholder = null;
+    /** @var bool */
+    public $required = null;
+    /** @var ?float */
+    public $colSpan = null;
+    /** @var ?array<string, mixed>[] */
+    public $options = null;
+    /** @var ?array<string, mixed> */
+    public $validation = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('name', $data)) {
+            $instance->name = $data['name'];
+        }
+        if (array_key_exists('type', $data)) {
+            $instance->type = $data['type'];
+        }
+        if (array_key_exists('label', $data)) {
+            $instance->label = $data['label'];
+        }
+        if (array_key_exists('placeholder', $data)) {
+            $instance->placeholder = $data['placeholder'];
+        }
+        if (array_key_exists('required', $data)) {
+            $instance->required = $data['required'];
+        }
+        if (array_key_exists('colSpan', $data)) {
+            $instance->colSpan = $data['colSpan'];
+        }
+        if (array_key_exists('options', $data)) {
+            $instance->options = $data['options'];
+        }
+        if (array_key_exists('validation', $data)) {
+            $instance->validation = $data['validation'];
+        }
+
+        $nested = [
+            'label' => static fn (array $v): MultilingualString => MultilingualString::fromArray($v),
+            'placeholder' => static fn (array $v): MultilingualString => MultilingualString::fromArray($v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class FormDraft
+{
+    /** @var MultilingualString */
+    public $title = null;
+    /** @var string */
+    public $slug = null;
+    /** @var ?MultilingualString */
+    public $description = null;
+    /** @var ?MultilingualString */
+    public $submitButtonText = null;
+    /** @var ?'public' | 'internal' */
+    public $formType = null;
+    /** @var array<string, mixed>[] */
+    public $sections = null;
+    /** @var ?array<string, mixed> */
+    public $captcha = null;
+    /** @var ?float */
+    public $fieldCount = null;
+    /** @var ?bool */
+    public $truncated = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('title', $data)) {
+            $instance->title = $data['title'];
+        }
+        if (array_key_exists('slug', $data)) {
+            $instance->slug = $data['slug'];
+        }
+        if (array_key_exists('description', $data)) {
+            $instance->description = $data['description'];
+        }
+        if (array_key_exists('submitButtonText', $data)) {
+            $instance->submitButtonText = $data['submitButtonText'];
+        }
+        if (array_key_exists('formType', $data)) {
+            $instance->formType = $data['formType'];
+        }
+        if (array_key_exists('sections', $data)) {
+            $instance->sections = $data['sections'];
+        }
+        if (array_key_exists('captcha', $data)) {
+            $instance->captcha = $data['captcha'];
+        }
+        if (array_key_exists('fieldCount', $data)) {
+            $instance->fieldCount = $data['fieldCount'];
+        }
+        if (array_key_exists('truncated', $data)) {
+            $instance->truncated = $data['truncated'];
+        }
+
+        $nested = [
+            'title' => static fn (array $v): MultilingualString => MultilingualString::fromArray($v),
+            'description' => static fn (array $v): MultilingualString => MultilingualString::fromArray($v),
+            'submitButtonText' => static fn (array $v): MultilingualString => MultilingualString::fromArray($v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class FormDraftWrapper
+{
+    /** @var FormDraft */
+    public $draft = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('draft', $data)) {
+            $instance->draft = $data['draft'];
+        }
+
+        $nested = [
+            'draft' => static fn (array $v): FormDraft => FormDraft::fromArray($v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class FormImproveSuggestion
+{
+    /** @var ?string */
+    public $fieldName = null;
+    /** @var ?string */
+    public $kind = null;
+    /** @var ?string */
+    public $current = null;
+    /** @var ?string */
+    public $proposed = null;
+    /** @var ?string */
+    public $reason = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('fieldName', $data)) {
+            $instance->fieldName = $data['fieldName'];
+        }
+        if (array_key_exists('kind', $data)) {
+            $instance->kind = $data['kind'];
+        }
+        if (array_key_exists('current', $data)) {
+            $instance->current = $data['current'];
+        }
+        if (array_key_exists('proposed', $data)) {
+            $instance->proposed = $data['proposed'];
+        }
+        if (array_key_exists('reason', $data)) {
+            $instance->reason = $data['reason'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class FormImproveWrapper
+{
+    /** @var ?string */
+    public $formId = null;
+    /** @var ?string */
+    public $summary = null;
+    /** @var FormImproveSuggestion[] */
+    public $suggestions = null;
+    /** @var ?string[] */
+    public $reorder = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('formId', $data)) {
+            $instance->formId = $data['formId'];
+        }
+        if (array_key_exists('summary', $data)) {
+            $instance->summary = $data['summary'];
+        }
+        if (array_key_exists('suggestions', $data)) {
+            $instance->suggestions = $data['suggestions'];
+        }
+        if (array_key_exists('reorder', $data)) {
+            $instance->reorder = $data['reorder'];
+        }
+
+        $nested = [
+            'suggestions' => static fn (array $v): array => array_map(static fn ($x) => FormImproveSuggestion::fromArray($x), $v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class CommentModeration
+{
+    /** @var ?ObjectId */
+    public $_id = null;
+    /** @var ?ObjectId */
+    public $tenantId = null;
+    /** @var ?ObjectId */
+    public $commentId = null;
+    /** @var ?ObjectId */
+    public $articleId = null;
+    /** @var ?float */
+    public $toxicity = null;
+    /** @var ?float */
+    public $spamScore = null;
+    /** @var ?'positive' | 'neutral' | 'negative' | 'mixed' */
+    public $sentiment = null;
+    /** @var ?string */
+    public $language = null;
+    /** @var ?'approve' | 'hold' | 'reject' */
+    public $decision = null;
+    /** @var ?string[] */
+    public $reasons = null;
+    /** @var ?array<string, mixed> */
+    public $suggestedReply = null;
+    /** @var ?bool */
+    public $autoApplied = null;
+    /** @var ?string */
+    public $provider = null;
+    /** @var ?string */
+    public $providerModel = null;
+    /** @var ?string */
+    public $promptVersion = null;
+    /** @var ?DateTime */
+    public $analyzedAt = null;
+    /** @var ?DateTime */
+    public $createdAt = null;
+    /** @var ?DateTime */
+    public $updatedAt = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('_id', $data)) {
+            $instance->_id = $data['_id'];
+        }
+        if (array_key_exists('tenantId', $data)) {
+            $instance->tenantId = $data['tenantId'];
+        }
+        if (array_key_exists('commentId', $data)) {
+            $instance->commentId = $data['commentId'];
+        }
+        if (array_key_exists('articleId', $data)) {
+            $instance->articleId = $data['articleId'];
+        }
+        if (array_key_exists('toxicity', $data)) {
+            $instance->toxicity = $data['toxicity'];
+        }
+        if (array_key_exists('spamScore', $data)) {
+            $instance->spamScore = $data['spamScore'];
+        }
+        if (array_key_exists('sentiment', $data)) {
+            $instance->sentiment = $data['sentiment'];
+        }
+        if (array_key_exists('language', $data)) {
+            $instance->language = $data['language'];
+        }
+        if (array_key_exists('decision', $data)) {
+            $instance->decision = $data['decision'];
+        }
+        if (array_key_exists('reasons', $data)) {
+            $instance->reasons = $data['reasons'];
+        }
+        if (array_key_exists('suggestedReply', $data)) {
+            $instance->suggestedReply = $data['suggestedReply'];
+        }
+        if (array_key_exists('autoApplied', $data)) {
+            $instance->autoApplied = $data['autoApplied'];
+        }
+        if (array_key_exists('provider', $data)) {
+            $instance->provider = $data['provider'];
+        }
+        if (array_key_exists('providerModel', $data)) {
+            $instance->providerModel = $data['providerModel'];
+        }
+        if (array_key_exists('promptVersion', $data)) {
+            $instance->promptVersion = $data['promptVersion'];
+        }
+        if (array_key_exists('analyzedAt', $data)) {
+            $instance->analyzedAt = $data['analyzedAt'];
+        }
+        if (array_key_exists('createdAt', $data)) {
+            $instance->createdAt = $data['createdAt'];
+        }
+        if (array_key_exists('updatedAt', $data)) {
+            $instance->updatedAt = $data['updatedAt'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class CommentModerationSummary
+{
+    /** @var ?ObjectId */
+    public $_id = null;
+    /** @var ?float */
+    public $toxicity = null;
+    /** @var ?float */
+    public $spamScore = null;
+    /** @var ?string */
+    public $sentiment = null;
+    /** @var ?string */
+    public $language = null;
+    /** @var ?'approve' | 'hold' | 'reject' */
+    public $decision = null;
+    /** @var ?string[] */
+    public $reasons = null;
+    /** @var ?bool */
+    public $autoApplied = null;
+    /** @var ?DateTime */
+    public $analyzedAt = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('_id', $data)) {
+            $instance->_id = $data['_id'];
+        }
+        if (array_key_exists('toxicity', $data)) {
+            $instance->toxicity = $data['toxicity'];
+        }
+        if (array_key_exists('spamScore', $data)) {
+            $instance->spamScore = $data['spamScore'];
+        }
+        if (array_key_exists('sentiment', $data)) {
+            $instance->sentiment = $data['sentiment'];
+        }
+        if (array_key_exists('language', $data)) {
+            $instance->language = $data['language'];
+        }
+        if (array_key_exists('decision', $data)) {
+            $instance->decision = $data['decision'];
+        }
+        if (array_key_exists('reasons', $data)) {
+            $instance->reasons = $data['reasons'];
+        }
+        if (array_key_exists('autoApplied', $data)) {
+            $instance->autoApplied = $data['autoApplied'];
+        }
+        if (array_key_exists('analyzedAt', $data)) {
+            $instance->analyzedAt = $data['analyzedAt'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class ModerationResultWrapper
+{
+    /** @var CommentModeration */
+    public $moderation = null;
+    /** @var ?'pending' | 'approved' | 'rejected' | 'null' */
+    public $nextStatus = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('moderation', $data)) {
+            $instance->moderation = $data['moderation'];
+        }
+        if (array_key_exists('nextStatus', $data)) {
+            $instance->nextStatus = $data['nextStatus'];
+        }
+
+        $nested = [
+            'moderation' => static fn (array $v): CommentModeration => CommentModeration::fromArray($v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class CommentReplyDraft
+{
+    /** @var string */
+    public $body = null;
+    /** @var ?string */
+    public $locale = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('body', $data)) {
+            $instance->body = $data['body'];
+        }
+        if (array_key_exists('locale', $data)) {
+            $instance->locale = $data['locale'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class CommentReplyDraftWrapper
+{
+    /** @var CommentReplyDraft */
+    public $reply = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('reply', $data)) {
+            $instance->reply = $data['reply'];
+        }
+
+        $nested = [
+            'reply' => static fn (array $v): CommentReplyDraft => CommentReplyDraft::fromArray($v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class MinedQuestionIdea
+{
+    /** @var string */
+    public $topic = null;
+    /** @var ?string */
+    public $angle = null;
+    /** @var ?float */
+    public $questionCount = null;
+    /** @var ?string[] */
+    public $exampleQuestionIds = null;
+    /** @var ?string */
+    public $primaryKeyword = null;
+    /** @var ?'awareness' | 'consideration' | 'conversion' */
+    public $funnelStage = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('topic', $data)) {
+            $instance->topic = $data['topic'];
+        }
+        if (array_key_exists('angle', $data)) {
+            $instance->angle = $data['angle'];
+        }
+        if (array_key_exists('questionCount', $data)) {
+            $instance->questionCount = $data['questionCount'];
+        }
+        if (array_key_exists('exampleQuestionIds', $data)) {
+            $instance->exampleQuestionIds = $data['exampleQuestionIds'];
+        }
+        if (array_key_exists('primaryKeyword', $data)) {
+            $instance->primaryKeyword = $data['primaryKeyword'];
+        }
+        if (array_key_exists('funnelStage', $data)) {
+            $instance->funnelStage = $data['funnelStage'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class MinedQuestionsWrapper
+{
+    /** @var MinedQuestionIdea[] */
+    public $ideas = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('ideas', $data)) {
+            $instance->ideas = $data['ideas'];
+        }
+
+        $nested = [
+            'ideas' => static fn (array $v): array => array_map(static fn ($x) => MinedQuestionIdea::fromArray($x), $v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class EffectiveModerationPolicy
+{
+    /** @var ?'always' | 'if_safe' | 'never' */
+    public $mode = null;
+    /** @var ?float */
+    public $maxToxicity = null;
+    /** @var ?float */
+    public $maxSpamScore = null;
+    /** @var ?float */
+    public $autoRejectSpamScore = null;
+    /** @var ?float */
+    public $maxLinks = null;
+    /** @var ?string[] */
+    public $blockedTerms = null;
+    /** @var ?string[] */
+    public $reasons = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('mode', $data)) {
+            $instance->mode = $data['mode'];
+        }
+        if (array_key_exists('maxToxicity', $data)) {
+            $instance->maxToxicity = $data['maxToxicity'];
+        }
+        if (array_key_exists('maxSpamScore', $data)) {
+            $instance->maxSpamScore = $data['maxSpamScore'];
+        }
+        if (array_key_exists('autoRejectSpamScore', $data)) {
+            $instance->autoRejectSpamScore = $data['autoRejectSpamScore'];
+        }
+        if (array_key_exists('maxLinks', $data)) {
+            $instance->maxLinks = $data['maxLinks'];
+        }
+        if (array_key_exists('blockedTerms', $data)) {
+            $instance->blockedTerms = $data['blockedTerms'];
+        }
+        if (array_key_exists('reasons', $data)) {
+            $instance->reasons = $data['reasons'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class EffectivePolicyWrapper
+{
+    /** @var EffectiveModerationPolicy */
+    public $policy = null;
+    /** @var ?string */
+    public $articleId = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('policy', $data)) {
+            $instance->policy = $data['policy'];
+        }
+        if (array_key_exists('articleId', $data)) {
+            $instance->articleId = $data['articleId'];
+        }
+
+        $nested = [
+            'policy' => static fn (array $v): EffectiveModerationPolicy => EffectiveModerationPolicy::fromArray($v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class AiFeatureFlags
+{
+    /** @var ?bool */
+    public $copilot = null;
+    /** @var ?bool */
+    public $autofill = null;
+    /** @var ?bool */
+    public $inline = null;
+    /** @var ?bool */
+    public $bulk = null;
+    /** @var ?bool */
+    public $forms = null;
+    /** @var ?bool */
+    public $submissions = null;
+    /** @var ?bool */
+    public $comments = null;
+    /** @var ?bool */
+    public $calendar = null;
+    /** @var ?bool */
+    public $seo = null;
+    /** @var ?bool */
+    public $brandVoice = null;
+    /** @var ?bool */
+    public $jobs = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('copilot', $data)) {
+            $instance->copilot = $data['copilot'];
+        }
+        if (array_key_exists('autofill', $data)) {
+            $instance->autofill = $data['autofill'];
+        }
+        if (array_key_exists('inline', $data)) {
+            $instance->inline = $data['inline'];
+        }
+        if (array_key_exists('bulk', $data)) {
+            $instance->bulk = $data['bulk'];
+        }
+        if (array_key_exists('forms', $data)) {
+            $instance->forms = $data['forms'];
+        }
+        if (array_key_exists('submissions', $data)) {
+            $instance->submissions = $data['submissions'];
+        }
+        if (array_key_exists('comments', $data)) {
+            $instance->comments = $data['comments'];
+        }
+        if (array_key_exists('calendar', $data)) {
+            $instance->calendar = $data['calendar'];
+        }
+        if (array_key_exists('seo', $data)) {
+            $instance->seo = $data['seo'];
+        }
+        if (array_key_exists('brandVoice', $data)) {
+            $instance->brandVoice = $data['brandVoice'];
+        }
+        if (array_key_exists('jobs', $data)) {
+            $instance->jobs = $data['jobs'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class AiAutoApplyPolicy
+{
+    /** @var ?'never' | 'safe' | 'always' */
+    public $copilot = null;
+    /** @var ?'never' | 'safe' | 'always' */
+    public $autofill = null;
+    /** @var ?'never' | 'safe' | 'always' */
+    public $inline = null;
+    /** @var ?'never' | 'safe' | 'always' */
+    public $bulk = null;
+    /** @var ?'never' | 'safe' | 'always' */
+    public $forms = null;
+    /** @var ?'never' | 'safe' | 'always' */
+    public $submissions = null;
+    /** @var ?'never' | 'safe' | 'always' */
+    public $comments = null;
+    /** @var ?'never' | 'safe' | 'always' */
+    public $calendar = null;
+    /** @var ?'never' | 'safe' | 'always' */
+    public $seo = null;
+    /** @var ?'never' | 'safe' | 'always' */
+    public $brandVoice = null;
+    /** @var ?'never' | 'safe' | 'always' */
+    public $jobs = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('copilot', $data)) {
+            $instance->copilot = $data['copilot'];
+        }
+        if (array_key_exists('autofill', $data)) {
+            $instance->autofill = $data['autofill'];
+        }
+        if (array_key_exists('inline', $data)) {
+            $instance->inline = $data['inline'];
+        }
+        if (array_key_exists('bulk', $data)) {
+            $instance->bulk = $data['bulk'];
+        }
+        if (array_key_exists('forms', $data)) {
+            $instance->forms = $data['forms'];
+        }
+        if (array_key_exists('submissions', $data)) {
+            $instance->submissions = $data['submissions'];
+        }
+        if (array_key_exists('comments', $data)) {
+            $instance->comments = $data['comments'];
+        }
+        if (array_key_exists('calendar', $data)) {
+            $instance->calendar = $data['calendar'];
+        }
+        if (array_key_exists('seo', $data)) {
+            $instance->seo = $data['seo'];
+        }
+        if (array_key_exists('brandVoice', $data)) {
+            $instance->brandVoice = $data['brandVoice'];
+        }
+        if (array_key_exists('jobs', $data)) {
+            $instance->jobs = $data['jobs'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class BrandVoiceProfile
+{
+    /** @var ?string */
+    public $tone = null;
+    /** @var ?string */
+    public $audience = null;
+    /** @var ?string */
+    public $readingLevel = null;
+    /** @var ?string[] */
+    public $do = null;
+    /** @var ?string[] */
+    public $dont = null;
+    /** @var ?string[] */
+    public $bannedTerms = null;
+    /** @var ?string[] */
+    public $examples = null;
+    /** @var ?'formal' | 'neutral' | 'casual' | 'null' */
+    public $persianRegister = null;
+    /** @var ?float */
+    public $version = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('tone', $data)) {
+            $instance->tone = $data['tone'];
+        }
+        if (array_key_exists('audience', $data)) {
+            $instance->audience = $data['audience'];
+        }
+        if (array_key_exists('readingLevel', $data)) {
+            $instance->readingLevel = $data['readingLevel'];
+        }
+        if (array_key_exists('do', $data)) {
+            $instance->do = $data['do'];
+        }
+        if (array_key_exists('dont', $data)) {
+            $instance->dont = $data['dont'];
+        }
+        if (array_key_exists('bannedTerms', $data)) {
+            $instance->bannedTerms = $data['bannedTerms'];
+        }
+        if (array_key_exists('examples', $data)) {
+            $instance->examples = $data['examples'];
+        }
+        if (array_key_exists('persianRegister', $data)) {
+            $instance->persianRegister = $data['persianRegister'];
+        }
+        if (array_key_exists('version', $data)) {
+            $instance->version = $data['version'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class LegacyGlossaryEntry
+{
+    /** @var ?string */
+    public $term = null;
+    /** @var ?string */
+    public $translation = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('term', $data)) {
+            $instance->term = $data['term'];
+        }
+        if (array_key_exists('translation', $data)) {
+            $instance->translation = $data['translation'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class AiSettings
+{
+    /** @var ?string */
+    public $brandVoice = null;
+    /** @var ?LegacyGlossaryEntry[] */
+    public $glossary = null;
+    /** @var ?string */
+    public $brandVoiceVersion = null;
+    /** @var ?bool */
+    public $autoApply = null;
+    /** @var ?'fast' | 'balanced' | 'strong' | 'null' */
+    public $defaultTier = null;
+    /** @var AiFeatureFlags */
+    public $featureFlags = null;
+    /** @var AiAutoApplyPolicy */
+    public $autoApplyPolicy = null;
+    /** @var ?float */
+    public $dailyQuotaPerUser = null;
+    /** @var ?string[] */
+    public $defaultLocales = null;
+    /** @var array<string, mixed> */
+    public $piiMasking = null;
+    /** @var float */
+    public $retentionDays = null;
+    /** @var ?array<string, 'fast' | 'balanced' | 'strong'> */
+    public $modelTierOverrides = null;
+    /** @var ?BrandVoiceProfile */
+    public $brandVoiceProfile = null;
+    /** @var ?DateTime */
+    public $createdAt = null;
+    /** @var ?DateTime */
+    public $updatedAt = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('brandVoice', $data)) {
+            $instance->brandVoice = $data['brandVoice'];
+        }
+        if (array_key_exists('glossary', $data)) {
+            $instance->glossary = $data['glossary'];
+        }
+        if (array_key_exists('brandVoiceVersion', $data)) {
+            $instance->brandVoiceVersion = $data['brandVoiceVersion'];
+        }
+        if (array_key_exists('autoApply', $data)) {
+            $instance->autoApply = $data['autoApply'];
+        }
+        if (array_key_exists('defaultTier', $data)) {
+            $instance->defaultTier = $data['defaultTier'];
+        }
+        if (array_key_exists('featureFlags', $data)) {
+            $instance->featureFlags = $data['featureFlags'];
+        }
+        if (array_key_exists('autoApplyPolicy', $data)) {
+            $instance->autoApplyPolicy = $data['autoApplyPolicy'];
+        }
+        if (array_key_exists('dailyQuotaPerUser', $data)) {
+            $instance->dailyQuotaPerUser = $data['dailyQuotaPerUser'];
+        }
+        if (array_key_exists('defaultLocales', $data)) {
+            $instance->defaultLocales = $data['defaultLocales'];
+        }
+        if (array_key_exists('piiMasking', $data)) {
+            $instance->piiMasking = $data['piiMasking'];
+        }
+        if (array_key_exists('retentionDays', $data)) {
+            $instance->retentionDays = $data['retentionDays'];
+        }
+        if (array_key_exists('modelTierOverrides', $data)) {
+            $instance->modelTierOverrides = $data['modelTierOverrides'];
+        }
+        if (array_key_exists('brandVoiceProfile', $data)) {
+            $instance->brandVoiceProfile = $data['brandVoiceProfile'];
+        }
+        if (array_key_exists('createdAt', $data)) {
+            $instance->createdAt = $data['createdAt'];
+        }
+        if (array_key_exists('updatedAt', $data)) {
+            $instance->updatedAt = $data['updatedAt'];
+        }
+
+        $nested = [
+            'glossary' => static fn (array $v): array => array_map(static fn ($x) => LegacyGlossaryEntry::fromArray($x), $v),
+            'featureFlags' => static fn (array $v): AiFeatureFlags => AiFeatureFlags::fromArray($v),
+            'autoApplyPolicy' => static fn (array $v): AiAutoApplyPolicy => AiAutoApplyPolicy::fromArray($v),
+            'brandVoiceProfile' => static fn (array $v): BrandVoiceProfile => BrandVoiceProfile::fromArray($v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class BrandVoiceSettings
+{
+    /** @var ?string */
+    public $brandVoice = null;
+    /** @var ?LegacyGlossaryEntry[] */
+    public $glossary = null;
+    /** @var ?BrandVoiceProfile */
+    public $brandVoiceProfile = null;
+    /** @var ?string */
+    public $brandVoiceVersion = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('brandVoice', $data)) {
+            $instance->brandVoice = $data['brandVoice'];
+        }
+        if (array_key_exists('glossary', $data)) {
+            $instance->glossary = $data['glossary'];
+        }
+        if (array_key_exists('brandVoiceProfile', $data)) {
+            $instance->brandVoiceProfile = $data['brandVoiceProfile'];
+        }
+        if (array_key_exists('brandVoiceVersion', $data)) {
+            $instance->brandVoiceVersion = $data['brandVoiceVersion'];
+        }
+
+        $nested = [
+            'glossary' => static fn (array $v): array => array_map(static fn ($x) => LegacyGlossaryEntry::fromArray($x), $v),
+            'brandVoiceProfile' => static fn (array $v): BrandVoiceProfile => BrandVoiceProfile::fromArray($v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class CreditSnapshot
+{
+    /** @var string */
+    public $period = null;
+    /** @var float */
+    public $used = null;
+    /** @var float */
+    public $reserved = null;
+    /** @var float */
+    public $limit = null;
+    /** @var float */
+    public $remaining = null;
+    /** @var float */
+    public $available = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('period', $data)) {
+            $instance->period = $data['period'];
+        }
+        if (array_key_exists('used', $data)) {
+            $instance->used = $data['used'];
+        }
+        if (array_key_exists('reserved', $data)) {
+            $instance->reserved = $data['reserved'];
+        }
+        if (array_key_exists('limit', $data)) {
+            $instance->limit = $data['limit'];
+        }
+        if (array_key_exists('remaining', $data)) {
+            $instance->remaining = $data['remaining'];
+        }
+        if (array_key_exists('available', $data)) {
+            $instance->available = $data['available'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class TokenEstimate
+{
+    /** @var string */
+    public $actionId = null;
+    /** @var float */
+    public $estimatedTokens = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('actionId', $data)) {
+            $instance->actionId = $data['actionId'];
+        }
+        if (array_key_exists('estimatedTokens', $data)) {
+            $instance->estimatedTokens = $data['estimatedTokens'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class AiRunSubmission
+{
+    /** @var string */
+    public $runId = null;
+    /** @var string */
+    public $mode = null;
+    /** @var float */
+    public $estimatedTokens = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('runId', $data)) {
+            $instance->runId = $data['runId'];
+        }
+        if (array_key_exists('mode', $data)) {
+            $instance->mode = $data['mode'];
+        }
+        if (array_key_exists('estimatedTokens', $data)) {
+            $instance->estimatedTokens = $data['estimatedTokens'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class AiRunInsufficientCredits
+{
+    /** @var 'AI_INSUFFICIENT_CREDITS' */
+    public $reason = null;
+    /** @var float */
+    public $used = null;
+    /** @var float */
+    public $reserved = null;
+    /** @var float */
+    public $limit = null;
+    /** @var float */
+    public $estimate = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('reason', $data)) {
+            $instance->reason = $data['reason'];
+        }
+        if (array_key_exists('used', $data)) {
+            $instance->used = $data['used'];
+        }
+        if (array_key_exists('reserved', $data)) {
+            $instance->reserved = $data['reserved'];
+        }
+        if (array_key_exists('limit', $data)) {
+            $instance->limit = $data['limit'];
+        }
+        if (array_key_exists('estimate', $data)) {
+            $instance->estimate = $data['estimate'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class AiRunConflict
+{
+    /** @var string */
+    public $runId = null;
+    /** @var 'already_running' */
+    public $status = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('runId', $data)) {
+            $instance->runId = $data['runId'];
+        }
+        if (array_key_exists('status', $data)) {
+            $instance->status = $data['status'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class AiRunListItem
+{
+    /** @var string */
+    public $runId = null;
+    /** @var string */
+    public $actionId = null;
+    /** @var 'reserved' | 'settled' | 'refunded' | 'void' */
+    public $status = null;
+    /** @var float */
+    public $estimated = null;
+    /** @var ?float */
+    public $actual = null;
+    /** @var ?string */
+    public $reason = null;
+    /** @var ?string */
+    public $outcome = null;
+    /** @var ?array<string, mixed> */
+    public $meta = null;
+    /** @var ?string */
+    public $createdAt = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('runId', $data)) {
+            $instance->runId = $data['runId'];
+        }
+        if (array_key_exists('actionId', $data)) {
+            $instance->actionId = $data['actionId'];
+        }
+        if (array_key_exists('status', $data)) {
+            $instance->status = $data['status'];
+        }
+        if (array_key_exists('estimated', $data)) {
+            $instance->estimated = $data['estimated'];
+        }
+        if (array_key_exists('actual', $data)) {
+            $instance->actual = $data['actual'];
+        }
+        if (array_key_exists('reason', $data)) {
+            $instance->reason = $data['reason'];
+        }
+        if (array_key_exists('outcome', $data)) {
+            $instance->outcome = $data['outcome'];
+        }
+        if (array_key_exists('meta', $data)) {
+            $instance->meta = $data['meta'];
+        }
+        if (array_key_exists('createdAt', $data)) {
+            $instance->createdAt = $data['createdAt'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class AiRunList
+{
+    /** @var AiRunListItem[] */
+    public $runs = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('runs', $data)) {
+            $instance->runs = $data['runs'];
+        }
+
+        $nested = [
+            'runs' => static fn (array $v): array => array_map(static fn ($x) => AiRunListItem::fromArray($x), $v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class AiProposalPatch
+{
+    /** @var string */
+    public $path = null;
+    /** @var ?string */
+    public $lang = null;
+    /** @var ?string */
+    public $key = null;
+    /** @var ?mixed */
+    public $before = null;
+    /** @var mixed */
+    public $after = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('path', $data)) {
+            $instance->path = $data['path'];
+        }
+        if (array_key_exists('lang', $data)) {
+            $instance->lang = $data['lang'];
+        }
+        if (array_key_exists('key', $data)) {
+            $instance->key = $data['key'];
+        }
+        if (array_key_exists('before', $data)) {
+            $instance->before = $data['before'];
+        }
+        if (array_key_exists('after', $data)) {
+            $instance->after = $data['after'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class AiProposal
+{
+    /** @var ObjectId */
+    public $_id = null;
+    /** @var ?string */
+    public $tenantId = null;
+    /** @var string */
+    public $articleId = null;
+    /** @var string */
+    public $actionId = null;
+    /** @var 'pending' | 'accepted' | 'rejected' | 'reverted' | 'expired' */
+    public $status = null;
+    /** @var ?string */
+    public $createdByUserId = null;
+    /** @var ?string */
+    public $decidedByUserId = null;
+    /** @var ?string */
+    public $locale = null;
+    /** @var AiProposalPatch[] */
+    public $patches = null;
+    /** @var ?string */
+    public $baseHash = null;
+    /** @var ?string */
+    public $decidedAt = null;
+    /** @var ?DateTime */
+    public $createdAt = null;
+    /** @var ?DateTime */
+    public $updatedAt = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('_id', $data)) {
+            $instance->_id = $data['_id'];
+        }
+        if (array_key_exists('tenantId', $data)) {
+            $instance->tenantId = $data['tenantId'];
+        }
+        if (array_key_exists('articleId', $data)) {
+            $instance->articleId = $data['articleId'];
+        }
+        if (array_key_exists('actionId', $data)) {
+            $instance->actionId = $data['actionId'];
+        }
+        if (array_key_exists('status', $data)) {
+            $instance->status = $data['status'];
+        }
+        if (array_key_exists('createdByUserId', $data)) {
+            $instance->createdByUserId = $data['createdByUserId'];
+        }
+        if (array_key_exists('decidedByUserId', $data)) {
+            $instance->decidedByUserId = $data['decidedByUserId'];
+        }
+        if (array_key_exists('locale', $data)) {
+            $instance->locale = $data['locale'];
+        }
+        if (array_key_exists('patches', $data)) {
+            $instance->patches = $data['patches'];
+        }
+        if (array_key_exists('baseHash', $data)) {
+            $instance->baseHash = $data['baseHash'];
+        }
+        if (array_key_exists('decidedAt', $data)) {
+            $instance->decidedAt = $data['decidedAt'];
+        }
+        if (array_key_exists('createdAt', $data)) {
+            $instance->createdAt = $data['createdAt'];
+        }
+        if (array_key_exists('updatedAt', $data)) {
+            $instance->updatedAt = $data['updatedAt'];
+        }
+
+        $nested = [
+            'patches' => static fn (array $v): array => array_map(static fn ($x) => AiProposalPatch::fromArray($x), $v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class AiProposalCount
+{
+    /** @var float */
+    public $count = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('count', $data)) {
+            $instance->count = $data['count'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class AiProposalDecision
+{
+    /** @var AiProposal */
+    public $proposal = null;
+    /** @var AiProposalPatch[] */
+    public $appliedPatches = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('proposal', $data)) {
+            $instance->proposal = $data['proposal'];
+        }
+        if (array_key_exists('appliedPatches', $data)) {
+            $instance->appliedPatches = $data['appliedPatches'];
+        }
+
+        $nested = [
+            'proposal' => static fn (array $v): AiProposal => AiProposal::fromArray($v),
+            'appliedPatches' => static fn (array $v): array => array_map(static fn ($x) => AiProposalPatch::fromArray($x), $v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class AiProposalStale
+{
+    /** @var 'AI_PROPOSAL_STALE' | 'AI_PROPOSAL_INVALID_STATE' */
+    public $reason = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('reason', $data)) {
+            $instance->reason = $data['reason'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class AiProposalBulkResultItem
+{
+    /** @var string */
+    public $id = null;
+    /** @var 'accepted' | 'failed' */
+    public $status = null;
+    /** @var ?string */
+    public $reason = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('id', $data)) {
+            $instance->id = $data['id'];
+        }
+        if (array_key_exists('status', $data)) {
+            $instance->status = $data['status'];
+        }
+        if (array_key_exists('reason', $data)) {
+            $instance->reason = $data['reason'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class AiAutofillResult
+{
+    /** @var string */
+    public $proposalId = null;
+    /** @var string[] */
+    public $filled = null;
+    /** @var string[] */
+    public $skipped = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('proposalId', $data)) {
+            $instance->proposalId = $data['proposalId'];
+        }
+        if (array_key_exists('filled', $data)) {
+            $instance->filled = $data['filled'];
+        }
+        if (array_key_exists('skipped', $data)) {
+            $instance->skipped = $data['skipped'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class ArticleRevisionSnapshot
+{
+    /** @var ?string */
+    public $mainTitle = null;
+    /** @var ?string */
+    public $summary = null;
+    /** @var ?string */
+    public $content = null;
+    /** @var ?string[] */
+    public $tags = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('mainTitle', $data)) {
+            $instance->mainTitle = $data['mainTitle'];
+        }
+        if (array_key_exists('summary', $data)) {
+            $instance->summary = $data['summary'];
+        }
+        if (array_key_exists('content', $data)) {
+            $instance->content = $data['content'];
+        }
+        if (array_key_exists('tags', $data)) {
+            $instance->tags = $data['tags'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class ArticleRevision
+{
+    /** @var ObjectId */
+    public $_id = null;
+    /** @var string */
+    public $articleId = null;
+    /** @var string */
+    public $locale = null;
+    /** @var 'manual' | 'ai' | 'restore' | 'system' | 'seed' */
+    public $source = null;
+    /** @var ?string */
+    public $userId = null;
+    /** @var ?string */
+    public $aiProposalId = null;
+    /** @var ?string */
+    public $restoredFrom = null;
+    /** @var ArticleRevisionSnapshot */
+    public $snapshot = null;
+    /** @var ?DateTime */
+    public $createdAt = null;
+    /** @var ?DateTime */
+    public $updatedAt = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('_id', $data)) {
+            $instance->_id = $data['_id'];
+        }
+        if (array_key_exists('articleId', $data)) {
+            $instance->articleId = $data['articleId'];
+        }
+        if (array_key_exists('locale', $data)) {
+            $instance->locale = $data['locale'];
+        }
+        if (array_key_exists('source', $data)) {
+            $instance->source = $data['source'];
+        }
+        if (array_key_exists('userId', $data)) {
+            $instance->userId = $data['userId'];
+        }
+        if (array_key_exists('aiProposalId', $data)) {
+            $instance->aiProposalId = $data['aiProposalId'];
+        }
+        if (array_key_exists('restoredFrom', $data)) {
+            $instance->restoredFrom = $data['restoredFrom'];
+        }
+        if (array_key_exists('snapshot', $data)) {
+            $instance->snapshot = $data['snapshot'];
+        }
+        if (array_key_exists('createdAt', $data)) {
+            $instance->createdAt = $data['createdAt'];
+        }
+        if (array_key_exists('updatedAt', $data)) {
+            $instance->updatedAt = $data['updatedAt'];
+        }
+
+        $nested = [
+            'snapshot' => static fn (array $v): ArticleRevisionSnapshot => ArticleRevisionSnapshot::fromArray($v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class ArticleRevisionList
+{
+    /** @var ArticleRevision[] */
+    public $revisions = null;
+    /** @var ?float */
+    public $maxRevisionsPerLocale = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('revisions', $data)) {
+            $instance->revisions = $data['revisions'];
+        }
+        if (array_key_exists('maxRevisionsPerLocale', $data)) {
+            $instance->maxRevisionsPerLocale = $data['maxRevisionsPerLocale'];
+        }
+
+        $nested = [
+            'revisions' => static fn (array $v): array => array_map(static fn ($x) => ArticleRevision::fromArray($x), $v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class ArticleRevisionRestore
+{
+    /** @var Article */
+    public $article = null;
+    /** @var ArticleRevision */
+    public $revision = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('article', $data)) {
+            $instance->article = $data['article'];
+        }
+        if (array_key_exists('revision', $data)) {
+            $instance->revision = $data['revision'];
+        }
+
+        $nested = [
+            'article' => static fn (array $v): Article => Article::fromArray($v),
+            'revision' => static fn (array $v): ArticleRevision => ArticleRevision::fromArray($v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class ReadinessItem
+{
+    /** @var string */
+    public $id = null;
+    /** @var string */
+    public $label = null;
+    /** @var 'ok' | 'warning' | 'missing' */
+    public $state = null;
+    /** @var string[] */
+    public $locales = null;
+    /** @var ?string */
+    public $detail = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('id', $data)) {
+            $instance->id = $data['id'];
+        }
+        if (array_key_exists('label', $data)) {
+            $instance->label = $data['label'];
+        }
+        if (array_key_exists('state', $data)) {
+            $instance->state = $data['state'];
+        }
+        if (array_key_exists('locales', $data)) {
+            $instance->locales = $data['locales'];
+        }
+        if (array_key_exists('detail', $data)) {
+            $instance->detail = $data['detail'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class ArticleReadiness
+{
+    /** @var string */
+    public $articleId = null;
+    /** @var 'article' */
+    public $itemType = null;
+    /** @var string */
+    public $contentSource = null;
+    /** @var ReadinessItem[] */
+    public $items = null;
+    /** @var string[] */
+    public $blockers = null;
+    /** @var string[] */
+    public $warnings = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('articleId', $data)) {
+            $instance->articleId = $data['articleId'];
+        }
+        if (array_key_exists('itemType', $data)) {
+            $instance->itemType = $data['itemType'];
+        }
+        if (array_key_exists('contentSource', $data)) {
+            $instance->contentSource = $data['contentSource'];
+        }
+        if (array_key_exists('items', $data)) {
+            $instance->items = $data['items'];
+        }
+        if (array_key_exists('blockers', $data)) {
+            $instance->blockers = $data['blockers'];
+        }
+        if (array_key_exists('warnings', $data)) {
+            $instance->warnings = $data['warnings'];
+        }
+
+        $nested = [
+            'items' => static fn (array $v): array => array_map(static fn ($x) => ReadinessItem::fromArray($x), $v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class TranslationStateItem
+{
+    /** @var string */
+    public $locale = null;
+    /** @var 'missing' | 'done' | 'outdated' */
+    public $state = null;
+    /** @var ?'missing' | 'done' | 'outdated' */
+    public $storedState = null;
+    /** @var bool */
+    public $sourceOutdated = null;
+    /** @var ?string */
+    public $updatedAt = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('locale', $data)) {
+            $instance->locale = $data['locale'];
+        }
+        if (array_key_exists('state', $data)) {
+            $instance->state = $data['state'];
+        }
+        if (array_key_exists('storedState', $data)) {
+            $instance->storedState = $data['storedState'];
+        }
+        if (array_key_exists('sourceOutdated', $data)) {
+            $instance->sourceOutdated = $data['sourceOutdated'];
+        }
+        if (array_key_exists('updatedAt', $data)) {
+            $instance->updatedAt = $data['updatedAt'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class TranslationStateReport
+{
+    /** @var string */
+    public $articleId = null;
+    /** @var string */
+    public $sourceLocale = null;
+    /** @var TranslationStateItem[] */
+    public $items = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('articleId', $data)) {
+            $instance->articleId = $data['articleId'];
+        }
+        if (array_key_exists('sourceLocale', $data)) {
+            $instance->sourceLocale = $data['sourceLocale'];
+        }
+        if (array_key_exists('items', $data)) {
+            $instance->items = $data['items'];
+        }
+
+        $nested = [
+            'items' => static fn (array $v): array => array_map(static fn ($x) => TranslationStateItem::fromArray($x), $v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class TranslationStateDoc
+{
+    /** @var ?ObjectId */
+    public $_id = null;
+    /** @var string */
+    public $articleId = null;
+    /** @var string */
+    public $locale = null;
+    /** @var ?string */
+    public $sourceLocale = null;
+    /** @var string */
+    public $sourceHash = null;
+    /** @var string */
+    public $targetHash = null;
+    /** @var ?array<string, string> */
+    public $blockHashes = null;
+    /** @var ?string */
+    public $updatedByUserId = null;
+    /** @var ?DateTime */
+    public $createdAt = null;
+    /** @var ?DateTime */
+    public $updatedAt = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('_id', $data)) {
+            $instance->_id = $data['_id'];
+        }
+        if (array_key_exists('articleId', $data)) {
+            $instance->articleId = $data['articleId'];
+        }
+        if (array_key_exists('locale', $data)) {
+            $instance->locale = $data['locale'];
+        }
+        if (array_key_exists('sourceLocale', $data)) {
+            $instance->sourceLocale = $data['sourceLocale'];
+        }
+        if (array_key_exists('sourceHash', $data)) {
+            $instance->sourceHash = $data['sourceHash'];
+        }
+        if (array_key_exists('targetHash', $data)) {
+            $instance->targetHash = $data['targetHash'];
+        }
+        if (array_key_exists('blockHashes', $data)) {
+            $instance->blockHashes = $data['blockHashes'];
+        }
+        if (array_key_exists('updatedByUserId', $data)) {
+            $instance->updatedByUserId = $data['updatedByUserId'];
+        }
+        if (array_key_exists('createdAt', $data)) {
+            $instance->createdAt = $data['createdAt'];
+        }
+        if (array_key_exists('updatedAt', $data)) {
+            $instance->updatedAt = $data['updatedAt'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class AiEvent
+{
+    /** @var string */
+    public $event = null;
+    /** @var DateTime */
+    public $occurredAt = null;
+    /** @var ?array<string, mixed> */
+    public $payload = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('event', $data)) {
+            $instance->event = $data['event'];
+        }
+        if (array_key_exists('occurredAt', $data)) {
+            $instance->occurredAt = $data['occurredAt'];
+        }
+        if (array_key_exists('payload', $data)) {
+            $instance->payload = $data['payload'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class GlossaryTerm
+{
+    /** @var ObjectId */
+    public $_id = null;
+    /** @var string */
+    public $source = null;
+    /** @var string */
+    public $sourceLocale = null;
+    /** @var string */
+    public $target = null;
+    /** @var string */
+    public $targetLocale = null;
+    /** @var bool */
+    public $doNotTranslate = null;
+    /** @var ?string */
+    public $note = null;
+    /** @var ?DateTime */
+    public $createdAt = null;
+    /** @var ?DateTime */
+    public $updatedAt = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('_id', $data)) {
+            $instance->_id = $data['_id'];
+        }
+        if (array_key_exists('source', $data)) {
+            $instance->source = $data['source'];
+        }
+        if (array_key_exists('sourceLocale', $data)) {
+            $instance->sourceLocale = $data['sourceLocale'];
+        }
+        if (array_key_exists('target', $data)) {
+            $instance->target = $data['target'];
+        }
+        if (array_key_exists('targetLocale', $data)) {
+            $instance->targetLocale = $data['targetLocale'];
+        }
+        if (array_key_exists('doNotTranslate', $data)) {
+            $instance->doNotTranslate = $data['doNotTranslate'];
+        }
+        if (array_key_exists('note', $data)) {
+            $instance->note = $data['note'];
+        }
+        if (array_key_exists('createdAt', $data)) {
+            $instance->createdAt = $data['createdAt'];
+        }
+        if (array_key_exists('updatedAt', $data)) {
+            $instance->updatedAt = $data['updatedAt'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class GlossaryTermWrapper
+{
+    /** @var GlossaryTerm */
+    public $term = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('term', $data)) {
+            $instance->term = $data['term'];
+        }
+
+        $nested = [
+            'term' => static fn (array $v): GlossaryTerm => GlossaryTerm::fromArray($v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class KnowledgeSource
+{
+    /** @var ObjectId */
+    public $_id = null;
+    /** @var 'url' | 'text' | 'file' */
+    public $type = null;
+    /** @var string */
+    public $title = null;
+    /** @var ?string */
+    public $uri = null;
+    /** @var ?string */
+    public $content = null;
+    /** @var ?string */
+    public $locale = null;
+    /** @var 'pending' | 'indexed' | 'failed' */
+    public $status = null;
+    /** @var ?string */
+    public $error = null;
+    /** @var float */
+    public $chunkCount = null;
+    /** @var ?float */
+    public $tokenCount = null;
+    /** @var ?string */
+    public $indexedAt = null;
+    /** @var ?DateTime */
+    public $createdAt = null;
+    /** @var ?DateTime */
+    public $updatedAt = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('_id', $data)) {
+            $instance->_id = $data['_id'];
+        }
+        if (array_key_exists('type', $data)) {
+            $instance->type = $data['type'];
+        }
+        if (array_key_exists('title', $data)) {
+            $instance->title = $data['title'];
+        }
+        if (array_key_exists('uri', $data)) {
+            $instance->uri = $data['uri'];
+        }
+        if (array_key_exists('content', $data)) {
+            $instance->content = $data['content'];
+        }
+        if (array_key_exists('locale', $data)) {
+            $instance->locale = $data['locale'];
+        }
+        if (array_key_exists('status', $data)) {
+            $instance->status = $data['status'];
+        }
+        if (array_key_exists('error', $data)) {
+            $instance->error = $data['error'];
+        }
+        if (array_key_exists('chunkCount', $data)) {
+            $instance->chunkCount = $data['chunkCount'];
+        }
+        if (array_key_exists('tokenCount', $data)) {
+            $instance->tokenCount = $data['tokenCount'];
+        }
+        if (array_key_exists('indexedAt', $data)) {
+            $instance->indexedAt = $data['indexedAt'];
+        }
+        if (array_key_exists('createdAt', $data)) {
+            $instance->createdAt = $data['createdAt'];
+        }
+        if (array_key_exists('updatedAt', $data)) {
+            $instance->updatedAt = $data['updatedAt'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class KnowledgeSourceWrapper
+{
+    /** @var KnowledgeSource */
+    public $source = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('source', $data)) {
+            $instance->source = $data['source'];
+        }
+
+        $nested = [
+            'source' => static fn (array $v): KnowledgeSource => KnowledgeSource::fromArray($v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class TaxonomyFinding
+{
+    /** @var 'duplicate_category' | 'duplicate_subcategory' | 'near_duplicate_category' | 'empty_category' | 'no_description' | 'no_seo' | 'unbalanced_category' | 'orphan_subcategory' */
+    public $code = null;
+    /** @var 'high' | 'medium' | 'low' */
+    public $severity = null;
+    /** @var 'category' | 'subcategory' */
+    public $entityType = null;
+    /** @var ?string */
+    public $entityId = null;
+    /** @var ?string[] */
+    public $names = null;
+    /** @var string */
+    public $message = null;
+    /** @var string */
+    public $fixAction = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('code', $data)) {
+            $instance->code = $data['code'];
+        }
+        if (array_key_exists('severity', $data)) {
+            $instance->severity = $data['severity'];
+        }
+        if (array_key_exists('entityType', $data)) {
+            $instance->entityType = $data['entityType'];
+        }
+        if (array_key_exists('entityId', $data)) {
+            $instance->entityId = $data['entityId'];
+        }
+        if (array_key_exists('names', $data)) {
+            $instance->names = $data['names'];
+        }
+        if (array_key_exists('message', $data)) {
+            $instance->message = $data['message'];
+        }
+        if (array_key_exists('fixAction', $data)) {
+            $instance->fixAction = $data['fixAction'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class TaxonomyAudit
+{
+    /** @var TaxonomyFinding[] */
+    public $findings = null;
+    /** @var array<string, mixed> */
+    public $summary = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('findings', $data)) {
+            $instance->findings = $data['findings'];
+        }
+        if (array_key_exists('summary', $data)) {
+            $instance->summary = $data['summary'];
+        }
+
+        $nested = [
+            'findings' => static fn (array $v): array => array_map(static fn ($x) => TaxonomyFinding::fromArray($x), $v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class TaxonomySeoEntry
+{
+    /** @var ?string */
+    public $metaTitle = null;
+    /** @var ?string */
+    public $metaDescription = null;
+    /** @var ?string */
+    public $focusKeyword = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('metaTitle', $data)) {
+            $instance->metaTitle = $data['metaTitle'];
+        }
+        if (array_key_exists('metaDescription', $data)) {
+            $instance->metaDescription = $data['metaDescription'];
+        }
+        if (array_key_exists('focusKeyword', $data)) {
+            $instance->focusKeyword = $data['focusKeyword'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class CategorySeoSuggestion
+{
+    /** @var 'category' | 'subcategory' */
+    public $entityType = null;
+    /** @var ObjectId */
+    public $entityId = null;
+    /** @var array<string, TaxonomySeoEntry> */
+    public $seo = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('entityType', $data)) {
+            $instance->entityType = $data['entityType'];
+        }
+        if (array_key_exists('entityId', $data)) {
+            $instance->entityId = $data['entityId'];
+        }
+        if (array_key_exists('seo', $data)) {
+            $instance->seo = $data['seo'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class TagSuggestion
+{
+    /** @var string */
+    public $tag = null;
+    /** @var ?bool */
+    public $isNew = null;
+    /** @var ?float */
+    public $confidence = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('tag', $data)) {
+            $instance->tag = $data['tag'];
+        }
+        if (array_key_exists('isNew', $data)) {
+            $instance->isNew = $data['isNew'];
+        }
+        if (array_key_exists('confidence', $data)) {
+            $instance->confidence = $data['confidence'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class TagSuggestions
+{
+    /** @var TagSuggestion[] */
+    public $tags = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('tags', $data)) {
+            $instance->tags = $data['tags'];
+        }
+
+        $nested = [
+            'tags' => static fn (array $v): array => array_map(static fn ($x) => TagSuggestion::fromArray($x), $v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class TagMergeResult
+{
+    /** @var string */
+    public $from = null;
+    /** @var string */
+    public $into = null;
+    /** @var float */
+    public $articlesUpdated = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('from', $data)) {
+            $instance->from = $data['from'];
+        }
+        if (array_key_exists('into', $data)) {
+            $instance->into = $data['into'];
+        }
+        if (array_key_exists('articlesUpdated', $data)) {
+            $instance->articlesUpdated = $data['articlesUpdated'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class TagUsageRefresh
+{
+    /** @var float */
+    public $updated = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('updated', $data)) {
+            $instance->updated = $data['updated'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class AuthorBioSuggestion
+{
+    /** @var ObjectId */
+    public $authorId = null;
+    /** @var ?array<string, string> */
+    public $bio = null;
+    /** @var ?string[] */
+    public $expertise = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('authorId', $data)) {
+            $instance->authorId = $data['authorId'];
+        }
+        if (array_key_exists('bio', $data)) {
+            $instance->bio = $data['bio'];
+        }
+        if (array_key_exists('expertise', $data)) {
+            $instance->expertise = $data['expertise'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class AuthorSuggestion
+{
+    /** @var ObjectId */
+    public $authorId = null;
+    /** @var float */
+    public $score = null;
+    /** @var ?string[] */
+    public $matched = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('authorId', $data)) {
+            $instance->authorId = $data['authorId'];
+        }
+        if (array_key_exists('score', $data)) {
+            $instance->score = $data['score'];
+        }
+        if (array_key_exists('matched', $data)) {
+            $instance->matched = $data['matched'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class AuthorSuggestions
+{
+    /** @var AuthorSuggestion[] */
+    public $suggestions = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('suggestions', $data)) {
+            $instance->suggestions = $data['suggestions'];
+        }
+
+        $nested = [
+            'suggestions' => static fn (array $v): array => array_map(static fn ($x) => AuthorSuggestion::fromArray($x), $v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class MediaAsset
+{
+    /** @var ObjectId */
+    public $_id = null;
+    /** @var ?ObjectId */
+    public $tenantId = null;
+    /** @var 'image' | 'video' | 'audio' | 'document' | 'other' */
+    public $kind = null;
+    /** @var string */
+    public $url = null;
+    /** @var ?string */
+    public $storageKey = null;
+    /** @var ?string */
+    public $fileName = null;
+    /** @var ?string */
+    public $mimeType = null;
+    /** @var ?float */
+    public $sizeBytes = null;
+    /** @var ?float */
+    public $width = null;
+    /** @var ?float */
+    public $height = null;
+    /** @var ?array<string, string> */
+    public $altText = null;
+    /** @var ?array<string, string> */
+    public $caption = null;
+    /** @var ?string[] */
+    public $tags = null;
+    /** @var ?array<string, mixed> */
+    public $aiMetadata = null;
+    /** @var ?array<string, mixed>[] */
+    public $usage = null;
+    /** @var ?bool */
+    public $isDeleted = null;
+    /** @var ?DateTime */
+    public $createdAt = null;
+    /** @var ?DateTime */
+    public $updatedAt = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('_id', $data)) {
+            $instance->_id = $data['_id'];
+        }
+        if (array_key_exists('tenantId', $data)) {
+            $instance->tenantId = $data['tenantId'];
+        }
+        if (array_key_exists('kind', $data)) {
+            $instance->kind = $data['kind'];
+        }
+        if (array_key_exists('url', $data)) {
+            $instance->url = $data['url'];
+        }
+        if (array_key_exists('storageKey', $data)) {
+            $instance->storageKey = $data['storageKey'];
+        }
+        if (array_key_exists('fileName', $data)) {
+            $instance->fileName = $data['fileName'];
+        }
+        if (array_key_exists('mimeType', $data)) {
+            $instance->mimeType = $data['mimeType'];
+        }
+        if (array_key_exists('sizeBytes', $data)) {
+            $instance->sizeBytes = $data['sizeBytes'];
+        }
+        if (array_key_exists('width', $data)) {
+            $instance->width = $data['width'];
+        }
+        if (array_key_exists('height', $data)) {
+            $instance->height = $data['height'];
+        }
+        if (array_key_exists('altText', $data)) {
+            $instance->altText = $data['altText'];
+        }
+        if (array_key_exists('caption', $data)) {
+            $instance->caption = $data['caption'];
+        }
+        if (array_key_exists('tags', $data)) {
+            $instance->tags = $data['tags'];
+        }
+        if (array_key_exists('aiMetadata', $data)) {
+            $instance->aiMetadata = $data['aiMetadata'];
+        }
+        if (array_key_exists('usage', $data)) {
+            $instance->usage = $data['usage'];
+        }
+        if (array_key_exists('isDeleted', $data)) {
+            $instance->isDeleted = $data['isDeleted'];
+        }
+        if (array_key_exists('createdAt', $data)) {
+            $instance->createdAt = $data['createdAt'];
+        }
+        if (array_key_exists('updatedAt', $data)) {
+            $instance->updatedAt = $data['updatedAt'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class MediaAssetList
+{
+    /** @var MediaAsset[] */
+    public $assets = null;
+    /** @var Pagination */
+    public $pagination = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('assets', $data)) {
+            $instance->assets = $data['assets'];
+        }
+        if (array_key_exists('pagination', $data)) {
+            $instance->pagination = $data['pagination'];
+        }
+
+        $nested = [
+            'assets' => static fn (array $v): array => array_map(static fn ($x) => MediaAsset::fromArray($x), $v),
+            'pagination' => static fn (array $v): Pagination => Pagination::fromArray($v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class MediaAssetWrapper
+{
+    /** @var MediaAsset */
+    public $asset = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('asset', $data)) {
+            $instance->asset = $data['asset'];
+        }
+
+        $nested = [
+            'asset' => static fn (array $v): MediaAsset => MediaAsset::fromArray($v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class MediaUsageRef
+{
+    /** @var string */
+    public $entityType = null;
+    /** @var ObjectId */
+    public $entityId = null;
+    /** @var string */
+    public $field = null;
+    /** @var ?string */
+    public $title = null;
+    /** @var ?string */
+    public $slug = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('entityType', $data)) {
+            $instance->entityType = $data['entityType'];
+        }
+        if (array_key_exists('entityId', $data)) {
+            $instance->entityId = $data['entityId'];
+        }
+        if (array_key_exists('field', $data)) {
+            $instance->field = $data['field'];
+        }
+        if (array_key_exists('title', $data)) {
+            $instance->title = $data['title'];
+        }
+        if (array_key_exists('slug', $data)) {
+            $instance->slug = $data['slug'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class MediaUsage
+{
+    /** @var MediaUsageRef[] */
+    public $usages = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('usages', $data)) {
+            $instance->usages = $data['usages'];
+        }
+
+        $nested = [
+            'usages' => static fn (array $v): array => array_map(static fn ($x) => MediaUsageRef::fromArray($x), $v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class MediaMetadataSuggestion
+{
+    /** @var ?string */
+    public $assetId = null;
+    /** @var ?string */
+    public $url = null;
+    /** @var ?string */
+    public $mimeType = null;
+    /** @var ?string */
+    public $locale = null;
+    /** @var string */
+    public $altText = null;
+    /** @var string[] */
+    public $tags = null;
+    /** @var 'image' | 'video' | 'audio' | 'document' | 'other' */
+    public $kind = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('assetId', $data)) {
+            $instance->assetId = $data['assetId'];
+        }
+        if (array_key_exists('url', $data)) {
+            $instance->url = $data['url'];
+        }
+        if (array_key_exists('mimeType', $data)) {
+            $instance->mimeType = $data['mimeType'];
+        }
+        if (array_key_exists('locale', $data)) {
+            $instance->locale = $data['locale'];
+        }
+        if (array_key_exists('altText', $data)) {
+            $instance->altText = $data['altText'];
+        }
+        if (array_key_exists('tags', $data)) {
+            $instance->tags = $data['tags'];
+        }
+        if (array_key_exists('kind', $data)) {
+            $instance->kind = $data['kind'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class MediaMissingAlt
+{
+    /** @var MediaAsset[] */
+    public $assets = null;
+    /** @var float */
+    public $totalMissing = null;
+    /** @var ?string */
+    public $locale = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('assets', $data)) {
+            $instance->assets = $data['assets'];
+        }
+        if (array_key_exists('totalMissing', $data)) {
+            $instance->totalMissing = $data['totalMissing'];
+        }
+        if (array_key_exists('locale', $data)) {
+            $instance->locale = $data['locale'];
+        }
+
+        $nested = [
+            'assets' => static fn (array $v): array => array_map(static fn ($x) => MediaAsset::fromArray($x), $v),
+        ];
+        foreach ($nested as $field => $convert) {
+            if ($instance->{$field} !== null) {
+                $instance->{$field} = $convert($instance->{$field});
+            }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
 class Envelope
 {
     /** @var bool */

@@ -97,6 +97,22 @@ export class ArticlesResource {
     return this.client.request<Ops.ArticlesCommentsGetAllResponse>("GET", `/articles/comments/getAll`, options);
   }
 
+  commentsMinedQuestions(options?: RequestOptions<Ops.ArticlesCommentsMinedQuestionsQuery>): Promise<Ops.ArticlesCommentsMinedQuestionsResponse> {
+    return this.client.request<Ops.ArticlesCommentsMinedQuestionsResponse>("GET", `/articles/comments/minedQuestions`, options);
+  }
+
+  commentsEffectivePolicy(options?: RequestOptions<Ops.ArticlesCommentsEffectivePolicyQuery>): Promise<Ops.ArticlesCommentsEffectivePolicyResponse> {
+    return this.client.request<Ops.ArticlesCommentsEffectivePolicyResponse>("GET", `/articles/comments/effectivePolicy`, options);
+  }
+
+  commentsCommentIdModerate(commentId: Ops.ArticlesCommentsCommentIdModeratePath["commentId"], body: Ops.ArticlesCommentsCommentIdModerateBody, options?: RequestOptions<Ops.ArticlesCommentsCommentIdModerateQuery>): Promise<Ops.ArticlesCommentsCommentIdModerateResponse> {
+    return this.client.request<Ops.ArticlesCommentsCommentIdModerateResponse>("POST", `/articles/comments/${encodeURIComponent(commentId)}/moderate`, { ...(options || {}), body });
+  }
+
+  commentsCommentIdReplyDraft(commentId: Ops.ArticlesCommentsCommentIdReplyDraftPath["commentId"], body: Ops.ArticlesCommentsCommentIdReplyDraftBody, options?: RequestOptions<Ops.ArticlesCommentsCommentIdReplyDraftQuery>): Promise<Ops.ArticlesCommentsCommentIdReplyDraftResponse> {
+    return this.client.request<Ops.ArticlesCommentsCommentIdReplyDraftResponse>("POST", `/articles/comments/${encodeURIComponent(commentId)}/reply-draft`, { ...(options || {}), body });
+  }
+
   commentsCommentIdPATCH(commentId: Ops.ArticlesCommentsCommentIdPATCHPath["commentId"], body: Ops.ArticlesCommentsCommentIdPATCHBody, options?: RequestOptions<Ops.ArticlesCommentsCommentIdPATCHQuery>): Promise<Ops.ArticlesCommentsCommentIdPATCHResponse> {
     return this.client.request<Ops.ArticlesCommentsCommentIdPATCHResponse>("PATCH", `/articles/comments/${encodeURIComponent(commentId)}`, { ...(options || {}), body });
   }

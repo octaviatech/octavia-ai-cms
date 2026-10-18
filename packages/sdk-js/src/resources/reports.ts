@@ -13,10 +13,6 @@ export class ReportsResource {
     return this.client.request<Ops.ReportsGetStatisticsResponse>("GET", `/reports/getStatistics`, options);
   }
 
-  getTenantStatisticsTenantId(tenantId: Ops.ReportsGetTenantStatisticsTenantIdPath["tenantId"], options?: RequestOptions<Ops.ReportsGetTenantStatisticsTenantIdQuery>): Promise<Ops.ReportsGetTenantStatisticsTenantIdResponse> {
-    return this.client.request<Ops.ReportsGetTenantStatisticsTenantIdResponse>("GET", `/reports/getTenantStatistics/${encodeURIComponent(tenantId)}`, options);
-  }
-
   getUserStatisticsUserId(userId: Ops.ReportsGetUserStatisticsUserIdPath["userId"], options?: RequestOptions<Ops.ReportsGetUserStatisticsUserIdQuery>): Promise<Ops.ReportsGetUserStatisticsUserIdResponse> {
     return this.client.request<Ops.ReportsGetUserStatisticsUserIdResponse>("GET", `/reports/getUserStatistics/${encodeURIComponent(userId)}`, options);
   }

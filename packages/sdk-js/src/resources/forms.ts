@@ -49,4 +49,12 @@ export class FormsResource {
     return this.client.request<Ops.FormsCaptchaConfigSecretResponse>("PATCH", `/forms/captcha/config/secret`, { ...(options || {}), body });
   }
 
+  aiGenerate(body: Ops.FormsAiGenerateBody, options?: RequestOptions<Ops.FormsAiGenerateQuery>): Promise<Ops.FormsAiGenerateResponse> {
+    return this.client.request<Ops.FormsAiGenerateResponse>("POST", `/forms/ai/generate`, { ...(options || {}), body });
+  }
+
+  idAiImprove(id: Ops.FormsIdAiImprovePath["id"], body: Ops.FormsIdAiImproveBody, options?: RequestOptions<Ops.FormsIdAiImproveQuery>): Promise<Ops.FormsIdAiImproveResponse> {
+    return this.client.request<Ops.FormsIdAiImproveResponse>("POST", `/forms/${encodeURIComponent(id)}/ai/improve`, { ...(options || {}), body });
+  }
+
 }

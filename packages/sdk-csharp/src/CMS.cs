@@ -27,9 +27,11 @@ public sealed class CMS
     public FormsResource Form { get; }
     public FormSubmissionsResource FormSubmission { get; }
     public LanguagesResource Language { get; }
+    public MediaResource Media { get; }
     public ReportsResource Report { get; }
     public SubcategoriesResource Subcategory { get; }
     public TagsResource Tag { get; }
+    public TaxonomyResource Taxonomy { get; }
     // @generated facade:end
 
     private CMS(Client client)
@@ -44,9 +46,11 @@ public sealed class CMS
         Form = client.Forms;
         FormSubmission = client.FormSubmissions;
         Language = client.Languages;
+        Media = client.Media;
         Report = client.Reports;
         Subcategory = client.Subcategories;
         Tag = client.Tags;
+        Taxonomy = client.Taxonomy;
         // @generated assign:end
     }
 

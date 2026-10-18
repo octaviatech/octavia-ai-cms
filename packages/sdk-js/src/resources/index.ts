@@ -6,6 +6,8 @@ export { CategoriesResource } from "./categories";
 export { FormsResource } from "./forms";
 export { FormSubmissionsResource } from "./formSubmissions";
 export { LanguagesResource } from "./languages";
+export { MediaResource } from "./media";
 export { ReportsResource } from "./reports";
 export { SubcategoriesResource } from "./subcategories";
 export { TagsResource } from "./tags";
+export { TaxonomyResource } from "./taxonomy";

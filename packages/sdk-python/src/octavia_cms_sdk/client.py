@@ -15,9 +15,11 @@ from .resources.categories import CategoriesResource
 from .resources.forms import FormsResource
 from .resources.form_submissions import FormSubmissionsResource
 from .resources.languages import LanguagesResource
+from .resources.media import MediaResource
 from .resources.reports import ReportsResource
 from .resources.subcategories import SubcategoriesResource
 from .resources.tags import TagsResource
+from .resources.taxonomy import TaxonomyResource
 # @generated imports:end
 
 
@@ -54,9 +56,11 @@ class Client:
         self.forms = FormsResource(self)
         self.form_submissions = FormSubmissionsResource(self)
         self.languages = LanguagesResource(self)
+        self.media = MediaResource(self)
         self.reports = ReportsResource(self)
         self.subcategories = SubcategoriesResource(self)
         self.tags = TagsResource(self)
+        self.taxonomy = TaxonomyResource(self)
         # @generated resources:end
 
     def request(

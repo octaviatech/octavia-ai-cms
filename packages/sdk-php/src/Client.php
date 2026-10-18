@@ -13,9 +13,11 @@ use Octavia\CmsSDK\Resources\CategoriesResource;
 use Octavia\CmsSDK\Resources\FormsResource;
 use Octavia\CmsSDK\Resources\FormSubmissionsResource;
 use Octavia\CmsSDK\Resources\LanguagesResource;
+use Octavia\CmsSDK\Resources\MediaResource;
 use Octavia\CmsSDK\Resources\ReportsResource;
 use Octavia\CmsSDK\Resources\SubcategoriesResource;
 use Octavia\CmsSDK\Resources\TagsResource;
+use Octavia\CmsSDK\Resources\TaxonomyResource;
 // @generated uses:end
 use RuntimeException;
 
@@ -65,9 +67,11 @@ class Client
     public FormsResource $forms;
     public FormSubmissionsResource $formSubmissions;
     public LanguagesResource $languages;
+    public MediaResource $media;
     public ReportsResource $reports;
     public SubcategoriesResource $subcategories;
     public TagsResource $tags;
+    public TaxonomyResource $taxonomy;
     // @generated fields:end
 
     private ClientConfig $config;
@@ -84,9 +88,11 @@ class Client
         $this->forms = new FormsResource($this);
         $this->formSubmissions = new FormSubmissionsResource($this);
         $this->languages = new LanguagesResource($this);
+        $this->media = new MediaResource($this);
         $this->reports = new ReportsResource($this);
         $this->subcategories = new SubcategoriesResource($this);
         $this->tags = new TagsResource($this);
+        $this->taxonomy = new TaxonomyResource($this);
         // @generated ctor:end
     }
 

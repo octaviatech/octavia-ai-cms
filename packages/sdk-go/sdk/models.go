@@ -1203,6 +1203,642 @@ type NeedsAttentionReport struct {
 	Items []NeedsAttentionItem `json:"items"`
 }
 
+type SubmissionAnalysis struct {
+	ID string `json:"_id"`
+	TenantID string `json:"tenantId"`
+	SubmissionID string `json:"submissionId"`
+	FormID string `json:"formId"`
+	Summary string `json:"summary"`
+	Category string `json:"category"`
+	Priority string `json:"priority"`
+	Sentiment string `json:"sentiment"`
+	Language string `json:"language"`
+	SpamScore float64 `json:"spamScore"`
+	Entities map[string]any `json:"entities"`
+	Topics []string `json:"topics"`
+	Provider *string `json:"provider"`
+	ProviderModel *string `json:"providerModel"`
+	PromptVersion *string `json:"promptVersion"`
+	Source string `json:"source"`
+	AnalyzedAt string `json:"analyzedAt"`
+	CreatedAt string `json:"createdAt"`
+	UpdatedAt string `json:"updatedAt"`
+}
+
+type SubmissionActivity struct {
+	ID string `json:"_id"`
+	Type string `json:"type"`
+	ActorID *string `json:"actorId"`
+	ActorType string `json:"actorType"`
+	Payload map[string]any `json:"payload"`
+	CreatedAt string `json:"createdAt"`
+}
+
+type SubmissionReply struct {
+	ID string `json:"_id"`
+	SubmissionID string `json:"submissionId"`
+	Channel string `json:"channel"`
+	Locale string `json:"locale"`
+	Subject string `json:"subject"`
+	Body string `json:"body"`
+	Status string `json:"status"`
+	To *string `json:"to"`
+	TemplateKey *string `json:"templateKey"`
+	DraftSource string `json:"draftSource"`
+	SentAt *string `json:"sentAt"`
+	Error *string `json:"error"`
+	CreatedAt string `json:"createdAt"`
+}
+
+type SubmissionAnalysisWrapper struct {
+	Analysis SubmissionAnalysis `json:"analysis"`
+}
+
+type SubmissionAnalysisResult struct {
+	Analysis SubmissionAnalysis `json:"analysis"`
+	SpamApplied bool `json:"spamApplied"`
+}
+
+type SubmissionBulkAnalysis struct {
+	Results []map[string]any `json:"results"`
+	Summary map[string]any `json:"summary"`
+}
+
+type SubmissionActivityList struct {
+	Activity []SubmissionActivity `json:"activity"`
+	Replies []SubmissionReply `json:"replies"`
+}
+
+type SubmissionReplyWrapper struct {
+	Reply SubmissionReply `json:"reply"`
+}
+
+type SubmissionActivityWrapper struct {
+	Activity SubmissionActivity `json:"activity"`
+}
+
+type SubmissionInboxFacets struct {
+	Status map[string]float64 `json:"status"`
+	Category map[string]float64 `json:"category"`
+	Priority map[string]float64 `json:"priority"`
+	Assignee []map[string]any `json:"assignee"`
+}
+
+type SubmissionDetailWrapper struct {
+	Submission FormSubmissionEnriched `json:"submission"`
+	Activity []SubmissionActivity `json:"activity"`
+	Replies []SubmissionReply `json:"replies"`
+}
+
+type SubmissionDigestAggregates struct {
+	From string `json:"from"`
+	To string `json:"to"`
+	Total float64 `json:"total"`
+	PreviousTotal float64 `json:"previousTotal"`
+	ByCategory map[string]float64 `json:"byCategory"`
+	ByPriority map[string]float64 `json:"byPriority"`
+	ByStatus map[string]float64 `json:"byStatus"`
+	ByLanguage map[string]float64 `json:"byLanguage"`
+	ByForm []map[string]any `json:"byForm"`
+	UrgentCount float64 `json:"urgentCount"`
+	SpamCount float64 `json:"spamCount"`
+	Topics []map[string]any `json:"topics"`
+}
+
+type SubmissionDigest struct {
+	Aggregates SubmissionDigestAggregates `json:"aggregates"`
+	Headline string `json:"headline"`
+	Summary string `json:"summary"`
+	Topics []map[string]any `json:"topics"`
+	Actions []map[string]any `json:"actions"`
+}
+
+type SubmissionDigestWrapper struct {
+	Digest SubmissionDigest `json:"digest"`
+}
+
+type FormDraftField struct {
+	Name string `json:"name"`
+	Type string `json:"type"`
+	Label MultilingualString `json:"label"`
+	Placeholder MultilingualString `json:"placeholder"`
+	Required bool `json:"required"`
+	ColSpan float64 `json:"colSpan"`
+	Options []map[string]any `json:"options"`
+	Validation map[string]any `json:"validation"`
+}
+
+type FormDraft struct {
+	Title MultilingualString `json:"title"`
+	Slug string `json:"slug"`
+	Description MultilingualString `json:"description"`
+	SubmitButtonText MultilingualString `json:"submitButtonText"`
+	FormType string `json:"formType"`
+	Sections []map[string]any `json:"sections"`
+	Captcha map[string]any `json:"captcha"`
+	FieldCount float64 `json:"fieldCount"`
+	Truncated bool `json:"truncated"`
+}
+
+type FormDraftWrapper struct {
+	Draft FormDraft `json:"draft"`
+}
+
+type FormImproveSuggestion struct {
+	FieldName string `json:"fieldName"`
+	Kind string `json:"kind"`
+	Current string `json:"current"`
+	Proposed string `json:"proposed"`
+	Reason string `json:"reason"`
+}
+
+type FormImproveWrapper struct {
+	FormID string `json:"formId"`
+	Summary string `json:"summary"`
+	Suggestions []FormImproveSuggestion `json:"suggestions"`
+	Reorder []string `json:"reorder"`
+}
+
+type CommentModeration struct {
+	ID string `json:"_id"`
+	TenantID string `json:"tenantId"`
+	CommentID string `json:"commentId"`
+	ArticleID string `json:"articleId"`
+	Toxicity float64 `json:"toxicity"`
+	SpamScore float64 `json:"spamScore"`
+	Sentiment string `json:"sentiment"`
+	Language string `json:"language"`
+	Decision string `json:"decision"`
+	Reasons []string `json:"reasons"`
+	SuggestedReply *map[string]any `json:"suggestedReply"`
+	AutoApplied bool `json:"autoApplied"`
+	Provider *string `json:"provider"`
+	ProviderModel *string `json:"providerModel"`
+	PromptVersion *string `json:"promptVersion"`
+	AnalyzedAt string `json:"analyzedAt"`
+	CreatedAt string `json:"createdAt"`
+	UpdatedAt string `json:"updatedAt"`
+}
+
+type CommentModerationSummary struct {
+	ID string `json:"_id"`
+	Toxicity float64 `json:"toxicity"`
+	SpamScore float64 `json:"spamScore"`
+	Sentiment string `json:"sentiment"`
+	Language string `json:"language"`
+	Decision string `json:"decision"`
+	Reasons []string `json:"reasons"`
+	AutoApplied bool `json:"autoApplied"`
+	AnalyzedAt string `json:"analyzedAt"`
+}
+
+type ModerationResultWrapper struct {
+	Moderation CommentModeration `json:"moderation"`
+	NextStatus *string `json:"nextStatus"`
+}
+
+type CommentReplyDraft struct {
+	Body string `json:"body"`
+	Locale string `json:"locale"`
+}
+
+type CommentReplyDraftWrapper struct {
+	Reply CommentReplyDraft `json:"reply"`
+}
+
+type MinedQuestionIdea struct {
+	Topic string `json:"topic"`
+	Angle string `json:"angle"`
+	QuestionCount float64 `json:"questionCount"`
+	ExampleQuestionIds []string `json:"exampleQuestionIds"`
+	PrimaryKeyword string `json:"primaryKeyword"`
+	FunnelStage string `json:"funnelStage"`
+}
+
+type MinedQuestionsWrapper struct {
+	IDeas []MinedQuestionIdea `json:"ideas"`
+}
+
+type EffectiveModerationPolicy struct {
+	Mode string `json:"mode"`
+	MaxToxicity float64 `json:"maxToxicity"`
+	MaxSpamScore float64 `json:"maxSpamScore"`
+	AutoRejectSpamScore float64 `json:"autoRejectSpamScore"`
+	MaxLinks float64 `json:"maxLinks"`
+	BlockedTerms []string `json:"blockedTerms"`
+	Reasons []string `json:"reasons"`
+}
+
+type EffectivePolicyWrapper struct {
+	Policy EffectiveModerationPolicy `json:"policy"`
+	ArticleID *string `json:"articleId"`
+}
+
+type AiFeatureFlags struct {
+	Copilot bool `json:"copilot"`
+	Autofill bool `json:"autofill"`
+	Inline bool `json:"inline"`
+	Bulk bool `json:"bulk"`
+	Forms bool `json:"forms"`
+	Submissions bool `json:"submissions"`
+	Comments bool `json:"comments"`
+	Calendar bool `json:"calendar"`
+	SEO bool `json:"seo"`
+	BrandVoice bool `json:"brandVoice"`
+	Jobs bool `json:"jobs"`
+}
+
+type AiAutoApplyPolicy struct {
+	Copilot string `json:"copilot"`
+	Autofill string `json:"autofill"`
+	Inline string `json:"inline"`
+	Bulk string `json:"bulk"`
+	Forms string `json:"forms"`
+	Submissions string `json:"submissions"`
+	Comments string `json:"comments"`
+	Calendar string `json:"calendar"`
+	SEO string `json:"seo"`
+	BrandVoice string `json:"brandVoice"`
+	Jobs string `json:"jobs"`
+}
+
+type BrandVoiceProfile struct {
+	Tone string `json:"tone"`
+	Audience string `json:"audience"`
+	ReadingLevel string `json:"readingLevel"`
+	Do []string `json:"do"`
+	Dont []string `json:"dont"`
+	BannedTerms []string `json:"bannedTerms"`
+	Examples []string `json:"examples"`
+	PersianRegister *string `json:"persianRegister"`
+	Version float64 `json:"version"`
+}
+
+type LegacyGlossaryEntry struct {
+	Term string `json:"term"`
+	Translation string `json:"translation"`
+}
+
+type AiSettings struct {
+	BrandVoice *string `json:"brandVoice"`
+	Glossary []LegacyGlossaryEntry `json:"glossary"`
+	BrandVoiceVersion string `json:"brandVoiceVersion"`
+	AutoApply bool `json:"autoApply"`
+	DefaultTier *string `json:"defaultTier"`
+	FeatureFlags AiFeatureFlags `json:"featureFlags"`
+	AutoApplyPolicy AiAutoApplyPolicy `json:"autoApplyPolicy"`
+	DailyQuotaPerUser *float64 `json:"dailyQuotaPerUser"`
+	DefaultLocales []string `json:"defaultLocales"`
+	PiiMasking map[string]any `json:"piiMasking"`
+	RetentionDays float64 `json:"retentionDays"`
+	ModelTierOverrides map[string]string `json:"modelTierOverrides"`
+	BrandVoiceProfile BrandVoiceProfile `json:"brandVoiceProfile"`
+	CreatedAt string `json:"createdAt"`
+	UpdatedAt string `json:"updatedAt"`
+}
+
+type BrandVoiceSettings struct {
+	BrandVoice *string `json:"brandVoice"`
+	Glossary []LegacyGlossaryEntry `json:"glossary"`
+	BrandVoiceProfile BrandVoiceProfile `json:"brandVoiceProfile"`
+	BrandVoiceVersion string `json:"brandVoiceVersion"`
+}
+
+type CreditSnapshot struct {
+	Period string `json:"period"`
+	Used float64 `json:"used"`
+	Reserved float64 `json:"reserved"`
+	Limit float64 `json:"limit"`
+	Remaining float64 `json:"remaining"`
+	Available float64 `json:"available"`
+}
+
+type TokenEstimate struct {
+	ActionID string `json:"actionId"`
+	EstimatedTokens float64 `json:"estimatedTokens"`
+}
+
+type AiRunSubmission struct {
+	RunID string `json:"runId"`
+	Mode string `json:"mode"`
+	EstimatedTokens float64 `json:"estimatedTokens"`
+}
+
+type AiRunInsufficientCredits struct {
+	Reason string `json:"reason"`
+	Used float64 `json:"used"`
+	Reserved float64 `json:"reserved"`
+	Limit float64 `json:"limit"`
+	Estimate float64 `json:"estimate"`
+}
+
+type AiRunConflict struct {
+	RunID string `json:"runId"`
+	Status string `json:"status"`
+}
+
+type AiRunListItem struct {
+	RunID string `json:"runId"`
+	ActionID string `json:"actionId"`
+	Status string `json:"status"`
+	Estimated float64 `json:"estimated"`
+	Actual *float64 `json:"actual"`
+	Reason *string `json:"reason"`
+	Outcome *string `json:"outcome"`
+	Meta *map[string]any `json:"meta"`
+	CreatedAt *string `json:"createdAt"`
+}
+
+type AiRunList struct {
+	Runs []AiRunListItem `json:"runs"`
+}
+
+type AiProposalPatch struct {
+	Path string `json:"path"`
+	Lang string `json:"lang"`
+	Key string `json:"key"`
+	Before any `json:"before"`
+	After any `json:"after"`
+}
+
+type AiProposal struct {
+	ID string `json:"_id"`
+	TenantID string `json:"tenantId"`
+	ArticleID string `json:"articleId"`
+	ActionID string `json:"actionId"`
+	Status string `json:"status"`
+	CreatedByUserID *string `json:"createdByUserId"`
+	DecidedByUserID *string `json:"decidedByUserId"`
+	Locale *string `json:"locale"`
+	Patches []AiProposalPatch `json:"patches"`
+	BaseHash string `json:"baseHash"`
+	DecidedAt *string `json:"decidedAt"`
+	CreatedAt string `json:"createdAt"`
+	UpdatedAt string `json:"updatedAt"`
+}
+
+type AiProposalCount struct {
+	Count float64 `json:"count"`
+}
+
+type AiProposalDecision struct {
+	Proposal AiProposal `json:"proposal"`
+	AppliedPatches []AiProposalPatch `json:"appliedPatches"`
+}
+
+type AiProposalStale struct {
+	Reason string `json:"reason"`
+}
+
+type AiProposalBulkResultItem struct {
+	ID string `json:"id"`
+	Status string `json:"status"`
+	Reason string `json:"reason"`
+}
+
+type AiAutofillResult struct {
+	ProposalID string `json:"proposalId"`
+	Filled []string `json:"filled"`
+	Skipped []string `json:"skipped"`
+}
+
+type ArticleRevisionSnapshot struct {
+	MainTitle *string `json:"mainTitle"`
+	Summary *string `json:"summary"`
+	Content *string `json:"content"`
+	Tags []string `json:"tags"`
+}
+
+type ArticleRevision struct {
+	ID string `json:"_id"`
+	ArticleID string `json:"articleId"`
+	Locale string `json:"locale"`
+	Source string `json:"source"`
+	UserID *string `json:"userId"`
+	AIProposalID *string `json:"aiProposalId"`
+	RestoredFrom *string `json:"restoredFrom"`
+	Snapshot ArticleRevisionSnapshot `json:"snapshot"`
+	CreatedAt string `json:"createdAt"`
+	UpdatedAt string `json:"updatedAt"`
+}
+
+type ArticleRevisionList struct {
+	Revisions []ArticleRevision `json:"revisions"`
+	MaxRevisionsPerLocale float64 `json:"maxRevisionsPerLocale"`
+}
+
+type ArticleRevisionRestore struct {
+	Article Article `json:"article"`
+	Revision ArticleRevision `json:"revision"`
+}
+
+type ReadinessItem struct {
+	ID string `json:"id"`
+	Label string `json:"label"`
+	State string `json:"state"`
+	Locales []string `json:"locales"`
+	Detail *string `json:"detail"`
+}
+
+type ArticleReadiness struct {
+	ArticleID string `json:"articleId"`
+	ItemType string `json:"itemType"`
+	ContentSource string `json:"contentSource"`
+	Items []ReadinessItem `json:"items"`
+	Blockers []string `json:"blockers"`
+	Warnings []string `json:"warnings"`
+}
+
+type TranslationStateItem struct {
+	Locale string `json:"locale"`
+	State string `json:"state"`
+	StoredState string `json:"storedState"`
+	SourceOutdated bool `json:"sourceOutdated"`
+	UpdatedAt *string `json:"updatedAt"`
+}
+
+type TranslationStateReport struct {
+	ArticleID string `json:"articleId"`
+	SourceLocale string `json:"sourceLocale"`
+	Items []TranslationStateItem `json:"items"`
+}
+
+type TranslationStateDoc struct {
+	ID string `json:"_id"`
+	ArticleID string `json:"articleId"`
+	Locale string `json:"locale"`
+	SourceLocale string `json:"sourceLocale"`
+	SourceHash string `json:"sourceHash"`
+	TargetHash string `json:"targetHash"`
+	BlockHashes map[string]string `json:"blockHashes"`
+	UpdatedByUserID *string `json:"updatedByUserId"`
+	CreatedAt string `json:"createdAt"`
+	UpdatedAt string `json:"updatedAt"`
+}
+
+type AiEvent struct {
+	Event string `json:"event"`
+	OccurredAt string `json:"occurredAt"`
+	Payload map[string]any `json:"payload"`
+}
+
+type GlossaryTerm struct {
+	ID string `json:"_id"`
+	Source string `json:"source"`
+	SourceLocale string `json:"sourceLocale"`
+	Target string `json:"target"`
+	TargetLocale string `json:"targetLocale"`
+	DoNotTranslate bool `json:"doNotTranslate"`
+	Note *string `json:"note"`
+	CreatedAt string `json:"createdAt"`
+	UpdatedAt string `json:"updatedAt"`
+}
+
+type GlossaryTermWrapper struct {
+	Term GlossaryTerm `json:"term"`
+}
+
+type KnowledgeSource struct {
+	ID string `json:"_id"`
+	Type string `json:"type"`
+	Title string `json:"title"`
+	Uri *string `json:"uri"`
+	Content *string `json:"content"`
+	Locale *string `json:"locale"`
+	Status string `json:"status"`
+	Error *string `json:"error"`
+	ChunkCount float64 `json:"chunkCount"`
+	TokenCount float64 `json:"tokenCount"`
+	IndexedAt *string `json:"indexedAt"`
+	CreatedAt string `json:"createdAt"`
+	UpdatedAt string `json:"updatedAt"`
+}
+
+type KnowledgeSourceWrapper struct {
+	Source KnowledgeSource `json:"source"`
+}
+
+type TaxonomyFinding struct {
+	Code string `json:"code"`
+	Severity string `json:"severity"`
+	EntityType string `json:"entityType"`
+	EntityID *string `json:"entityId"`
+	Names []string `json:"names"`
+	Message string `json:"message"`
+	FixAction string `json:"fixAction"`
+}
+
+type TaxonomyAudit struct {
+	Findings []TaxonomyFinding `json:"findings"`
+	Summary map[string]any `json:"summary"`
+}
+
+type TaxonomySeoEntry struct {
+	MetaTitle string `json:"metaTitle"`
+	MetaDescription string `json:"metaDescription"`
+	FocusKeyword string `json:"focusKeyword"`
+}
+
+type CategorySeoSuggestion struct {
+	EntityType string `json:"entityType"`
+	EntityID string `json:"entityId"`
+	SEO map[string]TaxonomySeoEntry `json:"seo"`
+}
+
+type TagSuggestion struct {
+	Tag string `json:"tag"`
+	IsNew bool `json:"isNew"`
+	Confidence float64 `json:"confidence"`
+}
+
+type TagSuggestions struct {
+	Tags []TagSuggestion `json:"tags"`
+}
+
+type TagMergeResult struct {
+	From string `json:"from"`
+	Into string `json:"into"`
+	ArticlesUpdated float64 `json:"articlesUpdated"`
+}
+
+type TagUsageRefresh struct {
+	Updated float64 `json:"updated"`
+}
+
+type AuthorBioSuggestion struct {
+	AuthorID string `json:"authorId"`
+	Bio map[string]string `json:"bio"`
+	Expertise []string `json:"expertise"`
+}
+
+type AuthorSuggestion struct {
+	AuthorID string `json:"authorId"`
+	Score float64 `json:"score"`
+	Matched []string `json:"matched"`
+}
+
+type AuthorSuggestions struct {
+	Suggestions []AuthorSuggestion `json:"suggestions"`
+}
+
+type MediaAsset struct {
+	ID string `json:"_id"`
+	TenantID string `json:"tenantId"`
+	Kind string `json:"kind"`
+	URL string `json:"url"`
+	StorageKey *string `json:"storageKey"`
+	FileName *string `json:"fileName"`
+	MimeType *string `json:"mimeType"`
+	SizeBytes *float64 `json:"sizeBytes"`
+	Width *float64 `json:"width"`
+	Height *float64 `json:"height"`
+	AltText map[string]string `json:"altText"`
+	Caption map[string]string `json:"caption"`
+	Tags []string `json:"tags"`
+	AIMetadata *map[string]any `json:"aiMetadata"`
+	Usage []map[string]any `json:"usage"`
+	IsDeleted bool `json:"isDeleted"`
+	CreatedAt string `json:"createdAt"`
+	UpdatedAt string `json:"updatedAt"`
+}
+
+type MediaAssetList struct {
+	Assets []MediaAsset `json:"assets"`
+	Pagination Pagination `json:"pagination"`
+}
+
+type MediaAssetWrapper struct {
+	Asset MediaAsset `json:"asset"`
+}
+
+type MediaUsageRef struct {
+	EntityType string `json:"entityType"`
+	EntityID string `json:"entityId"`
+	Field string `json:"field"`
+	Title string `json:"title"`
+	Slug string `json:"slug"`
+}
+
+type MediaUsage struct {
+	Usages []MediaUsageRef `json:"usages"`
+}
+
+type MediaMetadataSuggestion struct {
+	AssetID *string `json:"assetId"`
+	URL *string `json:"url"`
+	MimeType *string `json:"mimeType"`
+	Locale string `json:"locale"`
+	AltText string `json:"altText"`
+	Tags []string `json:"tags"`
+	Kind string `json:"kind"`
+}
+
+type MediaMissingAlt struct {
+	Assets []MediaAsset `json:"assets"`
+	TotalMissing float64 `json:"totalMissing"`
+	Locale string `json:"locale"`
+}
+
 type Envelope struct {
 	Success bool `json:"success"`
 	StatusCode float64 `json:"statusCode"`

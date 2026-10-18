@@ -45,3 +45,11 @@ func (r *FormsResource) CaptchaConfigGET(query map[string]any) CMSResponse[Captc
 func (r *FormsResource) CaptchaConfigSecret(body any, query map[string]any) CMSResponse[CaptchaConfigWrapper] {
     return RequestInto[CaptchaConfigWrapper](r.client, "PATCH", "/forms/captcha/config/secret", query, body)
 }
+
+func (r *FormsResource) AiGenerate(body any, query map[string]any) CMSResponse[FormDraftWrapper] {
+    return RequestInto[FormDraftWrapper](r.client, "POST", "/forms/ai/generate", query, body)
+}
+
+func (r *FormsResource) IdAiImprove(id string, body any, query map[string]any) CMSResponse[FormImproveWrapper] {
+    return RequestInto[FormImproveWrapper](r.client, "POST", "/forms/" + url.PathEscape(id) + "/ai/improve", query, body)
+}

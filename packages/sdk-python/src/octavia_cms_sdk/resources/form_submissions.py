@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import urllib.parse
-from typing import TYPE_CHECKING, Any, Dict, Optional
+from typing import TYPE_CHECKING, Any, Dict, List, Optional
 
 from ..models import (
     SubmissionWrapper,
@@ -9,6 +9,13 @@ from ..models import (
     FormSubmissionRelations,
     FormRelationsBackfill,
     SubmissionRawWrapper,
+    SubmissionInboxFacets,
+    SubmissionAnalysisResult,
+    SubmissionBulkAnalysis,
+    SubmissionActivityWrapper,
+    SubmissionActivityList,
+    SubmissionReplyWrapper,
+    SubmissionDigestWrapper,
 )
 
 if TYPE_CHECKING:
@@ -53,3 +60,27 @@ class FormSubmissionsResource:
 
     def submissionDeleteId(self, id, *, query: Optional[Dict[str, Any]] = None) -> SubmissionRawWrapper:
         return self._client.request_typed(SubmissionRawWrapper, "DELETE", "/forms/submission/delete/" + urllib.parse.quote(str(id)), query=query, body=None)
+
+    def submissionsFacets(self, *, query: Optional[Dict[str, Any]] = None) -> SubmissionInboxFacets:
+        return self._client.request_typed(SubmissionInboxFacets, "GET", "/forms/submissions/facets", query=query, body=None)
+
+    def submissionIdAnalyze(self, id, body: Any, *, query: Optional[Dict[str, Any]] = None) -> SubmissionAnalysisResult:
+        return self._client.request_typed(SubmissionAnalysisResult, "POST", "/forms/submission/" + urllib.parse.quote(str(id)) + "/analyze", query=query, body=body)
+
+    def submissionsAnalyze(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> SubmissionBulkAnalysis:
+        return self._client.request_typed(SubmissionBulkAnalysis, "POST", "/forms/submissions/analyze", query=query, body=body)
+
+    def submissionIdNotes(self, id, body: Any, *, query: Optional[Dict[str, Any]] = None) -> SubmissionActivityWrapper:
+        return self._client.request_typed(SubmissionActivityWrapper, "POST", "/forms/submission/" + urllib.parse.quote(str(id)) + "/notes", query=query, body=body)
+
+    def submissionIdActivity(self, id, *, query: Optional[Dict[str, Any]] = None) -> SubmissionActivityList:
+        return self._client.request_typed(SubmissionActivityList, "GET", "/forms/submission/" + urllib.parse.quote(str(id)) + "/activity", query=query, body=None)
+
+    def submissionIdReplyDraft(self, id, body: Any, *, query: Optional[Dict[str, Any]] = None) -> SubmissionReplyWrapper:
+        return self._client.request_typed(SubmissionReplyWrapper, "POST", "/forms/submission/" + urllib.parse.quote(str(id)) + "/reply-draft", query=query, body=body)
+
+    def submissionIdReply(self, id, body: Any, *, query: Optional[Dict[str, Any]] = None) -> SubmissionReplyWrapper:
+        return self._client.request_typed(SubmissionReplyWrapper, "POST", "/forms/submission/" + urllib.parse.quote(str(id)) + "/reply", query=query, body=body)
+
+    def submissionsDigest(self, *, query: Optional[Dict[str, Any]] = None) -> SubmissionDigestWrapper:
+        return self._client.request_typed(SubmissionDigestWrapper, "GET", "/forms/submissions/digest", query=query, body=None)

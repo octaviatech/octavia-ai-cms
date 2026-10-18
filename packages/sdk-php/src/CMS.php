@@ -20,9 +20,11 @@ class CMS
     public $form;
     public $formSubmission;
     public $language;
+    public $media;
     public $report;
     public $subcategory;
     public $tag;
+    public $taxonomy;
     // @generated facade:end
 
     public static function init(string $apiKey, array $options = []): self
@@ -44,9 +46,11 @@ class CMS
         $cms->form = $client->forms;
         $cms->formSubmission = $client->formSubmissions;
         $cms->language = $client->languages;
+        $cms->media = $client->media;
         $cms->report = $client->reports;
         $cms->subcategory = $client->subcategories;
         $cms->tag = $client->tags;
+        $cms->taxonomy = $client->taxonomy;
         // @generated assign:end
 
         return $cms;

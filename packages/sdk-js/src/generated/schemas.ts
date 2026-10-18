@@ -492,6 +492,9 @@ export type FormSubmissionEnriched = FormSubmission & {
   relationType?: string;
   sourceSubmission?: FormSubmissionSummary;
 }>;
+  assignee?: ObjectId | unknown;
+  tags?: Array<string>;
+  analysis?: SubmissionAnalysis | unknown;
 };
 
 export type CaptchaConfig = {
@@ -1474,6 +1477,733 @@ export type NeedsAttentionItem = {
 export type NeedsAttentionReport = {
   generatedAt: DateTime;
   items: Array<NeedsAttentionItem>;
+};
+
+export type SubmissionAnalysis = {
+  _id?: ObjectId;
+  tenantId?: ObjectId;
+  submissionId?: ObjectId;
+  formId?: ObjectId;
+  summary?: string;
+  category?: "lead" | "support" | "feedback" | "spam" | "other";
+  priority?: "low" | "normal" | "high" | "urgent";
+  sentiment?: "positive" | "neutral" | "negative" | "mixed";
+  language?: string;
+  spamScore?: number;
+  entities?: {
+  name?: unknown;
+  company?: unknown;
+  email?: unknown;
+  phone?: unknown;
+  url?: unknown;
+};
+  topics?: Array<string>;
+  provider?: unknown;
+  providerModel?: unknown;
+  promptVersion?: unknown;
+  source?: string;
+  analyzedAt?: DateTime;
+  createdAt?: DateTime;
+  updatedAt?: DateTime;
+};
+
+export type SubmissionActivity = {
+  _id?: ObjectId;
+  type?: "status" | "assign" | "note" | "reply" | "ai" | "tag";
+  actorId?: ObjectId | unknown;
+  actorType?: "user" | "ai" | "system";
+  payload?: {
+  [key: string]: unknown;
+};
+  createdAt?: DateTime;
+};
+
+export type SubmissionReply = {
+  _id: ObjectId;
+  submissionId: ObjectId;
+  channel?: string;
+  locale?: string;
+  subject: string;
+  body: string;
+  status: "draft" | "sent" | "failed";
+  to?: unknown;
+  templateKey?: unknown;
+  draftSource?: "ai" | "human";
+  sentAt?: DateTime | unknown;
+  error?: unknown;
+  createdAt?: DateTime;
+};
+
+export type SubmissionAnalysisWrapper = {
+  analysis: SubmissionAnalysis;
+};
+
+export type SubmissionAnalysisResult = {
+  analysis: SubmissionAnalysis;
+  spamApplied: boolean;
+};
+
+export type SubmissionBulkAnalysis = {
+  results: Array<{
+  submissionId?: string;
+  ok?: boolean;
+  spamScore?: number | unknown;
+  error?: string | unknown;
+}>;
+  summary: {
+  requested?: number;
+  succeeded?: number;
+  failed?: number;
+};
+};
+
+export type SubmissionActivityList = {
+  activity: Array<SubmissionActivity>;
+  replies: Array<SubmissionReply>;
+};
+
+export type SubmissionReplyWrapper = {
+  reply: SubmissionReply;
+};
+
+export type SubmissionActivityWrapper = {
+  activity: SubmissionActivity;
+};
+
+export type SubmissionInboxFacets = {
+  status?: {
+  [key: string]: number;
+};
+  category?: {
+  [key: string]: number;
+};
+  priority?: {
+  [key: string]: number;
+};
+  assignee?: Array<{
+  userId?: string;
+  count?: number;
+}>;
+};
+
+export type SubmissionDetailWrapper = {
+  submission: FormSubmissionEnriched;
+  activity?: Array<SubmissionActivity>;
+  replies?: Array<SubmissionReply>;
+};
+
+export type SubmissionDigestAggregates = {
+  from?: DateTime;
+  to?: DateTime;
+  total?: number;
+  previousTotal?: number;
+  byCategory?: {
+  [key: string]: number;
+};
+  byPriority?: {
+  [key: string]: number;
+};
+  byStatus?: {
+  [key: string]: number;
+};
+  byLanguage?: {
+  [key: string]: number;
+};
+  byForm?: Array<{
+  formId?: string;
+  title?: string;
+  count?: number;
+}>;
+  urgentCount?: number;
+  spamCount?: number;
+  topics?: Array<{
+  topic?: string;
+  count?: number;
+  samples?: Array<string>;
+}>;
+};
+
+export type SubmissionDigest = {
+  aggregates: SubmissionDigestAggregates;
+  headline?: string;
+  summary?: string;
+  topics?: Array<{
+  topic?: string;
+  sentiment?: string;
+  note?: string;
+}>;
+  actions?: Array<{
+  title?: string;
+  detail?: string;
+  severity?: string;
+}>;
+};
+
+export type SubmissionDigestWrapper = {
+  digest: SubmissionDigest;
+};
+
+export type FormDraftField = {
+  name: string;
+  type: string;
+  label: MultilingualString;
+  placeholder?: MultilingualString;
+  required: boolean;
+  colSpan?: number;
+  options?: Array<{
+  value?: string;
+  label?: MultilingualString;
+}>;
+  validation?: {
+  [key: string]: unknown;
+};
+};
+
+export type FormDraft = {
+  title: MultilingualString;
+  slug: string;
+  description?: MultilingualString;
+  submitButtonText?: MultilingualString;
+  formType?: "public" | "internal";
+  sections: Array<{
+  title?: MultilingualString;
+  description?: MultilingualString;
+  fields?: Array<FormDraftField>;
+}>;
+  captcha?: {
+  enabled?: boolean;
+};
+  fieldCount?: number;
+  truncated?: boolean;
+};
+
+export type FormDraftWrapper = {
+  draft: FormDraft;
+};
+
+export type FormImproveSuggestion = {
+  fieldName?: string;
+  kind?: string;
+  current?: string;
+  proposed?: string;
+  reason?: string;
+};
+
+export type FormImproveWrapper = {
+  formId?: string;
+  summary?: string;
+  suggestions: Array<FormImproveSuggestion>;
+  reorder?: Array<string>;
+};
+
+export type CommentModeration = {
+  _id?: ObjectId;
+  tenantId?: ObjectId;
+  commentId?: ObjectId;
+  articleId?: ObjectId;
+  toxicity?: number;
+  spamScore?: number;
+  sentiment?: "positive" | "neutral" | "negative" | "mixed";
+  language?: string;
+  decision?: "approve" | "hold" | "reject";
+  reasons?: Array<string>;
+  suggestedReply?: {
+  body?: string;
+  locale?: string;
+  createdAt?: DateTime;
+} | unknown;
+  autoApplied?: boolean;
+  provider?: unknown;
+  providerModel?: unknown;
+  promptVersion?: unknown;
+  analyzedAt?: DateTime;
+  createdAt?: DateTime;
+  updatedAt?: DateTime;
+};
+
+export type CommentModerationSummary = {
+  _id?: ObjectId;
+  toxicity?: number;
+  spamScore?: number;
+  sentiment?: string;
+  language?: string;
+  decision?: "approve" | "hold" | "reject";
+  reasons?: Array<string>;
+  autoApplied?: boolean;
+  analyzedAt?: DateTime;
+};
+
+export type ModerationResultWrapper = {
+  moderation: CommentModeration;
+  nextStatus?: unknown;
+};
+
+export type CommentReplyDraft = {
+  body: string;
+  locale?: string;
+};
+
+export type CommentReplyDraftWrapper = {
+  reply: CommentReplyDraft;
+};
+
+export type MinedQuestionIdea = {
+  topic: string;
+  angle?: string;
+  questionCount?: number;
+  exampleQuestionIds?: Array<string>;
+  primaryKeyword?: string;
+  funnelStage?: "awareness" | "consideration" | "conversion";
+};
+
+export type MinedQuestionsWrapper = {
+  ideas: Array<MinedQuestionIdea>;
+};
+
+export type EffectiveModerationPolicy = {
+  mode?: "always" | "if_safe" | "never";
+  maxToxicity?: number;
+  maxSpamScore?: number;
+  autoRejectSpamScore?: number;
+  maxLinks?: number;
+  blockedTerms?: Array<string>;
+  reasons?: Array<string>;
+};
+
+export type EffectivePolicyWrapper = {
+  policy: EffectiveModerationPolicy;
+  articleId?: unknown;
+};
+
+export type AiFeatureFlags = {
+  copilot?: boolean;
+  autofill?: boolean;
+  inline?: boolean;
+  bulk?: boolean;
+  forms?: boolean;
+  submissions?: boolean;
+  comments?: boolean;
+  calendar?: boolean;
+  seo?: boolean;
+  brandVoice?: boolean;
+  jobs?: boolean;
+};
+
+export type AiAutoApplyPolicy = {
+  copilot?: "never" | "safe" | "always";
+  autofill?: "never" | "safe" | "always";
+  inline?: "never" | "safe" | "always";
+  bulk?: "never" | "safe" | "always";
+  forms?: "never" | "safe" | "always";
+  submissions?: "never" | "safe" | "always";
+  comments?: "never" | "safe" | "always";
+  calendar?: "never" | "safe" | "always";
+  seo?: "never" | "safe" | "always";
+  brandVoice?: "never" | "safe" | "always";
+  jobs?: "never" | "safe" | "always";
+};
+
+export type BrandVoiceProfile = {
+  tone?: string;
+  audience?: string;
+  readingLevel?: string;
+  do?: Array<string>;
+  dont?: Array<string>;
+  bannedTerms?: Array<string>;
+  examples?: Array<string>;
+  persianRegister?: unknown;
+  version?: number;
+};
+
+export type LegacyGlossaryEntry = {
+  term?: string;
+  translation?: string;
+};
+
+export type AiSettings = {
+  brandVoice?: unknown;
+  glossary?: Array<LegacyGlossaryEntry>;
+  brandVoiceVersion?: string;
+  autoApply?: boolean;
+  defaultTier?: unknown;
+  featureFlags: AiFeatureFlags;
+  autoApplyPolicy: AiAutoApplyPolicy;
+  dailyQuotaPerUser?: unknown;
+  defaultLocales?: Array<string>;
+  piiMasking: {
+  submissions: boolean;
+  comments: boolean;
+};
+  retentionDays: number;
+  modelTierOverrides?: {
+  [key: string]: "fast" | "balanced" | "strong";
+};
+  brandVoiceProfile?: BrandVoiceProfile;
+  createdAt?: DateTime;
+  updatedAt?: DateTime;
+};
+
+export type BrandVoiceSettings = {
+  brandVoice?: unknown;
+  glossary?: Array<LegacyGlossaryEntry>;
+  brandVoiceProfile?: BrandVoiceProfile;
+  brandVoiceVersion?: string;
+};
+
+export type CreditSnapshot = {
+  period: string;
+  used: number;
+  reserved: number;
+  limit: number;
+  remaining: number;
+  available: number;
+};
+
+export type TokenEstimate = {
+  actionId: string;
+  estimatedTokens: number;
+};
+
+export type AiRunSubmission = {
+  runId: string;
+  mode: string;
+  estimatedTokens: number;
+};
+
+export type AiRunInsufficientCredits = {
+  reason: "AI_INSUFFICIENT_CREDITS";
+  used: number;
+  reserved: number;
+  limit: number;
+  estimate: number;
+};
+
+export type AiRunConflict = {
+  runId: string;
+  status: "already_running";
+};
+
+export type AiRunListItem = {
+  runId: string;
+  actionId: string;
+  status: "reserved" | "settled" | "refunded" | "void";
+  estimated: number;
+  actual?: unknown;
+  reason?: unknown;
+  outcome?: unknown;
+  meta?: unknown;
+  createdAt?: unknown;
+};
+
+export type AiRunList = {
+  runs: Array<AiRunListItem>;
+};
+
+export type AiProposalPatch = {
+  path: string;
+  lang?: string;
+  key?: string;
+  before?: unknown;
+  after: unknown;
+};
+
+export type AiProposal = {
+  _id: ObjectId;
+  tenantId?: string;
+  articleId: string;
+  actionId: string;
+  status: "pending" | "accepted" | "rejected" | "reverted" | "expired";
+  createdByUserId?: unknown;
+  decidedByUserId?: unknown;
+  locale?: unknown;
+  patches: Array<AiProposalPatch>;
+  baseHash?: string;
+  decidedAt?: unknown;
+  createdAt?: DateTime;
+  updatedAt?: DateTime;
+};
+
+export type AiProposalCount = {
+  count: number;
+};
+
+export type AiProposalDecision = {
+  proposal: AiProposal;
+  appliedPatches: Array<AiProposalPatch>;
+};
+
+export type AiProposalStale = {
+  reason: "AI_PROPOSAL_STALE" | "AI_PROPOSAL_INVALID_STATE";
+};
+
+export type AiProposalBulkResultItem = {
+  id: string;
+  status: "accepted" | "failed";
+  reason?: string;
+};
+
+export type AiAutofillResult = {
+  proposalId: string;
+  filled: Array<string>;
+  skipped: Array<string>;
+};
+
+export type ArticleRevisionSnapshot = {
+  mainTitle?: unknown;
+  summary?: unknown;
+  content?: unknown;
+  tags?: Array<string>;
+};
+
+export type ArticleRevision = {
+  _id: ObjectId;
+  articleId: string;
+  locale: string;
+  source: "manual" | "ai" | "restore" | "system" | "seed";
+  userId?: unknown;
+  aiProposalId?: unknown;
+  restoredFrom?: unknown;
+  snapshot: ArticleRevisionSnapshot;
+  createdAt?: DateTime;
+  updatedAt?: DateTime;
+};
+
+export type ArticleRevisionList = {
+  revisions: Array<ArticleRevision>;
+  maxRevisionsPerLocale?: number;
+};
+
+export type ArticleRevisionRestore = {
+  article: Article;
+  revision: ArticleRevision;
+};
+
+export type ReadinessItem = {
+  id: string;
+  label: string;
+  state: "ok" | "warning" | "missing";
+  locales: Array<string>;
+  detail?: unknown;
+};
+
+export type ArticleReadiness = {
+  articleId: string;
+  itemType: "article";
+  contentSource: string;
+  items: Array<ReadinessItem>;
+  blockers: Array<string>;
+  warnings: Array<string>;
+};
+
+export type TranslationStateItem = {
+  locale: string;
+  state: "missing" | "done" | "outdated";
+  storedState?: "missing" | "done" | "outdated";
+  sourceOutdated: boolean;
+  updatedAt?: unknown;
+};
+
+export type TranslationStateReport = {
+  articleId: string;
+  sourceLocale: string;
+  items: Array<TranslationStateItem>;
+};
+
+export type TranslationStateDoc = {
+  _id?: ObjectId;
+  articleId: string;
+  locale: string;
+  sourceLocale?: string;
+  sourceHash: string;
+  targetHash: string;
+  blockHashes?: {
+  [key: string]: string;
+};
+  updatedByUserId?: unknown;
+  createdAt?: DateTime;
+  updatedAt?: DateTime;
+};
+
+export type AiEvent = {
+  event: string;
+  occurredAt: DateTime;
+  payload?: {
+  [key: string]: unknown;
+};
+};
+
+export type GlossaryTerm = {
+  _id: ObjectId;
+  source: string;
+  sourceLocale: string;
+  target: string;
+  targetLocale: string;
+  doNotTranslate: boolean;
+  note?: unknown;
+  createdAt?: DateTime;
+  updatedAt?: DateTime;
+};
+
+export type GlossaryTermWrapper = {
+  term: GlossaryTerm;
+};
+
+export type KnowledgeSource = {
+  _id: ObjectId;
+  type: "url" | "text" | "file";
+  title: string;
+  uri?: unknown;
+  content?: unknown;
+  locale?: unknown;
+  status: "pending" | "indexed" | "failed";
+  error?: unknown;
+  chunkCount: number;
+  tokenCount?: number;
+  indexedAt?: unknown;
+  createdAt?: DateTime;
+  updatedAt?: DateTime;
+};
+
+export type KnowledgeSourceWrapper = {
+  source: KnowledgeSource;
+};
+
+export type TaxonomyFinding = {
+  code: "duplicate_category" | "duplicate_subcategory" | "near_duplicate_category" | "empty_category" | "no_description" | "no_seo" | "unbalanced_category" | "orphan_subcategory";
+  severity: "high" | "medium" | "low";
+  entityType: "category" | "subcategory";
+  entityId?: string | unknown;
+  names?: Array<string>;
+  message: string;
+  fixAction: string;
+};
+
+export type TaxonomyAudit = {
+  findings: Array<TaxonomyFinding>;
+  summary: {
+  total?: number;
+  high?: number;
+  medium?: number;
+  low?: number;
+};
+};
+
+export type TaxonomySeoEntry = {
+  metaTitle?: string;
+  metaDescription?: string;
+  focusKeyword?: string;
+};
+
+export type CategorySeoSuggestion = {
+  entityType: "category" | "subcategory";
+  entityId: ObjectId;
+  seo: {
+  [key: string]: TaxonomySeoEntry;
+};
+};
+
+export type TagSuggestion = {
+  tag: string;
+  isNew?: boolean;
+  confidence?: number;
+};
+
+export type TagSuggestions = {
+  tags: Array<TagSuggestion>;
+};
+
+export type TagMergeResult = {
+  from: string;
+  into: string;
+  articlesUpdated: number;
+};
+
+export type TagUsageRefresh = {
+  updated: number;
+};
+
+export type AuthorBioSuggestion = {
+  authorId: ObjectId;
+  bio?: {
+  [key: string]: string;
+};
+  expertise?: Array<string>;
+};
+
+export type AuthorSuggestion = {
+  authorId: ObjectId;
+  score: number;
+  matched?: Array<string>;
+};
+
+export type AuthorSuggestions = {
+  suggestions: Array<AuthorSuggestion>;
+};
+
+export type MediaAsset = {
+  _id: ObjectId;
+  tenantId?: ObjectId;
+  kind: "image" | "video" | "audio" | "document" | "other";
+  url: string;
+  storageKey?: unknown;
+  fileName?: unknown;
+  mimeType?: unknown;
+  sizeBytes?: unknown;
+  width?: unknown;
+  height?: unknown;
+  altText?: {
+  [key: string]: string;
+};
+  caption?: {
+  [key: string]: string;
+};
+  tags?: Array<string>;
+  aiMetadata?: unknown;
+  usage?: Array<{
+  entityType?: string;
+  entityId?: ObjectId;
+  field?: string;
+}>;
+  isDeleted?: boolean;
+  createdAt?: DateTime;
+  updatedAt?: DateTime;
+};
+
+export type MediaAssetList = {
+  assets: Array<MediaAsset>;
+  pagination: Pagination;
+};
+
+export type MediaAssetWrapper = {
+  asset: MediaAsset;
+};
+
+export type MediaUsageRef = {
+  entityType: string;
+  entityId: ObjectId;
+  field: string;
+  title?: string;
+  slug?: string;
+};
+
+export type MediaUsage = {
+  usages: Array<MediaUsageRef>;
+};
+
+export type MediaMetadataSuggestion = {
+  assetId?: string | unknown;
+  url?: string | unknown;
+  mimeType?: string | unknown;
+  locale?: string;
+  altText: string;
+  tags: Array<string>;
+  kind: "image" | "video" | "audio" | "document" | "other";
+};
+
+export type MediaMissingAlt = {
+  assets: Array<MediaAsset>;
+  totalMissing: number;
+  locale?: string;
 };
 
 export type Envelope = {

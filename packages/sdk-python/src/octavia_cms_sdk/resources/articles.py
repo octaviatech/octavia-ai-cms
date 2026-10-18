@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import urllib.parse
-from typing import TYPE_CHECKING, Any, Dict, Optional
+from typing import TYPE_CHECKING, Any, Dict, List, Optional
 
 from ..models import (
     ArticleWrapper,
@@ -11,6 +11,10 @@ from ..models import (
     ArticleReactionSummary,
     CommentWrapper,
     CommentListWrapper,
+    MinedQuestionsWrapper,
+    EffectivePolicyWrapper,
+    ModerationResultWrapper,
+    CommentReplyDraftWrapper,
     CommentReactionTotals,
     CommentReactionSummary,
     EngagementSettings,
@@ -88,6 +92,18 @@ class ArticlesResource:
 
     def commentsGetAll(self, *, query: Optional[Dict[str, Any]] = None) -> ArticleList:
         return self._client.request_typed(ArticleList, "GET", "/articles/comments/getAll", query=query, body=None)
+
+    def commentsMinedQuestions(self, *, query: Optional[Dict[str, Any]] = None) -> MinedQuestionsWrapper:
+        return self._client.request_typed(MinedQuestionsWrapper, "GET", "/articles/comments/minedQuestions", query=query, body=None)
+
+    def commentsEffectivePolicy(self, *, query: Optional[Dict[str, Any]] = None) -> EffectivePolicyWrapper:
+        return self._client.request_typed(EffectivePolicyWrapper, "GET", "/articles/comments/effectivePolicy", query=query, body=None)
+
+    def commentsCommentIdModerate(self, commentId, body: Any, *, query: Optional[Dict[str, Any]] = None) -> ModerationResultWrapper:
+        return self._client.request_typed(ModerationResultWrapper, "POST", "/articles/comments/" + urllib.parse.quote(str(commentId)) + "/moderate", query=query, body=body)
+
+    def commentsCommentIdReplyDraft(self, commentId, body: Any, *, query: Optional[Dict[str, Any]] = None) -> CommentReplyDraftWrapper:
+        return self._client.request_typed(CommentReplyDraftWrapper, "POST", "/articles/comments/" + urllib.parse.quote(str(commentId)) + "/reply-draft", query=query, body=body)
 
     def commentsCommentIdPATCH(self, commentId, body: Any, *, query: Optional[Dict[str, Any]] = None) -> CommentWrapper:
         return self._client.request_typed(CommentWrapper, "PATCH", "/articles/comments/" + urllib.parse.quote(str(commentId)), query=query, body=body)

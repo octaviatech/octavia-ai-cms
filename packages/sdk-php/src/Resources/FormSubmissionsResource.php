@@ -124,4 +124,76 @@ class FormSubmissionsResource
         return $this->client->request("DELETE", "/forms/submission/delete/" . rawurlencode($id) . "", $options, \Octavia\CmsSDK\Types\SubmissionRawWrapper::class);
     }
 
+    /**
+     * @return \Octavia\CmsSDK\Envelope
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\SubmissionInboxFacets>
+     */
+    public function submissionsFacets(array $options = []): Envelope
+    {
+        return $this->client->request("GET", "/forms/submissions/facets", $options, \Octavia\CmsSDK\Types\SubmissionInboxFacets::class);
+    }
+
+    /**
+     * @return \Octavia\CmsSDK\Envelope
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\SubmissionAnalysisResult>
+     */
+    public function submissionIdAnalyze($id, $body, array $options = []): Envelope
+    {
+        return $this->client->request("POST", "/forms/submission/" . rawurlencode($id) . "/analyze", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\SubmissionAnalysisResult::class);
+    }
+
+    /**
+     * @return \Octavia\CmsSDK\Envelope
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\SubmissionBulkAnalysis>
+     */
+    public function submissionsAnalyze($body, array $options = []): Envelope
+    {
+        return $this->client->request("POST", "/forms/submissions/analyze", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\SubmissionBulkAnalysis::class);
+    }
+
+    /**
+     * @return \Octavia\CmsSDK\Envelope
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\SubmissionActivityWrapper>
+     */
+    public function submissionIdNotes($id, $body, array $options = []): Envelope
+    {
+        return $this->client->request("POST", "/forms/submission/" . rawurlencode($id) . "/notes", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\SubmissionActivityWrapper::class);
+    }
+
+    /**
+     * @return \Octavia\CmsSDK\Envelope
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\SubmissionActivityList>
+     */
+    public function submissionIdActivity($id, array $options = []): Envelope
+    {
+        return $this->client->request("GET", "/forms/submission/" . rawurlencode($id) . "/activity", $options, \Octavia\CmsSDK\Types\SubmissionActivityList::class);
+    }
+
+    /**
+     * @return \Octavia\CmsSDK\Envelope
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\SubmissionReplyWrapper>
+     */
+    public function submissionIdReplyDraft($id, $body, array $options = []): Envelope
+    {
+        return $this->client->request("POST", "/forms/submission/" . rawurlencode($id) . "/reply-draft", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\SubmissionReplyWrapper::class);
+    }
+
+    /**
+     * @return \Octavia\CmsSDK\Envelope
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\SubmissionReplyWrapper>
+     */
+    public function submissionIdReply($id, $body, array $options = []): Envelope
+    {
+        return $this->client->request("POST", "/forms/submission/" . rawurlencode($id) . "/reply", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\SubmissionReplyWrapper::class);
+    }
+
+    /**
+     * @return \Octavia\CmsSDK\Envelope
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\SubmissionDigestWrapper>
+     */
+    public function submissionsDigest(array $options = []): Envelope
+    {
+        return $this->client->request("GET", "/forms/submissions/digest", $options, \Octavia\CmsSDK\Types\SubmissionDigestWrapper::class);
+    }
+
 }

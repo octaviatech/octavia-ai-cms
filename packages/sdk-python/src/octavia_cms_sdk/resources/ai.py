@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import urllib.parse
-from typing import TYPE_CHECKING, Any, Dict, Optional
+from typing import TYPE_CHECKING, Any, Dict, List, Optional
 
 from ..models import (
     AiSummaryResult,
@@ -11,6 +11,7 @@ from ..models import (
     AiContentResult,
     AiImageResult,
     AiArticleSeoResult,
+    AiAutofillResult,
     AiArticleTranslateResult,
     AiFormTranslateResult,
     RepurposeResult,
@@ -18,6 +19,19 @@ from ..models import (
     SocialConnectionList,
     SocialConnection,
     SocialPublishResult,
+    CreditSnapshot,
+    TokenEstimate,
+    AiRunList,
+    AiProposal,
+    AiProposalCount,
+    AiProposalDecision,
+    AiProposalBulkResultItem,
+    AiSettings,
+    ArticleRevisionList,
+    ArticleRevisionRestore,
+    ArticleReadiness,
+    TranslationStateReport,
+    TranslationStateDoc,
 )
 
 if TYPE_CHECKING:
@@ -60,8 +74,8 @@ class AIResource:
     def optimizeArticle(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> AiArticleSeoResult:
         return self._client.request_typed(AiArticleSeoResult, "POST", "/ai/optimizeArticle", query=query, body=body)
 
-    def autofillArticle(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
-        return self._client.request_typed(Dict[str, Any], "POST", "/ai/autofillArticle", query=query, body=body)
+    def autofillArticle(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> AiAutofillResult:
+        return self._client.request_typed(AiAutofillResult, "POST", "/ai/autofillArticle", query=query, body=body)
 
     def optimizeArticleStream(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         return self._client.request_typed(Dict[str, Any], "POST", "/ai/optimizeArticle/stream", query=query, body=body)
@@ -108,62 +122,62 @@ class AIResource:
     def socialTwitterPublish(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> SocialPublishResult:
         return self._client.request_typed(SocialPublishResult, "POST", "/ai/social/twitter/publish", query=query, body=body)
 
-    def credits(self, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
-        return self._client.request_typed(Dict[str, Any], "GET", "/ai/credits", query=query, body=None)
+    def credits(self, *, query: Optional[Dict[str, Any]] = None) -> CreditSnapshot:
+        return self._client.request_typed(CreditSnapshot, "GET", "/ai/credits", query=query, body=None)
 
-    def estimate(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
-        return self._client.request_typed(Dict[str, Any], "POST", "/ai/estimate", query=query, body=body)
+    def estimate(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> TokenEstimate:
+        return self._client.request_typed(TokenEstimate, "POST", "/ai/estimate", query=query, body=body)
 
     def run(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         return self._client.request_typed(Dict[str, Any], "POST", "/ai/run", query=query, body=body)
 
-    def creditsRuns(self, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
-        return self._client.request_typed(Dict[str, Any], "GET", "/ai/credits/runs", query=query, body=None)
+    def creditsRuns(self, *, query: Optional[Dict[str, Any]] = None) -> AiRunList:
+        return self._client.request_typed(AiRunList, "GET", "/ai/credits/runs", query=query, body=None)
 
     def eventsStream(self, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         return self._client.request_typed(Dict[str, Any], "GET", "/ai/events/stream", query=query, body=None)
 
-    def proposalsPOST(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
-        return self._client.request_typed(Dict[str, Any], "POST", "/ai/proposals", query=query, body=body)
+    def proposalsPOST(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> AiProposal:
+        return self._client.request_typed(AiProposal, "POST", "/ai/proposals", query=query, body=body)
 
-    def proposalsGET(self, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
-        return self._client.request_typed(Dict[str, Any], "GET", "/ai/proposals", query=query, body=None)
+    def proposalsGET(self, *, query: Optional[Dict[str, Any]] = None) -> List[AiProposal]:
+        return self._client.request_typed(List[AiProposal], "GET", "/ai/proposals", query=query, body=None)
 
-    def proposalsCount(self, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
-        return self._client.request_typed(Dict[str, Any], "GET", "/ai/proposals/count", query=query, body=None)
+    def proposalsCount(self, *, query: Optional[Dict[str, Any]] = None) -> AiProposalCount:
+        return self._client.request_typed(AiProposalCount, "GET", "/ai/proposals/count", query=query, body=None)
 
-    def proposalsId(self, id, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
-        return self._client.request_typed(Dict[str, Any], "GET", "/ai/proposals/" + urllib.parse.quote(str(id)), query=query, body=None)
+    def proposalsId(self, id, *, query: Optional[Dict[str, Any]] = None) -> AiProposal:
+        return self._client.request_typed(AiProposal, "GET", "/ai/proposals/" + urllib.parse.quote(str(id)), query=query, body=None)
 
-    def proposalsIdAccept(self, id, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
-        return self._client.request_typed(Dict[str, Any], "POST", "/ai/proposals/" + urllib.parse.quote(str(id)) + "/accept", query=query, body=None)
+    def proposalsIdAccept(self, id, *, query: Optional[Dict[str, Any]] = None) -> AiProposalDecision:
+        return self._client.request_typed(AiProposalDecision, "POST", "/ai/proposals/" + urllib.parse.quote(str(id)) + "/accept", query=query, body=None)
 
-    def proposalsIdReject(self, id, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
-        return self._client.request_typed(Dict[str, Any], "POST", "/ai/proposals/" + urllib.parse.quote(str(id)) + "/reject", query=query, body=None)
+    def proposalsIdReject(self, id, *, query: Optional[Dict[str, Any]] = None) -> AiProposal:
+        return self._client.request_typed(AiProposal, "POST", "/ai/proposals/" + urllib.parse.quote(str(id)) + "/reject", query=query, body=None)
 
-    def proposalsIdUndo(self, id, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
-        return self._client.request_typed(Dict[str, Any], "POST", "/ai/proposals/" + urllib.parse.quote(str(id)) + "/undo", query=query, body=None)
+    def proposalsIdUndo(self, id, *, query: Optional[Dict[str, Any]] = None) -> AiProposal:
+        return self._client.request_typed(AiProposal, "POST", "/ai/proposals/" + urllib.parse.quote(str(id)) + "/undo", query=query, body=None)
 
-    def proposalsBulkAccept(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
-        return self._client.request_typed(Dict[str, Any], "POST", "/ai/proposals/bulk-accept", query=query, body=body)
+    def proposalsBulkAccept(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> List[AiProposalBulkResultItem]:
+        return self._client.request_typed(List[AiProposalBulkResultItem], "POST", "/ai/proposals/bulk-accept", query=query, body=body)
 
-    def settingsGET(self, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
-        return self._client.request_typed(Dict[str, Any], "GET", "/ai/settings", query=query, body=None)
+    def settingsGET(self, *, query: Optional[Dict[str, Any]] = None) -> AiSettings:
+        return self._client.request_typed(AiSettings, "GET", "/ai/settings", query=query, body=None)
 
-    def settingsPUT(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
-        return self._client.request_typed(Dict[str, Any], "PUT", "/ai/settings", query=query, body=body)
+    def settingsPUT(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> AiSettings:
+        return self._client.request_typed(AiSettings, "PUT", "/ai/settings", query=query, body=body)
 
-    def revisionsArticleId(self, articleId, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
-        return self._client.request_typed(Dict[str, Any], "GET", "/articles/revisions/" + urllib.parse.quote(str(articleId)), query=query, body=None)
+    def revisionsArticleId(self, articleId, *, query: Optional[Dict[str, Any]] = None) -> ArticleRevisionList:
+        return self._client.request_typed(ArticleRevisionList, "GET", "/articles/revisions/" + urllib.parse.quote(str(articleId)), query=query, body=None)
 
-    def revisionsArticleIdRevisionIdRestore(self, articleId, revisionId, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
-        return self._client.request_typed(Dict[str, Any], "POST", "/articles/revisions/" + urllib.parse.quote(str(articleId)) + "/" + urllib.parse.quote(str(revisionId)) + "/restore", query=query, body=None)
+    def revisionsArticleIdRevisionIdRestore(self, articleId, revisionId, *, query: Optional[Dict[str, Any]] = None) -> ArticleRevisionRestore:
+        return self._client.request_typed(ArticleRevisionRestore, "POST", "/articles/revisions/" + urllib.parse.quote(str(articleId)) + "/" + urllib.parse.quote(str(revisionId)) + "/restore", query=query, body=None)
 
-    def readinessArticleId(self, articleId, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
-        return self._client.request_typed(Dict[str, Any], "GET", "/articles/readiness/" + urllib.parse.quote(str(articleId)), query=query, body=None)
+    def readinessArticleId(self, articleId, *, query: Optional[Dict[str, Any]] = None) -> ArticleReadiness:
+        return self._client.request_typed(ArticleReadiness, "GET", "/articles/readiness/" + urllib.parse.quote(str(articleId)), query=query, body=None)
 
-    def translationStateArticleId(self, articleId, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
-        return self._client.request_typed(Dict[str, Any], "GET", "/articles/translation-state/" + urllib.parse.quote(str(articleId)), query=query, body=None)
+    def translationStateArticleId(self, articleId, *, query: Optional[Dict[str, Any]] = None) -> TranslationStateReport:
+        return self._client.request_typed(TranslationStateReport, "GET", "/articles/translation-state/" + urllib.parse.quote(str(articleId)), query=query, body=None)
 
-    def translationStateArticleIdLocaleComplete(self, articleId, locale, body: Any, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
-        return self._client.request_typed(Dict[str, Any], "POST", "/articles/translation-state/" + urllib.parse.quote(str(articleId)) + "/" + urllib.parse.quote(str(locale)) + "/complete", query=query, body=body)
+    def translationStateArticleIdLocaleComplete(self, articleId, locale, body: Any, *, query: Optional[Dict[str, Any]] = None) -> TranslationStateDoc:
+        return self._client.request_typed(TranslationStateDoc, "POST", "/articles/translation-state/" + urllib.parse.quote(str(articleId)) + "/" + urllib.parse.quote(str(locale)) + "/complete", query=query, body=body)
