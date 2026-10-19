@@ -71,6 +71,16 @@ const toCamel = (s) => {
   return p ? p[0].toLowerCase() + p.slice(1) : p;
 };
 
+// Name for the D-24 streaming companion of a method. The naive `${name}Stream`
+// suffix reads badly on an endpoint that already carries the word:
+// `/ai/summarize/stream` → `summarizeStreamStream`, `/ai/events/stream` →
+// `eventsStreamStream`. Those already end in Stream (or Events), so they get
+// `Events`; everything else takes the plain `Stream` suffix.
+const streamMethodName = (methodName) =>
+  /Stream$|Events$/.test(methodName)
+    ? methodName.replace(/Stream$/, "") + "Live"
+    : `${methodName}Stream`;
+
 const pathToMethodName = (pathStr) => {
   const segments = pathStr.split('/').filter(Boolean);
   const rest = segments.slice(1); // drop resource segment
@@ -217,6 +227,16 @@ for (const [p, methods] of Object.entries(op.paths)) {
     const params = (def.parameters || []).filter(x => x && x.in === 'path');
     const queryParams = (def.parameters || []).filter(x => x && x.in === 'query');
     const hasBody = Boolean(def.requestBody);
+    // An operation is a stream when its success response advertises
+    // `text/event-stream`. Generated as an ordinary JSON call it is unusable:
+    // the client falls back to `res.text()` and the caller gets one opaque
+    // blob instead of the frames (D-24).
+    const successResponse = def.responses && (def.responses['200'] || def.responses['201']);
+    const sse = Boolean(
+      successResponse &&
+        successResponse.content &&
+        successResponse.content['text/event-stream'],
+    );
     operations.push({
       path: p,
       method: method.toUpperCase(),
@@ -224,6 +244,7 @@ for (const [p, methods] of Object.entries(op.paths)) {
       params,
       queryParams,
       hasBody,
+      sse,
       def,
     });
   }
@@ -333,6 +354,7 @@ for (const [tag, ops] of byTag.entries()) {
   const lines = [];
   lines.push('import { OctaviaClient } from "../client";');
   lines.push('import { RequestOptions } from "../types";');
+  lines.push('import type { SseEvent } from "../http";');
   lines.push('import type * as Ops from "../generated/operations";');
   lines.push('');
   lines.push(`export class ${className} {`);
@@ -347,6 +369,7 @@ for (const [tag, ops] of byTag.entries()) {
     const methodName = methodNameFor(opItem.path, opItem.method, multiMethodPaths);
     const base = toTypeName(opItem.tag, methodName);
     const params = opItem.params.map(p => p.name);
+    const isSse = opItem.sse === true;
 
     const pathExpr = opItem.path.replace(/\{([^}]+)\}/g, (_, n) => `\${encodeURIComponent(${n})}`);
 
@@ -366,6 +389,22 @@ for (const [tag, ops] of byTag.entries()) {
       callOptions = '{ ...(options || {}), body }';
     } else {
       signature = `${methodName}(options?: ${optsType})`;
+    }
+
+    if (isSse) {
+      // D-24/A-11: an SSE operation ALSO gets a real streaming method. The
+      // JSON `…` method below stays for parity with the other four SDKs, but
+      // calling it on a text/event-stream endpoint yields one opaque string —
+      // the streaming form is the way to consume one incrementally.
+      //
+      // A path already ending in `/stream` (summarize/stream) would produce
+      // `summarizeStreamStream`, so suffix with "Events" there instead.
+      const streamName = streamMethodName(methodName);
+      const streamSignature = `${streamName}${signature.slice(methodName.length)}`;
+      lines.push(`  ${streamSignature}: AsyncGenerator<SseEvent, void, undefined> {`);
+      lines.push(`    return this.client.streamSSE("${opItem.method}", \`${pathExpr}\`, ${callOptions});`);
+      lines.push('  }');
+      lines.push('');
     }
 
     lines.push(`  ${signature}: Promise<Ops.${base}Response> {`);

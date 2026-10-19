@@ -7087,6 +7087,52 @@ class ArticleReadiness:
 
 
 @dataclass
+class ArticleSeoMeta:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    article_id: str = None
+    locale: Optional[str] = None
+    meta_title: MultilingualStringOrNull = None
+    meta_description: MultilingualStringOrNull = None
+    focus_keyword: MultilingualStringOrNull = None
+    secondary_keywords: MultilingualStringOrNull = None
+    canonical_url: MultilingualStringOrNull = None
+    og_title: MultilingualStringOrNull = None
+    og_description: MultilingualStringOrNull = None
+    schema_json: MultilingualStringOrNull = None
+    og_image: Optional[str] = None
+    robots: Optional[str] = None
+    slug: Optional[str] = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "ArticleSeoMeta":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "articleId": "article_id",
+            "locale": "locale",
+            "metaTitle": "meta_title",
+            "metaDescription": "meta_description",
+            "focusKeyword": "focus_keyword",
+            "secondaryKeywords": "secondary_keywords",
+            "canonicalUrl": "canonical_url",
+            "ogTitle": "og_title",
+            "ogDescription": "og_description",
+            "schemaJson": "schema_json",
+            "ogImage": "og_image",
+            "robots": "robots",
+            "slug": "slug",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        return out
+
+
+@dataclass
 class TranslationStateItem:
     """Generated from the OpenAPI spec — do not edit by hand."""
 

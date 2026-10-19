@@ -173,6 +173,105 @@ class Client
         return $this->request('GET', '/healthz');
     }
 
+    /**
+     * Consume a `text/event-stream` endpoint as a generator of frames (D-24).
+     *
+     * `request()` cannot serve these: it reads the whole body and parses it as
+     * JSON, so a caller gets one opaque string instead of the frames the
+     * endpoint emits.
+     *
+     * Uses `CURLOPT_WRITEFUNCTION` on a multi handle so each frame is handed
+     * over the moment it arrives rather than at the end — a generation can run
+     * for minutes and buffering it defeats the point.
+     *
+     * @return \Generator<int, SseEvent>
+     */
+    public function streamSSE(string $method, string $path, ?array $options = null): \Generator
+    {
+        $options = $this->normalizeOptions($options ?? []);
+        $query = $options['query'] ?? [];
+        $body = $options['body'] ?? null;
+
+        $url = $this->config->baseUrl . $path . $this->buildQuery($query);
+
+        // The gateway derives tenant and service state from the key itself, so
+        // the SDK sends no header the caller could spoof.
+        $headers = [
+            'Content-Type: application/json',
+            'Accept: text/event-stream',
+            'x-api-key: ' . $this->config->apiKey,
+        ];
+
+        $curl = curl_init($url);
+        if ($curl === false) {
+            throw new RuntimeException('Failed to initialize curl');
+        }
+
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, strtoupper($method));
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+        if ($body !== null) {
+            curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($body));
+        }
+        // Deliberately no CURLOPT_TIMEOUT: it exists to bound a single call,
+        // and a generation is not one.
+
+        $buffer = '';
+        $running = null;
+
+        curl_setopt($curl, CURLOPT_WRITEFUNCTION, function ($ch, $chunk) use (&$buffer) {
+            $buffer .= (string) $chunk;
+            return strlen((string) $chunk);
+        });
+
+        $multi = curl_multi_init();
+        curl_multi_add_handle($multi, $curl);
+
+        try {
+            do {
+                if (curl_multi_exec($multi, $running) !== CURLM_OK) {
+                    break;
+                }
+
+                $info = curl_multi_info_read($multi);
+                while ($info !== false) {
+                    if ($info['result'] !== CURLE_OK) {
+                        throw new ApiError(
+                            'Stream failed: ' . curl_error($curl),
+                            (int) curl_getinfo($curl, CURLINFO_HTTP_CODE),
+                            null,
+                        );
+                    }
+                    $info = curl_multi_info_read($multi);
+                }
+
+                // A chunk boundary can fall anywhere, so a partial frame stays in
+                // the buffer until the rest of it arrives.
+                while (($boundary = strpos($buffer, "\n\n")) !== false) {
+                    $frame = substr($buffer, 0, $boundary);
+                    $buffer = substr($buffer, $boundary + 2);
+                    $parsed = SseEvent::parse($frame);
+                    if ($parsed !== null) {
+                        yield $parsed;
+                    }
+                }
+
+                if ($running > 0) {
+                    curl_multi_select($multi, 1.0);
+                }
+            } while ($running > 0);
+        } finally {
+            curl_multi_remove_handle($multi, $curl);
+            curl_multi_close($multi);
+            curl_close($curl);
+        }
+
+        // The final frame need not be terminated by a blank line.
+        $tail = SseEvent::parse($buffer);
+        if ($tail !== null) {
+            yield $tail;
+        }
+    }
+
     private function normalizeOptions(array $options): array
     {
         $hasQuery = array_key_exists('query', $options);

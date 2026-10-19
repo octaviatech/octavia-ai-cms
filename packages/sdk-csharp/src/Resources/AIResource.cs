@@ -23,9 +23,27 @@ public class AIResource
         return _client.RequestAsync<JsonElement>("POST", "/ai/summarize/stream", query, body);
     }
 
+    /// <summary>
+    /// Streams this endpoint as Server-Sent Events (D-24), yielding one
+    /// <see cref="SseEvent"/> per frame as it arrives.
+    /// </summary>
+    public IAsyncEnumerable<SseEvent> SummarizeLiveAsync(object body, Dictionary<string, string?>? query = null, CancellationToken cancellationToken = default)
+    {
+        return _client.StreamSSEAsync("POST", "/ai/summarize/stream", query, body, cancellationToken);
+    }
+
     public Task<CMSResponse<JsonElement>> SummarizeArticleStreamAsync(object body, Dictionary<string, string?>? query = null)
     {
         return _client.RequestAsync<JsonElement>("POST", "/ai/summarizeArticle/stream", query, body);
+    }
+
+    /// <summary>
+    /// Streams this endpoint as Server-Sent Events (D-24), yielding one
+    /// <see cref="SseEvent"/> per frame as it arrives.
+    /// </summary>
+    public IAsyncEnumerable<SseEvent> SummarizeArticleLiveAsync(object body, Dictionary<string, string?>? query = null, CancellationToken cancellationToken = default)
+    {
+        return _client.StreamSSEAsync("POST", "/ai/summarizeArticle/stream", query, body, cancellationToken);
     }
 
     public Task<CMSResponse<AiSeoResult>> SeoOptimizeAsync(object body, Dictionary<string, string?>? query = null)
@@ -36,6 +54,15 @@ public class AIResource
     public Task<CMSResponse<JsonElement>> SeoOptimizeStreamAsync(object body, Dictionary<string, string?>? query = null)
     {
         return _client.RequestAsync<JsonElement>("POST", "/ai/seoOptimize/stream", query, body);
+    }
+
+    /// <summary>
+    /// Streams this endpoint as Server-Sent Events (D-24), yielding one
+    /// <see cref="SseEvent"/> per frame as it arrives.
+    /// </summary>
+    public IAsyncEnumerable<SseEvent> SeoOptimizeLiveAsync(object body, Dictionary<string, string?>? query = null, CancellationToken cancellationToken = default)
+    {
+        return _client.StreamSSEAsync("POST", "/ai/seoOptimize/stream", query, body, cancellationToken);
     }
 
     public Task<CMSResponse<AiTitleResult>> GenerateTitleAsync(object body, Dictionary<string, string?>? query = null)
@@ -51,6 +78,15 @@ public class AIResource
     public Task<CMSResponse<JsonElement>> TranslateStreamAsync(object body, Dictionary<string, string?>? query = null)
     {
         return _client.RequestAsync<JsonElement>("POST", "/ai/translate/stream", query, body);
+    }
+
+    /// <summary>
+    /// Streams this endpoint as Server-Sent Events (D-24), yielding one
+    /// <see cref="SseEvent"/> per frame as it arrives.
+    /// </summary>
+    public IAsyncEnumerable<SseEvent> TranslateLiveAsync(object body, Dictionary<string, string?>? query = null, CancellationToken cancellationToken = default)
+    {
+        return _client.StreamSSEAsync("POST", "/ai/translate/stream", query, body, cancellationToken);
     }
 
     public Task<CMSResponse<AiContentResult>> GenerateContentAsync(object body, Dictionary<string, string?>? query = null)
@@ -78,6 +114,15 @@ public class AIResource
         return _client.RequestAsync<JsonElement>("POST", "/ai/optimizeArticle/stream", query, body);
     }
 
+    /// <summary>
+    /// Streams this endpoint as Server-Sent Events (D-24), yielding one
+    /// <see cref="SseEvent"/> per frame as it arrives.
+    /// </summary>
+    public IAsyncEnumerable<SseEvent> OptimizeArticleLiveAsync(object body, Dictionary<string, string?>? query = null, CancellationToken cancellationToken = default)
+    {
+        return _client.StreamSSEAsync("POST", "/ai/optimizeArticle/stream", query, body, cancellationToken);
+    }
+
     public Task<CMSResponse<AiArticleTranslateResult>> TranslateArticleAsync(object body, Dictionary<string, string?>? query = null)
     {
         return _client.RequestAsync<AiArticleTranslateResult>("POST", "/ai/translateArticle", query, body);
@@ -86,6 +131,15 @@ public class AIResource
     public Task<CMSResponse<JsonElement>> TranslateArticleStreamAsync(object body, Dictionary<string, string?>? query = null)
     {
         return _client.RequestAsync<JsonElement>("POST", "/ai/translateArticle/stream", query, body);
+    }
+
+    /// <summary>
+    /// Streams this endpoint as Server-Sent Events (D-24), yielding one
+    /// <see cref="SseEvent"/> per frame as it arrives.
+    /// </summary>
+    public IAsyncEnumerable<SseEvent> TranslateArticleLiveAsync(object body, Dictionary<string, string?>? query = null, CancellationToken cancellationToken = default)
+    {
+        return _client.StreamSSEAsync("POST", "/ai/translateArticle/stream", query, body, cancellationToken);
     }
 
     public Task<CMSResponse<AiFormTranslateResult>> TranslateFormAsync(object body, Dictionary<string, string?>? query = null)
@@ -101,6 +155,15 @@ public class AIResource
     public Task<CMSResponse<JsonElement>> RepurposeStreamAsync(object body, Dictionary<string, string?>? query = null)
     {
         return _client.RequestAsync<JsonElement>("POST", "/ai/repurpose/stream", query, body);
+    }
+
+    /// <summary>
+    /// Streams this endpoint as Server-Sent Events (D-24), yielding one
+    /// <see cref="SseEvent"/> per frame as it arrives.
+    /// </summary>
+    public IAsyncEnumerable<SseEvent> RepurposeLiveAsync(object body, Dictionary<string, string?>? query = null, CancellationToken cancellationToken = default)
+    {
+        return _client.StreamSSEAsync("POST", "/ai/repurpose/stream", query, body, cancellationToken);
     }
 
     public Task<CMSResponse<SocialTemplate>> RepurposeTemplateGETAsync(Dictionary<string, string?>? query = null)
@@ -171,6 +234,15 @@ public class AIResource
     public Task<CMSResponse<JsonElement>> EventsStreamAsync(Dictionary<string, string?>? query = null)
     {
         return _client.RequestAsync<JsonElement>("GET", "/ai/events/stream", query, null);
+    }
+
+    /// <summary>
+    /// Streams this endpoint as Server-Sent Events (D-24), yielding one
+    /// <see cref="SseEvent"/> per frame as it arrives.
+    /// </summary>
+    public IAsyncEnumerable<SseEvent> EventsLiveAsync(Dictionary<string, string?>? query = null, CancellationToken cancellationToken = default)
+    {
+        return _client.StreamSSEAsync("GET", "/ai/events/stream", query, null, cancellationToken);
     }
 
     public Task<CMSResponse<AiProposal>> ProposalsPOSTAsync(object body, Dictionary<string, string?>? query = null)

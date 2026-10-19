@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import urllib.parse
-from typing import TYPE_CHECKING, Any, Dict, List, Optional
+from typing import TYPE_CHECKING, Any, Dict, Iterator, List, Optional
 
 from ..models import (
     ArticleWrapper,
@@ -18,6 +18,7 @@ from ..models import (
     CommentReactionTotals,
     CommentReactionSummary,
     EngagementSettings,
+    ArticleSeoMeta,
 )
 
 if TYPE_CHECKING:
@@ -125,3 +126,9 @@ class ArticlesResource:
 
     def engagementSettingsPUT(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> EngagementSettings:
         return self._client.request_typed(EngagementSettings, "PUT", "/articles/engagementSettings", query=query, body=body)
+
+    def articleIdSeoGET(self, articleId, *, query: Optional[Dict[str, Any]] = None) -> ArticleSeoMeta:
+        return self._client.request_typed(ArticleSeoMeta, "GET", "/articles/" + urllib.parse.quote(str(articleId)) + "/seo", query=query, body=None)
+
+    def articleIdSeoPUT(self, articleId, body: Any, *, query: Optional[Dict[str, Any]] = None) -> ArticleSeoMeta:
+        return self._client.request_typed(ArticleSeoMeta, "PUT", "/articles/" + urllib.parse.quote(str(articleId)) + "/seo", query=query, body=body)

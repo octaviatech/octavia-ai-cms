@@ -12,18 +12,25 @@ type CMSOptions struct {
 }
 
 type CMS struct {
-	Raw            *Client
+	Raw *Client
+	// @generated fields:begin
+	AI             *AIResource
+	AIConversation *AIConversationResource
 	Article        *ArticlesResource
 	Author         *AuthorsResource
+	Campaign       *CampaignsResource
 	Category       *CategoriesResource
-	Subcategory    *SubcategoriesResource
+	ContentPlan    *ContentPlanResource
 	Form           *FormsResource
 	FormSubmission *FormSubmissionsResource
 	Language       *LanguagesResource
+	Media          *MediaResource
 	Report         *ReportsResource
-	AI             *AIResource
-	AIConversation *AIConversationResource
+	Seo            *SEOHubResource
+	Subcategory    *SubcategoriesResource
 	Tag            *TagsResource
+	Taxonomy       *TaxonomyResource
+	// @generated fields:end
 }
 
 func InitCMS(apiKey string, opts *CMSOptions) (*CMS, error) {
@@ -45,17 +52,24 @@ func InitCMS(apiKey string, opts *CMSOptions) (*CMS, error) {
 	}
 
 	return &CMS{
-		Raw:            client,
+		Raw: client,
+		// @generated ctor:begin
+		AI:             client.AI,
+		AIConversation: client.AIConversation,
 		Article:        client.Articles,
 		Author:         client.Authors,
+		Campaign:       client.Campaigns,
 		Category:       client.Categories,
-		Subcategory:    client.Subcategories,
+		ContentPlan:    client.ContentPlan,
 		Form:           client.Forms,
 		FormSubmission: client.FormSubmissions,
 		Language:       client.Languages,
+		Media:          client.Media,
 		Report:         client.Reports,
-		AI:             client.AI,
-		AIConversation: client.AIConversation,
+		Seo:            client.SEOHub,
+		Subcategory:    client.Subcategories,
 		Tag:            client.Tags,
+		Taxonomy:       client.Taxonomy,
+		// @generated ctor:end
 	}, nil
 }

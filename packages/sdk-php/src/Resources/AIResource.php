@@ -35,12 +35,32 @@ class AIResource
     }
 
     /**
+     * Stream this endpoint as Server-Sent Events (D-24).
+     *
+     * @return \Generator<int, \Octavia\CmsSDK\SseEvent>
+     */
+    public function summarizeLive($body, array $options = []): \Generator
+    {
+        return $this->client->streamSSE("POST", "/ai/summarize/stream", array_merge($options, ["body" => $body]));
+    }
+
+    /**
      * @return \Octavia\CmsSDK\Envelope
      * @phpstan-return \Octavia\CmsSDK\Envelope<null>
      */
     public function summarizeArticleStream($body, array $options = []): Envelope
     {
         return $this->client->request("POST", "/ai/summarizeArticle/stream", array_merge($options, ["body" => $body]));
+    }
+
+    /**
+     * Stream this endpoint as Server-Sent Events (D-24).
+     *
+     * @return \Generator<int, \Octavia\CmsSDK\SseEvent>
+     */
+    public function summarizeArticleLive($body, array $options = []): \Generator
+    {
+        return $this->client->streamSSE("POST", "/ai/summarizeArticle/stream", array_merge($options, ["body" => $body]));
     }
 
     /**
@@ -59,6 +79,16 @@ class AIResource
     public function seoOptimizeStream($body, array $options = []): Envelope
     {
         return $this->client->request("POST", "/ai/seoOptimize/stream", array_merge($options, ["body" => $body]));
+    }
+
+    /**
+     * Stream this endpoint as Server-Sent Events (D-24).
+     *
+     * @return \Generator<int, \Octavia\CmsSDK\SseEvent>
+     */
+    public function seoOptimizeLive($body, array $options = []): \Generator
+    {
+        return $this->client->streamSSE("POST", "/ai/seoOptimize/stream", array_merge($options, ["body" => $body]));
     }
 
     /**
@@ -86,6 +116,16 @@ class AIResource
     public function translateStream($body, array $options = []): Envelope
     {
         return $this->client->request("POST", "/ai/translate/stream", array_merge($options, ["body" => $body]));
+    }
+
+    /**
+     * Stream this endpoint as Server-Sent Events (D-24).
+     *
+     * @return \Generator<int, \Octavia\CmsSDK\SseEvent>
+     */
+    public function translateLive($body, array $options = []): \Generator
+    {
+        return $this->client->streamSSE("POST", "/ai/translate/stream", array_merge($options, ["body" => $body]));
     }
 
     /**
@@ -134,6 +174,16 @@ class AIResource
     }
 
     /**
+     * Stream this endpoint as Server-Sent Events (D-24).
+     *
+     * @return \Generator<int, \Octavia\CmsSDK\SseEvent>
+     */
+    public function optimizeArticleLive($body, array $options = []): \Generator
+    {
+        return $this->client->streamSSE("POST", "/ai/optimizeArticle/stream", array_merge($options, ["body" => $body]));
+    }
+
+    /**
      * @return \Octavia\CmsSDK\Envelope
      * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\AiArticleTranslateResult>
      */
@@ -149,6 +199,16 @@ class AIResource
     public function translateArticleStream($body, array $options = []): Envelope
     {
         return $this->client->request("POST", "/ai/translateArticle/stream", array_merge($options, ["body" => $body]));
+    }
+
+    /**
+     * Stream this endpoint as Server-Sent Events (D-24).
+     *
+     * @return \Generator<int, \Octavia\CmsSDK\SseEvent>
+     */
+    public function translateArticleLive($body, array $options = []): \Generator
+    {
+        return $this->client->streamSSE("POST", "/ai/translateArticle/stream", array_merge($options, ["body" => $body]));
     }
 
     /**
@@ -176,6 +236,16 @@ class AIResource
     public function repurposeStream($body, array $options = []): Envelope
     {
         return $this->client->request("POST", "/ai/repurpose/stream", array_merge($options, ["body" => $body]));
+    }
+
+    /**
+     * Stream this endpoint as Server-Sent Events (D-24).
+     *
+     * @return \Generator<int, \Octavia\CmsSDK\SseEvent>
+     */
+    public function repurposeLive($body, array $options = []): \Generator
+    {
+        return $this->client->streamSSE("POST", "/ai/repurpose/stream", array_merge($options, ["body" => $body]));
     }
 
     /**
@@ -302,6 +372,16 @@ class AIResource
     public function eventsStream(array $options = []): Envelope
     {
         return $this->client->request("GET", "/ai/events/stream", $options);
+    }
+
+    /**
+     * Stream this endpoint as Server-Sent Events (D-24).
+     *
+     * @return \Generator<int, \Octavia\CmsSDK\SseEvent>
+     */
+    public function eventsLive(array $options = []): \Generator
+    {
+        return $this->client->streamSSE("GET", "/ai/events/stream", $options);
     }
 
     /**

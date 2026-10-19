@@ -1,5 +1,6 @@
 import { OctaviaClient } from "../client";
 import { RequestOptions } from "../types";
+import type { SseEvent } from "../http";
 import type * as Ops from "../generated/operations";
 
 export class FormSubmissionsResource {

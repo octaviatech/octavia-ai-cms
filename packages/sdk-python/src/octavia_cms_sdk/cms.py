@@ -50,17 +50,24 @@ def _wrap_resource(resource: Any, throw_on_error: bool):
 class CMS:
     def __init__(self, client: Client, *, throw_on_error: bool = False) -> None:
         self.raw = client
+        # @generated facade:begin
+        self.ai = _wrap_resource(client.ai, throw_on_error)
+        self.aiConversation = _wrap_resource(client.ai_conversation, throw_on_error)
         self.article = _wrap_resource(client.articles, throw_on_error)
         self.author = _wrap_resource(client.authors, throw_on_error)
+        self.campaign = _wrap_resource(client.campaigns, throw_on_error)
         self.category = _wrap_resource(client.categories, throw_on_error)
-        self.subcategory = _wrap_resource(client.subcategories, throw_on_error)
+        self.contentPlan = _wrap_resource(client.content_plan, throw_on_error)
         self.form = _wrap_resource(client.forms, throw_on_error)
         self.formSubmission = _wrap_resource(client.form_submissions, throw_on_error)
         self.language = _wrap_resource(client.languages, throw_on_error)
+        self.media = _wrap_resource(client.media, throw_on_error)
         self.report = _wrap_resource(client.reports, throw_on_error)
-        self.ai = _wrap_resource(client.ai, throw_on_error)
-        self.aiConversation = _wrap_resource(client.ai_conversation, throw_on_error)
+        self.seo = _wrap_resource(client.seo_hub, throw_on_error)
+        self.subcategory = _wrap_resource(client.subcategories, throw_on_error)
         self.tag = _wrap_resource(client.tags, throw_on_error)
+        self.taxonomy = _wrap_resource(client.taxonomy, throw_on_error)
+        # @generated facade:end
 
     @staticmethod
     def init(

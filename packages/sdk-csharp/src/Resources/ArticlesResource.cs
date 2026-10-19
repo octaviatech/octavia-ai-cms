@@ -178,4 +178,14 @@ public class ArticlesResource
         return _client.RequestAsync<EngagementSettings>("PUT", "/articles/engagementSettings", query, body);
     }
 
+    public Task<CMSResponse<ArticleSeoMeta>> ArticleIdSeoGETAsync(string articleId, Dictionary<string, string?>? query = null)
+    {
+        return _client.RequestAsync<ArticleSeoMeta>("GET", "/articles/" + Uri.EscapeDataString(articleId) + "/seo", query, null);
+    }
+
+    public Task<CMSResponse<ArticleSeoMeta>> ArticleIdSeoPUTAsync(string articleId, object body, Dictionary<string, string?>? query = null)
+    {
+        return _client.RequestAsync<ArticleSeoMeta>("PUT", "/articles/" + Uri.EscapeDataString(articleId) + "/seo", query, body);
+    }
+
 }

@@ -3,113 +3,113 @@ package sdk
 import "net/url"
 
 type ReportsResource struct {
-    client *Client
+	client *Client
 }
 
 func (r *ReportsResource) GetStatistics(query map[string]any) CMSResponse[TenantUsageStats] {
-    return RequestInto[TenantUsageStats](r.client, "GET", "/reports/getStatistics", query, nil)
+	return RequestInto[TenantUsageStats](r.client, "GET", "/reports/getStatistics", query, nil)
 }
 
 func (r *ReportsResource) GetUserStatisticsUserId(userId string, query map[string]any) CMSResponse[UserStats] {
-    return RequestInto[UserStats](r.client, "GET", "/reports/getUserStatistics/" + url.PathEscape(userId), query, nil)
+	return RequestInto[UserStats](r.client, "GET", "/reports/getUserStatistics/"+url.PathEscape(userId), query, nil)
 }
 
 func (r *ReportsResource) GetAuthorStatisticsAuthorId(authorId string, query map[string]any) CMSResponse[AuthorStats] {
-    return RequestInto[AuthorStats](r.client, "GET", "/reports/getAuthorStatistics/" + url.PathEscape(authorId), query, nil)
+	return RequestInto[AuthorStats](r.client, "GET", "/reports/getAuthorStatistics/"+url.PathEscape(authorId), query, nil)
 }
 
 func (r *ReportsResource) GetAllUsersStatistics(query map[string]any) CMSResponse[UsersStatsPage] {
-    return RequestInto[UsersStatsPage](r.client, "GET", "/reports/getAllUsersStatistics", query, nil)
+	return RequestInto[UsersStatsPage](r.client, "GET", "/reports/getAllUsersStatistics", query, nil)
 }
 
 func (r *ReportsResource) GetAllAuthorsStatistics(query map[string]any) CMSResponse[AuthorsStatsPage] {
-    return RequestInto[AuthorsStatsPage](r.client, "GET", "/reports/getAllAuthorsStatistics", query, nil)
+	return RequestInto[AuthorsStatsPage](r.client, "GET", "/reports/getAllAuthorsStatistics", query, nil)
 }
 
 func (r *ReportsResource) ContentOverview(query map[string]any) CMSResponse[ContentOverviewReport] {
-    return RequestInto[ContentOverviewReport](r.client, "GET", "/reports/contentOverview", query, nil)
+	return RequestInto[ContentOverviewReport](r.client, "GET", "/reports/contentOverview", query, nil)
 }
 
 func (r *ReportsResource) TopArticles(query map[string]any) CMSResponse[TopArticlesReport] {
-    return RequestInto[TopArticlesReport](r.client, "GET", "/reports/topArticles", query, nil)
+	return RequestInto[TopArticlesReport](r.client, "GET", "/reports/topArticles", query, nil)
 }
 
 func (r *ReportsResource) AiUsageBreakdown(query map[string]any) CMSResponse[AiUsageBreakdownReport] {
-    return RequestInto[AiUsageBreakdownReport](r.client, "GET", "/reports/aiUsageBreakdown", query, nil)
+	return RequestInto[AiUsageBreakdownReport](r.client, "GET", "/reports/aiUsageBreakdown", query, nil)
 }
 
 func (r *ReportsResource) FormsOverview(query map[string]any) CMSResponse[FormsOverviewReport] {
-    return RequestInto[FormsOverviewReport](r.client, "GET", "/reports/formsOverview", query, nil)
+	return RequestInto[FormsOverviewReport](r.client, "GET", "/reports/formsOverview", query, nil)
 }
 
 func (r *ReportsResource) SubmissionsOverview(query map[string]any) CMSResponse[SubmissionsOverviewReport] {
-    return RequestInto[SubmissionsOverviewReport](r.client, "GET", "/reports/submissionsOverview", query, nil)
+	return RequestInto[SubmissionsOverviewReport](r.client, "GET", "/reports/submissionsOverview", query, nil)
 }
 
 func (r *ReportsResource) ChartContentTrend(query map[string]any) CMSResponse[ContentTrendReport] {
-    return RequestInto[ContentTrendReport](r.client, "GET", "/reports/chart/contentTrend", query, nil)
+	return RequestInto[ContentTrendReport](r.client, "GET", "/reports/chart/contentTrend", query, nil)
 }
 
 func (r *ReportsResource) ChartSubmissionFunnel(query map[string]any) CMSResponse[SubmissionFunnelReport] {
-    return RequestInto[SubmissionFunnelReport](r.client, "GET", "/reports/chart/submissionFunnel", query, nil)
+	return RequestInto[SubmissionFunnelReport](r.client, "GET", "/reports/chart/submissionFunnel", query, nil)
 }
 
 func (r *ReportsResource) ChartEngagementTrend(query map[string]any) CMSResponse[EngagementTrendReport] {
-    return RequestInto[EngagementTrendReport](r.client, "GET", "/reports/chart/engagementTrend", query, nil)
+	return RequestInto[EngagementTrendReport](r.client, "GET", "/reports/chart/engagementTrend", query, nil)
 }
 
 func (r *ReportsResource) PublishingPerformance(query map[string]any) CMSResponse[PublishingPerformanceReport] {
-    return RequestInto[PublishingPerformanceReport](r.client, "GET", "/reports/publishingPerformance", query, nil)
+	return RequestInto[PublishingPerformanceReport](r.client, "GET", "/reports/publishingPerformance", query, nil)
 }
 
 func (r *ReportsResource) ContentHealth(query map[string]any) CMSResponse[ContentHealthReport] {
-    return RequestInto[ContentHealthReport](r.client, "GET", "/reports/contentHealth", query, nil)
+	return RequestInto[ContentHealthReport](r.client, "GET", "/reports/contentHealth", query, nil)
 }
 
 func (r *ReportsResource) CategoryPerformance(query map[string]any) CMSResponse[CategoryPerformanceReport] {
-    return RequestInto[CategoryPerformanceReport](r.client, "GET", "/reports/categoryPerformance", query, nil)
+	return RequestInto[CategoryPerformanceReport](r.client, "GET", "/reports/categoryPerformance", query, nil)
 }
 
 func (r *ReportsResource) PeriodComparison(query map[string]any) CMSResponse[PeriodComparisonReport] {
-    return RequestInto[PeriodComparisonReport](r.client, "GET", "/reports/periodComparison", query, nil)
+	return RequestInto[PeriodComparisonReport](r.client, "GET", "/reports/periodComparison", query, nil)
 }
 
 func (r *ReportsResource) AiContentImpact(query map[string]any) CMSResponse[AiContentImpactReport] {
-    return RequestInto[AiContentImpactReport](r.client, "GET", "/reports/aiContentImpact", query, nil)
+	return RequestInto[AiContentImpactReport](r.client, "GET", "/reports/aiContentImpact", query, nil)
 }
 
 func (r *ReportsResource) CommentOverview(query map[string]any) CMSResponse[CommentOverviewReport] {
-    return RequestInto[CommentOverviewReport](r.client, "GET", "/reports/commentOverview", query, nil)
+	return RequestInto[CommentOverviewReport](r.client, "GET", "/reports/commentOverview", query, nil)
 }
 
 func (r *ReportsResource) DashboardConfigGET(query map[string]any) CMSResponse[DashboardConfigWrapper] {
-    return RequestInto[DashboardConfigWrapper](r.client, "GET", "/reports/dashboardConfig", query, nil)
+	return RequestInto[DashboardConfigWrapper](r.client, "GET", "/reports/dashboardConfig", query, nil)
 }
 
 func (r *ReportsResource) DashboardConfigPUT(body any, query map[string]any) CMSResponse[DashboardConfigWrapper] {
-    return RequestInto[DashboardConfigWrapper](r.client, "PUT", "/reports/dashboardConfig", query, body)
+	return RequestInto[DashboardConfigWrapper](r.client, "PUT", "/reports/dashboardConfig", query, body)
 }
 
 func (r *ReportsResource) NeedsAttention(query map[string]any) CMSResponse[NeedsAttentionReport] {
-    return RequestInto[NeedsAttentionReport](r.client, "GET", "/reports/needsAttention", query, nil)
+	return RequestInto[NeedsAttentionReport](r.client, "GET", "/reports/needsAttention", query, nil)
 }
 
 func (r *ReportsResource) WeeklyDigest(query map[string]any) CMSResponse[WeeklyDigestWrapper] {
-    return RequestInto[WeeklyDigestWrapper](r.client, "GET", "/reports/weeklyDigest", query, nil)
+	return RequestInto[WeeklyDigestWrapper](r.client, "GET", "/reports/weeklyDigest", query, nil)
 }
 
 func (r *ReportsResource) SeoHealth(query map[string]any) CMSResponse[ReportWrapper] {
-    return RequestInto[ReportWrapper](r.client, "GET", "/reports/seoHealth", query, nil)
+	return RequestInto[ReportWrapper](r.client, "GET", "/reports/seoHealth", query, nil)
 }
 
 func (r *ReportsResource) TranslationCoverage(query map[string]any) CMSResponse[ReportWrapper] {
-    return RequestInto[ReportWrapper](r.client, "GET", "/reports/translationCoverage", query, nil)
+	return RequestInto[ReportWrapper](r.client, "GET", "/reports/translationCoverage", query, nil)
 }
 
 func (r *ReportsResource) CalendarAdherence(query map[string]any) CMSResponse[ReportWrapper] {
-    return RequestInto[ReportWrapper](r.client, "GET", "/reports/calendarAdherence", query, nil)
+	return RequestInto[ReportWrapper](r.client, "GET", "/reports/calendarAdherence", query, nil)
 }
 
 func (r *ReportsResource) AiAcceptance(query map[string]any) CMSResponse[ReportWrapper] {
-    return RequestInto[ReportWrapper](r.client, "GET", "/reports/aiAcceptance", query, nil)
+	return RequestInto[ReportWrapper](r.client, "GET", "/reports/aiAcceptance", query, nil)
 }

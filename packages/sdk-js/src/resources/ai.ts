@@ -1,5 +1,6 @@
 import { OctaviaClient } from "../client";
 import { RequestOptions } from "../types";
+import type { SseEvent } from "../http";
 import type * as Ops from "../generated/operations";
 
 export class AIResource {
@@ -13,8 +14,16 @@ export class AIResource {
     return this.client.request<Ops.AISummarizeResponse>("POST", `/ai/summarize`, { ...(options || {}), body });
   }
 
+  summarizeLive(body: Ops.AISummarizeStreamBody, options?: RequestOptions<Ops.AISummarizeStreamQuery>): AsyncGenerator<SseEvent, void, undefined> {
+    return this.client.streamSSE("POST", `/ai/summarize/stream`, { ...(options || {}), body });
+  }
+
   summarizeStream(body: Ops.AISummarizeStreamBody, options?: RequestOptions<Ops.AISummarizeStreamQuery>): Promise<Ops.AISummarizeStreamResponse> {
     return this.client.request<Ops.AISummarizeStreamResponse>("POST", `/ai/summarize/stream`, { ...(options || {}), body });
+  }
+
+  summarizeArticleLive(body: Ops.AISummarizeArticleStreamBody, options?: RequestOptions<Ops.AISummarizeArticleStreamQuery>): AsyncGenerator<SseEvent, void, undefined> {
+    return this.client.streamSSE("POST", `/ai/summarizeArticle/stream`, { ...(options || {}), body });
   }
 
   summarizeArticleStream(body: Ops.AISummarizeArticleStreamBody, options?: RequestOptions<Ops.AISummarizeArticleStreamQuery>): Promise<Ops.AISummarizeArticleStreamResponse> {
@@ -23,6 +32,10 @@ export class AIResource {
 
   seoOptimize(body: Ops.AISeoOptimizeBody, options?: RequestOptions<Ops.AISeoOptimizeQuery>): Promise<Ops.AISeoOptimizeResponse> {
     return this.client.request<Ops.AISeoOptimizeResponse>("POST", `/ai/seoOptimize`, { ...(options || {}), body });
+  }
+
+  seoOptimizeLive(body: Ops.AISeoOptimizeStreamBody, options?: RequestOptions<Ops.AISeoOptimizeStreamQuery>): AsyncGenerator<SseEvent, void, undefined> {
+    return this.client.streamSSE("POST", `/ai/seoOptimize/stream`, { ...(options || {}), body });
   }
 
   seoOptimizeStream(body: Ops.AISeoOptimizeStreamBody, options?: RequestOptions<Ops.AISeoOptimizeStreamQuery>): Promise<Ops.AISeoOptimizeStreamResponse> {
@@ -35,6 +48,10 @@ export class AIResource {
 
   translate(body: Ops.AITranslateBody, options?: RequestOptions<Ops.AITranslateQuery>): Promise<Ops.AITranslateResponse> {
     return this.client.request<Ops.AITranslateResponse>("POST", `/ai/translate`, { ...(options || {}), body });
+  }
+
+  translateLive(body: Ops.AITranslateStreamBody, options?: RequestOptions<Ops.AITranslateStreamQuery>): AsyncGenerator<SseEvent, void, undefined> {
+    return this.client.streamSSE("POST", `/ai/translate/stream`, { ...(options || {}), body });
   }
 
   translateStream(body: Ops.AITranslateStreamBody, options?: RequestOptions<Ops.AITranslateStreamQuery>): Promise<Ops.AITranslateStreamResponse> {
@@ -57,12 +74,20 @@ export class AIResource {
     return this.client.request<Ops.AIAutofillArticleResponse>("POST", `/ai/autofillArticle`, { ...(options || {}), body });
   }
 
+  optimizeArticleLive(body: Ops.AIOptimizeArticleStreamBody, options?: RequestOptions<Ops.AIOptimizeArticleStreamQuery>): AsyncGenerator<SseEvent, void, undefined> {
+    return this.client.streamSSE("POST", `/ai/optimizeArticle/stream`, { ...(options || {}), body });
+  }
+
   optimizeArticleStream(body: Ops.AIOptimizeArticleStreamBody, options?: RequestOptions<Ops.AIOptimizeArticleStreamQuery>): Promise<Ops.AIOptimizeArticleStreamResponse> {
     return this.client.request<Ops.AIOptimizeArticleStreamResponse>("POST", `/ai/optimizeArticle/stream`, { ...(options || {}), body });
   }
 
   translateArticle(body: Ops.AITranslateArticleBody, options?: RequestOptions<Ops.AITranslateArticleQuery>): Promise<Ops.AITranslateArticleResponse> {
     return this.client.request<Ops.AITranslateArticleResponse>("POST", `/ai/translateArticle`, { ...(options || {}), body });
+  }
+
+  translateArticleLive(body: Ops.AITranslateArticleStreamBody, options?: RequestOptions<Ops.AITranslateArticleStreamQuery>): AsyncGenerator<SseEvent, void, undefined> {
+    return this.client.streamSSE("POST", `/ai/translateArticle/stream`, { ...(options || {}), body });
   }
 
   translateArticleStream(body: Ops.AITranslateArticleStreamBody, options?: RequestOptions<Ops.AITranslateArticleStreamQuery>): Promise<Ops.AITranslateArticleStreamResponse> {
@@ -75,6 +100,10 @@ export class AIResource {
 
   repurpose(body: Ops.AIRepurposeBody, options?: RequestOptions<Ops.AIRepurposeQuery>): Promise<Ops.AIRepurposeResponse> {
     return this.client.request<Ops.AIRepurposeResponse>("POST", `/ai/repurpose`, { ...(options || {}), body });
+  }
+
+  repurposeLive(body: Ops.AIRepurposeStreamBody, options?: RequestOptions<Ops.AIRepurposeStreamQuery>): AsyncGenerator<SseEvent, void, undefined> {
+    return this.client.streamSSE("POST", `/ai/repurpose/stream`, { ...(options || {}), body });
   }
 
   repurposeStream(body: Ops.AIRepurposeStreamBody, options?: RequestOptions<Ops.AIRepurposeStreamQuery>): Promise<Ops.AIRepurposeStreamResponse> {
@@ -131,6 +160,10 @@ export class AIResource {
 
   creditsRuns(options?: RequestOptions<Ops.AICreditsRunsQuery>): Promise<Ops.AICreditsRunsResponse> {
     return this.client.request<Ops.AICreditsRunsResponse>("GET", `/ai/credits/runs`, options);
+  }
+
+  eventsLive(options?: RequestOptions<Ops.AIEventsStreamQuery>): AsyncGenerator<SseEvent, void, undefined> {
+    return this.client.streamSSE("GET", `/ai/events/stream`, options);
   }
 
   eventsStream(options?: RequestOptions<Ops.AIEventsStreamQuery>): Promise<Ops.AIEventsStreamResponse> {

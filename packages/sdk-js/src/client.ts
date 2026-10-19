@@ -1,4 +1,4 @@
-import { HttpClient } from "./http";
+import { HttpClient, SseEvent } from "./http";
 import { ClientConfig, RequestOptions } from "./types";
 import {
   // @generated imports:begin
@@ -69,6 +69,19 @@ export class OctaviaClient {
    */
   request<T>(method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE", path: string, options?: RequestOptions) {
     return this.http.request<T>(method, path, options);
+  }
+
+  /**
+   * Consume a `text/event-stream` endpoint as an async iterable of frames.
+   * Generated `…Stream()` methods delegate here. Note that no request timeout
+   * is applied — a generation can legitimately run for minutes.
+   */
+  streamSSE(
+    method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE",
+    path: string,
+    options?: RequestOptions,
+  ): AsyncGenerator<SseEvent, void, undefined> {
+    return this.http.streamSSE(method, path, options);
   }
 
   /**

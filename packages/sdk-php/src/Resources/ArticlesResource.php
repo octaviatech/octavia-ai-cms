@@ -313,4 +313,22 @@ class ArticlesResource
         return $this->client->request("PUT", "/articles/engagementSettings", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\EngagementSettings::class);
     }
 
+    /**
+     * @return \Octavia\CmsSDK\Envelope
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\ArticleSeoMeta>
+     */
+    public function articleIdSeoGET($articleId, array $options = []): Envelope
+    {
+        return $this->client->request("GET", "/articles/" . rawurlencode($articleId) . "/seo", $options, \Octavia\CmsSDK\Types\ArticleSeoMeta::class);
+    }
+
+    /**
+     * @return \Octavia\CmsSDK\Envelope
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\ArticleSeoMeta>
+     */
+    public function articleIdSeoPUT($articleId, $body, array $options = []): Envelope
+    {
+        return $this->client->request("PUT", "/articles/" . rawurlencode($articleId) . "/seo", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\ArticleSeoMeta::class);
+    }
+
 }

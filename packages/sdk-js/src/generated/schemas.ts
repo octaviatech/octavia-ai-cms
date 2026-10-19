@@ -2086,6 +2086,22 @@ export type ArticleReadiness = {
   warnings: Array<string>;
 };
 
+export type ArticleSeoMeta = {
+  articleId: string;
+  locale?: unknown;
+  metaTitle: MultilingualStringOrNull;
+  metaDescription: MultilingualStringOrNull;
+  focusKeyword: MultilingualStringOrNull;
+  secondaryKeywords: MultilingualStringOrNull;
+  canonicalUrl: MultilingualStringOrNull;
+  ogTitle: MultilingualStringOrNull;
+  ogDescription: MultilingualStringOrNull;
+  schemaJson: MultilingualStringOrNull;
+  ogImage: unknown;
+  robots: unknown;
+  slug: unknown;
+};
+
 export type TranslationStateItem = {
   locale: string;
   state: "missing" | "done" | "outdated";

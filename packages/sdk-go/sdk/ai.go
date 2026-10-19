@@ -3,193 +3,249 @@ package sdk
 import "net/url"
 
 type AIResource struct {
-    client *Client
+	client *Client
 }
 
 func (r *AIResource) Summarize(body any, query map[string]any) CMSResponse[AiSummaryResult] {
-    return RequestInto[AiSummaryResult](r.client, "POST", "/ai/summarize", query, body)
+	return RequestInto[AiSummaryResult](r.client, "POST", "/ai/summarize", query, body)
 }
 
 func (r *AIResource) SummarizeStream(body any, query map[string]any) CMSResponse[any] {
-    return RequestInto[any](r.client, "POST", "/ai/summarize/stream", query, body)
+	return RequestInto[any](r.client, "POST", "/ai/summarize/stream", query, body)
+}
+
+// SummarizeLive streams this endpoint as Server-Sent Events (D-24),
+// yielding one SseEvent per frame as it arrives. The channel is
+// closed when the stream ends; a failure arrives as an error frame.
+func (r *AIResource) SummarizeLive(query map[string]any, body any) <-chan SseEvent {
+	return StreamSSE(r.client, "POST", "/ai/summarize/stream", query, body)
 }
 
 func (r *AIResource) SummarizeArticleStream(body any, query map[string]any) CMSResponse[any] {
-    return RequestInto[any](r.client, "POST", "/ai/summarizeArticle/stream", query, body)
+	return RequestInto[any](r.client, "POST", "/ai/summarizeArticle/stream", query, body)
+}
+
+// SummarizeArticleLive streams this endpoint as Server-Sent Events (D-24),
+// yielding one SseEvent per frame as it arrives. The channel is
+// closed when the stream ends; a failure arrives as an error frame.
+func (r *AIResource) SummarizeArticleLive(query map[string]any, body any) <-chan SseEvent {
+	return StreamSSE(r.client, "POST", "/ai/summarizeArticle/stream", query, body)
 }
 
 func (r *AIResource) SeoOptimize(body any, query map[string]any) CMSResponse[AiSeoResult] {
-    return RequestInto[AiSeoResult](r.client, "POST", "/ai/seoOptimize", query, body)
+	return RequestInto[AiSeoResult](r.client, "POST", "/ai/seoOptimize", query, body)
 }
 
 func (r *AIResource) SeoOptimizeStream(body any, query map[string]any) CMSResponse[any] {
-    return RequestInto[any](r.client, "POST", "/ai/seoOptimize/stream", query, body)
+	return RequestInto[any](r.client, "POST", "/ai/seoOptimize/stream", query, body)
+}
+
+// SeoOptimizeLive streams this endpoint as Server-Sent Events (D-24),
+// yielding one SseEvent per frame as it arrives. The channel is
+// closed when the stream ends; a failure arrives as an error frame.
+func (r *AIResource) SeoOptimizeLive(query map[string]any, body any) <-chan SseEvent {
+	return StreamSSE(r.client, "POST", "/ai/seoOptimize/stream", query, body)
 }
 
 func (r *AIResource) GenerateTitle(body any, query map[string]any) CMSResponse[AiTitleResult] {
-    return RequestInto[AiTitleResult](r.client, "POST", "/ai/generateTitle", query, body)
+	return RequestInto[AiTitleResult](r.client, "POST", "/ai/generateTitle", query, body)
 }
 
 func (r *AIResource) Translate(body any, query map[string]any) CMSResponse[AiTranslateResult] {
-    return RequestInto[AiTranslateResult](r.client, "POST", "/ai/translate", query, body)
+	return RequestInto[AiTranslateResult](r.client, "POST", "/ai/translate", query, body)
 }
 
 func (r *AIResource) TranslateStream(body any, query map[string]any) CMSResponse[any] {
-    return RequestInto[any](r.client, "POST", "/ai/translate/stream", query, body)
+	return RequestInto[any](r.client, "POST", "/ai/translate/stream", query, body)
+}
+
+// TranslateLive streams this endpoint as Server-Sent Events (D-24),
+// yielding one SseEvent per frame as it arrives. The channel is
+// closed when the stream ends; a failure arrives as an error frame.
+func (r *AIResource) TranslateLive(query map[string]any, body any) <-chan SseEvent {
+	return StreamSSE(r.client, "POST", "/ai/translate/stream", query, body)
 }
 
 func (r *AIResource) GenerateContent(body any, query map[string]any) CMSResponse[AiContentResult] {
-    return RequestInto[AiContentResult](r.client, "POST", "/ai/generateContent", query, body)
+	return RequestInto[AiContentResult](r.client, "POST", "/ai/generateContent", query, body)
 }
 
 func (r *AIResource) GenerateImage(body any, query map[string]any) CMSResponse[AiImageResult] {
-    return RequestInto[AiImageResult](r.client, "POST", "/ai/generateImage", query, body)
+	return RequestInto[AiImageResult](r.client, "POST", "/ai/generateImage", query, body)
 }
 
 func (r *AIResource) OptimizeArticle(body any, query map[string]any) CMSResponse[AiArticleSeoResult] {
-    return RequestInto[AiArticleSeoResult](r.client, "POST", "/ai/optimizeArticle", query, body)
+	return RequestInto[AiArticleSeoResult](r.client, "POST", "/ai/optimizeArticle", query, body)
 }
 
 func (r *AIResource) AutofillArticle(body any, query map[string]any) CMSResponse[AiAutofillResult] {
-    return RequestInto[AiAutofillResult](r.client, "POST", "/ai/autofillArticle", query, body)
+	return RequestInto[AiAutofillResult](r.client, "POST", "/ai/autofillArticle", query, body)
 }
 
 func (r *AIResource) OptimizeArticleStream(body any, query map[string]any) CMSResponse[any] {
-    return RequestInto[any](r.client, "POST", "/ai/optimizeArticle/stream", query, body)
+	return RequestInto[any](r.client, "POST", "/ai/optimizeArticle/stream", query, body)
+}
+
+// OptimizeArticleLive streams this endpoint as Server-Sent Events (D-24),
+// yielding one SseEvent per frame as it arrives. The channel is
+// closed when the stream ends; a failure arrives as an error frame.
+func (r *AIResource) OptimizeArticleLive(query map[string]any, body any) <-chan SseEvent {
+	return StreamSSE(r.client, "POST", "/ai/optimizeArticle/stream", query, body)
 }
 
 func (r *AIResource) TranslateArticle(body any, query map[string]any) CMSResponse[AiArticleTranslateResult] {
-    return RequestInto[AiArticleTranslateResult](r.client, "POST", "/ai/translateArticle", query, body)
+	return RequestInto[AiArticleTranslateResult](r.client, "POST", "/ai/translateArticle", query, body)
 }
 
 func (r *AIResource) TranslateArticleStream(body any, query map[string]any) CMSResponse[any] {
-    return RequestInto[any](r.client, "POST", "/ai/translateArticle/stream", query, body)
+	return RequestInto[any](r.client, "POST", "/ai/translateArticle/stream", query, body)
+}
+
+// TranslateArticleLive streams this endpoint as Server-Sent Events (D-24),
+// yielding one SseEvent per frame as it arrives. The channel is
+// closed when the stream ends; a failure arrives as an error frame.
+func (r *AIResource) TranslateArticleLive(query map[string]any, body any) <-chan SseEvent {
+	return StreamSSE(r.client, "POST", "/ai/translateArticle/stream", query, body)
 }
 
 func (r *AIResource) TranslateForm(body any, query map[string]any) CMSResponse[AiFormTranslateResult] {
-    return RequestInto[AiFormTranslateResult](r.client, "POST", "/ai/translateForm", query, body)
+	return RequestInto[AiFormTranslateResult](r.client, "POST", "/ai/translateForm", query, body)
 }
 
 func (r *AIResource) Repurpose(body any, query map[string]any) CMSResponse[RepurposeResult] {
-    return RequestInto[RepurposeResult](r.client, "POST", "/ai/repurpose", query, body)
+	return RequestInto[RepurposeResult](r.client, "POST", "/ai/repurpose", query, body)
 }
 
 func (r *AIResource) RepurposeStream(body any, query map[string]any) CMSResponse[any] {
-    return RequestInto[any](r.client, "POST", "/ai/repurpose/stream", query, body)
+	return RequestInto[any](r.client, "POST", "/ai/repurpose/stream", query, body)
+}
+
+// RepurposeLive streams this endpoint as Server-Sent Events (D-24),
+// yielding one SseEvent per frame as it arrives. The channel is
+// closed when the stream ends; a failure arrives as an error frame.
+func (r *AIResource) RepurposeLive(query map[string]any, body any) <-chan SseEvent {
+	return StreamSSE(r.client, "POST", "/ai/repurpose/stream", query, body)
 }
 
 func (r *AIResource) RepurposeTemplateGET(query map[string]any) CMSResponse[SocialTemplate] {
-    return RequestInto[SocialTemplate](r.client, "GET", "/ai/repurpose/template", query, nil)
+	return RequestInto[SocialTemplate](r.client, "GET", "/ai/repurpose/template", query, nil)
 }
 
 func (r *AIResource) RepurposeTemplatePUT(body any, query map[string]any) CMSResponse[SocialTemplate] {
-    return RequestInto[SocialTemplate](r.client, "PUT", "/ai/repurpose/template", query, body)
+	return RequestInto[SocialTemplate](r.client, "PUT", "/ai/repurpose/template", query, body)
 }
 
 func (r *AIResource) SocialConnections(query map[string]any) CMSResponse[SocialConnectionList] {
-    return RequestInto[SocialConnectionList](r.client, "GET", "/ai/social/connections", query, nil)
+	return RequestInto[SocialConnectionList](r.client, "GET", "/ai/social/connections", query, nil)
 }
 
 func (r *AIResource) SocialLinkedinConnect(body any, query map[string]any) CMSResponse[SocialConnection] {
-    return RequestInto[SocialConnection](r.client, "PUT", "/ai/social/linkedin/connect", query, body)
+	return RequestInto[SocialConnection](r.client, "PUT", "/ai/social/linkedin/connect", query, body)
 }
 
 func (r *AIResource) SocialTelegramConnect(body any, query map[string]any) CMSResponse[SocialConnection] {
-    return RequestInto[SocialConnection](r.client, "PUT", "/ai/social/telegram/connect", query, body)
+	return RequestInto[SocialConnection](r.client, "PUT", "/ai/social/telegram/connect", query, body)
 }
 
 func (r *AIResource) SocialTwitterConnect(body any, query map[string]any) CMSResponse[SocialConnection] {
-    return RequestInto[SocialConnection](r.client, "PUT", "/ai/social/twitter/connect", query, body)
+	return RequestInto[SocialConnection](r.client, "PUT", "/ai/social/twitter/connect", query, body)
 }
 
 func (r *AIResource) SocialLinkedinPublish(body any, query map[string]any) CMSResponse[SocialPublishResult] {
-    return RequestInto[SocialPublishResult](r.client, "POST", "/ai/social/linkedin/publish", query, body)
+	return RequestInto[SocialPublishResult](r.client, "POST", "/ai/social/linkedin/publish", query, body)
 }
 
 func (r *AIResource) SocialTelegramPublish(body any, query map[string]any) CMSResponse[SocialPublishResult] {
-    return RequestInto[SocialPublishResult](r.client, "POST", "/ai/social/telegram/publish", query, body)
+	return RequestInto[SocialPublishResult](r.client, "POST", "/ai/social/telegram/publish", query, body)
 }
 
 func (r *AIResource) SocialTwitterPublish(body any, query map[string]any) CMSResponse[SocialPublishResult] {
-    return RequestInto[SocialPublishResult](r.client, "POST", "/ai/social/twitter/publish", query, body)
+	return RequestInto[SocialPublishResult](r.client, "POST", "/ai/social/twitter/publish", query, body)
 }
 
 func (r *AIResource) Credits(query map[string]any) CMSResponse[CreditSnapshot] {
-    return RequestInto[CreditSnapshot](r.client, "GET", "/ai/credits", query, nil)
+	return RequestInto[CreditSnapshot](r.client, "GET", "/ai/credits", query, nil)
 }
 
 func (r *AIResource) Estimate(body any, query map[string]any) CMSResponse[TokenEstimate] {
-    return RequestInto[TokenEstimate](r.client, "POST", "/ai/estimate", query, body)
+	return RequestInto[TokenEstimate](r.client, "POST", "/ai/estimate", query, body)
 }
 
 func (r *AIResource) Run(body any, query map[string]any) CMSResponse[any] {
-    return RequestInto[any](r.client, "POST", "/ai/run", query, body)
+	return RequestInto[any](r.client, "POST", "/ai/run", query, body)
 }
 
 func (r *AIResource) CreditsRuns(query map[string]any) CMSResponse[AiRunList] {
-    return RequestInto[AiRunList](r.client, "GET", "/ai/credits/runs", query, nil)
+	return RequestInto[AiRunList](r.client, "GET", "/ai/credits/runs", query, nil)
 }
 
 func (r *AIResource) EventsStream(query map[string]any) CMSResponse[any] {
-    return RequestInto[any](r.client, "GET", "/ai/events/stream", query, nil)
+	return RequestInto[any](r.client, "GET", "/ai/events/stream", query, nil)
+}
+
+// EventsLive streams this endpoint as Server-Sent Events (D-24),
+// yielding one SseEvent per frame as it arrives. The channel is
+// closed when the stream ends; a failure arrives as an error frame.
+func (r *AIResource) EventsLive(query map[string]any) <-chan SseEvent {
+	return StreamSSE(r.client, "GET", "/ai/events/stream", query, nil)
 }
 
 func (r *AIResource) ProposalsPOST(body any, query map[string]any) CMSResponse[AiProposal] {
-    return RequestInto[AiProposal](r.client, "POST", "/ai/proposals", query, body)
+	return RequestInto[AiProposal](r.client, "POST", "/ai/proposals", query, body)
 }
 
 func (r *AIResource) ProposalsGET(query map[string]any) CMSResponse[[]AiProposal] {
-    return RequestInto[[]AiProposal](r.client, "GET", "/ai/proposals", query, nil)
+	return RequestInto[[]AiProposal](r.client, "GET", "/ai/proposals", query, nil)
 }
 
 func (r *AIResource) ProposalsCount(query map[string]any) CMSResponse[AiProposalCount] {
-    return RequestInto[AiProposalCount](r.client, "GET", "/ai/proposals/count", query, nil)
+	return RequestInto[AiProposalCount](r.client, "GET", "/ai/proposals/count", query, nil)
 }
 
 func (r *AIResource) ProposalsId(id string, query map[string]any) CMSResponse[AiProposal] {
-    return RequestInto[AiProposal](r.client, "GET", "/ai/proposals/" + url.PathEscape(id), query, nil)
+	return RequestInto[AiProposal](r.client, "GET", "/ai/proposals/"+url.PathEscape(id), query, nil)
 }
 
 func (r *AIResource) ProposalsIdAccept(id string, query map[string]any) CMSResponse[AiProposalDecision] {
-    return RequestInto[AiProposalDecision](r.client, "POST", "/ai/proposals/" + url.PathEscape(id) + "/accept", query, nil)
+	return RequestInto[AiProposalDecision](r.client, "POST", "/ai/proposals/"+url.PathEscape(id)+"/accept", query, nil)
 }
 
 func (r *AIResource) ProposalsIdReject(id string, query map[string]any) CMSResponse[AiProposal] {
-    return RequestInto[AiProposal](r.client, "POST", "/ai/proposals/" + url.PathEscape(id) + "/reject", query, nil)
+	return RequestInto[AiProposal](r.client, "POST", "/ai/proposals/"+url.PathEscape(id)+"/reject", query, nil)
 }
 
 func (r *AIResource) ProposalsIdUndo(id string, query map[string]any) CMSResponse[AiProposal] {
-    return RequestInto[AiProposal](r.client, "POST", "/ai/proposals/" + url.PathEscape(id) + "/undo", query, nil)
+	return RequestInto[AiProposal](r.client, "POST", "/ai/proposals/"+url.PathEscape(id)+"/undo", query, nil)
 }
 
 func (r *AIResource) ProposalsBulkAccept(body any, query map[string]any) CMSResponse[[]AiProposalBulkResultItem] {
-    return RequestInto[[]AiProposalBulkResultItem](r.client, "POST", "/ai/proposals/bulk-accept", query, body)
+	return RequestInto[[]AiProposalBulkResultItem](r.client, "POST", "/ai/proposals/bulk-accept", query, body)
 }
 
 func (r *AIResource) SettingsGET(query map[string]any) CMSResponse[AiSettings] {
-    return RequestInto[AiSettings](r.client, "GET", "/ai/settings", query, nil)
+	return RequestInto[AiSettings](r.client, "GET", "/ai/settings", query, nil)
 }
 
 func (r *AIResource) SettingsPUT(body any, query map[string]any) CMSResponse[AiSettings] {
-    return RequestInto[AiSettings](r.client, "PUT", "/ai/settings", query, body)
+	return RequestInto[AiSettings](r.client, "PUT", "/ai/settings", query, body)
 }
 
 func (r *AIResource) RevisionsArticleId(articleId string, query map[string]any) CMSResponse[ArticleRevisionList] {
-    return RequestInto[ArticleRevisionList](r.client, "GET", "/articles/revisions/" + url.PathEscape(articleId), query, nil)
+	return RequestInto[ArticleRevisionList](r.client, "GET", "/articles/revisions/"+url.PathEscape(articleId), query, nil)
 }
 
 func (r *AIResource) RevisionsArticleIdRevisionIdRestore(articleId string, revisionId string, query map[string]any) CMSResponse[ArticleRevisionRestore] {
-    return RequestInto[ArticleRevisionRestore](r.client, "POST", "/articles/revisions/" + url.PathEscape(articleId) + "/" + url.PathEscape(revisionId) + "/restore", query, nil)
+	return RequestInto[ArticleRevisionRestore](r.client, "POST", "/articles/revisions/"+url.PathEscape(articleId)+"/"+url.PathEscape(revisionId)+"/restore", query, nil)
 }
 
 func (r *AIResource) ReadinessArticleId(articleId string, query map[string]any) CMSResponse[ArticleReadiness] {
-    return RequestInto[ArticleReadiness](r.client, "GET", "/articles/readiness/" + url.PathEscape(articleId), query, nil)
+	return RequestInto[ArticleReadiness](r.client, "GET", "/articles/readiness/"+url.PathEscape(articleId), query, nil)
 }
 
 func (r *AIResource) TranslationStateArticleId(articleId string, query map[string]any) CMSResponse[TranslationStateReport] {
-    return RequestInto[TranslationStateReport](r.client, "GET", "/articles/translation-state/" + url.PathEscape(articleId), query, nil)
+	return RequestInto[TranslationStateReport](r.client, "GET", "/articles/translation-state/"+url.PathEscape(articleId), query, nil)
 }
 
 func (r *AIResource) TranslationStateArticleIdLocaleComplete(articleId string, locale string, body any, query map[string]any) CMSResponse[TranslationStateDoc] {
-    return RequestInto[TranslationStateDoc](r.client, "POST", "/articles/translation-state/" + url.PathEscape(articleId) + "/" + url.PathEscape(locale) + "/complete", query, body)
+	return RequestInto[TranslationStateDoc](r.client, "POST", "/articles/translation-state/"+url.PathEscape(articleId)+"/"+url.PathEscape(locale)+"/complete", query, body)
 }

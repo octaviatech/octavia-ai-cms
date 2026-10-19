@@ -1,5 +1,6 @@
 import { OctaviaClient } from "../client";
 import { RequestOptions } from "../types";
+import type { SseEvent } from "../http";
 import type * as Ops from "../generated/operations";
 
 export class AIConversationResource {
@@ -19,6 +20,10 @@ export class AIConversationResource {
 
   conversationConversationId(conversationId: Ops.AIConversationConversationConversationIdPath["conversationId"], options?: RequestOptions<Ops.AIConversationConversationConversationIdQuery>): Promise<Ops.AIConversationConversationConversationIdResponse> {
     return this.client.request<Ops.AIConversationConversationConversationIdResponse>("GET", `/ai/conversation/${encodeURIComponent(conversationId)}`, options);
+  }
+
+  conversationGenerateLive(body: Ops.AIConversationConversationGenerateStreamBody, options?: RequestOptions<Ops.AIConversationConversationGenerateStreamQuery>): AsyncGenerator<SseEvent, void, undefined> {
+    return this.client.streamSSE("POST", `/ai/conversation/generate/stream`, { ...(options || {}), body });
   }
 
   conversationGenerateStream(body: Ops.AIConversationConversationGenerateStreamBody, options?: RequestOptions<Ops.AIConversationConversationGenerateStreamQuery>): Promise<Ops.AIConversationConversationGenerateStreamResponse> {

@@ -1326,6 +1326,46 @@ export type AIReadinessArticleIdResponse = Schemas.Envelope & {
   data?: Schemas.ArticleReadiness;
 };
 
+export type ArticlesArticleIdSeoGETPath = {
+  articleId: string;
+};
+
+export type ArticlesArticleIdSeoGETQuery = {
+  locale?: string;
+};
+
+export type ArticlesArticleIdSeoGETBody = undefined;
+
+export type ArticlesArticleIdSeoGETResponse = Schemas.Envelope & {
+  data?: Schemas.ArticleSeoMeta;
+};
+
+export type ArticlesArticleIdSeoPUTPath = {
+  articleId: string;
+};
+
+export type ArticlesArticleIdSeoPUTQuery = {
+  locale?: string;
+};
+
+export type ArticlesArticleIdSeoPUTBody = {
+  metaTitle?: Schemas.MultilingualString;
+  metaDescription?: Schemas.MultilingualString;
+  focusKeyword?: Schemas.MultilingualString;
+  secondaryKeywords?: Schemas.MultilingualString;
+  canonicalUrl?: Schemas.MultilingualString;
+  ogTitle?: Schemas.MultilingualString;
+  ogDescription?: Schemas.MultilingualString;
+  ogImage?: string;
+  robots?: string;
+  schemaJson?: Schemas.MultilingualString;
+  locale?: string;
+};
+
+export type ArticlesArticleIdSeoPUTResponse = Schemas.Envelope & {
+  data?: Schemas.ArticleSeoMeta;
+};
+
 export type AITranslationStateArticleIdPath = {
   articleId: string;
 };

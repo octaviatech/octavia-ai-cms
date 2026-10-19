@@ -45,19 +45,26 @@ type ClientConfig struct {
 }
 
 type Client struct {
+	// @generated fields:begin
 	AI              *AIResource
 	AIConversation  *AIConversationResource
 	Articles        *ArticlesResource
 	Authors         *AuthorsResource
+	Campaigns       *CampaignsResource
 	Categories      *CategoriesResource
+	ContentPlan     *ContentPlanResource
 	Forms           *FormsResource
 	FormSubmissions *FormSubmissionsResource
 	Languages       *LanguagesResource
+	Media           *MediaResource
 	Reports         *ReportsResource
+	SEOHub          *SEOHubResource
 	Subcategories   *SubcategoriesResource
 	Tags            *TagsResource
-	config          ClientConfig
-	http            *http.Client
+	Taxonomy        *TaxonomyResource
+	// @generated fields:end
+	config ClientConfig
+	http   *http.Client
 }
 
 func NewClient(cfg ClientConfig) (*Client, error) {
@@ -72,17 +79,24 @@ func NewClient(cfg ClientConfig) (*Client, error) {
 	}
 
 	client := &Client{config: cfg, http: &http.Client{Timeout: cfg.Timeout}}
+	// @generated ctor:begin
 	client.AI = &AIResource{client: client}
 	client.AIConversation = &AIConversationResource{client: client}
 	client.Articles = &ArticlesResource{client: client}
 	client.Authors = &AuthorsResource{client: client}
+	client.Campaigns = &CampaignsResource{client: client}
 	client.Categories = &CategoriesResource{client: client}
+	client.ContentPlan = &ContentPlanResource{client: client}
 	client.Forms = &FormsResource{client: client}
 	client.FormSubmissions = &FormSubmissionsResource{client: client}
 	client.Languages = &LanguagesResource{client: client}
+	client.Media = &MediaResource{client: client}
 	client.Reports = &ReportsResource{client: client}
+	client.SEOHub = &SEOHubResource{client: client}
 	client.Subcategories = &SubcategoriesResource{client: client}
 	client.Tags = &TagsResource{client: client}
+	client.Taxonomy = &TaxonomyResource{client: client}
+	// @generated ctor:end
 	return client, nil
 }
 

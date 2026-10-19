@@ -53,6 +53,16 @@ class AIConversationResource
     }
 
     /**
+     * Stream this endpoint as Server-Sent Events (D-24).
+     *
+     * @return \Generator<int, \Octavia\CmsSDK\SseEvent>
+     */
+    public function conversationGenerateLive($body, array $options = []): \Generator
+    {
+        return $this->client->streamSSE("POST", "/ai/conversation/generate/stream", array_merge($options, ["body" => $body]));
+    }
+
+    /**
      * @return \Octavia\CmsSDK\Envelope
      * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\ConversationGenerate>
      */

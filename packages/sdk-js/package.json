@@ -36,7 +36,7 @@
     "clean": "node scripts/clean.cjs",
     "generate": "node scripts/generate.cjs",
     "pretest": "node -e \"const fs=require('fs'),p=require('path'),d=p.join('node_modules','@octaviatech');fs.mkdirSync(d,{recursive:true});const t=p.join(d,'cms');try{fs.rmSync(t,{recursive:true,force:true})}catch{};fs.symlinkSync(p.resolve('.'),t,'junction')\"",
-    "test": "npm run build && node tests/basic.test.cjs && node tests/entrypoints.test.mjs"
+    "test": "npm run build && node tests/basic.test.cjs && node tests/entrypoints.test.mjs && node tests/sse.test.mjs && node tests/sse-stream.test.mjs"
   },
   "keywords": [
     "octavia",

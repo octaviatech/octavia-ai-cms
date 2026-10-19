@@ -4842,6 +4842,48 @@ public record ArticleReadiness
     public string[] Warnings { get; set; } = null!;
 }
 
+public record ArticleSeoMeta
+{
+    [JsonPropertyName("articleId")]
+    public string ArticleId { get; set; } = null!;
+
+    [JsonPropertyName("locale")]
+    public string? Locale { get; set; } = null;
+
+    [JsonPropertyName("metaTitle")]
+    public MultilingualStringOrNull MetaTitle { get; set; } = null!;
+
+    [JsonPropertyName("metaDescription")]
+    public MultilingualStringOrNull MetaDescription { get; set; } = null!;
+
+    [JsonPropertyName("focusKeyword")]
+    public MultilingualStringOrNull FocusKeyword { get; set; } = null!;
+
+    [JsonPropertyName("secondaryKeywords")]
+    public MultilingualStringOrNull SecondaryKeywords { get; set; } = null!;
+
+    [JsonPropertyName("canonicalUrl")]
+    public MultilingualStringOrNull CanonicalUrl { get; set; } = null!;
+
+    [JsonPropertyName("ogTitle")]
+    public MultilingualStringOrNull OgTitle { get; set; } = null!;
+
+    [JsonPropertyName("ogDescription")]
+    public MultilingualStringOrNull OgDescription { get; set; } = null!;
+
+    [JsonPropertyName("schemaJson")]
+    public MultilingualStringOrNull SchemaJson { get; set; } = null!;
+
+    [JsonPropertyName("ogImage")]
+    public string? OgImage { get; set; }
+
+    [JsonPropertyName("robots")]
+    public string? Robots { get; set; }
+
+    [JsonPropertyName("slug")]
+    public string? Slug { get; set; }
+}
+
 public record TranslationStateItem
 {
     [JsonPropertyName("locale")]

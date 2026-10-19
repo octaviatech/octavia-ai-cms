@@ -158,6 +158,52 @@ public sealed class Client
         return ParseResponse<T>(payload);
     }
 
+    /// <summary>
+    /// Consumes a <c>text/event-stream</c> endpoint as an async stream of frames
+    /// (D-24).
+    ///
+    /// <c>RequestAsync</c> cannot serve these: it reads the whole body and
+    /// parses it as JSON, so a caller gets one opaque string instead of the
+    /// frames the endpoint emits. No per-request timeout is applied — a
+    /// generation can legitimately run for minutes.
+    /// </summary>
+    public async IAsyncEnumerable<SseEvent> StreamSSEAsync(
+        string method,
+        string path,
+        Dictionary<string, string?>? query = null,
+        object? body = null,
+        [System.Runtime.CompilerServices.EnumeratorCancellation] CancellationToken cancellationToken = default)
+    {
+        var url = _config.BaseUrl + path + BuildQuery(query);
+
+        using var req = new HttpRequestMessage(new HttpMethod(method), url);
+        req.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("text/event-stream"));
+        req.Headers.Add("x-api-key", _config.ApiKey);
+
+        if (body != null)
+        {
+            var json = JsonSerializer.Serialize(body);
+            req.Content = new StringContent(json, Encoding.UTF8, "application/json");
+        }
+
+        using var res = await _http
+            .SendAsync(req, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
+            .ConfigureAwait(false);
+
+        if (!res.IsSuccessStatusCode)
+        {
+            var payload = await res.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+            var msg = TryGetMessage(payload) ?? $"Stream failed with status {(int)res.StatusCode}";
+            throw new ApiError(msg, (int)res.StatusCode, payload);
+        }
+
+        await using var stream = await res.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
+        await foreach (var frame in SseEvent.ReadFramesAsync(stream, cancellationToken).ConfigureAwait(false))
+        {
+            yield return frame;
+        }
+    }
+
     public Task<CMSResponse<JsonElement>> HealthAsync() => RequestAsync<JsonElement>("GET", "/healthz");
 
     private static string BuildQuery(Dictionary<string, string?>? query)

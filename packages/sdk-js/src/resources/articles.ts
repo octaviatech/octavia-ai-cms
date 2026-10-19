@@ -1,5 +1,6 @@
 import { OctaviaClient } from "../client";
 import { RequestOptions } from "../types";
+import type { SseEvent } from "../http";
 import type * as Ops from "../generated/operations";
 
 export class ArticlesResource {
@@ -139,6 +140,14 @@ export class ArticlesResource {
 
   engagementSettingsPUT(body: Ops.ArticlesEngagementSettingsPUTBody, options?: RequestOptions<Ops.ArticlesEngagementSettingsPUTQuery>): Promise<Ops.ArticlesEngagementSettingsPUTResponse> {
     return this.client.request<Ops.ArticlesEngagementSettingsPUTResponse>("PUT", `/articles/engagementSettings`, { ...(options || {}), body });
+  }
+
+  articleIdSeoGET(articleId: Ops.ArticlesArticleIdSeoGETPath["articleId"], options?: RequestOptions<Ops.ArticlesArticleIdSeoGETQuery>): Promise<Ops.ArticlesArticleIdSeoGETResponse> {
+    return this.client.request<Ops.ArticlesArticleIdSeoGETResponse>("GET", `/articles/${encodeURIComponent(articleId)}/seo`, options);
+  }
+
+  articleIdSeoPUT(articleId: Ops.ArticlesArticleIdSeoPUTPath["articleId"], body: Ops.ArticlesArticleIdSeoPUTBody, options?: RequestOptions<Ops.ArticlesArticleIdSeoPUTQuery>): Promise<Ops.ArticlesArticleIdSeoPUTResponse> {
+    return this.client.request<Ops.ArticlesArticleIdSeoPUTResponse>("PUT", `/articles/${encodeURIComponent(articleId)}/seo`, { ...(options || {}), body });
   }
 
 }

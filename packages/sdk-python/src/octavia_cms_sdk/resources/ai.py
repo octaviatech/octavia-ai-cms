@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import urllib.parse
-from typing import TYPE_CHECKING, Any, Dict, List, Optional
+from typing import TYPE_CHECKING, Any, Dict, Iterator, List, Optional
+
+from ..sse import SseEvent
 
 from ..models import (
     AiSummaryResult,
@@ -47,14 +49,35 @@ class AIResource:
     def summarizeStream(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         return self._client.request_typed(Dict[str, Any], "POST", "/ai/summarize/stream", query=query, body=body)
 
+    def summarizeLive(selfbody: Any, *, query: Optional[Dict[str, Any]] = None) -> Iterator[SseEvent]:
+        """Stream this endpoint as Server-Sent Events (D-24).
+
+        Yields one SseEvent per frame as it arrives.
+        """
+        return self._client.stream_sse("POST", "/ai/summarize/stream", query=query, body=body)
+
     def summarizeArticleStream(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         return self._client.request_typed(Dict[str, Any], "POST", "/ai/summarizeArticle/stream", query=query, body=body)
+
+    def summarizeArticleLive(selfbody: Any, *, query: Optional[Dict[str, Any]] = None) -> Iterator[SseEvent]:
+        """Stream this endpoint as Server-Sent Events (D-24).
+
+        Yields one SseEvent per frame as it arrives.
+        """
+        return self._client.stream_sse("POST", "/ai/summarizeArticle/stream", query=query, body=body)
 
     def seoOptimize(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> AiSeoResult:
         return self._client.request_typed(AiSeoResult, "POST", "/ai/seoOptimize", query=query, body=body)
 
     def seoOptimizeStream(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         return self._client.request_typed(Dict[str, Any], "POST", "/ai/seoOptimize/stream", query=query, body=body)
+
+    def seoOptimizeLive(selfbody: Any, *, query: Optional[Dict[str, Any]] = None) -> Iterator[SseEvent]:
+        """Stream this endpoint as Server-Sent Events (D-24).
+
+        Yields one SseEvent per frame as it arrives.
+        """
+        return self._client.stream_sse("POST", "/ai/seoOptimize/stream", query=query, body=body)
 
     def generateTitle(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> AiTitleResult:
         return self._client.request_typed(AiTitleResult, "POST", "/ai/generateTitle", query=query, body=body)
@@ -64,6 +87,13 @@ class AIResource:
 
     def translateStream(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         return self._client.request_typed(Dict[str, Any], "POST", "/ai/translate/stream", query=query, body=body)
+
+    def translateLive(selfbody: Any, *, query: Optional[Dict[str, Any]] = None) -> Iterator[SseEvent]:
+        """Stream this endpoint as Server-Sent Events (D-24).
+
+        Yields one SseEvent per frame as it arrives.
+        """
+        return self._client.stream_sse("POST", "/ai/translate/stream", query=query, body=body)
 
     def generateContent(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> AiContentResult:
         return self._client.request_typed(AiContentResult, "POST", "/ai/generateContent", query=query, body=body)
@@ -80,11 +110,25 @@ class AIResource:
     def optimizeArticleStream(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         return self._client.request_typed(Dict[str, Any], "POST", "/ai/optimizeArticle/stream", query=query, body=body)
 
+    def optimizeArticleLive(selfbody: Any, *, query: Optional[Dict[str, Any]] = None) -> Iterator[SseEvent]:
+        """Stream this endpoint as Server-Sent Events (D-24).
+
+        Yields one SseEvent per frame as it arrives.
+        """
+        return self._client.stream_sse("POST", "/ai/optimizeArticle/stream", query=query, body=body)
+
     def translateArticle(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> AiArticleTranslateResult:
         return self._client.request_typed(AiArticleTranslateResult, "POST", "/ai/translateArticle", query=query, body=body)
 
     def translateArticleStream(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         return self._client.request_typed(Dict[str, Any], "POST", "/ai/translateArticle/stream", query=query, body=body)
+
+    def translateArticleLive(selfbody: Any, *, query: Optional[Dict[str, Any]] = None) -> Iterator[SseEvent]:
+        """Stream this endpoint as Server-Sent Events (D-24).
+
+        Yields one SseEvent per frame as it arrives.
+        """
+        return self._client.stream_sse("POST", "/ai/translateArticle/stream", query=query, body=body)
 
     def translateForm(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> AiFormTranslateResult:
         return self._client.request_typed(AiFormTranslateResult, "POST", "/ai/translateForm", query=query, body=body)
@@ -94,6 +138,13 @@ class AIResource:
 
     def repurposeStream(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         return self._client.request_typed(Dict[str, Any], "POST", "/ai/repurpose/stream", query=query, body=body)
+
+    def repurposeLive(selfbody: Any, *, query: Optional[Dict[str, Any]] = None) -> Iterator[SseEvent]:
+        """Stream this endpoint as Server-Sent Events (D-24).
+
+        Yields one SseEvent per frame as it arrives.
+        """
+        return self._client.stream_sse("POST", "/ai/repurpose/stream", query=query, body=body)
 
     def repurposeTemplateGET(self, *, query: Optional[Dict[str, Any]] = None) -> SocialTemplate:
         return self._client.request_typed(SocialTemplate, "GET", "/ai/repurpose/template", query=query, body=None)
@@ -136,6 +187,13 @@ class AIResource:
 
     def eventsStream(self, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         return self._client.request_typed(Dict[str, Any], "GET", "/ai/events/stream", query=query, body=None)
+
+    def eventsLive(self, *, query: Optional[Dict[str, Any]] = None) -> Iterator[SseEvent]:
+        """Stream this endpoint as Server-Sent Events (D-24).
+
+        Yields one SseEvent per frame as it arrives.
+        """
+        return self._client.stream_sse("GET", "/ai/events/stream", query=query, body=None)
 
     def proposalsPOST(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> AiProposal:
         return self._client.request_typed(AiProposal, "POST", "/ai/proposals", query=query, body=body)

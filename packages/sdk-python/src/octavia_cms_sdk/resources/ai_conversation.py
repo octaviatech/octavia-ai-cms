@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import urllib.parse
-from typing import TYPE_CHECKING, Any, Dict, List, Optional
+from typing import TYPE_CHECKING, Any, Dict, Iterator, List, Optional
+
+from ..sse import SseEvent
 
 from ..models import (
     ConversationStart,
@@ -29,6 +31,13 @@ class AIConversationResource:
 
     def conversationGenerateStream(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         return self._client.request_typed(Dict[str, Any], "POST", "/ai/conversation/generate/stream", query=query, body=body)
+
+    def conversationGenerateLive(selfbody: Any, *, query: Optional[Dict[str, Any]] = None) -> Iterator[SseEvent]:
+        """Stream this endpoint as Server-Sent Events (D-24).
+
+        Yields one SseEvent per frame as it arrives.
+        """
+        return self._client.stream_sse("POST", "/ai/conversation/generate/stream", query=query, body=body)
 
     def conversationGenerate(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> ConversationGenerate:
         return self._client.request_typed(ConversationGenerate, "POST", "/ai/conversation/generate", query=query, body=body)

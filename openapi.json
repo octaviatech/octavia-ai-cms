@@ -7128,6 +7128,79 @@
           }
         }
       },
+      "ArticleSeoMeta": {
+        "type": "object",
+        "required": [
+          "articleId",
+          "metaTitle",
+          "metaDescription",
+          "focusKeyword",
+          "secondaryKeywords",
+          "canonicalUrl",
+          "ogTitle",
+          "ogDescription",
+          "schemaJson",
+          "ogImage",
+          "robots",
+          "slug"
+        ],
+        "properties": {
+          "articleId": {
+            "type": "string"
+          },
+          "locale": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Echo of ?locale=; null when all locales were returned"
+          },
+          "metaTitle": {
+            "$ref": "#/components/schemas/MultilingualStringOrNull"
+          },
+          "metaDescription": {
+            "$ref": "#/components/schemas/MultilingualStringOrNull"
+          },
+          "focusKeyword": {
+            "$ref": "#/components/schemas/MultilingualStringOrNull"
+          },
+          "secondaryKeywords": {
+            "$ref": "#/components/schemas/MultilingualStringOrNull"
+          },
+          "canonicalUrl": {
+            "$ref": "#/components/schemas/MultilingualStringOrNull"
+          },
+          "ogTitle": {
+            "$ref": "#/components/schemas/MultilingualStringOrNull"
+          },
+          "ogDescription": {
+            "$ref": "#/components/schemas/MultilingualStringOrNull"
+          },
+          "schemaJson": {
+            "$ref": "#/components/schemas/MultilingualStringOrNull"
+          },
+          "ogImage": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "robots": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "robots directive, e.g. \"index,follow\""
+          },
+          "slug": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "D-02: one canonical slug for the whole article"
+          }
+        }
+      },
       "TranslationStateItem": {
         "type": "object",
         "required": [
@@ -19012,6 +19085,216 @@
                       "properties": {
                         "data": {
                           "$ref": "#/components/schemas/ArticleReadiness"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Article not found"
+          }
+        }
+      }
+    },
+    "/articles/{articleId}/seo": {
+      "get": {
+        "summary": "D-01 per-locale SEO metadata (meta title/description, keywords, OG, schema)",
+        "description": "Reads the article's `seoMeta` block. Without `locale` the multilingual fields come back as maps keyed by language code; with `locale` each collapses to that single language. `slug` is the article's single canonical slug (slugs are one-per-article, not per-locale).",
+        "tags": [
+          "Articles"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "articleId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "locale",
+            "in": "query",
+            "required": false,
+            "description": "Narrow every multilingual field to one language code",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The article's SEO metadata",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/ArticleSeoMeta"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Article not found"
+          }
+        }
+      },
+      "put": {
+        "summary": "D-01 update per-locale SEO metadata",
+        "description": "Partial update — only the fields present in the body are written. With `locale` in the query the multilingual fields are written to that one language key; without it each supplied multilingual field replaces the whole map. Fields are also accepted by `PUT /articles/update`; this endpoint exists so a caller can edit SEO without resending the article.",
+        "tags": [
+          "Articles"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "articleId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "locale",
+            "in": "query",
+            "required": false,
+            "description": "Write the multilingual fields to this language only",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "metaTitle": {
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/MultilingualString"
+                      }
+                    ],
+                    "description": "Per-locale meta title; a plain string when `locale` is given"
+                  },
+                  "metaDescription": {
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/MultilingualString"
+                      }
+                    ],
+                    "description": "Per-locale meta description"
+                  },
+                  "focusKeyword": {
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/MultilingualString"
+                      }
+                    ],
+                    "description": "Per-locale primary keyword the analyzer scores against"
+                  },
+                  "secondaryKeywords": {
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/MultilingualString"
+                      }
+                    ]
+                  },
+                  "canonicalUrl": {
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/MultilingualString"
+                      }
+                    ]
+                  },
+                  "ogTitle": {
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/MultilingualString"
+                      }
+                    ]
+                  },
+                  "ogDescription": {
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/MultilingualString"
+                      }
+                    ]
+                  },
+                  "ogImage": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "robots": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "robots directive for this article, e.g. \"index,follow\""
+                  },
+                  "schemaJson": {
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/MultilingualString"
+                      }
+                    ],
+                    "description": "Per-locale JSON-LD string (C-06 writes FAQ / HowTo / Article here)"
+                  },
+                  "locale": {
+                    "type": "string",
+                    "description": "Alternative to the query parameter"
+                  }
+                }
+              },
+              "example": {
+                "metaTitle": "راهنمای کامل راه‌اندازی",
+                "metaDescription": "در این مقاله با تنظیم و راه‌اندازی آشنا می‌شوید.",
+                "focusKeyword": "راه‌اندازی",
+                "robots": "index,follow"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The updated SEO metadata",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/ArticleSeoMeta"
                         }
                       }
                     }

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import urllib.parse
-from typing import TYPE_CHECKING, Any, Dict, List, Optional
+from typing import TYPE_CHECKING, Any, Dict, Iterator, List, Optional
 
 from ..models import (
     ContentPlanList,

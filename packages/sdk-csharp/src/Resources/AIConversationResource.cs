@@ -33,6 +33,15 @@ public class AIConversationResource
         return _client.RequestAsync<JsonElement>("POST", "/ai/conversation/generate/stream", query, body);
     }
 
+    /// <summary>
+    /// Streams this endpoint as Server-Sent Events (D-24), yielding one
+    /// <see cref="SseEvent"/> per frame as it arrives.
+    /// </summary>
+    public IAsyncEnumerable<SseEvent> ConversationGenerateLiveAsync(object body, Dictionary<string, string?>? query = null, CancellationToken cancellationToken = default)
+    {
+        return _client.StreamSSEAsync("POST", "/ai/conversation/generate/stream", query, body, cancellationToken);
+    }
+
     public Task<CMSResponse<ConversationGenerate>> ConversationGenerateAsync(object body, Dictionary<string, string?>? query = null)
     {
         return _client.RequestAsync<ConversationGenerate>("POST", "/ai/conversation/generate", query, body);

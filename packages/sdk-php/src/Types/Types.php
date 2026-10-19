@@ -11784,6 +11784,95 @@ class ArticleReadiness
 /**
  * Generated from the OpenAPI spec — do not edit by hand.
  */
+class ArticleSeoMeta
+{
+    /** @var string */
+    public $articleId = null;
+    /** @var ?string */
+    public $locale = null;
+    /** @var MultilingualStringOrNull */
+    public $metaTitle = null;
+    /** @var MultilingualStringOrNull */
+    public $metaDescription = null;
+    /** @var MultilingualStringOrNull */
+    public $focusKeyword = null;
+    /** @var MultilingualStringOrNull */
+    public $secondaryKeywords = null;
+    /** @var MultilingualStringOrNull */
+    public $canonicalUrl = null;
+    /** @var MultilingualStringOrNull */
+    public $ogTitle = null;
+    /** @var MultilingualStringOrNull */
+    public $ogDescription = null;
+    /** @var MultilingualStringOrNull */
+    public $schemaJson = null;
+    /** @var ?string */
+    public $ogImage = null;
+    /** @var ?string */
+    public $robots = null;
+    /** @var ?string */
+    public $slug = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('articleId', $data)) {
+            $instance->articleId = $data['articleId'];
+        }
+        if (array_key_exists('locale', $data)) {
+            $instance->locale = $data['locale'];
+        }
+        if (array_key_exists('metaTitle', $data)) {
+            $instance->metaTitle = $data['metaTitle'];
+        }
+        if (array_key_exists('metaDescription', $data)) {
+            $instance->metaDescription = $data['metaDescription'];
+        }
+        if (array_key_exists('focusKeyword', $data)) {
+            $instance->focusKeyword = $data['focusKeyword'];
+        }
+        if (array_key_exists('secondaryKeywords', $data)) {
+            $instance->secondaryKeywords = $data['secondaryKeywords'];
+        }
+        if (array_key_exists('canonicalUrl', $data)) {
+            $instance->canonicalUrl = $data['canonicalUrl'];
+        }
+        if (array_key_exists('ogTitle', $data)) {
+            $instance->ogTitle = $data['ogTitle'];
+        }
+        if (array_key_exists('ogDescription', $data)) {
+            $instance->ogDescription = $data['ogDescription'];
+        }
+        if (array_key_exists('schemaJson', $data)) {
+            $instance->schemaJson = $data['schemaJson'];
+        }
+        if (array_key_exists('ogImage', $data)) {
+            $instance->ogImage = $data['ogImage'];
+        }
+        if (array_key_exists('robots', $data)) {
+            $instance->robots = $data['robots'];
+        }
+        if (array_key_exists('slug', $data)) {
+            $instance->slug = $data['slug'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
 class TranslationStateItem
 {
     /** @var string */

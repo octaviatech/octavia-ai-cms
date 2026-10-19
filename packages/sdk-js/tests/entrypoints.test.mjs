@@ -7,18 +7,28 @@ import { createRequire } from "node:module";
 
 const require = createRequire(import.meta.url);
 
+// Every resource the spec's non-excluded tags map to. This list is exhaustive
+// on purpose: a facade entry that only checks "the old twelve still exist" lets
+// a newly generated resource ship unreachable — which is exactly how Campaigns,
+// ContentPlan, Media, SEOHub and Taxonomy became dead code in the Go SDK while
+// its coverage script stayed green.
 const FACADE = [
   "ai",
   "aiConversation",
   "article",
   "author",
+  "campaign",
   "category",
+  "contentPlan",
   "form",
   "formSubmission",
   "language",
+  "media",
   "report",
+  "seo",
   "subcategory",
   "tag",
+  "taxonomy",
   "raw",
 ];
 
@@ -28,6 +38,11 @@ const METHODS = {
   aiConversation: ["conversationStart", "conversationGenerate"],
   tag: ["create", "getAll", "search"],
   report: ["getStatistics", "contentOverview"],
+  campaign: ["getAll", "create", "update", "deleteId"],
+  contentPlan: ["getAll", "create", "update", "deleteId"],
+  media: ["getAll", "create", "update", "deleteId", "aiMissingAlt"],
+  seo: ["audit", "redirects", "translationCoverage", "contentTypes"],
+  taxonomy: ["audit", "suggestTags", "tagsMerge"],
 };
 
 function checkFacade(label, CMS) {
