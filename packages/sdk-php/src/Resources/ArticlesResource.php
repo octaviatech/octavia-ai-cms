@@ -234,20 +234,20 @@ class ArticlesResource
 
     /**
      * @return \Octavia\CmsSDK\Envelope
-     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\ModerationResultWrapper>
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\AiRunAccepted>
      */
     public function commentsCommentIdModerate($commentId, $body, array $options = []): Envelope
     {
-        return $this->client->request("POST", "/articles/comments/" . rawurlencode($commentId) . "/moderate", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\ModerationResultWrapper::class);
+        return $this->client->request("POST", "/articles/comments/" . rawurlencode($commentId) . "/moderate", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\AiRunAccepted::class);
     }
 
     /**
      * @return \Octavia\CmsSDK\Envelope
-     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\CommentReplyDraftWrapper>
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\AiRunAccepted>
      */
     public function commentsCommentIdReplyDraft($commentId, $body, array $options = []): Envelope
     {
-        return $this->client->request("POST", "/articles/comments/" . rawurlencode($commentId) . "/reply-draft", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\CommentReplyDraftWrapper::class);
+        return $this->client->request("POST", "/articles/comments/" . rawurlencode($commentId) . "/reply-draft", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\AiRunAccepted::class);
     }
 
     /**

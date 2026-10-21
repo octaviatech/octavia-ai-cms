@@ -133,14 +133,14 @@ public class ArticlesResource
         return _client.RequestAsync<EffectivePolicyWrapper>("GET", "/articles/comments/effectivePolicy", query, null);
     }
 
-    public Task<CMSResponse<ModerationResultWrapper>> CommentsCommentIdModerateAsync(string commentId, object body, Dictionary<string, string?>? query = null)
+    public Task<CMSResponse<AiRunAccepted>> CommentsCommentIdModerateAsync(string commentId, object body, Dictionary<string, string?>? query = null)
     {
-        return _client.RequestAsync<ModerationResultWrapper>("POST", "/articles/comments/" + Uri.EscapeDataString(commentId) + "/moderate", query, body);
+        return _client.RequestAsync<AiRunAccepted>("POST", "/articles/comments/" + Uri.EscapeDataString(commentId) + "/moderate", query, body);
     }
 
-    public Task<CMSResponse<CommentReplyDraftWrapper>> CommentsCommentIdReplyDraftAsync(string commentId, object body, Dictionary<string, string?>? query = null)
+    public Task<CMSResponse<AiRunAccepted>> CommentsCommentIdReplyDraftAsync(string commentId, object body, Dictionary<string, string?>? query = null)
     {
-        return _client.RequestAsync<CommentReplyDraftWrapper>("POST", "/articles/comments/" + Uri.EscapeDataString(commentId) + "/reply-draft", query, body);
+        return _client.RequestAsync<AiRunAccepted>("POST", "/articles/comments/" + Uri.EscapeDataString(commentId) + "/reply-draft", query, body);
     }
 
     public Task<CMSResponse<CommentWrapper>> CommentsCommentIdPATCHAsync(string commentId, object body, Dictionary<string, string?>? query = null)

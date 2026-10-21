@@ -108,20 +108,20 @@ class FormsResource
 
     /**
      * @return \Octavia\CmsSDK\Envelope
-     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\FormDraftWrapper>
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\AiRunAccepted>
      */
     public function aiGenerate($body, array $options = []): Envelope
     {
-        return $this->client->request("POST", "/forms/ai/generate", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\FormDraftWrapper::class);
+        return $this->client->request("POST", "/forms/ai/generate", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\AiRunAccepted::class);
     }
 
     /**
      * @return \Octavia\CmsSDK\Envelope
-     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\FormImproveWrapper>
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\AiRunAccepted>
      */
     public function idAiImprove($id, $body, array $options = []): Envelope
     {
-        return $this->client->request("POST", "/forms/" . rawurlencode($id) . "/ai/improve", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\FormImproveWrapper::class);
+        return $this->client->request("POST", "/forms/" . rawurlencode($id) . "/ai/improve", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\AiRunAccepted::class);
     }
 
 }

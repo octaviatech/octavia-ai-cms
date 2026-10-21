@@ -74,10 +74,6 @@ export class AIResource {
     return this.client.request<Ops.AIAutofillArticleResponse>("POST", `/ai/autofillArticle`, { ...(options || {}), body });
   }
 
-  optimizeArticleLive(body: Ops.AIOptimizeArticleStreamBody, options?: RequestOptions<Ops.AIOptimizeArticleStreamQuery>): AsyncGenerator<SseEvent, void, undefined> {
-    return this.client.streamSSE("POST", `/ai/optimizeArticle/stream`, { ...(options || {}), body });
-  }
-
   optimizeArticleStream(body: Ops.AIOptimizeArticleStreamBody, options?: RequestOptions<Ops.AIOptimizeArticleStreamQuery>): Promise<Ops.AIOptimizeArticleStreamResponse> {
     return this.client.request<Ops.AIOptimizeArticleStreamResponse>("POST", `/ai/optimizeArticle/stream`, { ...(options || {}), body });
   }
@@ -160,6 +156,18 @@ export class AIResource {
 
   creditsRuns(options?: RequestOptions<Ops.AICreditsRunsQuery>): Promise<Ops.AICreditsRunsResponse> {
     return this.client.request<Ops.AICreditsRunsResponse>("GET", `/ai/credits/runs`, options);
+  }
+
+  creditsRunsRunId(runId: Ops.AICreditsRunsRunIdPath["runId"], options?: RequestOptions<Ops.AICreditsRunsRunIdQuery>): Promise<Ops.AICreditsRunsRunIdResponse> {
+    return this.client.request<Ops.AICreditsRunsRunIdResponse>("GET", `/ai/credits/runs/${encodeURIComponent(runId)}`, options);
+  }
+
+  creditsRunsRunIdCancel(runId: Ops.AICreditsRunsRunIdCancelPath["runId"], options?: RequestOptions<Ops.AICreditsRunsRunIdCancelQuery>): Promise<Ops.AICreditsRunsRunIdCancelResponse> {
+    return this.client.request<Ops.AICreditsRunsRunIdCancelResponse>("POST", `/ai/credits/runs/${encodeURIComponent(runId)}/cancel`, options);
+  }
+
+  creditsRunsRunIdRetry(runId: Ops.AICreditsRunsRunIdRetryPath["runId"], options?: RequestOptions<Ops.AICreditsRunsRunIdRetryQuery>): Promise<Ops.AICreditsRunsRunIdRetryResponse> {
+    return this.client.request<Ops.AICreditsRunsRunIdRetryResponse>("POST", `/ai/credits/runs/${encodeURIComponent(runId)}/retry`, options);
   }
 
   eventsLive(options?: RequestOptions<Ops.AIEventsStreamQuery>): AsyncGenerator<SseEvent, void, undefined> {

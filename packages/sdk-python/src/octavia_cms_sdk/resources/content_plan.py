@@ -9,10 +9,7 @@ from ..models import (
     StartDraftWrapper,
     ScheduleWrapper,
     ContentGapReport,
-    CalendarIdeas,
-    CalendarPeriodPlan,
-    CalendarBestTime,
-    CalendarReschedule,
+    AiRunAccepted,
     CadenceWrapper,
 )
 
@@ -47,17 +44,17 @@ class ContentPlanResource:
     def ideasFromAi(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> ContentPlanItemWrapper:
         return self._client.request_typed(ContentPlanItemWrapper, "POST", "/content-plan/ideas/from-ai", query=query, body=body)
 
-    def aiGenerateIdeas(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> CalendarIdeas:
-        return self._client.request_typed(CalendarIdeas, "POST", "/content-plan/ai/generate-ideas", query=query, body=body)
+    def aiGenerateIdeas(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> AiRunAccepted:
+        return self._client.request_typed(AiRunAccepted, "POST", "/content-plan/ai/generate-ideas", query=query, body=body)
 
-    def aiPlanPeriod(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> CalendarPeriodPlan:
-        return self._client.request_typed(CalendarPeriodPlan, "POST", "/content-plan/ai/plan-period", query=query, body=body)
+    def aiPlanPeriod(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> AiRunAccepted:
+        return self._client.request_typed(AiRunAccepted, "POST", "/content-plan/ai/plan-period", query=query, body=body)
 
-    def aiBestTime(self, *, query: Optional[Dict[str, Any]] = None) -> CalendarBestTime:
-        return self._client.request_typed(CalendarBestTime, "POST", "/content-plan/ai/best-time", query=query, body=None)
+    def aiBestTime(self, *, query: Optional[Dict[str, Any]] = None) -> AiRunAccepted:
+        return self._client.request_typed(AiRunAccepted, "POST", "/content-plan/ai/best-time", query=query, body=None)
 
-    def aiReschedule(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> CalendarReschedule:
-        return self._client.request_typed(CalendarReschedule, "POST", "/content-plan/ai/reschedule", query=query, body=body)
+    def aiReschedule(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> AiRunAccepted:
+        return self._client.request_typed(AiRunAccepted, "POST", "/content-plan/ai/reschedule", query=query, body=body)
 
     def cadenceGET(self, *, query: Optional[Dict[str, Any]] = None) -> CadenceWrapper:
         return self._client.request_typed(CadenceWrapper, "GET", "/content-plan/cadence", query=query, body=None)

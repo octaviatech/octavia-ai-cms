@@ -11030,7 +11030,7 @@ class AiRunListItem
     public $runId = null;
     /** @var string */
     public $actionId = null;
-    /** @var 'reserved' | 'settled' | 'refunded' | 'void' */
+    /** @var 'reserved' | 'settled' | 'refunded' | 'void' | 'cancelled' */
     public $status = null;
     /** @var float */
     public $estimated = null;
@@ -11042,6 +11042,8 @@ class AiRunListItem
     public $outcome = null;
     /** @var ?array<string, mixed> */
     public $meta = null;
+    /** @var ?array<string, mixed> */
+    public $result = null;
     /** @var ?string */
     public $createdAt = null;
 
@@ -11076,6 +11078,9 @@ class AiRunListItem
         if (array_key_exists('meta', $data)) {
             $instance->meta = $data['meta'];
         }
+        if (array_key_exists('result', $data)) {
+            $instance->result = $data['result'];
+        }
         if (array_key_exists('createdAt', $data)) {
             $instance->createdAt = $data['createdAt'];
         }
@@ -11097,6 +11102,8 @@ class AiRunList
 {
     /** @var AiRunListItem[] */
     public $runs = null;
+    /** @var ?Pagination */
+    public $pagination = null;
 
     /**
      * Build from a decoded JSON payload, ignoring unknown keys so a
@@ -11108,14 +11115,57 @@ class AiRunList
         if (array_key_exists('runs', $data)) {
             $instance->runs = $data['runs'];
         }
+        if (array_key_exists('pagination', $data)) {
+            $instance->pagination = $data['pagination'];
+        }
 
         $nested = [
             'runs' => static fn (array $v): array => array_map(static fn ($x) => AiRunListItem::fromArray($x), $v),
+            'pagination' => static fn (array $v): Pagination => Pagination::fromArray($v),
         ];
         foreach ($nested as $field => $convert) {
             if ($instance->{$field} !== null) {
                 $instance->{$field} = $convert($instance->{$field});
             }
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
+class AiRunAccepted
+{
+    /** @var string */
+    public $runId = null;
+    /** @var ?'inline' | 'queued' */
+    public $mode = null;
+    /** @var ?float */
+    public $estimatedTokens = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('runId', $data)) {
+            $instance->runId = $data['runId'];
+        }
+        if (array_key_exists('mode', $data)) {
+            $instance->mode = $data['mode'];
+        }
+        if (array_key_exists('estimatedTokens', $data)) {
+            $instance->estimatedTokens = $data['estimatedTokens'];
         }
 
         return $instance;
@@ -14331,14 +14381,55 @@ class CampaignList
 /**
  * Generated from the OpenAPI spec — do not edit by hand.
  */
+class DigestNote
+{
+    /** @var string */
+    public $code = null;
+    /** @var array<string, mixed> */
+    public $params = null;
+    /** @var string */
+    public $text = null;
+
+    /**
+     * Build from a decoded JSON payload, ignoring unknown keys so a
+     * server-side addition does not break an older client.
+     */
+    public static function fromArray(array $data): static
+    {
+        $instance = new static();
+        if (array_key_exists('code', $data)) {
+            $instance->code = $data['code'];
+        }
+        if (array_key_exists('params', $data)) {
+            $instance->params = $data['params'];
+        }
+        if (array_key_exists('text', $data)) {
+            $instance->text = $data['text'];
+        }
+
+        return $instance;
+    }
+
+    /** @return array<string, mixed> */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+}
+
+/**
+ * Generated from the OpenAPI spec — do not edit by hand.
+ */
 class DigestAction
 {
     /** @var 'calendar.overdue' | 'ai.lowAcceptance' | 'calendar.delivery' | 'seo.audit' */
     public $code = null;
     /** @var 'high' | 'medium' | 'low' */
     public $severity = null;
+    /** @var array<string, mixed> */
+    public $params = null;
     /** @var string */
-    public $reason = null;
+    public $text = null;
     /** @var ?string */
     public $href = null;
 
@@ -14355,8 +14446,11 @@ class DigestAction
         if (array_key_exists('severity', $data)) {
             $instance->severity = $data['severity'];
         }
-        if (array_key_exists('reason', $data)) {
-            $instance->reason = $data['reason'];
+        if (array_key_exists('params', $data)) {
+            $instance->params = $data['params'];
+        }
+        if (array_key_exists('text', $data)) {
+            $instance->text = $data['text'];
         }
         if (array_key_exists('href', $data)) {
             $instance->href = $data['href'];
@@ -14387,9 +14481,9 @@ class WeeklyDigest
     public $ai = null;
     /** @var DigestAction[] */
     public $suggestedActions = null;
-    /** @var ?string[] */
+    /** @var ?DigestNote[] */
     public $wins = null;
-    /** @var ?string[] */
+    /** @var ?DigestNote[] */
     public $issues = null;
 
     /**
@@ -14423,6 +14517,8 @@ class WeeklyDigest
 
         $nested = [
             'suggestedActions' => static fn (array $v): array => array_map(static fn ($x) => DigestAction::fromArray($x), $v),
+            'wins' => static fn (array $v): array => array_map(static fn ($x) => DigestNote::fromArray($x), $v),
+            'issues' => static fn (array $v): array => array_map(static fn ($x) => DigestNote::fromArray($x), $v),
         ];
         foreach ($nested as $field => $convert) {
             if ($instance->{$field} !== null) {

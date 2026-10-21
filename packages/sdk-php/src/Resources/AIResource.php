@@ -18,11 +18,11 @@ class AIResource
 
     /**
      * @return \Octavia\CmsSDK\Envelope
-     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\AiSummaryResult>
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\AiRunAccepted>
      */
     public function summarize($body, array $options = []): Envelope
     {
-        return $this->client->request("POST", "/ai/summarize", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\AiSummaryResult::class);
+        return $this->client->request("POST", "/ai/summarize", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\AiRunAccepted::class);
     }
 
     /**
@@ -65,11 +65,11 @@ class AIResource
 
     /**
      * @return \Octavia\CmsSDK\Envelope
-     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\AiSeoResult>
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\AiRunAccepted>
      */
     public function seoOptimize($body, array $options = []): Envelope
     {
-        return $this->client->request("POST", "/ai/seoOptimize", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\AiSeoResult::class);
+        return $this->client->request("POST", "/ai/seoOptimize", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\AiRunAccepted::class);
     }
 
     /**
@@ -93,20 +93,20 @@ class AIResource
 
     /**
      * @return \Octavia\CmsSDK\Envelope
-     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\AiTitleResult>
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\AiRunAccepted>
      */
     public function generateTitle($body, array $options = []): Envelope
     {
-        return $this->client->request("POST", "/ai/generateTitle", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\AiTitleResult::class);
+        return $this->client->request("POST", "/ai/generateTitle", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\AiRunAccepted::class);
     }
 
     /**
      * @return \Octavia\CmsSDK\Envelope
-     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\AiTranslateResult>
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\AiRunAccepted>
      */
     public function translate($body, array $options = []): Envelope
     {
-        return $this->client->request("POST", "/ai/translate", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\AiTranslateResult::class);
+        return $this->client->request("POST", "/ai/translate", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\AiRunAccepted::class);
     }
 
     /**
@@ -130,29 +130,29 @@ class AIResource
 
     /**
      * @return \Octavia\CmsSDK\Envelope
-     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\AiContentResult>
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\AiRunAccepted>
      */
     public function generateContent($body, array $options = []): Envelope
     {
-        return $this->client->request("POST", "/ai/generateContent", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\AiContentResult::class);
+        return $this->client->request("POST", "/ai/generateContent", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\AiRunAccepted::class);
     }
 
     /**
      * @return \Octavia\CmsSDK\Envelope
-     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\AiImageResult>
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\AiRunAccepted>
      */
     public function generateImage($body, array $options = []): Envelope
     {
-        return $this->client->request("POST", "/ai/generateImage", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\AiImageResult::class);
+        return $this->client->request("POST", "/ai/generateImage", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\AiRunAccepted::class);
     }
 
     /**
      * @return \Octavia\CmsSDK\Envelope
-     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\AiArticleSeoResult>
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\AiRunAccepted>
      */
     public function optimizeArticle($body, array $options = []): Envelope
     {
-        return $this->client->request("POST", "/ai/optimizeArticle", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\AiArticleSeoResult::class);
+        return $this->client->request("POST", "/ai/optimizeArticle", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\AiRunAccepted::class);
     }
 
     /**
@@ -166,30 +166,20 @@ class AIResource
 
     /**
      * @return \Octavia\CmsSDK\Envelope
-     * @phpstan-return \Octavia\CmsSDK\Envelope<null>
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\AiRunAccepted>
      */
     public function optimizeArticleStream($body, array $options = []): Envelope
     {
-        return $this->client->request("POST", "/ai/optimizeArticle/stream", array_merge($options, ["body" => $body]));
-    }
-
-    /**
-     * Stream this endpoint as Server-Sent Events (D-24).
-     *
-     * @return \Generator<int, \Octavia\CmsSDK\SseEvent>
-     */
-    public function optimizeArticleLive($body, array $options = []): \Generator
-    {
-        return $this->client->streamSSE("POST", "/ai/optimizeArticle/stream", array_merge($options, ["body" => $body]));
+        return $this->client->request("POST", "/ai/optimizeArticle/stream", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\AiRunAccepted::class);
     }
 
     /**
      * @return \Octavia\CmsSDK\Envelope
-     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\AiArticleTranslateResult>
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\AiRunAccepted>
      */
     public function translateArticle($body, array $options = []): Envelope
     {
-        return $this->client->request("POST", "/ai/translateArticle", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\AiArticleTranslateResult::class);
+        return $this->client->request("POST", "/ai/translateArticle", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\AiRunAccepted::class);
     }
 
     /**
@@ -213,20 +203,20 @@ class AIResource
 
     /**
      * @return \Octavia\CmsSDK\Envelope
-     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\AiFormTranslateResult>
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\AiRunAccepted>
      */
     public function translateForm($body, array $options = []): Envelope
     {
-        return $this->client->request("POST", "/ai/translateForm", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\AiFormTranslateResult::class);
+        return $this->client->request("POST", "/ai/translateForm", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\AiRunAccepted::class);
     }
 
     /**
      * @return \Octavia\CmsSDK\Envelope
-     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\RepurposeResult>
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\AiRunAccepted>
      */
     public function repurpose($body, array $options = []): Envelope
     {
-        return $this->client->request("POST", "/ai/repurpose", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\RepurposeResult::class);
+        return $this->client->request("POST", "/ai/repurpose", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\AiRunAccepted::class);
     }
 
     /**
@@ -363,6 +353,33 @@ class AIResource
     public function creditsRuns(array $options = []): Envelope
     {
         return $this->client->request("GET", "/ai/credits/runs", $options, \Octavia\CmsSDK\Types\AiRunList::class);
+    }
+
+    /**
+     * @return \Octavia\CmsSDK\Envelope
+     * @phpstan-return \Octavia\CmsSDK\Envelope<null>
+     */
+    public function creditsRunsRunId($runId, array $options = []): Envelope
+    {
+        return $this->client->request("GET", "/ai/credits/runs/" . rawurlencode($runId) . "", $options);
+    }
+
+    /**
+     * @return \Octavia\CmsSDK\Envelope
+     * @phpstan-return \Octavia\CmsSDK\Envelope<null>
+     */
+    public function creditsRunsRunIdCancel($runId, array $options = []): Envelope
+    {
+        return $this->client->request("POST", "/ai/credits/runs/" . rawurlencode($runId) . "/cancel", $options);
+    }
+
+    /**
+     * @return \Octavia\CmsSDK\Envelope
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\AiRunSubmission>
+     */
+    public function creditsRunsRunIdRetry($runId, array $options = []): Envelope
+    {
+        return $this->client->request("POST", "/ai/credits/runs/" . rawurlencode($runId) . "/retry", $options, \Octavia\CmsSDK\Types\AiRunSubmission::class);
     }
 
     /**

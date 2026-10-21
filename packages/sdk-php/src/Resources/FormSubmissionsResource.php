@@ -135,20 +135,20 @@ class FormSubmissionsResource
 
     /**
      * @return \Octavia\CmsSDK\Envelope
-     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\SubmissionAnalysisResult>
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\AiRunAccepted>
      */
     public function submissionIdAnalyze($id, $body, array $options = []): Envelope
     {
-        return $this->client->request("POST", "/forms/submission/" . rawurlencode($id) . "/analyze", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\SubmissionAnalysisResult::class);
+        return $this->client->request("POST", "/forms/submission/" . rawurlencode($id) . "/analyze", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\AiRunAccepted::class);
     }
 
     /**
      * @return \Octavia\CmsSDK\Envelope
-     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\SubmissionBulkAnalysis>
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\AiRunAccepted>
      */
     public function submissionsAnalyze($body, array $options = []): Envelope
     {
-        return $this->client->request("POST", "/forms/submissions/analyze", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\SubmissionBulkAnalysis::class);
+        return $this->client->request("POST", "/forms/submissions/analyze", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\AiRunAccepted::class);
     }
 
     /**
@@ -171,11 +171,11 @@ class FormSubmissionsResource
 
     /**
      * @return \Octavia\CmsSDK\Envelope
-     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\SubmissionReplyWrapper>
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\AiRunAccepted>
      */
     public function submissionIdReplyDraft($id, $body, array $options = []): Envelope
     {
-        return $this->client->request("POST", "/forms/submission/" . rawurlencode($id) . "/reply-draft", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\SubmissionReplyWrapper::class);
+        return $this->client->request("POST", "/forms/submission/" . rawurlencode($id) . "/reply-draft", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\AiRunAccepted::class);
     }
 
     /**

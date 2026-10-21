@@ -9,8 +9,7 @@ from ..models import (
     FormList,
     NextFormWrapper,
     CaptchaConfigWrapper,
-    FormDraftWrapper,
-    FormImproveWrapper,
+    AiRunAccepted,
 )
 
 if TYPE_CHECKING:
@@ -50,8 +49,8 @@ class FormsResource:
     def captchaConfigSecret(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> CaptchaConfigWrapper:
         return self._client.request_typed(CaptchaConfigWrapper, "PATCH", "/forms/captcha/config/secret", query=query, body=body)
 
-    def aiGenerate(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> FormDraftWrapper:
-        return self._client.request_typed(FormDraftWrapper, "POST", "/forms/ai/generate", query=query, body=body)
+    def aiGenerate(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> AiRunAccepted:
+        return self._client.request_typed(AiRunAccepted, "POST", "/forms/ai/generate", query=query, body=body)
 
-    def idAiImprove(self, id, body: Any, *, query: Optional[Dict[str, Any]] = None) -> FormImproveWrapper:
-        return self._client.request_typed(FormImproveWrapper, "POST", "/forms/" + urllib.parse.quote(str(id)) + "/ai/improve", query=query, body=body)
+    def idAiImprove(self, id, body: Any, *, query: Optional[Dict[str, Any]] = None) -> AiRunAccepted:
+        return self._client.request_typed(AiRunAccepted, "POST", "/forms/" + urllib.parse.quote(str(id)) + "/ai/improve", query=query, body=body)

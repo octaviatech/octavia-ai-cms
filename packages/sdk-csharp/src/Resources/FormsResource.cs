@@ -63,14 +63,14 @@ public class FormsResource
         return _client.RequestAsync<CaptchaConfigWrapper>("PATCH", "/forms/captcha/config/secret", query, body);
     }
 
-    public Task<CMSResponse<FormDraftWrapper>> AiGenerateAsync(object body, Dictionary<string, string?>? query = null)
+    public Task<CMSResponse<AiRunAccepted>> AiGenerateAsync(object body, Dictionary<string, string?>? query = null)
     {
-        return _client.RequestAsync<FormDraftWrapper>("POST", "/forms/ai/generate", query, body);
+        return _client.RequestAsync<AiRunAccepted>("POST", "/forms/ai/generate", query, body);
     }
 
-    public Task<CMSResponse<FormImproveWrapper>> IdAiImproveAsync(string id, object body, Dictionary<string, string?>? query = null)
+    public Task<CMSResponse<AiRunAccepted>> IdAiImproveAsync(string id, object body, Dictionary<string, string?>? query = null)
     {
-        return _client.RequestAsync<FormImproveWrapper>("POST", "/forms/" + Uri.EscapeDataString(id) + "/ai/improve", query, body);
+        return _client.RequestAsync<AiRunAccepted>("POST", "/forms/" + Uri.EscapeDataString(id) + "/ai/improve", query, body);
     }
 
 }

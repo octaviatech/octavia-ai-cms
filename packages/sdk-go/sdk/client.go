@@ -46,22 +46,22 @@ type ClientConfig struct {
 
 type Client struct {
 	// @generated fields:begin
-	AI              *AIResource
-	AIConversation  *AIConversationResource
-	Articles        *ArticlesResource
-	Authors         *AuthorsResource
-	Campaigns       *CampaignsResource
-	Categories      *CategoriesResource
-	ContentPlan     *ContentPlanResource
-	Forms           *FormsResource
+	AI *AIResource
+	AIConversation *AIConversationResource
+	Articles *ArticlesResource
+	Authors *AuthorsResource
+	Campaigns *CampaignsResource
+	Categories *CategoriesResource
+	ContentPlan *ContentPlanResource
+	Forms *FormsResource
 	FormSubmissions *FormSubmissionsResource
-	Languages       *LanguagesResource
-	Media           *MediaResource
-	Reports         *ReportsResource
-	SEOHub          *SEOHubResource
-	Subcategories   *SubcategoriesResource
-	Tags            *TagsResource
-	Taxonomy        *TaxonomyResource
+	Languages *LanguagesResource
+	Media *MediaResource
+	Reports *ReportsResource
+	SEOHub *SEOHubResource
+	Subcategories *SubcategoriesResource
+	Tags *TagsResource
+	Taxonomy *TaxonomyResource
 	// @generated fields:end
 	config ClientConfig
 	http   *http.Client

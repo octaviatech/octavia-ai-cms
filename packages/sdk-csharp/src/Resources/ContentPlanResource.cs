@@ -53,24 +53,24 @@ public class ContentPlanResource
         return _client.RequestAsync<ContentPlanItemWrapper>("POST", "/content-plan/ideas/from-ai", query, body);
     }
 
-    public Task<CMSResponse<CalendarIdeas>> AiGenerateIdeasAsync(object body, Dictionary<string, string?>? query = null)
+    public Task<CMSResponse<AiRunAccepted>> AiGenerateIdeasAsync(object body, Dictionary<string, string?>? query = null)
     {
-        return _client.RequestAsync<CalendarIdeas>("POST", "/content-plan/ai/generate-ideas", query, body);
+        return _client.RequestAsync<AiRunAccepted>("POST", "/content-plan/ai/generate-ideas", query, body);
     }
 
-    public Task<CMSResponse<CalendarPeriodPlan>> AiPlanPeriodAsync(object body, Dictionary<string, string?>? query = null)
+    public Task<CMSResponse<AiRunAccepted>> AiPlanPeriodAsync(object body, Dictionary<string, string?>? query = null)
     {
-        return _client.RequestAsync<CalendarPeriodPlan>("POST", "/content-plan/ai/plan-period", query, body);
+        return _client.RequestAsync<AiRunAccepted>("POST", "/content-plan/ai/plan-period", query, body);
     }
 
-    public Task<CMSResponse<CalendarBestTime>> AiBestTimeAsync(Dictionary<string, string?>? query = null)
+    public Task<CMSResponse<AiRunAccepted>> AiBestTimeAsync(Dictionary<string, string?>? query = null)
     {
-        return _client.RequestAsync<CalendarBestTime>("POST", "/content-plan/ai/best-time", query, null);
+        return _client.RequestAsync<AiRunAccepted>("POST", "/content-plan/ai/best-time", query, null);
     }
 
-    public Task<CMSResponse<CalendarReschedule>> AiRescheduleAsync(object body, Dictionary<string, string?>? query = null)
+    public Task<CMSResponse<AiRunAccepted>> AiRescheduleAsync(object body, Dictionary<string, string?>? query = null)
     {
-        return _client.RequestAsync<CalendarReschedule>("POST", "/content-plan/ai/reschedule", query, body);
+        return _client.RequestAsync<AiRunAccepted>("POST", "/content-plan/ai/reschedule", query, body);
     }
 
     public Task<CMSResponse<CadenceWrapper>> CadenceGETAsync(Dictionary<string, string?>? query = null)

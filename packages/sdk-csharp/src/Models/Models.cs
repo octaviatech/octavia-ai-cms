@@ -590,6 +590,16 @@ public enum AiRunListItemStatusEnum
     Refunded,
     [EnumMember(Value = "void")]
     @Void,
+    [EnumMember(Value = "cancelled")]
+    Cancelled,
+}
+
+public enum AiRunAcceptedModeEnum
+{
+    [EnumMember(Value = "inline")]
+    Inline,
+    [EnumMember(Value = "queued")]
+    Queued,
 }
 
 public enum AiProposalStatusEnum
@@ -4622,6 +4632,9 @@ public record AiRunListItem
     [JsonPropertyName("meta")]
     public Dictionary<string, JsonElement>? Meta { get; set; } = null;
 
+    [JsonPropertyName("result")]
+    public Dictionary<string, JsonElement>? Result { get; set; } = null;
+
     [JsonPropertyName("createdAt")]
     public string? CreatedAt { get; set; } = null;
 }
@@ -4630,6 +4643,21 @@ public record AiRunList
 {
     [JsonPropertyName("runs")]
     public AiRunListItem[] Runs { get; set; } = null!;
+
+    [JsonPropertyName("pagination")]
+    public Pagination? Pagination { get; set; } = null;
+}
+
+public record AiRunAccepted
+{
+    [JsonPropertyName("runId")]
+    public string RunId { get; set; } = null!;
+
+    [JsonPropertyName("mode")]
+    public AiRunAcceptedModeEnum? Mode { get; set; } = null;
+
+    [JsonPropertyName("estimatedTokens")]
+    public double EstimatedTokens { get; set; }
 }
 
 public record AiProposalPatch
@@ -5676,6 +5704,18 @@ public record CampaignList
     public Pagination Pagination { get; set; } = null!;
 }
 
+public record DigestNote
+{
+    [JsonPropertyName("code")]
+    public string Code { get; set; } = null!;
+
+    [JsonPropertyName("params")]
+    public Dictionary<string, JsonElement> @Params { get; set; } = null!;
+
+    [JsonPropertyName("text")]
+    public string Text { get; set; } = null!;
+}
+
 public record DigestAction
 {
     [JsonPropertyName("code")]
@@ -5684,8 +5724,11 @@ public record DigestAction
     [JsonPropertyName("severity")]
     public DigestActionSeverityEnum Severity { get; set; }
 
-    [JsonPropertyName("reason")]
-    public string Reason { get; set; } = null!;
+    [JsonPropertyName("params")]
+    public Dictionary<string, JsonElement> @Params { get; set; } = null!;
+
+    [JsonPropertyName("text")]
+    public string Text { get; set; } = null!;
 
     [JsonPropertyName("href")]
     public string? Href { get; set; } = null;
@@ -5709,10 +5752,10 @@ public record WeeklyDigest
     public DigestAction[] SuggestedActions { get; set; } = null!;
 
     [JsonPropertyName("wins")]
-    public string[]? Wins { get; set; } = null;
+    public DigestNote[]? Wins { get; set; } = null;
 
     [JsonPropertyName("issues")]
-    public string[]? Issues { get; set; } = null;
+    public DigestNote[]? Issues { get; set; } = null;
 }
 
 public record WeeklyDigestWrapper

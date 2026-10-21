@@ -11,7 +11,7 @@ export type AISummarizeBody = {
 };
 
 export type AISummarizeResponse = Schemas.Envelope & {
-  data?: Schemas.AiSummaryResult;
+  data?: Schemas.AiRunAccepted;
 };
 
 export type AISummarizeStreamPath = {};
@@ -52,7 +52,7 @@ export type AISeoOptimizeBody = {
 };
 
 export type AISeoOptimizeResponse = Schemas.Envelope & {
-  data?: Schemas.AiSeoResult;
+  data?: Schemas.AiRunAccepted;
 };
 
 export type AISeoOptimizeStreamPath = {};
@@ -78,7 +78,7 @@ export type AIGenerateTitleBody = {
 };
 
 export type AIGenerateTitleResponse = Schemas.Envelope & {
-  data?: Schemas.AiTitleResult;
+  data?: Schemas.AiRunAccepted;
 };
 
 export type AITranslatePath = {};
@@ -91,7 +91,7 @@ export type AITranslateBody = {
 };
 
 export type AITranslateResponse = Schemas.Envelope & {
-  data?: Schemas.AiTranslateResult;
+  data?: Schemas.AiRunAccepted;
 };
 
 export type AITranslateStreamPath = {};
@@ -117,7 +117,7 @@ export type AIGenerateContentBody = {
 };
 
 export type AIGenerateContentResponse = Schemas.Envelope & {
-  data?: Schemas.AiContentResult;
+  data?: Schemas.AiRunAccepted;
 };
 
 export type AIGenerateImagePath = {};
@@ -127,7 +127,7 @@ export type AIGenerateImageQuery = {};
 export type AIGenerateImageBody = unknown | unknown;
 
 export type AIGenerateImageResponse = Schemas.Envelope & {
-  data?: Schemas.AiImageResult;
+  data?: Schemas.AiRunAccepted;
 };
 
 export type AIOptimizeArticlePath = {};
@@ -147,7 +147,7 @@ export type AIOptimizeArticleBody = {
 };
 
 export type AIOptimizeArticleResponse = Schemas.Envelope & {
-  data?: Schemas.AiArticleSeoResult;
+  data?: Schemas.AiRunAccepted;
 };
 
 export type AIAutofillArticlePath = {};
@@ -180,7 +180,7 @@ export type AIOptimizeArticleStreamBody = {
 };
 
 export type AIOptimizeArticleStreamResponse = Schemas.Envelope & {
-  data?: unknown;
+  data?: Schemas.AiRunAccepted;
 };
 
 export type AITranslateArticlePath = {};
@@ -193,6 +193,7 @@ export type AITranslateArticleBody = {
   sourceLanguage?: string;
   fields: {
   mainTitle?: boolean;
+  title?: boolean;
   title2?: boolean;
   title3?: boolean;
   summary?: boolean;
@@ -204,7 +205,7 @@ export type AITranslateArticleBody = {
 };
 
 export type AITranslateArticleResponse = Schemas.Envelope & {
-  data?: Schemas.AiArticleTranslateResult;
+  data?: Schemas.AiRunAccepted;
 };
 
 export type AITranslateArticleStreamPath = {};
@@ -249,7 +250,7 @@ export type AITranslateFormBody = {
 };
 
 export type AITranslateFormResponse = Schemas.Envelope & {
-  data?: Schemas.AiFormTranslateResult;
+  data?: Schemas.AiRunAccepted;
 };
 
 export type AIRepurposePath = {};
@@ -259,7 +260,7 @@ export type AIRepurposeQuery = {};
 export type AIRepurposeBody = unknown | unknown;
 
 export type AIRepurposeResponse = Schemas.Envelope & {
-  data?: Schemas.RepurposeResult;
+  data?: Schemas.AiRunAccepted;
 };
 
 export type AIRepurposeStreamPath = {};
@@ -549,12 +550,53 @@ export type AICreditsRunsPath = {};
 
 export type AICreditsRunsQuery = {
   limit?: number;
+  page?: number;
 };
 
 export type AICreditsRunsBody = undefined;
 
 export type AICreditsRunsResponse = Schemas.Envelope & {
   data?: Schemas.AiRunList;
+};
+
+export type AICreditsRunsRunIdPath = {
+  runId: string;
+};
+
+export type AICreditsRunsRunIdQuery = {};
+
+export type AICreditsRunsRunIdBody = undefined;
+
+export type AICreditsRunsRunIdResponse = Schemas.Envelope & {
+  data?: {
+  run?: Schemas.AiRunListItem;
+};
+};
+
+export type AICreditsRunsRunIdCancelPath = {
+  runId: string;
+};
+
+export type AICreditsRunsRunIdCancelQuery = {};
+
+export type AICreditsRunsRunIdCancelBody = undefined;
+
+export type AICreditsRunsRunIdCancelResponse = Schemas.Envelope & {
+  data?: {
+  run?: Schemas.AiRunListItem;
+};
+};
+
+export type AICreditsRunsRunIdRetryPath = {
+  runId: string;
+};
+
+export type AICreditsRunsRunIdRetryQuery = {};
+
+export type AICreditsRunsRunIdRetryBody = undefined;
+
+export type AICreditsRunsRunIdRetryResponse = Schemas.Envelope & {
+  data?: Schemas.AiRunSubmission;
 };
 
 export type AIEventsStreamPath = {};
@@ -858,6 +900,7 @@ export type ArticlesGetAllQuery = {
   subCategory?: string;
   author?: string;
   tags?: string;
+  contentSource?: "human" | "ai" | "mixed";
   hasLanguage?: string;
   missingLanguage?: string;
   sortBy?: "createdAt" | "publishDate";
@@ -1172,7 +1215,7 @@ export type ArticlesCommentsCommentIdModerateBody = {
 };
 
 export type ArticlesCommentsCommentIdModerateResponse = Schemas.Envelope & {
-  data?: Schemas.ModerationResultWrapper;
+  data?: Schemas.AiRunAccepted;
 };
 
 export type ArticlesCommentsCommentIdReplyDraftPath = {
@@ -1186,7 +1229,7 @@ export type ArticlesCommentsCommentIdReplyDraftBody = {
 };
 
 export type ArticlesCommentsCommentIdReplyDraftResponse = Schemas.Envelope & {
-  data?: Schemas.CommentReplyDraftWrapper;
+  data?: Schemas.AiRunAccepted;
 };
 
 export type ArticlesCommentsCommentIdPATCHPath = {
@@ -1799,7 +1842,7 @@ export type ContentPlanAiGenerateIdeasBody = {
 };
 
 export type ContentPlanAiGenerateIdeasResponse = Schemas.Envelope & {
-  data?: Schemas.CalendarIdeas;
+  data?: Schemas.AiRunAccepted;
 };
 
 export type ContentPlanAiPlanPeriodPath = {};
@@ -1813,7 +1856,7 @@ export type ContentPlanAiPlanPeriodBody = {
 };
 
 export type ContentPlanAiPlanPeriodResponse = Schemas.Envelope & {
-  data?: Schemas.CalendarPeriodPlan;
+  data?: Schemas.AiRunAccepted;
 };
 
 export type ContentPlanAiBestTimePath = {};
@@ -1823,7 +1866,7 @@ export type ContentPlanAiBestTimeQuery = {};
 export type ContentPlanAiBestTimeBody = undefined;
 
 export type ContentPlanAiBestTimeResponse = Schemas.Envelope & {
-  data?: Schemas.CalendarBestTime;
+  data?: Schemas.AiRunAccepted;
 };
 
 export type ContentPlanAiReschedulePath = {};
@@ -1835,7 +1878,7 @@ export type ContentPlanAiRescheduleBody = {
 };
 
 export type ContentPlanAiRescheduleResponse = Schemas.Envelope & {
-  data?: Schemas.CalendarReschedule;
+  data?: Schemas.AiRunAccepted;
 };
 
 export type ContentPlanCadenceGETPath = {};
@@ -2313,7 +2356,7 @@ export type FormsAiGenerateBody = {
 };
 
 export type FormsAiGenerateResponse = Schemas.Envelope & {
-  data?: Schemas.FormDraftWrapper;
+  data?: Schemas.AiRunAccepted;
 };
 
 export type FormsIdAiImprovePath = {
@@ -2328,7 +2371,7 @@ export type FormsIdAiImproveBody = {
 };
 
 export type FormsIdAiImproveResponse = Schemas.Envelope & {
-  data?: Schemas.FormImproveWrapper;
+  data?: Schemas.AiRunAccepted;
 };
 
 export type FormSubmissionsSubmissionsFacetsPath = {};
@@ -2352,7 +2395,7 @@ export type FormSubmissionsSubmissionIdAnalyzeBody = {
 };
 
 export type FormSubmissionsSubmissionIdAnalyzeResponse = Schemas.Envelope & {
-  data?: Schemas.SubmissionAnalysisResult;
+  data?: Schemas.AiRunAccepted;
 };
 
 export type FormSubmissionsSubmissionsAnalyzePath = {};
@@ -2364,7 +2407,7 @@ export type FormSubmissionsSubmissionsAnalyzeBody = {
 };
 
 export type FormSubmissionsSubmissionsAnalyzeResponse = Schemas.Envelope & {
-  data?: Schemas.SubmissionBulkAnalysis;
+  data?: Schemas.AiRunAccepted;
 };
 
 export type FormSubmissionsSubmissionIdNotesPath = {
@@ -2404,7 +2447,7 @@ export type FormSubmissionsSubmissionIdReplyDraftBody = {
 };
 
 export type FormSubmissionsSubmissionIdReplyDraftResponse = Schemas.Envelope & {
-  data?: Schemas.SubmissionReplyWrapper;
+  data?: Schemas.AiRunAccepted;
 };
 
 export type FormSubmissionsSubmissionIdReplyPath = {

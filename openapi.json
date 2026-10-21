@@ -6671,9 +6671,10 @@
               "reserved",
               "settled",
               "refunded",
-              "void"
+              "void",
+              "cancelled"
             ],
-            "description": "reserved = running/queued · void = done (self-billed) · settled = billed · refunded = failed"
+            "description": "reserved = running/queued · void = done (self-billed) · settled = billed · refunded = failed · cancelled = stopped by the operator"
           },
           "estimated": {
             "type": "integer"
@@ -6695,7 +6696,7 @@
               "string",
               "null"
             ],
-            "description": "Job outcome tag (draft_created / proposal_created)"
+            "description": "Job outcome tag (draft_created / form_draft_created / proposal_created)"
           },
           "meta": {
             "type": [
@@ -6703,6 +6704,14 @@
               "null"
             ],
             "additionalProperties": true
+          },
+          "result": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "additionalProperties": true,
+            "description": "The action's own payload, present once the run finished (the answer a polling client reads)"
           },
           "createdAt": {
             "type": [
@@ -6724,6 +6733,31 @@
             "items": {
               "$ref": "#/components/schemas/AiRunListItem"
             }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        }
+      },
+      "AiRunAccepted": {
+        "type": "object",
+        "required": [
+          "runId"
+        ],
+        "properties": {
+          "runId": {
+            "type": "string",
+            "description": "The id of the queued background run"
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "inline",
+              "queued"
+            ]
+          },
+          "estimatedTokens": {
+            "type": "integer"
           }
         }
       },
@@ -8835,12 +8869,41 @@
           }
         }
       },
+      "DigestNote": {
+        "type": "object",
+        "required": [
+          "code",
+          "params",
+          "text"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Stable line code — the client renders its own sentence from it."
+          },
+          "params": {
+            "type": "object",
+            "description": "The numbers the sentence is built from.",
+            "additionalProperties": {
+              "type": [
+                "integer",
+                "number"
+              ]
+            }
+          },
+          "text": {
+            "type": "string",
+            "description": "English sentence, for clients that do not localize."
+          }
+        }
+      },
       "DigestAction": {
         "type": "object",
         "required": [
           "code",
           "severity",
-          "reason"
+          "params",
+          "text"
         ],
         "properties": {
           "code": {
@@ -8860,8 +8923,19 @@
               "low"
             ]
           },
-          "reason": {
-            "type": "string"
+          "params": {
+            "type": "object",
+            "description": "The numbers the sentence is built from.",
+            "additionalProperties": {
+              "type": [
+                "integer",
+                "number"
+              ]
+            }
+          },
+          "text": {
+            "type": "string",
+            "description": "English sentence, for clients that do not localize."
           },
           "href": {
             "type": "string"
@@ -8931,13 +9005,13 @@
           "wins": {
             "type": "array",
             "items": {
-              "type": "string"
+              "$ref": "#/components/schemas/DigestNote"
             }
           },
           "issues": {
             "type": "array",
             "items": {
-              "type": "string"
+              "$ref": "#/components/schemas/DigestNote"
             }
           }
         }
@@ -9825,23 +9899,10 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "OK (summarized)",
+          "202": {
+            "description": "Run accepted — the work continues in the background. Poll GET /ai/credits/runs/{runId} for the result.",
             "content": {
               "application/json": {
-                "example": {
-                  "success": true,
-                  "statusCode": 200,
-                  "message": "Text summarized successfully",
-                  "data": {
-                    "summary": "Concise summary…",
-                    "tokens": {
-                      "used": 123,
-                      "remaining": 9877,
-                      "limit": 10000
-                    }
-                  }
-                },
                 "schema": {
                   "allOf": [
                     {
@@ -9851,7 +9912,7 @@
                       "type": "object",
                       "properties": {
                         "data": {
-                          "$ref": "#/components/schemas/AiSummaryResult"
+                          "$ref": "#/components/schemas/AiRunAccepted"
                         }
                       }
                     }
@@ -10036,24 +10097,10 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "OK (optimized)",
+          "202": {
+            "description": "Run accepted — the work continues in the background. Poll GET /ai/credits/runs/{runId} for the result.",
             "content": {
               "application/json": {
-                "example": {
-                  "success": true,
-                  "statusCode": 200,
-                  "message": "OK",
-                  "data": {
-                    "content": "<p>Optimized content…</p>",
-                    "metaDescription": "Compelling meta (<= 160 chars)…",
-                    "tokens": {
-                      "used": 220,
-                      "remaining": 9780,
-                      "limit": 10000
-                    }
-                  }
-                },
                 "schema": {
                   "allOf": [
                     {
@@ -10063,7 +10110,7 @@
                       "type": "object",
                       "properties": {
                         "data": {
-                          "$ref": "#/components/schemas/AiSeoResult"
+                          "$ref": "#/components/schemas/AiRunAccepted"
                         }
                       }
                     }
@@ -10179,23 +10226,10 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "OK (title)",
+          "202": {
+            "description": "Run accepted — the work continues in the background. Poll GET /ai/credits/runs/{runId} for the result.",
             "content": {
               "application/json": {
-                "example": {
-                  "success": true,
-                  "statusCode": 200,
-                  "message": "OK",
-                  "data": {
-                    "title": "Catchy, concise title",
-                    "tokens": {
-                      "used": 80,
-                      "remaining": 9920,
-                      "limit": 10000
-                    }
-                  }
-                },
                 "schema": {
                   "allOf": [
                     {
@@ -10205,7 +10239,7 @@
                       "type": "object",
                       "properties": {
                         "data": {
-                          "$ref": "#/components/schemas/AiTitleResult"
+                          "$ref": "#/components/schemas/AiRunAccepted"
                         }
                       }
                     }
@@ -10263,23 +10297,10 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "OK (translated)",
+          "202": {
+            "description": "Run accepted — the work continues in the background. Poll GET /ai/credits/runs/{runId} for the result.",
             "content": {
               "application/json": {
-                "example": {
-                  "success": true,
-                  "statusCode": 200,
-                  "message": "OK",
-                  "data": {
-                    "content": "Translated content…",
-                    "tokens": {
-                      "used": 140,
-                      "remaining": 9860,
-                      "limit": 10000
-                    }
-                  }
-                },
                 "schema": {
                   "allOf": [
                     {
@@ -10289,7 +10310,7 @@
                       "type": "object",
                       "properties": {
                         "data": {
-                          "$ref": "#/components/schemas/AiTranslateResult"
+                          "$ref": "#/components/schemas/AiRunAccepted"
                         }
                       }
                     }
@@ -10408,26 +10429,10 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "OK (generated)",
+          "202": {
+            "description": "Run accepted — the work continues in the background. Poll GET /ai/credits/runs/{runId} for the result.",
             "content": {
               "application/json": {
-                "example": {
-                  "success": true,
-                  "statusCode": 200,
-                  "message": "Content generated successfully",
-                  "data": {
-                    "title": "Intermittent Fasting: A Beginner’s Guide",
-                    "slug": "intermittent-fasting-a-beginners-guide",
-                    "summary": "Short meta summary (<= 180 chars)…",
-                    "body": "<div>{\"body\":\"<div><p>…</p></div>\"}</div>",
-                    "tokens": {
-                      "used": 1600,
-                      "remaining": 8400,
-                      "limit": 10000
-                    }
-                  }
-                },
                 "schema": {
                   "allOf": [
                     {
@@ -10437,7 +10442,7 @@
                       "type": "object",
                       "properties": {
                         "data": {
-                          "$ref": "#/components/schemas/AiContentResult"
+                          "$ref": "#/components/schemas/AiRunAccepted"
                         }
                       }
                     }
@@ -10551,24 +10556,10 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "OK (image generated)",
+          "202": {
+            "description": "Run accepted — the work continues in the background. Poll GET /ai/credits/runs/{runId} for the result.",
             "content": {
               "application/json": {
-                "example": {
-                  "success": true,
-                  "statusCode": 200,
-                  "message": "Image generated successfully",
-                  "data": {
-                    "imageUrl": "data:image/png;base64,…",
-                    "imageBase64": "iVBORw0KGgo…",
-                    "imageMimeType": "image/png",
-                    "articleId": null,
-                    "tokens": {
-                      "used": 300
-                    }
-                  }
-                },
                 "schema": {
                   "allOf": [
                     {
@@ -10578,7 +10569,7 @@
                       "type": "object",
                       "properties": {
                         "data": {
-                          "$ref": "#/components/schemas/AiImageResult"
+                          "$ref": "#/components/schemas/AiRunAccepted"
                         }
                       }
                     }
@@ -10700,41 +10691,10 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "OK (optimized and saved)",
+          "202": {
+            "description": "Run accepted — the work continues in the background. Poll GET /ai/credits/runs/{runId} for the result.",
             "content": {
               "application/json": {
-                "example": {
-                  "success": true,
-                  "statusCode": 200,
-                  "message": "AI SEO optimization generated and saved successfully",
-                  "data": {
-                    "articleId": "{{objectId}}",
-                    "patched": {
-                      "en": {
-                        "title": "…",
-                        "summary": "…",
-                        "contentHtml": "<p>…</p>",
-                        "tags": [
-                          "fasting"
-                        ]
-                      }
-                    },
-                    "seo": {
-                      "before": {
-                        "en": {
-                          "score": 62
-                        }
-                      },
-                      "after": {
-                        "en": {
-                          "score": 91
-                        }
-                      }
-                    },
-                    "saved": true
-                  }
-                },
                 "schema": {
                   "allOf": [
                     {
@@ -10744,7 +10704,7 @@
                       "type": "object",
                       "properties": {
                         "data": {
-                          "$ref": "#/components/schemas/AiArticleSeoResult"
+                          "$ref": "#/components/schemas/AiRunAccepted"
                         }
                       }
                     }
@@ -10893,14 +10853,9 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "Server-Sent Events stream with optimization progress",
+          "202": {
+            "description": "Run accepted — the work continues in the background. Poll GET /ai/credits/runs/{runId} for the result.",
             "content": {
-              "text/event-stream": {
-                "schema": {
-                  "$ref": "#/components/schemas/AIStreamEvent"
-                }
-              },
               "application/json": {
                 "schema": {
                   "allOf": [
@@ -10911,7 +10866,7 @@
                       "type": "object",
                       "properties": {
                         "data": {
-                          "type": "null"
+                          "$ref": "#/components/schemas/AiRunAccepted"
                         }
                       }
                     }
@@ -10977,6 +10932,10 @@
                       "mainTitle": {
                         "type": "boolean"
                       },
+                      "title": {
+                        "type": "boolean",
+                        "description": "Alias of `mainTitle` — the dashboard's name for the article's main title."
+                      },
                       "title2": {
                         "type": "boolean"
                       },
@@ -11025,33 +10984,10 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "OK (translated)",
+          "202": {
+            "description": "Run accepted — the work continues in the background. Poll GET /ai/credits/runs/{runId} for the result.",
             "content": {
               "application/json": {
-                "example": {
-                  "success": true,
-                  "statusCode": 200,
-                  "message": "Article translated successfully",
-                  "data": {
-                    "articleId": "{{objectId}}",
-                    "sourceLanguage": "fa",
-                    "targetLanguages": [
-                      "en",
-                      "es"
-                    ],
-                    "translations": {
-                      "en": {
-                        "mainTitle": "…",
-                        "summary": "…",
-                        "content": "<p>…</p>",
-                        "tags": [
-                          "…"
-                        ]
-                      }
-                    }
-                  }
-                },
                 "schema": {
                   "allOf": [
                     {
@@ -11061,7 +10997,7 @@
                       "type": "object",
                       "properties": {
                         "data": {
-                          "$ref": "#/components/schemas/AiArticleTranslateResult"
+                          "$ref": "#/components/schemas/AiRunAccepted"
                         }
                       }
                     }
@@ -11286,46 +11222,10 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "OK (translated)",
+          "202": {
+            "description": "Run accepted — the work continues in the background. Poll GET /ai/credits/runs/{runId} for the result.",
             "content": {
               "application/json": {
-                "example": {
-                  "success": true,
-                  "statusCode": 200,
-                  "message": "Form translated successfully",
-                  "data": {
-                    "formId": "{{objectId}}",
-                    "sourceLanguage": "en",
-                    "targetLanguages": [
-                      "en",
-                      "ar",
-                      "tr"
-                    ],
-                    "translations": {
-                      "en": {
-                        "title": "Contact us",
-                        "description": "…",
-                        "submitButtonText": "Send",
-                        "sections": [
-                          {
-                            "index": 0,
-                            "title": "Your details",
-                            "description": "…",
-                            "fields": [
-                              {
-                                "name": "email",
-                                "label": "Email address",
-                                "placeholder": "you@example.com",
-                                "options": []
-                              }
-                            ]
-                          }
-                        ]
-                      }
-                    }
-                  }
-                },
                 "schema": {
                   "allOf": [
                     {
@@ -11335,7 +11235,7 @@
                       "type": "object",
                       "properties": {
                         "data": {
-                          "$ref": "#/components/schemas/AiFormTranslateResult"
+                          "$ref": "#/components/schemas/AiRunAccepted"
                         }
                       }
                     }
@@ -11456,8 +11356,8 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "Platform-specific social outputs",
+          "202": {
+            "description": "Run accepted — the work continues in the background. Poll GET /ai/credits/runs/{runId} for the result.",
             "content": {
               "application/json": {
                 "schema": {
@@ -11469,7 +11369,7 @@
                       "type": "object",
                       "properties": {
                         "data": {
-                          "$ref": "#/components/schemas/RepurposeResult"
+                          "$ref": "#/components/schemas/AiRunAccepted"
                         }
                       }
                     }
@@ -13331,6 +13231,16 @@
               "default": 25,
               "maximum": 100
             }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 1,
+              "minimum": 1
+            },
+            "description": "1-based page number. The response carries the total count."
           }
         ],
         "responses": {
@@ -13359,6 +13269,175 @@
         }
       }
     },
+    "/ai/credits/runs/{runId}": {
+      "get": {
+        "summary": "One AI run by id (poll a background job)",
+        "description": "The state of a single background run. `status` is `reserved` while it runs and `void` (or `settled`) once it finished; `result` holds the action's own payload.",
+        "tags": [
+          "AI"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "runId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The run",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "object",
+                          "properties": {
+                            "run": {
+                              "$ref": "#/components/schemas/AiRunListItem"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Run not found"
+          }
+        }
+      }
+    },
+    "/ai/credits/runs/{runId}/cancel": {
+      "post": {
+        "summary": "Cancel a running AI job",
+        "description": "Stops a background run. The reservation is released and the run is marked `cancelled`; the action aborts at its next model call, so the run writes no artifact. A run that already finished cannot be cancelled (409).",
+        "tags": [
+          "AI"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "runId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The cancelled run",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "object",
+                          "properties": {
+                            "run": {
+                              "$ref": "#/components/schemas/AiRunListItem"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Run not found"
+          },
+          "409": {
+            "description": "The run already finished"
+          }
+        }
+      }
+    },
+    "/ai/credits/runs/{runId}/retry": {
+      "post": {
+        "summary": "Run a finished AI job again with the same arguments",
+        "description": "Re-submits a run with the arguments stored on its ledger row, under a NEW run id. Answers 202 with that new run id, which the client polls.",
+        "tags": [
+          "AI"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "runId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "The new run was accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/AiRunSubmission"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Run not found"
+          },
+          "409": {
+            "description": "The run cannot be retried (still running, cancelled, or no stored arguments)"
+          }
+        }
+      }
+    },
     "/ai/events/stream": {
       "get": {
         "summary": "Stream domain events for this tenant (SSE)",
@@ -13377,7 +13456,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "Resume cursor (last received outbox id)"
+            "description": "Resume cursor (the `id` of the last frame the client received)"
           }
         ],
         "responses": {
@@ -13391,7 +13470,7 @@
                 },
                 "examples": {
                   "frame": {
-                    "value": "data: {\"event\":\"ai.credits.settled\",\"occurredAt\":\"2026-10-18T09:00:00.000Z\",\"payload\":{\"runId\":\"…\",\"actual\":120}}"
+                    "value": "data: {\"event\":\"ai.credits.settled\",\"occurredAt\":\"2026-10-18T09:00:00.000Z\",\"id\":\"6…\",\"payload\":{\"runId\":\"…\",\"actual\":120}}"
                   }
                 }
               }
@@ -15463,6 +15542,20 @@
             "description": "Single tag, or repeat the param for several (`?tags=ai&tags=news`). Not comma-separated",
             "schema": {
               "type": "string",
+              "example": "ai"
+            }
+          },
+          {
+            "in": "query",
+            "name": "contentSource",
+            "description": "Restricts the list to one origin: `human`, `ai` or `mixed`. `ai` is how an operator finds the drafts a background AI job created — those are unpublished, so without this filter they never show up in the list.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "human",
+                "ai",
+                "mixed"
+              ],
               "example": "ai"
             }
           },
@@ -17878,8 +17971,8 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "Moderation stored",
+          "202": {
+            "description": "Run accepted — the work continues in the background. Poll GET /ai/credits/runs/{runId} for the result.",
             "content": {
               "application/json": {
                 "schema": {
@@ -17891,7 +17984,7 @@
                       "type": "object",
                       "properties": {
                         "data": {
-                          "$ref": "#/components/schemas/ModerationResultWrapper"
+                          "$ref": "#/components/schemas/AiRunAccepted"
                         }
                       }
                     }
@@ -17948,8 +18041,8 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "Draft created",
+          "202": {
+            "description": "Run accepted — the work continues in the background. Poll GET /ai/credits/runs/{runId} for the result.",
             "content": {
               "application/json": {
                 "schema": {
@@ -17961,7 +18054,7 @@
                       "type": "object",
                       "properties": {
                         "data": {
-                          "$ref": "#/components/schemas/CommentReplyDraftWrapper"
+                          "$ref": "#/components/schemas/AiRunAccepted"
                         }
                       }
                     }
@@ -22206,8 +22299,8 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "Ideas returned",
+          "202": {
+            "description": "Run accepted — the work continues in the background. Poll GET /ai/credits/runs/{runId} for the result.",
             "content": {
               "application/json": {
                 "schema": {
@@ -22219,7 +22312,7 @@
                       "type": "object",
                       "properties": {
                         "data": {
-                          "$ref": "#/components/schemas/CalendarIdeas"
+                          "$ref": "#/components/schemas/AiRunAccepted"
                         }
                       }
                     }
@@ -22277,8 +22370,8 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "Entries returned",
+          "202": {
+            "description": "Run accepted — the work continues in the background. Poll GET /ai/credits/runs/{runId} for the result.",
             "content": {
               "application/json": {
                 "schema": {
@@ -22290,7 +22383,7 @@
                       "type": "object",
                       "properties": {
                         "data": {
-                          "$ref": "#/components/schemas/CalendarPeriodPlan"
+                          "$ref": "#/components/schemas/AiRunAccepted"
                         }
                       }
                     }
@@ -22315,8 +22408,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Suggestion returned",
+          "202": {
+            "description": "Run accepted — the work continues in the background. Poll GET /ai/credits/runs/{runId} for the result.",
             "content": {
               "application/json": {
                 "schema": {
@@ -22328,7 +22421,7 @@
                       "type": "object",
                       "properties": {
                         "data": {
-                          "$ref": "#/components/schemas/CalendarBestTime"
+                          "$ref": "#/components/schemas/AiRunAccepted"
                         }
                       }
                     }
@@ -22372,8 +22465,8 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "Proposal returned (null when the next 6 weeks are full)",
+          "202": {
+            "description": "Run accepted — the work continues in the background. Poll GET /ai/credits/runs/{runId} for the result.",
             "content": {
               "application/json": {
                 "schema": {
@@ -22385,7 +22478,7 @@
                       "type": "object",
                       "properties": {
                         "data": {
-                          "$ref": "#/components/schemas/CalendarReschedule"
+                          "$ref": "#/components/schemas/AiRunAccepted"
                         }
                       }
                     }
@@ -25079,8 +25172,8 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "Draft generated (not saved)",
+          "202": {
+            "description": "Run accepted — the work continues in the background. Poll GET /ai/credits/runs/{runId} for the result.",
             "content": {
               "application/json": {
                 "schema": {
@@ -25092,7 +25185,7 @@
                       "type": "object",
                       "properties": {
                         "data": {
-                          "$ref": "#/components/schemas/FormDraftWrapper"
+                          "$ref": "#/components/schemas/AiRunAccepted"
                         }
                       }
                     }
@@ -25167,8 +25260,8 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "Suggestions generated",
+          "202": {
+            "description": "Run accepted — the work continues in the background. Poll GET /ai/credits/runs/{runId} for the result.",
             "content": {
               "application/json": {
                 "schema": {
@@ -25180,7 +25273,7 @@
                       "type": "object",
                       "properties": {
                         "data": {
-                          "$ref": "#/components/schemas/FormImproveWrapper"
+                          "$ref": "#/components/schemas/AiRunAccepted"
                         }
                       }
                     }
@@ -25278,8 +25371,8 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "Analysis stored",
+          "202": {
+            "description": "Run accepted — the work continues in the background. Poll GET /ai/credits/runs/{runId} for the result.",
             "content": {
               "application/json": {
                 "schema": {
@@ -25291,7 +25384,7 @@
                       "type": "object",
                       "properties": {
                         "data": {
-                          "$ref": "#/components/schemas/SubmissionAnalysisResult"
+                          "$ref": "#/components/schemas/AiRunAccepted"
                         }
                       }
                     }
@@ -25349,8 +25442,8 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "Per-submission results",
+          "202": {
+            "description": "Run accepted — the work continues in the background. Poll GET /ai/credits/runs/{runId} for the result.",
             "content": {
               "application/json": {
                 "schema": {
@@ -25362,7 +25455,7 @@
                       "type": "object",
                       "properties": {
                         "data": {
-                          "$ref": "#/components/schemas/SubmissionBulkAnalysis"
+                          "$ref": "#/components/schemas/AiRunAccepted"
                         }
                       }
                     }
@@ -25543,8 +25636,8 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "Draft created",
+          "202": {
+            "description": "Run accepted — the work continues in the background. Poll GET /ai/credits/runs/{runId} for the result.",
             "content": {
               "application/json": {
                 "schema": {
@@ -25556,7 +25649,7 @@
                       "type": "object",
                       "properties": {
                         "data": {
-                          "$ref": "#/components/schemas/SubmissionReplyWrapper"
+                          "$ref": "#/components/schemas/AiRunAccepted"
                         }
                       }
                     }

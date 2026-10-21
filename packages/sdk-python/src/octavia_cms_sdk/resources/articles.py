@@ -13,8 +13,7 @@ from ..models import (
     CommentListWrapper,
     MinedQuestionsWrapper,
     EffectivePolicyWrapper,
-    ModerationResultWrapper,
-    CommentReplyDraftWrapper,
+    AiRunAccepted,
     CommentReactionTotals,
     CommentReactionSummary,
     EngagementSettings,
@@ -100,11 +99,11 @@ class ArticlesResource:
     def commentsEffectivePolicy(self, *, query: Optional[Dict[str, Any]] = None) -> EffectivePolicyWrapper:
         return self._client.request_typed(EffectivePolicyWrapper, "GET", "/articles/comments/effectivePolicy", query=query, body=None)
 
-    def commentsCommentIdModerate(self, commentId, body: Any, *, query: Optional[Dict[str, Any]] = None) -> ModerationResultWrapper:
-        return self._client.request_typed(ModerationResultWrapper, "POST", "/articles/comments/" + urllib.parse.quote(str(commentId)) + "/moderate", query=query, body=body)
+    def commentsCommentIdModerate(self, commentId, body: Any, *, query: Optional[Dict[str, Any]] = None) -> AiRunAccepted:
+        return self._client.request_typed(AiRunAccepted, "POST", "/articles/comments/" + urllib.parse.quote(str(commentId)) + "/moderate", query=query, body=body)
 
-    def commentsCommentIdReplyDraft(self, commentId, body: Any, *, query: Optional[Dict[str, Any]] = None) -> CommentReplyDraftWrapper:
-        return self._client.request_typed(CommentReplyDraftWrapper, "POST", "/articles/comments/" + urllib.parse.quote(str(commentId)) + "/reply-draft", query=query, body=body)
+    def commentsCommentIdReplyDraft(self, commentId, body: Any, *, query: Optional[Dict[str, Any]] = None) -> AiRunAccepted:
+        return self._client.request_typed(AiRunAccepted, "POST", "/articles/comments/" + urllib.parse.quote(str(commentId)) + "/reply-draft", query=query, body=body)
 
     def commentsCommentIdPATCH(self, commentId, body: Any, *, query: Optional[Dict[str, Any]] = None) -> CommentWrapper:
         return self._client.request_typed(CommentWrapper, "PATCH", "/articles/comments/" + urllib.parse.quote(str(commentId)), query=query, body=body)

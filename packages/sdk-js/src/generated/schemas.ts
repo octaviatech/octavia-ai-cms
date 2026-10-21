@@ -1977,17 +1977,25 @@ export type AiRunConflict = {
 export type AiRunListItem = {
   runId: string;
   actionId: string;
-  status: "reserved" | "settled" | "refunded" | "void";
+  status: "reserved" | "settled" | "refunded" | "void" | "cancelled";
   estimated: number;
   actual?: unknown;
   reason?: unknown;
   outcome?: unknown;
   meta?: unknown;
+  result?: unknown;
   createdAt?: unknown;
 };
 
 export type AiRunList = {
   runs: Array<AiRunListItem>;
+  pagination?: Pagination;
+};
+
+export type AiRunAccepted = {
+  runId: string;
+  mode?: "inline" | "queued";
+  estimatedTokens?: number;
 };
 
 export type AiProposalPatch = {
@@ -2500,10 +2508,21 @@ export type CampaignList = {
   pagination: Pagination;
 };
 
+export type DigestNote = {
+  code: string;
+  params: {
+  [key: string]: unknown;
+};
+  text: string;
+};
+
 export type DigestAction = {
   code: "calendar.overdue" | "ai.lowAcceptance" | "calendar.delivery" | "seo.audit";
   severity: "high" | "medium" | "low";
-  reason: string;
+  params: {
+  [key: string]: unknown;
+};
+  text: string;
   href?: string;
 };
 
@@ -2524,8 +2543,8 @@ export type WeeklyDigest = {
   minutesSaved?: number;
 };
   suggestedActions: Array<DigestAction>;
-  wins?: Array<string>;
-  issues?: Array<string>;
+  wins?: Array<DigestNote>;
+  issues?: Array<DigestNote>;
 };
 
 export type WeeklyDigestWrapper = {

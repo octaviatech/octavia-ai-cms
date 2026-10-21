@@ -78,14 +78,14 @@ public class FormSubmissionsResource
         return _client.RequestAsync<SubmissionInboxFacets>("GET", "/forms/submissions/facets", query, null);
     }
 
-    public Task<CMSResponse<SubmissionAnalysisResult>> SubmissionIdAnalyzeAsync(string id, object body, Dictionary<string, string?>? query = null)
+    public Task<CMSResponse<AiRunAccepted>> SubmissionIdAnalyzeAsync(string id, object body, Dictionary<string, string?>? query = null)
     {
-        return _client.RequestAsync<SubmissionAnalysisResult>("POST", "/forms/submission/" + Uri.EscapeDataString(id) + "/analyze", query, body);
+        return _client.RequestAsync<AiRunAccepted>("POST", "/forms/submission/" + Uri.EscapeDataString(id) + "/analyze", query, body);
     }
 
-    public Task<CMSResponse<SubmissionBulkAnalysis>> SubmissionsAnalyzeAsync(object body, Dictionary<string, string?>? query = null)
+    public Task<CMSResponse<AiRunAccepted>> SubmissionsAnalyzeAsync(object body, Dictionary<string, string?>? query = null)
     {
-        return _client.RequestAsync<SubmissionBulkAnalysis>("POST", "/forms/submissions/analyze", query, body);
+        return _client.RequestAsync<AiRunAccepted>("POST", "/forms/submissions/analyze", query, body);
     }
 
     public Task<CMSResponse<SubmissionActivityWrapper>> SubmissionIdNotesAsync(string id, object body, Dictionary<string, string?>? query = null)
@@ -98,9 +98,9 @@ public class FormSubmissionsResource
         return _client.RequestAsync<SubmissionActivityList>("GET", "/forms/submission/" + Uri.EscapeDataString(id) + "/activity", query, null);
     }
 
-    public Task<CMSResponse<SubmissionReplyWrapper>> SubmissionIdReplyDraftAsync(string id, object body, Dictionary<string, string?>? query = null)
+    public Task<CMSResponse<AiRunAccepted>> SubmissionIdReplyDraftAsync(string id, object body, Dictionary<string, string?>? query = null)
     {
-        return _client.RequestAsync<SubmissionReplyWrapper>("POST", "/forms/submission/" + Uri.EscapeDataString(id) + "/reply-draft", query, body);
+        return _client.RequestAsync<AiRunAccepted>("POST", "/forms/submission/" + Uri.EscapeDataString(id) + "/reply-draft", query, body);
     }
 
     public Task<CMSResponse<SubmissionReplyWrapper>> SubmissionIdReplyAsync(string id, object body, Dictionary<string, string?>? query = null)

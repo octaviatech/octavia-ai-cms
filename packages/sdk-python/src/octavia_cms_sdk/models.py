@@ -6614,12 +6614,13 @@ class AiRunListItem:
 
     run_id: str = None
     action_id: str = None
-    status: Literal["reserved"] | Literal["settled"] | Literal["refunded"] | Literal["void"] = None
+    status: Literal["reserved"] | Literal["settled"] | Literal["refunded"] | Literal["void"] | Literal["cancelled"] = None
     estimated: float = None
     actual: Optional[float] = None
     reason: Optional[str] = None
     outcome: Optional[str] = None
     meta: Optional[Dict[str, Any]] = None
+    result: Optional[Dict[str, Any]] = None
     created_at: Optional[str] = None
 
     @classmethod
@@ -6635,6 +6636,7 @@ class AiRunListItem:
             "reason": "reason",
             "outcome": "outcome",
             "meta": "meta",
+            "result": "result",
             "createdAt": "created_at",
         }
         out = cls()
@@ -6651,6 +6653,7 @@ class AiRunList:
     """Generated from the OpenAPI spec — do not edit by hand."""
 
     runs: List[AiRunListItem] = None
+    pagination: Pagination = None
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> "AiRunList":
@@ -6658,6 +6661,7 @@ class AiRunList:
         server-side addition does not break an older client."""
         wire = {
             "runs": "runs",
+            "pagination": "pagination",
         }
         out = cls()
         for k, v in data.items():
@@ -6667,10 +6671,37 @@ class AiRunList:
             setattr(out, f, v)
         nested = {
             "runs": lambda v: [AiRunListItem.from_dict(v) for v in v],
+            "pagination": lambda v: Pagination.from_dict(v),
         }
         for f, fn in nested.items():
             if getattr(out, f, None) is not None:
                 setattr(out, f, fn(getattr(out, f)))
+        return out
+
+
+@dataclass
+class AiRunAccepted:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    run_id: str = None
+    mode: Literal["inline"] | Literal["queued"] = None
+    estimated_tokens: float = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "AiRunAccepted":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "runId": "run_id",
+            "mode": "mode",
+            "estimatedTokens": "estimated_tokens",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
         return out
 
 
@@ -8677,12 +8708,39 @@ class CampaignList:
 
 
 @dataclass
+class DigestNote:
+    """Generated from the OpenAPI spec — do not edit by hand."""
+
+    code: str = None
+    params: Dict[str, Any] = None
+    text: str = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "DigestNote":
+        """Build from a decoded payload, ignoring unknown keys so a
+        server-side addition does not break an older client."""
+        wire = {
+            "code": "code",
+            "params": "params",
+            "text": "text",
+        }
+        out = cls()
+        for k, v in data.items():
+            f = wire.get(k)
+            if f is None or v is None:
+                continue
+            setattr(out, f, v)
+        return out
+
+
+@dataclass
 class DigestAction:
     """Generated from the OpenAPI spec — do not edit by hand."""
 
     code: Literal["calendar.overdue"] | Literal["ai.lowAcceptance"] | Literal["calendar.delivery"] | Literal["seo.audit"] = None
     severity: Literal["high"] | Literal["medium"] | Literal["low"] = None
-    reason: str = None
+    params: Dict[str, Any] = None
+    text: str = None
     href: str = None
 
     @classmethod
@@ -8692,7 +8750,8 @@ class DigestAction:
         wire = {
             "code": "code",
             "severity": "severity",
-            "reason": "reason",
+            "params": "params",
+            "text": "text",
             "href": "href",
         }
         out = cls()
@@ -8713,8 +8772,8 @@ class WeeklyDigest:
     published: Dict[str, Any] = None
     ai: Dict[str, Any] = None
     suggested_actions: List[DigestAction] = None
-    wins: List[str] = None
-    issues: List[str] = None
+    wins: List[DigestNote] = None
+    issues: List[DigestNote] = None
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> "WeeklyDigest":
@@ -8737,6 +8796,8 @@ class WeeklyDigest:
             setattr(out, f, v)
         nested = {
             "suggested_actions": lambda v: [DigestAction.from_dict(v) for v in v],
+            "wins": lambda v: [DigestNote.from_dict(v) for v in v],
+            "issues": lambda v: [DigestNote.from_dict(v) for v in v],
         }
         for f, fn in nested.items():
             if getattr(out, f, None) is not None:

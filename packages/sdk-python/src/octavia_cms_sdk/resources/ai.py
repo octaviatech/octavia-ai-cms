@@ -6,17 +6,8 @@ from typing import TYPE_CHECKING, Any, Dict, Iterator, List, Optional
 from ..sse import SseEvent
 
 from ..models import (
-    AiSummaryResult,
-    AiSeoResult,
-    AiTitleResult,
-    AiTranslateResult,
-    AiContentResult,
-    AiImageResult,
-    AiArticleSeoResult,
+    AiRunAccepted,
     AiAutofillResult,
-    AiArticleTranslateResult,
-    AiFormTranslateResult,
-    RepurposeResult,
     SocialTemplate,
     SocialConnectionList,
     SocialConnection,
@@ -24,6 +15,7 @@ from ..models import (
     CreditSnapshot,
     TokenEstimate,
     AiRunList,
+    AiRunSubmission,
     AiProposal,
     AiProposalCount,
     AiProposalDecision,
@@ -43,8 +35,8 @@ class AIResource:
     def __init__(self, client: Client) -> None:
         self._client = client
 
-    def summarize(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> AiSummaryResult:
-        return self._client.request_typed(AiSummaryResult, "POST", "/ai/summarize", query=query, body=body)
+    def summarize(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> AiRunAccepted:
+        return self._client.request_typed(AiRunAccepted, "POST", "/ai/summarize", query=query, body=body)
 
     def summarizeStream(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         return self._client.request_typed(Dict[str, Any], "POST", "/ai/summarize/stream", query=query, body=body)
@@ -66,8 +58,8 @@ class AIResource:
         """
         return self._client.stream_sse("POST", "/ai/summarizeArticle/stream", query=query, body=body)
 
-    def seoOptimize(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> AiSeoResult:
-        return self._client.request_typed(AiSeoResult, "POST", "/ai/seoOptimize", query=query, body=body)
+    def seoOptimize(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> AiRunAccepted:
+        return self._client.request_typed(AiRunAccepted, "POST", "/ai/seoOptimize", query=query, body=body)
 
     def seoOptimizeStream(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         return self._client.request_typed(Dict[str, Any], "POST", "/ai/seoOptimize/stream", query=query, body=body)
@@ -79,11 +71,11 @@ class AIResource:
         """
         return self._client.stream_sse("POST", "/ai/seoOptimize/stream", query=query, body=body)
 
-    def generateTitle(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> AiTitleResult:
-        return self._client.request_typed(AiTitleResult, "POST", "/ai/generateTitle", query=query, body=body)
+    def generateTitle(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> AiRunAccepted:
+        return self._client.request_typed(AiRunAccepted, "POST", "/ai/generateTitle", query=query, body=body)
 
-    def translate(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> AiTranslateResult:
-        return self._client.request_typed(AiTranslateResult, "POST", "/ai/translate", query=query, body=body)
+    def translate(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> AiRunAccepted:
+        return self._client.request_typed(AiRunAccepted, "POST", "/ai/translate", query=query, body=body)
 
     def translateStream(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         return self._client.request_typed(Dict[str, Any], "POST", "/ai/translate/stream", query=query, body=body)
@@ -95,30 +87,23 @@ class AIResource:
         """
         return self._client.stream_sse("POST", "/ai/translate/stream", query=query, body=body)
 
-    def generateContent(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> AiContentResult:
-        return self._client.request_typed(AiContentResult, "POST", "/ai/generateContent", query=query, body=body)
+    def generateContent(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> AiRunAccepted:
+        return self._client.request_typed(AiRunAccepted, "POST", "/ai/generateContent", query=query, body=body)
 
-    def generateImage(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> AiImageResult:
-        return self._client.request_typed(AiImageResult, "POST", "/ai/generateImage", query=query, body=body)
+    def generateImage(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> AiRunAccepted:
+        return self._client.request_typed(AiRunAccepted, "POST", "/ai/generateImage", query=query, body=body)
 
-    def optimizeArticle(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> AiArticleSeoResult:
-        return self._client.request_typed(AiArticleSeoResult, "POST", "/ai/optimizeArticle", query=query, body=body)
+    def optimizeArticle(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> AiRunAccepted:
+        return self._client.request_typed(AiRunAccepted, "POST", "/ai/optimizeArticle", query=query, body=body)
 
     def autofillArticle(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> AiAutofillResult:
         return self._client.request_typed(AiAutofillResult, "POST", "/ai/autofillArticle", query=query, body=body)
 
-    def optimizeArticleStream(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
-        return self._client.request_typed(Dict[str, Any], "POST", "/ai/optimizeArticle/stream", query=query, body=body)
+    def optimizeArticleStream(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> AiRunAccepted:
+        return self._client.request_typed(AiRunAccepted, "POST", "/ai/optimizeArticle/stream", query=query, body=body)
 
-    def optimizeArticleLive(selfbody: Any, *, query: Optional[Dict[str, Any]] = None) -> Iterator[SseEvent]:
-        """Stream this endpoint as Server-Sent Events (D-24).
-
-        Yields one SseEvent per frame as it arrives.
-        """
-        return self._client.stream_sse("POST", "/ai/optimizeArticle/stream", query=query, body=body)
-
-    def translateArticle(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> AiArticleTranslateResult:
-        return self._client.request_typed(AiArticleTranslateResult, "POST", "/ai/translateArticle", query=query, body=body)
+    def translateArticle(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> AiRunAccepted:
+        return self._client.request_typed(AiRunAccepted, "POST", "/ai/translateArticle", query=query, body=body)
 
     def translateArticleStream(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         return self._client.request_typed(Dict[str, Any], "POST", "/ai/translateArticle/stream", query=query, body=body)
@@ -130,11 +115,11 @@ class AIResource:
         """
         return self._client.stream_sse("POST", "/ai/translateArticle/stream", query=query, body=body)
 
-    def translateForm(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> AiFormTranslateResult:
-        return self._client.request_typed(AiFormTranslateResult, "POST", "/ai/translateForm", query=query, body=body)
+    def translateForm(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> AiRunAccepted:
+        return self._client.request_typed(AiRunAccepted, "POST", "/ai/translateForm", query=query, body=body)
 
-    def repurpose(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> RepurposeResult:
-        return self._client.request_typed(RepurposeResult, "POST", "/ai/repurpose", query=query, body=body)
+    def repurpose(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> AiRunAccepted:
+        return self._client.request_typed(AiRunAccepted, "POST", "/ai/repurpose", query=query, body=body)
 
     def repurposeStream(self, body: Any, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         return self._client.request_typed(Dict[str, Any], "POST", "/ai/repurpose/stream", query=query, body=body)
@@ -184,6 +169,15 @@ class AIResource:
 
     def creditsRuns(self, *, query: Optional[Dict[str, Any]] = None) -> AiRunList:
         return self._client.request_typed(AiRunList, "GET", "/ai/credits/runs", query=query, body=None)
+
+    def creditsRunsRunId(self, runId, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        return self._client.request_typed(Dict[str, Any], "GET", "/ai/credits/runs/" + urllib.parse.quote(str(runId)), query=query, body=None)
+
+    def creditsRunsRunIdCancel(self, runId, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        return self._client.request_typed(Dict[str, Any], "POST", "/ai/credits/runs/" + urllib.parse.quote(str(runId)) + "/cancel", query=query, body=None)
+
+    def creditsRunsRunIdRetry(self, runId, *, query: Optional[Dict[str, Any]] = None) -> AiRunSubmission:
+        return self._client.request_typed(AiRunSubmission, "POST", "/ai/credits/runs/" + urllib.parse.quote(str(runId)) + "/retry", query=query, body=None)
 
     def eventsStream(self, *, query: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         return self._client.request_typed(Dict[str, Any], "GET", "/ai/events/stream", query=query, body=None)

@@ -13,9 +13,9 @@ public class AIResource
         _client = client;
     }
 
-    public Task<CMSResponse<AiSummaryResult>> SummarizeAsync(object body, Dictionary<string, string?>? query = null)
+    public Task<CMSResponse<AiRunAccepted>> SummarizeAsync(object body, Dictionary<string, string?>? query = null)
     {
-        return _client.RequestAsync<AiSummaryResult>("POST", "/ai/summarize", query, body);
+        return _client.RequestAsync<AiRunAccepted>("POST", "/ai/summarize", query, body);
     }
 
     public Task<CMSResponse<JsonElement>> SummarizeStreamAsync(object body, Dictionary<string, string?>? query = null)
@@ -46,9 +46,9 @@ public class AIResource
         return _client.StreamSSEAsync("POST", "/ai/summarizeArticle/stream", query, body, cancellationToken);
     }
 
-    public Task<CMSResponse<AiSeoResult>> SeoOptimizeAsync(object body, Dictionary<string, string?>? query = null)
+    public Task<CMSResponse<AiRunAccepted>> SeoOptimizeAsync(object body, Dictionary<string, string?>? query = null)
     {
-        return _client.RequestAsync<AiSeoResult>("POST", "/ai/seoOptimize", query, body);
+        return _client.RequestAsync<AiRunAccepted>("POST", "/ai/seoOptimize", query, body);
     }
 
     public Task<CMSResponse<JsonElement>> SeoOptimizeStreamAsync(object body, Dictionary<string, string?>? query = null)
@@ -65,14 +65,14 @@ public class AIResource
         return _client.StreamSSEAsync("POST", "/ai/seoOptimize/stream", query, body, cancellationToken);
     }
 
-    public Task<CMSResponse<AiTitleResult>> GenerateTitleAsync(object body, Dictionary<string, string?>? query = null)
+    public Task<CMSResponse<AiRunAccepted>> GenerateTitleAsync(object body, Dictionary<string, string?>? query = null)
     {
-        return _client.RequestAsync<AiTitleResult>("POST", "/ai/generateTitle", query, body);
+        return _client.RequestAsync<AiRunAccepted>("POST", "/ai/generateTitle", query, body);
     }
 
-    public Task<CMSResponse<AiTranslateResult>> TranslateAsync(object body, Dictionary<string, string?>? query = null)
+    public Task<CMSResponse<AiRunAccepted>> TranslateAsync(object body, Dictionary<string, string?>? query = null)
     {
-        return _client.RequestAsync<AiTranslateResult>("POST", "/ai/translate", query, body);
+        return _client.RequestAsync<AiRunAccepted>("POST", "/ai/translate", query, body);
     }
 
     public Task<CMSResponse<JsonElement>> TranslateStreamAsync(object body, Dictionary<string, string?>? query = null)
@@ -89,19 +89,19 @@ public class AIResource
         return _client.StreamSSEAsync("POST", "/ai/translate/stream", query, body, cancellationToken);
     }
 
-    public Task<CMSResponse<AiContentResult>> GenerateContentAsync(object body, Dictionary<string, string?>? query = null)
+    public Task<CMSResponse<AiRunAccepted>> GenerateContentAsync(object body, Dictionary<string, string?>? query = null)
     {
-        return _client.RequestAsync<AiContentResult>("POST", "/ai/generateContent", query, body);
+        return _client.RequestAsync<AiRunAccepted>("POST", "/ai/generateContent", query, body);
     }
 
-    public Task<CMSResponse<AiImageResult>> GenerateImageAsync(object body, Dictionary<string, string?>? query = null)
+    public Task<CMSResponse<AiRunAccepted>> GenerateImageAsync(object body, Dictionary<string, string?>? query = null)
     {
-        return _client.RequestAsync<AiImageResult>("POST", "/ai/generateImage", query, body);
+        return _client.RequestAsync<AiRunAccepted>("POST", "/ai/generateImage", query, body);
     }
 
-    public Task<CMSResponse<AiArticleSeoResult>> OptimizeArticleAsync(object body, Dictionary<string, string?>? query = null)
+    public Task<CMSResponse<AiRunAccepted>> OptimizeArticleAsync(object body, Dictionary<string, string?>? query = null)
     {
-        return _client.RequestAsync<AiArticleSeoResult>("POST", "/ai/optimizeArticle", query, body);
+        return _client.RequestAsync<AiRunAccepted>("POST", "/ai/optimizeArticle", query, body);
     }
 
     public Task<CMSResponse<AiAutofillResult>> AutofillArticleAsync(object body, Dictionary<string, string?>? query = null)
@@ -109,23 +109,14 @@ public class AIResource
         return _client.RequestAsync<AiAutofillResult>("POST", "/ai/autofillArticle", query, body);
     }
 
-    public Task<CMSResponse<JsonElement>> OptimizeArticleStreamAsync(object body, Dictionary<string, string?>? query = null)
+    public Task<CMSResponse<AiRunAccepted>> OptimizeArticleStreamAsync(object body, Dictionary<string, string?>? query = null)
     {
-        return _client.RequestAsync<JsonElement>("POST", "/ai/optimizeArticle/stream", query, body);
+        return _client.RequestAsync<AiRunAccepted>("POST", "/ai/optimizeArticle/stream", query, body);
     }
 
-    /// <summary>
-    /// Streams this endpoint as Server-Sent Events (D-24), yielding one
-    /// <see cref="SseEvent"/> per frame as it arrives.
-    /// </summary>
-    public IAsyncEnumerable<SseEvent> OptimizeArticleLiveAsync(object body, Dictionary<string, string?>? query = null, CancellationToken cancellationToken = default)
+    public Task<CMSResponse<AiRunAccepted>> TranslateArticleAsync(object body, Dictionary<string, string?>? query = null)
     {
-        return _client.StreamSSEAsync("POST", "/ai/optimizeArticle/stream", query, body, cancellationToken);
-    }
-
-    public Task<CMSResponse<AiArticleTranslateResult>> TranslateArticleAsync(object body, Dictionary<string, string?>? query = null)
-    {
-        return _client.RequestAsync<AiArticleTranslateResult>("POST", "/ai/translateArticle", query, body);
+        return _client.RequestAsync<AiRunAccepted>("POST", "/ai/translateArticle", query, body);
     }
 
     public Task<CMSResponse<JsonElement>> TranslateArticleStreamAsync(object body, Dictionary<string, string?>? query = null)
@@ -142,14 +133,14 @@ public class AIResource
         return _client.StreamSSEAsync("POST", "/ai/translateArticle/stream", query, body, cancellationToken);
     }
 
-    public Task<CMSResponse<AiFormTranslateResult>> TranslateFormAsync(object body, Dictionary<string, string?>? query = null)
+    public Task<CMSResponse<AiRunAccepted>> TranslateFormAsync(object body, Dictionary<string, string?>? query = null)
     {
-        return _client.RequestAsync<AiFormTranslateResult>("POST", "/ai/translateForm", query, body);
+        return _client.RequestAsync<AiRunAccepted>("POST", "/ai/translateForm", query, body);
     }
 
-    public Task<CMSResponse<RepurposeResult>> RepurposeAsync(object body, Dictionary<string, string?>? query = null)
+    public Task<CMSResponse<AiRunAccepted>> RepurposeAsync(object body, Dictionary<string, string?>? query = null)
     {
-        return _client.RequestAsync<RepurposeResult>("POST", "/ai/repurpose", query, body);
+        return _client.RequestAsync<AiRunAccepted>("POST", "/ai/repurpose", query, body);
     }
 
     public Task<CMSResponse<JsonElement>> RepurposeStreamAsync(object body, Dictionary<string, string?>? query = null)
@@ -229,6 +220,21 @@ public class AIResource
     public Task<CMSResponse<AiRunList>> CreditsRunsAsync(Dictionary<string, string?>? query = null)
     {
         return _client.RequestAsync<AiRunList>("GET", "/ai/credits/runs", query, null);
+    }
+
+    public Task<CMSResponse<JsonElement>> CreditsRunsRunIdAsync(string runId, Dictionary<string, string?>? query = null)
+    {
+        return _client.RequestAsync<JsonElement>("GET", "/ai/credits/runs/" + Uri.EscapeDataString(runId) + "", query, null);
+    }
+
+    public Task<CMSResponse<JsonElement>> CreditsRunsRunIdCancelAsync(string runId, Dictionary<string, string?>? query = null)
+    {
+        return _client.RequestAsync<JsonElement>("POST", "/ai/credits/runs/" + Uri.EscapeDataString(runId) + "/cancel", query, null);
+    }
+
+    public Task<CMSResponse<AiRunSubmission>> CreditsRunsRunIdRetryAsync(string runId, Dictionary<string, string?>? query = null)
+    {
+        return _client.RequestAsync<AiRunSubmission>("POST", "/ai/credits/runs/" + Uri.EscapeDataString(runId) + "/retry", query, null);
     }
 
     public Task<CMSResponse<JsonElement>> EventsStreamAsync(Dictionary<string, string?>? query = null)

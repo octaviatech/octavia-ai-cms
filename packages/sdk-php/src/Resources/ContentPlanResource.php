@@ -90,38 +90,38 @@ class ContentPlanResource
 
     /**
      * @return \Octavia\CmsSDK\Envelope
-     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\CalendarIdeas>
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\AiRunAccepted>
      */
     public function aiGenerateIdeas($body, array $options = []): Envelope
     {
-        return $this->client->request("POST", "/content-plan/ai/generate-ideas", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\CalendarIdeas::class);
+        return $this->client->request("POST", "/content-plan/ai/generate-ideas", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\AiRunAccepted::class);
     }
 
     /**
      * @return \Octavia\CmsSDK\Envelope
-     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\CalendarPeriodPlan>
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\AiRunAccepted>
      */
     public function aiPlanPeriod($body, array $options = []): Envelope
     {
-        return $this->client->request("POST", "/content-plan/ai/plan-period", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\CalendarPeriodPlan::class);
+        return $this->client->request("POST", "/content-plan/ai/plan-period", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\AiRunAccepted::class);
     }
 
     /**
      * @return \Octavia\CmsSDK\Envelope
-     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\CalendarBestTime>
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\AiRunAccepted>
      */
     public function aiBestTime(array $options = []): Envelope
     {
-        return $this->client->request("POST", "/content-plan/ai/best-time", $options, \Octavia\CmsSDK\Types\CalendarBestTime::class);
+        return $this->client->request("POST", "/content-plan/ai/best-time", $options, \Octavia\CmsSDK\Types\AiRunAccepted::class);
     }
 
     /**
      * @return \Octavia\CmsSDK\Envelope
-     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\CalendarReschedule>
+     * @phpstan-return \Octavia\CmsSDK\Envelope<\Octavia\CmsSDK\Types\AiRunAccepted>
      */
     public function aiReschedule($body, array $options = []): Envelope
     {
-        return $this->client->request("POST", "/content-plan/ai/reschedule", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\CalendarReschedule::class);
+        return $this->client->request("POST", "/content-plan/ai/reschedule", array_merge($options, ["body" => $body]), \Octavia\CmsSDK\Types\AiRunAccepted::class);
     }
 
     /**
