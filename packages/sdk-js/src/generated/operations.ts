@@ -805,7 +805,7 @@ export type ArticlesCreateBody = {
   content: Schemas.MultilingualString;
   thumbnail?: string;
   tags?: Array<string>;
-  category: Array<string>;
+  category?: Array<string>;
   subCategory?: Array<string>;
   author?: string;
   gallery?: Array<string>;
@@ -834,6 +834,7 @@ export type ArticlesUpdateQuery = {};
 
 export type ArticlesUpdateBody = {
   id: string;
+  expectedVersion?: number;
   mainTitle?: Schemas.MultilingualString;
   title2?: Schemas.MultilingualString;
   title3?: Schemas.MultilingualString;
@@ -1613,6 +1614,13 @@ export type CategoriesUpdateBody = {
   id: string;
   name?: Schemas.MultilingualString;
   slug?: string;
+  seo?: {
+  [key: string]: {
+  metaTitle?: string;
+  metaDescription?: string;
+  focusKeyword?: string;
+};
+};
   description?: Schemas.MultilingualString;
   thumbnail?: string;
   isPrivate?: boolean;
@@ -3160,6 +3168,13 @@ export type SubcategoriesUpdateBody = {
   name?: Schemas.MultilingualString;
   slug?: string;
   categoryId?: string;
+  seo?: {
+  [key: string]: {
+  metaTitle?: string;
+  metaDescription?: string;
+  focusKeyword?: string;
+};
+};
   description?: Schemas.MultilingualString;
   icon?: string;
   banner?: string;

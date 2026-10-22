@@ -2188,6 +2188,7 @@ export type TaxonomyFinding = {
   severity: "high" | "medium" | "low";
   entityType: "category" | "subcategory";
   entityId?: string | unknown;
+  entityIds?: Array<string>;
   names?: Array<string>;
   message: string;
   fixAction: string;

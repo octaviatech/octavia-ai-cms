@@ -12378,6 +12378,8 @@ class TaxonomyFinding
     /** @var ?string */
     public $entityId = null;
     /** @var ?string[] */
+    public $entityIds = null;
+    /** @var ?string[] */
     public $names = null;
     /** @var string */
     public $message = null;
@@ -12402,6 +12404,9 @@ class TaxonomyFinding
         }
         if (array_key_exists('entityId', $data)) {
             $instance->entityId = $data['entityId'];
+        }
+        if (array_key_exists('entityIds', $data)) {
+            $instance->entityIds = $data['entityIds'];
         }
         if (array_key_exists('names', $data)) {
             $instance->names = $data['names'];

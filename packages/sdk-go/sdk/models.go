@@ -1829,6 +1829,7 @@ type TaxonomyFinding struct {
 	Severity string `json:"severity"`
 	EntityType string `json:"entityType"`
 	EntityID *string `json:"entityId"`
+	EntityIds []string `json:"entityIds"`
 	Names []string `json:"names"`
 	Message string `json:"message"`
 	FixAction string `json:"fixAction"`

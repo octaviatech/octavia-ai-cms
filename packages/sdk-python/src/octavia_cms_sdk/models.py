@@ -7439,6 +7439,7 @@ class TaxonomyFinding:
     severity: Literal["high"] | Literal["medium"] | Literal["low"] = None
     entity_type: Literal["category"] | Literal["subcategory"] = None
     entity_id: Optional[str] = None
+    entity_ids: List[str] = None
     names: List[str] = None
     message: str = None
     fix_action: str = None
@@ -7452,6 +7453,7 @@ class TaxonomyFinding:
             "severity": "severity",
             "entityType": "entity_type",
             "entityId": "entity_id",
+            "entityIds": "entity_ids",
             "names": "names",
             "message": "message",
             "fixAction": "fix_action",

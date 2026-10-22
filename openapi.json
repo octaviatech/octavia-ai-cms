@@ -7556,6 +7556,13 @@
               }
             ]
           },
+          "entityIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "IDs of every affected entity in a duplicate group"
+          },
           "names": {
             "type": "array",
             "items": {
@@ -13456,12 +13463,12 @@
             "schema": {
               "type": "string"
             },
-            "description": "Resume cursor (the `id` of the last frame the client received)"
+            "description": "Resume cursor (the `id` of the last frame the client received). Without it the stream starts at NOW — it never replays the tenant's history."
           }
         ],
         "responses": {
           "200": {
-            "description": "text/event-stream. Each `data:` frame is a JSON AiEvent; the connection closes after 30 minutes and can be resumed with `lastId`.",
+            "description": "text/event-stream. Each `data:` frame is a JSON AiEvent carrying the outbox row's `id` (the resume cursor); the connection closes after 30 minutes and can be resumed with `lastId`.",
             "content": {
               "text/event-stream": {
                 "schema": {
@@ -14631,8 +14638,7 @@
                 "additionalProperties": false,
                 "required": [
                   "mainTitle",
-                  "content",
-                  "category"
+                  "content"
                 ],
                 "properties": {
                   "mainTitle": {
@@ -14693,7 +14699,7 @@
                   },
                   "category": {
                     "type": "array",
-                    "description": "Array of category IDs",
+                    "description": "Category IDs; may be empty for a draft. Publishing requires at least one category.",
                     "items": {
                       "type": "string",
                       "pattern": "^[a-fA-F0-9]{24}$"
@@ -14971,6 +14977,11 @@
                     "type": "string",
                     "pattern": "^[a-fA-F0-9]{24}$",
                     "example": "{{objectId}}"
+                  },
+                  "expectedVersion": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Optimistic concurrency version; stale updates return 409"
                   },
                   "mainTitle": {
                     "allOf": [
@@ -20854,6 +20865,28 @@
                   },
                   "slug": {
                     "type": "string"
+                  },
+                  "seo": {
+                    "type": "object",
+                    "description": "Search metadata keyed by language code",
+                    "additionalProperties": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "metaTitle": {
+                          "type": "string",
+                          "maxLength": 120
+                        },
+                        "metaDescription": {
+                          "type": "string",
+                          "maxLength": 320
+                        },
+                        "focusKeyword": {
+                          "type": "string",
+                          "maxLength": 200
+                        }
+                      }
+                    }
                   },
                   "description": {
                     "allOf": [
@@ -30969,6 +31002,28 @@
                   "categoryId": {
                     "type": "string",
                     "pattern": "^[a-fA-F0-9]{24}$"
+                  },
+                  "seo": {
+                    "type": "object",
+                    "description": "Search metadata keyed by language code",
+                    "additionalProperties": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "metaTitle": {
+                          "type": "string",
+                          "maxLength": 120
+                        },
+                        "metaDescription": {
+                          "type": "string",
+                          "maxLength": 320
+                        },
+                        "focusKeyword": {
+                          "type": "string",
+                          "maxLength": 200
+                        }
+                      }
+                    }
                   },
                   "description": {
                     "allOf": [

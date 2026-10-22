@@ -5085,6 +5085,9 @@ public record TaxonomyFinding
     [JsonPropertyName("entityId")]
     public string? EntityId { get; set; } = null;
 
+    [JsonPropertyName("entityIds")]
+    public string[]? EntityIds { get; set; } = null;
+
     [JsonPropertyName("names")]
     public string[]? Names { get; set; } = null;
 
